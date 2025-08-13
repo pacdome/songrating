@@ -1,177 +1,148 @@
 <style>
 body {
+    font-family: "Courier New", monospace;
+    font-size: 13px;
     background-color: #ffffff;
-    font-family: Tahoma, Arial, sans-serif;
-    font-size: 11px;
-    margin: 0;
-    padding: 0;
     color: #000000;
-}
-
-/* Einfache Navigation */
-body::before {
-    content: "🏠 Startseite | 🔍 Durchsuchen | ℹ️ Info";
-    display: block;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #cccccc;
-    padding: 8px 20px;
-    font-size: 10px;
-    color: #4a90e2;
-    font-weight: bold;
-}
-
-/* Forum header für h1 */
-h1 {
-    background: linear-gradient(to bottom, #4a90e2, #357abd);
-    color: white;
-    padding: 12px 20px;
-    border-bottom: 2px solid #2a5490;
-    font-size: 16px;
     margin: 0;
+    padding: 20px;
+    line-height: 1.4;
+}
+
+/* Apache-style header */
+h1 {
+    font-size: 16px;
     font-weight: bold;
-    text-align: left;
+    margin: 0 0 10px 0;
+    color: #000000;
 }
 
 h1::before {
-    content: "🎵 ";
-}
-
-h1::after {
-    content: " - Persönliche Sammlung";
-    font-size: 12px;
-    opacity: 0.9;
+    content: "Index of /music/";
     display: block;
-    margin-top: 3px;
+    font-size: 18px;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-/* Genre als Forum-Kategorie */
+/* Genre als Verzeichnis */
 h2 {
-    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-    color: #333333;
+    font-size: 13px;
     font-weight: bold;
-    padding: 12px 15px;
-    border: 1px solid #cccccc;
-    border-bottom: 2px solid #4a90e2;
-    font-size: 14px;
-    margin: 25px 20px 0 20px;
+    margin: 20px 0 5px 0;
+    color: #0000ff;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 h2::before {
-    content: "🎺 ";
-    color: #4a90e2;
-}
-
-h2:hover {
-    background: linear-gradient(to bottom, #f0f8ff, #e0e8f0);
-    cursor: pointer;
-}
-
-/* Künstler als einfache Kategorie */
-h3 {
-    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-    padding: 8px 15px;
-    border: 1px solid #cccccc;
-    border-bottom: 1px solid #cccccc;
-    font-size: 12px;
-    font-weight: bold;
-    color: #4a90e2;
-    margin: 15px 20px 0 20px;
-}
-
-h3::before {
-    content: "🎤 ";
-}
-
-/* Songs ohne automatische Bewertungen */
-ul {
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-top: none;
-    padding: 15px 20px;
-    margin: 0 20px 20px 20px;
-    list-style: none;
-    font-size: 11px;
-    line-height: 1.6;
-}
-
-li {
-    margin: 5px 0;
-    color: #000000;
-    padding: 5px 0;
-    border-bottom: 1px dotted #eeeeee;
-}
-
-li::before {
-    content: "♪ ";
-    color: #4a90e2;
-    font-weight: bold;
-}
-
-/* Hover Effekt für Interaktivität */
-li:hover {
-    background-color: #f0f8ff;
-    cursor: pointer;
-    padding-left: 10px;
-    border-left: 3px solid #4a90e2;
-    transition: all 0.2s ease;
-}
-
-li:hover::after {
-    content: " [Zur Playlist hinzufügen]";
-    font-size: 9px;
-    color: #666666;
-    font-style: italic;
-}
-
-/* Post hover Effekt */
-ul:hover {
-    border-color: #4a90e2;
-}
-
-/* Einfacher Footer */
-body::after {
-    content: "Meine persönliche Musiksammlung | Zuletzt aktualisiert: Heute";
-    display: block;
-    background-color: #f0f0f0;
-    border-top: 1px solid #cccccc;
-    padding: 15px 20px;
-    font-size: 10px;
-    color: #666666;
-    text-align: center;
-    margin-top: 30px;
-}
-
-/* Links im Forum-Style */
-a {
-    color: #4a90e2;
+    content: "📁 ";
     text-decoration: none;
 }
 
-a:hover {
+h2:hover {
+    background-color: #e0e0e0;
+}
+
+/* Künstler als Unterverzeichnis */
+h3 {
+    font-size: 13px;
+    font-weight: normal;
+    margin: 10px 0 3px 20px;
+    color: #0000ff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+h3::before {
+    content: "📁 ";
+    text-decoration: none;
+}
+
+h3:hover {
+    background-color: #e0e0e0;
+}
+
+/* Song-Liste als Dateien */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 40px;
+    font-family: "Courier New", monospace;
+}
+
+li {
+    margin: 2px 0;
+    padding: 1px 0;
+    color: #000000;
+    cursor: pointer;
+}
+
+li::before {
+    content: "🎵 ";
+    margin-right: 5px;
+}
+
+li::after {
+    content: "                                        13-Mar-2004 14:23    3.2M";
+    color: #666666;
+    white-space: pre;
+    font-size: 13px;
+}
+
+li:hover {
+    background-color: #e0e0e0;
+}
+
+li:hover::before {
+    content: "▶️ ";
+}
+
+/* Apache footer */
+body::after {
+    content: "_________________________________________________________________\AApache/2.2.15 (CentOS) Server at musiccollection.local Port 80";
+    display: block;
+    font-family: "Courier New", monospace;
+    font-size: 11px;
+    color: #666666;
+    margin-top: 30px;
+    white-space: pre;
+    border-top: 1px solid #000000;
+    padding-top: 10px;
+}
+
+/* Links */
+a {
+    color: #0000ff;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #8b4a90;
+    color: #800080;
 }
 
-/* Responsive Container */
+a:hover {
+    background-color: #e0e0e0;
+}
+
+/* Table-like layout für bessere Alignment */
+h2, h3, li {
+    font-family: "Courier New", monospace;
+    white-space: pre;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    h2, h3, ul {
-        margin-left: 10px;
-        margin-right: 10px;
+    body {
+        padding: 10px;
+        font-size: 12px;
     }
     
-    body::before {
-        font-size: 8px;
-        padding: 5px 10px;
-    }
-    
-    h1::after {
+    li::after {
         display: none;
     }
 }
-</style>
 </style>
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
