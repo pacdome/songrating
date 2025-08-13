@@ -165,9 +165,9 @@ Duke Ellington - Take Five
         
         <div class="controls">
             <input type="text" id="searchBox" class="search-box" placeholder="Suchen..." onkeyup="filterTable()">
-            <button onclick="exportData()" class="export-btn">Als JSON exportieren</button>
-            <button onclick="saveToLocalStorage()">Fortschritt speichern</button>
-            <button onclick="loadFromLocalStorage()">Fortschritt laden</button>
+            <button onclick="saveDatabase()" class="export-btn">Datenbank speichern</button>
+            <button onclick="loadDatabase()">Datenbank laden</button>
+            <button onclick="exportData()">Als JSON exportieren</button>
             <div class="stats">
                 <span id="statsText">0 Songs geladen</span>
             </div>
@@ -194,25 +194,56 @@ Duke Ellington - Take Five
     <script>
         let musicData = [];
         
-        function parseSongLine(line) {
-            line = line.trim();
-            if (!line) return null;
+        function parseMultipleSongs(text) {
+            const songs = [];
+            text = text.trim();
             
-            // Suche nach dem ersten " - " als Trenner zwischen Artist und Song
-            const separatorIndex = line.indexOf(' - ');
-            if (separatorIndex === -1) return null;
+            // Regex um "Artist - Song" Pattern zu finden, auch wenn mehrere in einer Zeile stehen
+            // Sucht nach Worten gefolgt von " - " gefolgt von Worten, bis zum nächsten Großbuchstaben oder Ende
+            const songPattern = /([^-]+?)\s*-\s*([^-]*?)(?=\s+[A-Z][^-]*\s*-|\s*$)/g;
             
-            const artist = line.substring(0, separatorIndex).trim();
-            const song = line.substring(separatorIndex + 3).trim();
+            let match;
+            while ((match = songPattern.exec(text)) !== null) {
+                const artist = match[1].trim();
+                let song = match[2].trim();
+                
+                // Entferne potentielle Artist-Namen vom Ende des Songs (falls der nächste Artist schon dabei steht)
+                song = song.replace(/\s+[A-Z][a-zA-Z\s]+$/, '').trim();
+                
+                if (artist && song && song.length > 0) {
+                    songs.push({ artist, song });
+                }
+            }
             
-            if (!artist || !song) return null;
+            // Fallback: Wenn das Regex nicht funktioniert, versuche einfache Trennung
+            if (songs.length === 0) {
+                // Teile bei " - " und versuche Paare zu bilden
+                const parts = text.split(' - ');
+                for (let i = 0; i < parts.length - 1; i++) {
+                    const artist = parts[i].trim();
+                    const song = parts[i + 1].trim();
+                    
+                    // Prüfe ob der song Teil tatsächlich ein Song ist (enthält keinen weiteren Artist)
+                    const nextArtistIndex = song.search(/\s+[A-Z][a-zA-Z\s]+$/);
+                    let cleanSong = song;
+                    
+                    if (nextArtistIndex > 0) {
+                        cleanSong = song.substring(0, nextArtistIndex).trim();
+                    }
+                    
+                    if (artist && cleanSong && cleanSong.length > 0) {
+                        songs.push({ artist, song: cleanSong });
+                    }
+                }
+            }
             
-            return { artist, song };
+            return songs;
         }
         
         function importSongs() {
             const songListText = document.getElementById('songList').value;
             const lines = songListText.split('\n');
+            const currentDate = new Date().toISOString().split('T')[0];
             
             musicData = [];
             
@@ -224,7 +255,8 @@ Duke Ellington - Take Five
                         song: parsed.song,
                         genre: '',
                         rating: '',
-                        comment: ''
+                        comment: '',
+                        dateAdded: currentDate
                     });
                 }
             });
@@ -234,6 +266,15 @@ Duke Ellington - Take Five
             
             // Textarea leeren
             document.getElementById('songList').value = '';
+            
+            // Automatische Datenbank-Erstellung anbieten
+            if (musicData.length > 0) {
+                setTimeout(() => {
+                    if (confirm(`${musicData.length} Songs importiert! Möchtest du eine Datenbank-Datei erstellen?`)) {
+                        saveDatabase();
+                    }
+                }, 500);
+            }
         }
         
         function loadSampleData() {
@@ -268,6 +309,9 @@ Duke Ellington - Take Five
         function updateData(index, field, value) {
             if (musicData[index]) {
                 musicData[index][field] = value;
+                // Automatisches Backup alle 30 Sekunden bei Änderungen
+                clearTimeout(window.autoSaveTimeout);
+                window.autoSaveTimeout = setTimeout(autoSaveDatabase, 30000);
             }
         }
         
@@ -400,16 +444,15 @@ Duke Ellington - Take Five
             }
         }
         
-        // Event Listener für automatisches Speichern
-        setInterval(() => {
+        // Event Listener für automatisches Backup
+        setInterval(autoSaveDatabase, 600000); // Alle 10 Minuten automatisches Backup
+        
+        // Backup beim Schließen der Seite
+        window.addEventListener('beforeunload', function(e) {
             if (musicData.length > 0) {
-                try {
-                    saveToLocalStorage();
-                } catch (error) {
-                    // Stilles Fehlschlagen bei automatischem Speichern
-                }
+                autoSaveDatabase();
             }
-        }, 300000); // Alle 5 Minuten automatisch speichern
+        });
     </script>
 </body>
 </html>
