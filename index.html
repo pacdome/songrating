@@ -1,4 +1,4 @@
-   <style>
+<style>
 body {
     background-color: #ffffff;
     font-family: Tahoma, Arial, sans-serif;
@@ -8,204 +8,208 @@ body {
     color: #000000;
 }
 
-/* Forum header */
-.header {
+/* Forum header für h1 */
+h1 {
     background: linear-gradient(to bottom, #4a90e2, #357abd);
     color: white;
-    padding: 8px 15px;
+    padding: 12px 20px;
     border-bottom: 2px solid #2a5490;
-}
-
-.header h1 {
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
     font-weight: bold;
+    text-align: left;
 }
 
-.header .tagline {
-    font-size: 10px;
+h1::before {
+    content: "🎵 ";
+}
+
+h1::after {
+    content: " - Community Database v2.1";
+    font-size: 12px;
     opacity: 0.9;
-    margin-top: 2px;
-}
-
-/* Navigation bar */
-.navbar {
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #cccccc;
-    padding: 5px 15px;
-    font-size: 10px;
-}
-
-.navbar a {
-    color: #4a90e2;
-    text-decoration: none;
-    margin-right: 15px;
-    font-weight: bold;
-}
-
-.navbar a:hover {
-    text-decoration: underline;
-}
-
-.navbar .breadcrumb {
-    color: #666666;
-    float: right;
-}
-
-/* Main content */
-.container {
-    padding: 15px;
-    background-color: #ffffff;
-}
-
-/* Forum table style */
-.forum-table {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #cccccc;
-    margin-bottom: 20px;
-}
-
-.forum-header {
-    background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
-    color: #333333;
-    font-weight: bold;
-    padding: 8px 12px;
-    border-bottom: 1px solid #cccccc;
-    font-size: 12px;
-}
-
-.forum-category {
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #cccccc;
-}
-
-.forum-category td {
-    padding: 12px;
-    border-right: 1px solid #eeeeee;
-}
-
-.forum-title {
-    font-weight: bold;
-    font-size: 12px;
-    color: #4a90e2;
-}
-
-.forum-desc {
-    font-size: 10px;
-    color: #666666;
+    display: block;
     margin-top: 3px;
 }
 
-.forum-stats {
+/* Navigation bar simulieren */
+body::before {
+    content: "🏠 Hauptseite | 👥 Mitglieder | 🔍 Suchen | ❓ FAQ | 👤 Profil                                           Online: 42 | Gäste: 127";
+    display: block;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #cccccc;
+    padding: 8px 20px;
+    font-size: 10px;
+    color: #4a90e2;
+    font-weight: bold;
+    white-space: pre;
+}
+
+/* Container für Inhalt */
+h1 + * {
+    margin-top: 20px;
+}
+
+/* Genre als Forum-Kategorie */
+h2 {
+    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+    color: #333333;
+    font-weight: bold;
+    padding: 12px 15px;
+    border: 1px solid #cccccc;
+    border-bottom: 2px solid #4a90e2;
+    font-size: 14px;
+    margin: 25px 20px 0 20px;
+}
+
+h2::before {
+    content: "🎺 ";
+    color: #4a90e2;
+}
+
+h2::after {
+    content: " FORUM";
+    font-size: 10px;
+    color: #666666;
+    margin-left: 10px;
+}
+
+h2:hover {
+    background: linear-gradient(to bottom, #f0f8ff, #e0e8f0);
+    cursor: pointer;
+}
+
+/* Künstler als Post-Header */
+h3 {
+    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+    padding: 8px 15px;
+    border: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    font-size: 12px;
+    font-weight: bold;
+    color: #4a90e2;
+    margin: 15px 20px 0 20px;
+}
+
+h3::before {
+    content: "📝 ";
+}
+
+h3::after {
+    content: " Collection - gepostet von MusicLover2004 am " attr(data-date);
+    font-size: 10px;
+    color: #666666;
+    font-weight: normal;
+    margin-left: 10px;
+}
+
+/* Songs als Post-Body */
+ul {
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-top: none;
+    padding: 15px 20px;
+    margin: 0 20px 20px 20px;
+    list-style: none;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+ul::before {
+    content: "👤";
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: #cccccc;
+    border: 1px solid #999999;
+    margin-right: 10px;
+    vertical-align: top;
     text-align: center;
-    font-size: 10px;
-    color: #666666;
-    width: 80px;
+    line-height: 30px;
 }
 
-.forum-lastpost {
-    font-size: 10px;
-    color: #666666;
-    width: 150px;
+li {
+    margin: 5px 0;
+    color: #000000;
+    padding: 3px 0;
 }
 
-/* User info */
-.user-info {
-    background-color: #f0f8ff;
-    border: 1px solid #d0d8e8;
-    padding: 8px;
-    margin-bottom: 15px;
-    font-size: 10px;
-}
-
-.username {
+li::before {
+    content: "• ";
     color: #4a90e2;
     font-weight: bold;
 }
 
-.user-rank {
-    color: #ff6600;
-    font-size: 9px;
-}
-
-/* Posts/Songs as forum posts */
-.post {
-    border: 1px solid #cccccc;
-    margin-bottom: 10px;
-    background-color: #ffffff;
-}
-
-.post-header {
-    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
-    padding: 5px 10px;
-    border-bottom: 1px solid #cccccc;
+li::after {
+    content: " ⭐⭐⭐⭐";
     font-size: 10px;
+    color: #ff6600;
+    margin-left: 5px;
 }
 
-.post-body {
-    padding: 10px;
-    font-size: 11px;
-    line-height: 1.4;
+li:hover {
+    background-color: #f0f8ff;
+    cursor: pointer;
+    padding-left: 5px;
+    border-left: 3px solid #4a90e2;
 }
 
-.post-number {
-    color: #666666;
-    font-weight: bold;
+/* Post hover Effekt */
+ul:hover {
+    border-color: #4a90e2;
 }
 
-/* Footer */
-.footer {
+/* Footer simulieren */
+body::after {
+    content: "Powered by phpBB 2.0.23 | Impressum | Datenschutz | Kontakt\A© 2004 MusicBoard Community - Alle Zeiten sind GMT+1";
+    display: block;
     background-color: #f0f0f0;
     border-top: 1px solid #cccccc;
-    padding: 10px 15px;
+    padding: 15px 20px;
     font-size: 10px;
     color: #666666;
     text-align: center;
+    white-space: pre;
+    margin-top: 30px;
 }
 
-.footer a {
-    color: #4a90e2;
-    text-decoration: none;
-}
-
-.footer a:hover {
-    text-decoration: underline;
-}
-
-/* Online indicator */
-.online {
-    color: #00aa00;
-    font-weight: bold;
-    animation: pulse 2s infinite;
-}
-
+/* Online indicator Animation */
 @keyframes pulse {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
 }
 
-/* Hover effects */
-.forum-category:hover {
-    background-color: #f0f8ff;
-    cursor: pointer;
+/* Links im Forum-Style */
+a {
+    color: #4a90e2;
+    text-decoration: none;
 }
 
-.post:hover {
-    border-color: #4a90e2;
+a:hover {
+    text-decoration: underline;
 }
 
-/* Avatar placeholder */
-.avatar {
-    width: 32px;
-    height: 32px;
-    background-color: #cccccc;
-    border: 1px solid #999999;
-    display: inline-block;
-    margin-right: 8px;
-    vertical-align: top;
+a:visited {
+    color: #8b4a90;
 }
-    </style>
+
+/* Responsive Container */
+@media (max-width: 768px) {
+    h2, h3, ul {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    
+    body::before {
+        font-size: 8px;
+        padding: 5px 10px;
+    }
+    
+    h1::after {
+        display: none;
+    }
+}
+</style>
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
 <h3 id="miles-davis">Miles Davis</h3>
