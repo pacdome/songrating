@@ -1,2004 +1,415 @@
-<style>
-  body {
-    background: 
-      linear-gradient(45deg, transparent 30%, rgba(200, 200, 200, 0.1) 32%, rgba(200, 200, 200, 0.1) 34%, transparent 36%),
-      linear-gradient(-45deg, transparent 30%, rgba(180, 180, 180, 0.1) 32%, rgba(180, 180, 180, 0.1) 34%, transparent 36%),
-      radial-gradient(circle at 20% 80%, rgba(160, 160, 160, 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(190, 190, 190, 0.2) 0%, transparent 50%),
-      linear-gradient(135deg, #e2e2e2 0%, #d0d0d0 25%, #c5c5c5 50%, #d8d8d8 75%, #ebebeb 100%);
-    background-size: 60px 60px, 60px 60px, 800px 800px, 800px 800px, 100% 100%;
-    font-family: 'Verdana', 'Tahoma', 'Arial', sans-serif;
-    color: #2c2c2c;
-    margin: 0;
-    padding: 20px;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-    animation: backgroundPulse 15s ease-in-out infinite alternate;
-  }
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meine Musik Bewertungen</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .import-section {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        #songList {
+            width: 100%;
+            height: 100px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        .search-box {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .stats {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .artist-col { width: 200px; }
+        .song-col { width: 250px; }
+        .genre-col { width: 120px; }
+        .rating-col { width: 80px; }
+        .comment-col { width: 200px; }
+        
+        input, select, textarea {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 4px;
+            font-size: 14px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 20px;
+        }
+        
+        .rating-input {
+            text-align: center;
+        }
+        
+        .export-btn {
+            background-color: #28a745;
+        }
+        
+        .export-btn:hover {
+            background-color: #1e7e34;
+        }
+        
+        .table-container {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Meine Musik Bewertungen</h1>
+        
+        <div class="import-section">
+            <h3>Songs importieren</h3>
+            <p>Füge deine Song-Liste hier ein (Format: "Artist - Song"):</p>
+            <textarea id="songList" placeholder="Miles Davis - Kind of Blue
+John Coltrane - Giant Steps
+Duke Ellington - Take Five
+..."></textarea>
+            <button onclick="importSongs()">Songs importieren</button>
+            <button onclick="loadSampleData()">Beispieldaten laden</button>
+        </div>
+        
+        <div class="controls">
+            <input type="text" id="searchBox" class="search-box" placeholder="Suchen..." onkeyup="filterTable()">
+            <button onclick="exportData()" class="export-btn">Als JSON exportieren</button>
+            <button onclick="saveToLocalStorage()">Fortschritt speichern</button>
+            <button onclick="loadFromLocalStorage()">Fortschritt laden</button>
+            <div class="stats">
+                <span id="statsText">0 Songs geladen</span>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table id="musicTable">
+                <thead>
+                    <tr>
+                        <th class="artist-col">Artist</th>
+                        <th class="song-col">Song</th>
+                        <th class="genre-col">Genre</th>
+                        <th class="rating-col">Bewertung</th>
+                        <th class="comment-col">Kommentar</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Hier werden die Songs eingefügt -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-  @keyframes backgroundPulse {
-    0% { filter: brightness(1.0) contrast(1.0); }
-    100% { filter: brightness(1.05) contrast(1.02); }
-  }
-
-  /* Dynamic floating elements */
-  body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background-image: 
-      radial-gradient(circle at 15% 15%, rgba(140, 140, 140, 0.15) 3px, transparent 3px),
-      radial-gradient(circle at 85% 85%, rgba(170, 170, 170, 0.1) 2px, transparent 2px),
-      radial-gradient(circle at 50% 50%, rgba(155, 155, 155, 0.08) 1px, transparent 1px);
-    background-size: 80px 80px, 120px 120px, 40px 40px;
-    animation: cosmicDrift 25s linear infinite, rotate 60s linear infinite;
-    z-index: -2;
-    pointer-events: none;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-      repeating-linear-gradient(90deg, transparent, transparent 98px, rgba(128, 128, 128, 0.03) 100px),
-      repeating-linear-gradient(0deg, transparent, transparent 98px, rgba(128, 128, 128, 0.03) 100px);
-    z-index: -1;
-    pointer-events: none;
-    animation: scanlines 3s linear infinite;
-  }
-
-  @keyframes cosmicDrift {
-    0% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(-30px, -20px) scale(1.02); }
-    66% { transform: translate(20px, -40px) scale(0.98); }
-    100% { transform: translate(0, 0) scale(1); }
-  }
-
-  @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  @keyframes scanlines {
-    0% { opacity: 0.5; }
-    50% { opacity: 0.8; }
-    100% { opacity: 0.5; }
-  }
-
-  /* Enhanced header with glowing effect */
-  h1 {
-    background: 
-      linear-gradient(45deg, #9d9d9d 0%, #c5c5c5 25%, #b8b8b8 50%, #d0d0d0 75%, #a8a8a8 100%),
-      radial-gradient(ellipse at center, rgba(255,255,255,0.3) 0%, transparent 70%);
-    border: 4px ridge #b8b8b8;
-    padding: 20px 30px;
-    text-align: center;
-    font-size: 32px;
-    font-weight: bold;
-    text-shadow: 
-      2px 2px 4px rgba(0,0,0,0.4),
-      0 0 20px rgba(255,255,255,0.3),
-      0 0 40px rgba(200,200,200,0.2);
-    color: #1a1a1a;
-    margin-bottom: 25px;
-    border-radius: 12px;
-    box-shadow: 
-      6px 6px 12px rgba(0,0,0,0.25),
-      inset 2px 2px 8px rgba(255,255,255,0.4),
-      0 0 30px rgba(128,128,128,0.3);
-    position: relative;
-    transform: perspective(1000px) rotateX(5deg);
-    animation: headerGlow 4s ease-in-out infinite alternate;
-  }
-
-  @keyframes headerGlow {
-    0% { box-shadow: 6px 6px 12px rgba(0,0,0,0.25), inset 2px 2px 8px rgba(255,255,255,0.4), 0 0 30px rgba(128,128,128,0.3); }
-    100% { box-shadow: 6px 6px 12px rgba(0,0,0,0.25), inset 2px 2px 8px rgba(255,255,255,0.4), 0 0 50px rgba(128,128,128,0.5); }
-  }
-
-  h1::before {
-    content: '🎵';
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    animation: bounce 2s infinite;
-  }
-
-  h1::after {
-    content: '♪ ♫ ♪ ♬ ♪';
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #666;
-    font-size: 20px;
-    animation: musicFloat 3s ease-in-out infinite;
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateY(-50%) scale(1); }
-    50% { transform: translateY(-60%) scale(1.1); }
-  }
-
-  @keyframes musicFloat {
-    0%, 100% { transform: translateY(-50%) translateX(0); opacity: 0.6; }
-    50% { transform: translateY(-40%) translateX(-5px); opacity: 1; }
-  }
-
-  /* Enhanced section headers */
-  h2 {
-    background: 
-      linear-gradient(90deg, #95959 0%, #b8b8b8 50%, #a5a5a5 100%),
-      repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.1) 2px, rgba(255,255,255,0.1) 4px);
-    border: 3px groove #aaa;
-    padding: 15px 25px;
-    font-size: 22px;
-    color: #222;
-    margin: 30px 0 20px 0;
-    border-radius: 8px;
-    text-shadow: 
-      1px 1px 2px rgba(255,255,255,0.8),
-      2px 2px 4px rgba(0,0,0,0.2);
-    box-shadow: 
-      3px 3px 8px rgba(0,0,0,0.2),
-      inset 1px 1px 4px rgba(255,255,255,0.5);
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-
-  h2::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    animation: shimmer 3s infinite;
-  }
-
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
-  }
-
-  h2:hover {
-    transform: translateY(-2px);
-    box-shadow: 
-      4px 4px 12px rgba(0,0,0,0.3),
-      inset 1px 1px 4px rgba(255,255,255,0.6);
-  }
-
-  h3 {
-    background: 
-      linear-gradient(135deg, #d8d8d8 0%, #e5e5e5 50%, #d0d0d0 100%);
-    border: 2px inset #999;
-    padding: 12px 18px;
-    font-size: 15px;
-    font-style: italic;
-    color: #444;
-    margin-bottom: 30px;
-    border-radius: 6px;
-    box-shadow: 
-      inset 2px 2px 6px rgba(0,0,0,0.1),
-      2px 2px 6px rgba(0,0,0,0.1);
-    position: relative;
-  }
-
-  /* Artist name containers with special effects */
-  p {
-    background: 
-      linear-gradient(135deg, rgba(220, 220, 220, 0.8) 0%, rgba(235, 235, 235, 0.6) 50%, rgba(210, 210, 210, 0.8) 100%);
-    border: 2px solid #aaa;
-    border-radius: 6px;
-    padding: 12px 18px;
-    margin: 15px 0;
-    font-weight: bold;
-    font-size: 18px;
-    color: #333;
-    box-shadow: 
-      2px 2px 6px rgba(0,0,0,0.15),
-      inset 1px 1px 3px rgba(255,255,255,0.4);
-    position: relative;
-    transform: translateX(0);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-
-  p:hover {
-    transform: translateX(10px) scale(1.02);
-    box-shadow: 
-      4px 4px 12px rgba(0,0,0,0.25),
-      inset 1px 1px 3px rgba(255,255,255,0.5);
-    background: 
-      linear-gradient(135deg, rgba(230, 230, 230, 0.9) 0%, rgba(245, 245, 245, 0.7) 50%, rgba(220, 220, 220, 0.9) 100%);
-  }
-
-  /* Enhanced song lists */
-  ul {
-    background: 
-      linear-gradient(145deg, #f2f2f2 0%, #e8e8e8 50%, #f0f0f0 100%);
-    border: 3px inset #ccc;
-    margin: 12px 0 25px 0;
-    padding: 20px 25px;
-    border-radius: 8px;
-    box-shadow: 
-      inset 3px 3px 8px rgba(0,0,0,0.12),
-      2px 2px 8px rgba(0,0,0,0.1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  ul::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(128,128,128,0.3), transparent);
-    animation: topGlow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes topGlow {
-    0% { opacity: 0.3; }
-    100% { opacity: 0.8; }
-  }
-
-  li {
-    padding: 8px 0;
-    border-bottom: 1px dotted #999;
-    font-size: 15px;
-    color: #555;
-    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    cursor: pointer;
-    position: relative;
-    padding-left: 30px;
-    margin: 2px 0;
-  }
-
-  li::before {
-    content: '▶';
-    position: absolute;
-    left: 8px;
-    color: #777;
-    font-size: 12px;
-    transition: all 0.4s ease;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.6; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.1); }
-  }
-
-  li:hover {
-    background: 
-      linear-gradient(90deg, rgba(180, 180, 180, 0.4), rgba(200, 200, 200, 0.3), rgba(180, 180, 180, 0.4));
-    color: #222;
-    padding-left: 35px;
-    transform: translateX(5px);
-    border-radius: 4px;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-  }
-
-  li:hover::before {
-    color: #333;
-    transform: scale(1.3) rotate(90deg);
-    left: 10px;
-  }
-
-  li:last-child {
-    border-bottom: none;
-  }
-
-  /* Enhanced scrollbar with glow effect */
-  ::-webkit-scrollbar {
-    width: 18px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: 
-      linear-gradient(45deg, #e0e0e0, #d5d5d5);
-    border: 2px groove #ccc;
-    border-radius: 9px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: 
-      linear-gradient(45deg, #a0a0a0 0%, #b8b8b8 50%, #a8a8a8 100%);
-    border: 2px ridge #aaa;
-    border-radius: 9px;
-    box-shadow: 
-      inset 1px 1px 3px rgba(255,255,255,0.4),
-      0 0 10px rgba(128,128,128,0.3);
-    transition: all 0.3s ease;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: 
-      linear-gradient(45deg, #888 0%, #aaa 50%, #999 100%);
-    box-shadow: 
-      inset 1px 1px 3px rgba(255,255,255,0.5),
-      0 0 15px rgba(128,128,128,0.5);
-  }
-
-  /* Enhanced animations */
-  h1, h2, p {
-    animation: fadeInSlide 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  ul {
-    animation: fadeInSlide 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
-  }
-
-  @keyframes fadeInSlide {
-    0% {
-      opacity: 0;
-      transform: translateY(20px) scale(0.95);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-
-  /* Enhanced selection with glow */
-  ::selection {
-    background: rgba(128, 128, 128, 0.5);
-    color: #000;
-    text-shadow: 0 0 5px rgba(255,255,255,0.5);
-  }
-
-  /* Container styling */
-  body {
-    max-width: 950px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  /* Subtle page border effect */
-  body {
-    border: 1px solid rgba(128, 128, 128, 0.2);
-    border-radius: 10px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.1);
-  }
-</style>
-
-<html><head><style>body {
-   color: black;
-}
-</style></head><body><h1 id="meine-musik-journey">Meine Musik Journey</h1>
-<h3 id="ich-hab-eine-ki-gefragt-mir-die-wichtigsten-songs-des-20-jahrhunderts-zu-geben-jetzt-bewerte-ich-sie-">Ich hab eine KI gefragt mir die wichtigsten Songs des 20 Jahrhunderts zu geben. Jetzt bewerte ich sie.</h3>
-<h2 id="jazz-15-artists-">Jazz (15 Artists)</h2>
-<p><strong>Miles Davis</strong></p>
-<ul>
-<li>Kind of Blue</li>
-<li>So What</li>
-<li>All Blues</li>
-<li>Bitches Brew</li>
-<li>Summertime</li>
-<li>Round Midnight</li>
-<li>Milestones</li>
-<li>Blue in Green</li>
-</ul>
-<p><strong>John Coltrane</strong></p>
-<ul>
-<li>A Love Supreme</li>
-<li>Giant Steps</li>
-<li>My Favorite Things</li>
-<li>Blue Train</li>
-<li>Naima</li>
-<li>Impressions</li>
-<li>Alabama</li>
-</ul>
-<p><strong>Duke Ellington</strong></p>
-<ul>
-<li>Take the A Train</li>
-<li>Caravan</li>
-<li>Mood Indigo</li>
-<li>Sophisticated Lady</li>
-<li>It Don&#39;t Mean a Thing</li>
-<li>In a Sentimental Mood</li>
-</ul>
-<p><strong>Charlie Parker</strong></p>
-<ul>
-<li>Ko Ko</li>
-<li>Ornithology</li>
-<li>Now&#39;s the Time</li>
-<li>Yardbird Suite</li>
-<li>Confirmation</li>
-</ul>
-<p><strong>Louis Armstrong</strong></p>
-<ul>
-<li>What a Wonderful World</li>
-<li>Hello Dolly</li>
-<li>Mack the Knife</li>
-<li>When the Saints Go Marching In</li>
-<li>Summertime</li>
-</ul>
-<p><strong>Ella Fitzgerald</strong></p>
-<ul>
-<li>Summertime</li>
-<li>A-Tisket, A-Tasket</li>
-<li>Dream a Little Dream of Me</li>
-<li>Mack the Knife</li>
-</ul>
-<p><strong>Billie Holiday</strong></p>
-<ul>
-<li>Strange Fruit</li>
-<li>God Bless the Child</li>
-<li>Summertime</li>
-<li>Lady Sings the Blues</li>
-</ul>
-<p><strong>Thelonious Monk</strong></p>
-<ul>
-<li>Round Midnight</li>
-<li>Straight, No Chaser</li>
-<li>Blue Monk</li>
-<li>Well You Needn&#39;t</li>
-</ul>
-<p><strong>Dave Brubeck</strong></p>
-<ul>
-<li>Take Five</li>
-<li>Blue Rondo a la Turk</li>
-<li>In Your Own Sweet Way</li>
-</ul>
-<p><strong>Art Tatum</strong></p>
-<ul>
-<li>Tea for Two</li>
-<li>Tiger Rag</li>
-<li>Sweet Lorraine</li>
-</ul>
-<p><strong>Count Basie</strong></p>
-<ul>
-<li>One O&#39;Clock Jump</li>
-<li>April in Paris</li>
-<li>Shiny Stockings</li>
-</ul>
-<p><strong>Dizzy Gillespie</strong></p>
-<ul>
-<li>A Night in Tunisia</li>
-<li>Salt Peanuts</li>
-<li>Groovin&#39; High</li>
-</ul>
-<p><strong>Stan Getz</strong></p>
-<ul>
-<li>The Girl from Ipanema</li>
-<li>Desafinado</li>
-<li>Corcovado</li>
-</ul>
-<p><strong>Wes Montgomery</strong></p>
-<ul>
-<li>The Incredible Jazz Guitar</li>
-<li>West Coast Blues</li>
-<li>Four on Six</li>
-</ul>
-<p><strong>Chet Baker</strong></p>
-<ul>
-<li>My Funny Valentine</li>
-<li>Let&#39;s Get Lost</li>
-<li>But Not for Me</li>
-</ul>
-<h2 id="soul-20-artists-">Soul (20 Artists)</h2>
-<p><strong>Aretha Franklin</strong></p>
-<ul>
-<li>Respect</li>
-<li>Think</li>
-<li>(You Make Me Feel Like) A Natural Woman</li>
-<li>Chain of Fools</li>
-<li>I Say a Little Prayer</li>
-<li>Amazing Grace</li>
-<li>Until You Come Back to Me</li>
-</ul>
-<p><strong>Stevie Wonder</strong></p>
-<ul>
-<li>Superstition</li>
-<li>Sir Duke</li>
-<li>I Wish</li>
-<li>Higher Ground</li>
-<li>Living for the City</li>
-<li>Signed, Sealed, Delivered I&#39;m Yours</li>
-<li>You Are the Sunshine of My Life</li>
-<li>Master Blaster</li>
-</ul>
-<p><strong>James Brown</strong></p>
-<ul>
-<li>I Got You (I Feel Good)</li>
-<li>Papa&#39;s Got a Brand New Bag</li>
-<li>Get Up (I Feel Like Being a) Sex Machine</li>
-<li>Cold Sweat</li>
-<li>The Payback</li>
-<li>Please, Please, Please</li>
-</ul>
-<p><strong>Marvin Gaye</strong></p>
-<ul>
-<li>What&#39;s Going On</li>
-<li>Let&#39;s Get It On</li>
-<li>I Heard It Through the Grapevine</li>
-<li>Sexual Healing</li>
-<li>Ain&#39;t No Mountain High Enough</li>
-<li>Mercy Mercy Me</li>
-</ul>
-<p><strong>Sam Cooke</strong></p>
-<ul>
-<li>A Change Is Gonna Come</li>
-<li>You Send Me</li>
-<li>Cupid</li>
-<li>Bring It On Home to Me</li>
-<li>Wonderful World</li>
-</ul>
-<p><strong>Otis Redding</strong></p>
-<ul>
-<li>(Sittin&#39; On) The Dock of the Bay</li>
-<li>Try a Little Tenderness</li>
-<li>I&#39;ve Been Loving You Too Long</li>
-<li>Respect</li>
-<li>These Arms of Mine</li>
-</ul>
-<p><strong>Al Green</strong></p>
-<ul>
-<li>Let&#39;s Stay Together</li>
-<li>Tired of Being Alone</li>
-<li>Love and Happiness</li>
-<li>Take Me to the River</li>
-</ul>
-<p><strong>Ray Charles</strong></p>
-<ul>
-<li>Georgia on My Mind</li>
-<li>Hit the Road Jack</li>
-<li>I Got a Woman</li>
-<li>What&#39;d I Say</li>
-<li>Hallelujah I Love Her So</li>
-</ul>
-<p><strong>The Supremes</strong></p>
-<ul>
-<li>You Can&#39;t Hurry Love</li>
-<li>Stop! In the Name of Love</li>
-<li>Where Did Our Love Go</li>
-<li>Baby Love</li>
-</ul>
-<p><strong>The Temptations</strong></p>
-<ul>
-<li>My Girl</li>
-<li>The Way You Do the Things You Do</li>
-<li>Papa Was a Rollin&#39; Stone</li>
-<li>Just My Imagination</li>
-</ul>
-<p><strong>Wilson Pickett</strong></p>
-<ul>
-<li>In the Midnight Hour</li>
-<li>Mustang Sally</li>
-<li>Land of 1000 Dances</li>
-</ul>
-<p><strong>Percy Sledge</strong></p>
-<ul>
-<li>When a Man Loves a Woman</li>
-<li>Warm and Tender Love</li>
-</ul>
-<p><strong>Jackie Wilson</strong></p>
-<ul>
-<li>(Your Love Keeps Lifting Me) Higher and Higher</li>
-<li>Lonely Teardrops</li>
-<li>Reet Petite</li>
-</ul>
-<p><strong>The Four Tops</strong></p>
-<ul>
-<li>I Can&#39;t Help Myself</li>
-<li>Reach Out I&#39;ll Be There</li>
-<li>It&#39;s the Same Old Song</li>
-</ul>
-<p><strong>Smokey Robinson &amp; The Miracles</strong></p>
-<ul>
-<li>The Tracks of My Tears</li>
-<li>You&#39;ve Really Got a Hold on Me</li>
-<li>Shop Around</li>
-</ul>
-<p><strong>Curtis Mayfield</strong></p>
-<ul>
-<li>Move On Up</li>
-<li>Superfly</li>
-<li>Pusherman</li>
-<li>Freddie&#39;s Dead</li>
-</ul>
-<p><strong>Isaac Hayes</strong></p>
-<ul>
-<li>Theme from Shaft</li>
-<li>Walk On By</li>
-<li>Hot Buttered Soul</li>
-</ul>
-<p><strong>Bobby Womack</strong></p>
-<ul>
-<li>Across 110th Street</li>
-<li>If You Think You&#39;re Lonely Now</li>
-</ul>
-<p><strong>The Isley Brothers</strong></p>
-<ul>
-<li>Shout</li>
-<li>Twist and Shout</li>
-<li>It&#39;s Your Thing</li>
-</ul>
-<p><strong>Sly &amp; The Family Stone</strong></p>
-<ul>
-<li>Dance to the Music</li>
-<li>Everyday People</li>
-<li>Thank You (Falettinme Be Mice Elf Agin)</li>
-</ul>
-<h2 id="classic-rock-35-artists-">Classic Rock (35 Artists)</h2>
-<p><strong>The Beatles</strong></p>
-<ul>
-<li>Hey Jude</li>
-<li>Let It Be</li>
-<li>Yesterday</li>
-<li>Come Together</li>
-<li>A Hard Day&#39;s Night</li>
-<li>Help!</li>
-<li>Here Comes the Sun</li>
-<li>While My Guitar Gently Weeps</li>
-<li>Twist and Shout</li>
-<li>All You Need Is Love</li>
-</ul>
-<p><strong>The Rolling Stones</strong></p>
-<ul>
-<li>(I Can&#39;t Get No) Satisfaction</li>
-<li>Paint It Black</li>
-<li>Start Me Up</li>
-<li>Jumpin&#39; Jack Flash</li>
-<li>Brown Sugar</li>
-<li>Gimme Shelter</li>
-<li>Miss You</li>
-<li>Wild Horses</li>
-</ul>
-<p><strong>Led Zeppelin</strong></p>
-<ul>
-<li>Stairway to Heaven</li>
-<li>Whole Lotta Love</li>
-<li>Kashmir</li>
-<li>Black Dog</li>
-<li>Rock and Roll</li>
-<li>Going to California</li>
-<li>Immigrant Song</li>
-<li>Ramble On</li>
-</ul>
-<p><strong>The Who</strong></p>
-<ul>
-<li>Won&#39;t Get Fooled Again</li>
-<li>Baba O&#39;Riley</li>
-<li>My Generation</li>
-<li>Behind Blue Eyes</li>
-<li>Pinball Wizard</li>
-<li>Love, Reign O&#39;er Me</li>
-</ul>
-<p><strong>Pink Floyd</strong></p>
-<ul>
-<li>Another Brick in the Wall</li>
-<li>Wish You Were Here</li>
-<li>Comfortably Numb</li>
-<li>Money</li>
-<li>Time</li>
-<li>Us and Them</li>
-<li>Shine On You Crazy Diamond</li>
-</ul>
-<p><strong>Queen</strong></p>
-<ul>
-<li>Bohemian Rhapsody</li>
-<li>We Will Rock You</li>
-<li>We Are the Champions</li>
-<li>Somebody to Love</li>
-<li>Don&#39;t Stop Me Now</li>
-<li>Under Pressure</li>
-<li>Radio Ga Ga</li>
-</ul>
-<p><strong>Bob Dylan</strong></p>
-<ul>
-<li>Like a Rolling Stone</li>
-<li>Blowin&#39; in the Wind</li>
-<li>The Times They Are a-Changin&#39;</li>
-<li>Mr. Tambourine Man</li>
-<li>Hurricane</li>
-<li>Knockin&#39; on Heaven&#39;s Door</li>
-</ul>
-<p><strong>Jimi Hendrix</strong></p>
-<ul>
-<li>Purple Haze</li>
-<li>All Along the Watchtower</li>
-<li>Hey Joe</li>
-<li>The Wind Cries Mary</li>
-<li>Voodoo Child (Slight Return)</li>
-<li>Little Wing</li>
-</ul>
-<p><strong>The Doors</strong></p>
-<ul>
-<li>Light My Fire</li>
-<li>Riders on the Storm</li>
-<li>Break On Through (To the Other Side)</li>
-<li>The End</li>
-<li>People Are Strange</li>
-</ul>
-<p><strong>Fleetwood Mac</strong></p>
-<ul>
-<li>Go Your Own Way</li>
-<li>Don&#39;t Stop</li>
-<li>Dreams</li>
-<li>Rhiannon</li>
-<li>The Chain</li>
-</ul>
-<p><strong>Eagles</strong></p>
-<ul>
-<li>Hotel California</li>
-<li>Take It Easy</li>
-<li>Desperado</li>
-<li>Life in the Fast Lane</li>
-<li>One of These Nights</li>
-</ul>
-<p><strong>Neil Young</strong></p>
-<ul>
-<li>Heart of Gold</li>
-<li>Old Man</li>
-<li>Rockin&#39; in the Free World</li>
-<li>The Needle and the Damage Done</li>
-</ul>
-<p><strong>The Kinks</strong></p>
-<ul>
-<li>You Really Got Me</li>
-<li>Waterloo Sunset</li>
-<li>Lola</li>
-<li>Come Dancing</li>
-</ul>
-<p><strong>Cream</strong></p>
-<ul>
-<li>Sunshine of Your Love</li>
-<li>White Room</li>
-<li>Crossroads</li>
-<li>Strange Brew</li>
-</ul>
-<p><strong>Creedence Clearwater Revival</strong></p>
-<ul>
-<li>Proud Mary</li>
-<li>Bad Moon Rising</li>
-<li>Have You Ever Seen the Rain?</li>
-<li>Fortunate Son</li>
-</ul>
-<p><strong>The Beach Boys</strong></p>
-<ul>
-<li>Good Vibrations</li>
-<li>California Girls</li>
-<li>Surfin&#39; USA</li>
-<li>Pet Sounds</li>
-</ul>
-<p><strong>Janis Joplin</strong></p>
-<ul>
-<li>Piece of My Heart</li>
-<li>Me and Bobby McGee</li>
-<li>Cry Baby</li>
-</ul>
-<p><strong>The Allman Brothers Band</strong></p>
-<ul>
-<li>Whipping Post</li>
-<li>Ramblin&#39; Man</li>
-<li>Midnight Rambler</li>
-</ul>
-<p><strong>Lynyrd Skynyrd</strong></p>
-<ul>
-<li>Sweet Home Alabama</li>
-<li>Free Bird</li>
-<li>Simple Man</li>
-</ul>
-<p><strong>Deep Purple</strong></p>
-<ul>
-<li>Smoke on the Water</li>
-<li>Highway Star</li>
-<li>Child in Time</li>
-</ul>
-<p><strong>Black Sabbath</strong></p>
-<ul>
-<li>Paranoid</li>
-<li>Iron Man</li>
-<li>War Pigs</li>
-</ul>
-<p><strong>Santana</strong></p>
-<ul>
-<li>Black Magic Woman</li>
-<li>Oye Como Va</li>
-<li>Smooth</li>
-</ul>
-<p><strong>Steely Dan</strong></p>
-<ul>
-<li>Do It Again</li>
-<li>Reelin&#39; in the Years</li>
-<li>Rikki Don&#39;t Lose That Number</li>
-</ul>
-<p><strong>The Byrds</strong></p>
-<ul>
-<li>Mr. Tambourine Man</li>
-<li>Turn! Turn! Turn!</li>
-<li>Eight Miles High</li>
-</ul>
-<p><strong>Buffalo Springfield</strong></p>
-<ul>
-<li>For What It&#39;s Worth</li>
-<li>Mr. Soul</li>
-</ul>
-<p><strong>Crosby, Stills &amp; Nash</strong></p>
-<ul>
-<li>Suite: Judy Blue Eyes</li>
-<li>Our House</li>
-</ul>
-<p><strong>Jefferson Airplane</strong></p>
-<ul>
-<li>White Rabbit</li>
-<li>Somebody to Love</li>
-</ul>
-<p><strong>The Grateful Dead</strong></p>
-<ul>
-<li>Truckin&#39;</li>
-<li>Touch of Grey</li>
-</ul>
-<p><strong>Steppenwolf</strong></p>
-<ul>
-<li>Born to Be Wild</li>
-<li>Magic Carpet Ride</li>
-</ul>
-<p><strong>Three Dog Night</strong></p>
-<ul>
-<li>Joy to the World</li>
-<li>Mama Told Me Not to Come</li>
-</ul>
-<p><strong>Grand Funk Railroad</strong></p>
-<ul>
-<li>We&#39;re an American Band</li>
-<li>Some Kind of Wonderful</li>
-</ul>
-<p><strong>Foreigner</strong></p>
-<ul>
-<li>I Want to Know What Love Is</li>
-<li>Cold as Ice</li>
-</ul>
-<p><strong>Journey</strong></p>
-<ul>
-<li>Don&#39;t Stop Believin&#39;</li>
-<li>Any Way You Want It</li>
-</ul>
-<p><strong>Boston</strong></p>
-<ul>
-<li>More Than a Feeling</li>
-<li>Peace of Mind</li>
-</ul>
-<p><strong>Kansas</strong></p>
-<ul>
-<li>Carry On Wayward Son</li>
-<li>Dust in the Wind</li>
-</ul>
-<h2 id="hard-rock-15-artists-">Hard Rock (15 Artists)</h2>
-<p><strong>AC/DC</strong></p>
-<ul>
-<li>Back in Black</li>
-<li>Highway to Hell</li>
-<li>Thunderstruck</li>
-<li>You Shook Me All Night Long</li>
-<li>T.N.T.</li>
-<li>Whole Lotta Rosie</li>
-</ul>
-<p><strong>Aerosmith</strong></p>
-<ul>
-<li>Dream On</li>
-<li>Sweet Emotion</li>
-<li>Walk This Way</li>
-<li>Love in an Elevator</li>
-<li>Crazy</li>
-</ul>
-<p><strong>Van Halen</strong></p>
-<ul>
-<li>Jump</li>
-<li>Runnin&#39; with the Devil</li>
-<li>Panama</li>
-<li>Hot for Teacher</li>
-<li>Eruption</li>
-</ul>
-<p><strong>Kiss</strong></p>
-<ul>
-<li>Rock and Roll All Nite</li>
-<li>Detroit Rock City</li>
-<li>I Was Made for Lovin&#39; You</li>
-<li>Beth</li>
-</ul>
-<p><strong>Guns N&#39; Roses</strong></p>
-<ul>
-<li>Sweet Child O&#39; Mine</li>
-<li>Welcome to the Jungle</li>
-<li>Paradise City</li>
-<li>November Rain</li>
-<li>Don&#39;t Cry</li>
-</ul>
-<p><strong>Def Leppard</strong></p>
-<ul>
-<li>Pour Some Sugar on Me</li>
-<li>Photograph</li>
-<li>Love Bites</li>
-<li>Rock of Ages</li>
-</ul>
-<p><strong>Whitesnake</strong></p>
-<ul>
-<li>Here I Go Again</li>
-<li>Is This Love</li>
-<li>Still of the Night</li>
-</ul>
-<p><strong>Scorpions</strong></p>
-<ul>
-<li>Rock You Like a Hurricane</li>
-<li>Wind of Change</li>
-<li>No One Like You</li>
-</ul>
-<p><strong>Judas Priest</strong></p>
-<ul>
-<li>Breaking the Law</li>
-<li>Living After Midnight</li>
-<li>You&#39;ve Got Another Thing Comin&#39;</li>
-</ul>
-<p><strong>Motörhead</strong></p>
-<ul>
-<li>Ace of Spades</li>
-<li>Overkill</li>
-<li>Killed by Death</li>
-</ul>
-<p><strong>Rainbow</strong></p>
-<ul>
-<li>Since You Been Gone</li>
-<li>Man on the Silver Mountain</li>
-</ul>
-<p><strong>Thin Lizzy</strong></p>
-<ul>
-<li>The Boys Are Back in Town</li>
-<li>Jailbreak</li>
-</ul>
-<p><strong>Blue Öyster Cult</strong></p>
-<ul>
-<li>(Don&#39;t Fear) The Reaper</li>
-<li>Burnin&#39; for You</li>
-</ul>
-<p><strong>Ted Nugent</strong></p>
-<ul>
-<li>Cat Scratch Fever</li>
-<li>Stranglehold</li>
-</ul>
-<p><strong>Montrose</strong></p>
-<ul>
-<li>Rock Candy</li>
-<li>Bad Motor Scooter</li>
-</ul>
-<h2 id="disco-15-artists-">Disco (15 Artists)</h2>
-<p><strong>Bee Gees</strong></p>
-<ul>
-<li>Stayin&#39; Alive</li>
-<li>Night Fever</li>
-<li>How Deep Is Your Love</li>
-<li>Dancing Queen</li>
-<li>Jive Talkin&#39;</li>
-</ul>
-<p><strong>Donna Summer</strong></p>
-<ul>
-<li>I Feel Love</li>
-<li>Hot Stuff</li>
-<li>Last Dance</li>
-<li>Love to Love You Baby</li>
-</ul>
-<p><strong>Chic</strong></p>
-<ul>
-<li>Le Freak</li>
-<li>Good Times</li>
-<li>Dance, Dance, Dance</li>
-</ul>
-<p><strong>Diana Ross</strong></p>
-<ul>
-<li>Love Hangover</li>
-<li>Upside Down</li>
-<li>I&#39;m Coming Out</li>
-</ul>
-<p><strong>ABBA</strong></p>
-<ul>
-<li>Dancing Queen</li>
-<li>Fernando</li>
-<li>Mamma Mia</li>
-<li>Waterloo</li>
-</ul>
-<p><strong>Gloria Gaynor</strong></p>
-<ul>
-<li>I Will Survive</li>
-<li>Never Can Say Goodbye</li>
-</ul>
-<p><strong>KC and the Sunshine Band</strong></p>
-<ul>
-<li>Get Down Tonight</li>
-<li>That&#39;s the Way (I Like It)</li>
-<li>Shake Your Booty</li>
-</ul>
-<p><strong>Village People</strong></p>
-<ul>
-<li>Y.M.C.A.</li>
-<li>Macho Man</li>
-<li>In the Navy</li>
-</ul>
-<p><strong>The O&#39;Jays</strong></p>
-<ul>
-<li>Love Train</li>
-<li>For the Love of Money</li>
-</ul>
-<p><strong>Earth, Wind &amp; Fire</strong></p>
-<ul>
-<li>September</li>
-<li>Boogie Wonderland</li>
-<li>Shining Star</li>
-</ul>
-<p><strong>Sister Sledge</strong></p>
-<ul>
-<li>We Are Family</li>
-<li>He&#39;s the Greatest Dancer</li>
-</ul>
-<p><strong>Kool &amp; The Gang</strong></p>
-<ul>
-<li>Celebration</li>
-<li>Jungle Boogie</li>
-<li>Ladies Night</li>
-</ul>
-<p><strong>Tavares</strong></p>
-<ul>
-<li>Heaven Must Be Missing an Angel</li>
-<li>More Than a Woman</li>
-</ul>
-<p><strong>Heatwave</strong></p>
-<ul>
-<li>Always and Forever</li>
-<li>Boogie Nights</li>
-</ul>
-<p><strong>The Trammps</strong></p>
-<ul>
-<li>Disco Inferno</li>
-<li>Hold Back the Night</li>
-</ul>
-<h2 id="punk-rock-20-artists-">Punk Rock (20 Artists)</h2>
-<p><strong>The Ramones</strong></p>
-<ul>
-<li>Blitzkrieg Bop</li>
-<li>I Wanna Be Sedated</li>
-<li>Sheena Is a Punk Rocker</li>
-<li>Pet Sematary</li>
-<li>Rockaway Beach</li>
-</ul>
-<p><strong>Sex Pistols</strong></p>
-<ul>
-<li>Anarchy in the U.K.</li>
-<li>God Save the Queen</li>
-<li>Pretty Vacant</li>
-<li>Holidays in the Sun</li>
-</ul>
-<p><strong>The Clash</strong></p>
-<ul>
-<li>London Calling</li>
-<li>Should I Stay or Should I Go</li>
-<li>Rock the Casbah</li>
-<li>White Man in Hammertown</li>
-<li>Train in Vain</li>
-</ul>
-<p><strong>Dead Kennedys</strong></p>
-<ul>
-<li>Holiday in Cambodia</li>
-<li>California Über Alles</li>
-<li>Too Drunk to Fuck</li>
-</ul>
-<p><strong>Black Flag</strong></p>
-<ul>
-<li>Rise Above</li>
-<li>TV Party</li>
-<li>Six Pack</li>
-</ul>
-<p><strong>Bad Brains</strong></p>
-<ul>
-<li>Banned in D.C.</li>
-<li>I Against I</li>
-<li>Pay to Cum</li>
-</ul>
-<p><strong>The Stooges</strong></p>
-<ul>
-<li>I Wanna Be Your Dog</li>
-<li>Search and Destroy</li>
-<li>No Fun</li>
-</ul>
-<p><strong>The Misfits</strong></p>
-<ul>
-<li>Last Caress</li>
-<li>Die, Die My Darling</li>
-<li>Where Eagles Dare</li>
-</ul>
-<p><strong>X</strong></p>
-<ul>
-<li>Los Angeles</li>
-<li>Wild Thing</li>
-<li>White Girl</li>
-</ul>
-<p><strong>Minor Threat</strong></p>
-<ul>
-<li>Straight Edge</li>
-<li>In My Eyes</li>
-<li>Filler</li>
-</ul>
-<p><strong>Social Distortion</strong></p>
-<ul>
-<li>Story of My Life</li>
-<li>Prison Bound</li>
-<li>Ball and Chain</li>
-</ul>
-<p><strong>Bad Religion</strong></p>
-<ul>
-<li>21st Century Digital Boy</li>
-<li>Infected</li>
-<li>Generator</li>
-</ul>
-<p><strong>The Damned</strong></p>
-<ul>
-<li>New Rose</li>
-<li>Neat Neat Neat</li>
-<li>Love Song</li>
-</ul>
-<p><strong>Television</strong></p>
-<ul>
-<li>Marquee Moon</li>
-<li>See No Evil</li>
-</ul>
-<p><strong>Patti Smith</strong></p>
-<ul>
-<li>Because the Night</li>
-<li>Gloria</li>
-<li>People Have the Power</li>
-</ul>
-<p><strong>Talking Heads</strong></p>
-<ul>
-<li>Psycho Killer</li>
-<li>Once in a Lifetime</li>
-<li>Burning Down the House</li>
-</ul>
-<p><strong>Buzzcocks</strong></p>
-<ul>
-<li>Ever Fallen in Love</li>
-<li>What Do I Get?</li>
-</ul>
-<p><strong>Wire</strong></p>
-<ul>
-<li>Pink Flag</li>
-<li>I Am the Fly</li>
-</ul>
-<p><strong>The Dickies</strong></p>
-<ul>
-<li>Banana Splits</li>
-<li>Nights in White Satin</li>
-</ul>
-<p><strong>Circle Jerks</strong></p>
-<ul>
-<li>Wild in the Streets</li>
-<li>When the Shit Hits the Fan</li>
-</ul>
-<h2 id="progressive-rock-20-artists-">Progressive Rock (20 Artists)</h2>
-<p><strong>Yes</strong></p>
-<ul>
-<li>Roundabout</li>
-<li>Owner of a Lonely Heart</li>
-<li>Long Distance Runaround</li>
-<li>I&#39;ve Seen All Good People</li>
-<li>Heart of the Sunrise</li>
-</ul>
-<p><strong>Genesis</strong></p>
-<ul>
-<li>Land of Confusion</li>
-<li>Invisible Touch</li>
-<li>Turn It On Again</li>
-<li>Follow You Follow Me</li>
-</ul>
-<p><strong>King Crimson</strong></p>
-<ul>
-<li>21st Century Schizoid Man</li>
-<li>In the Court of the Crimson King</li>
-<li>Starless</li>
-</ul>
-<p><strong>Emerson, Lake &amp; Palmer</strong></p>
-<ul>
-<li>Lucky Man</li>
-<li>Karn Evil 9</li>
-<li>From the Beginning</li>
-</ul>
-<p><strong>Jethro Tull</strong></p>
-<ul>
-<li>Aqualung</li>
-<li>Locomotive Breath</li>
-<li>Thick as a Brick</li>
-<li>Bungle in the Jungle</li>
-</ul>
-<p><strong>Rush</strong></p>
-<ul>
-<li>Tom Sawyer</li>
-<li>Limelight</li>
-<li>Freewill</li>
-<li>The Spirit of Radio</li>
-<li>2112</li>
-</ul>
-<p><strong>Gentle Giant</strong></p>
-<ul>
-<li>The Advent of Panurge</li>
-<li>Free Hand</li>
-</ul>
-<p><strong>Van der Graaf Generator</strong></p>
-<ul>
-<li>Theme One</li>
-<li>Pawn Hearts</li>
-</ul>
-<p><strong>Camel</strong></p>
-<ul>
-<li>The Snow Goose</li>
-<li>Mirage</li>
-</ul>
-<p><strong>Focus</strong></p>
-<ul>
-<li>Hocus Pocus</li>
-<li>Sylvia</li>
-</ul>
-<p><strong>The Moody Blues</strong></p>
-<ul>
-<li>Nights in White Satin</li>
-<li>Tuesday Afternoon</li>
-<li>Question</li>
-</ul>
-<p><strong>Procol Harum</strong></p>
-<ul>
-<li>A Whiter Shade of Pale</li>
-<li>Conquistador</li>
-</ul>
-<p><strong>Supertramp</strong></p>
-<ul>
-<li>Dreamer</li>
-<li>Give a Little Bit</li>
-<li>The Logical Song</li>
-</ul>
-<p><strong>Uriah Heep</strong></p>
-<ul>
-<li>Easy Livin&#39;</li>
-<li>Lady in Black</li>
-</ul>
-<p><strong>Renaissance</strong></p>
-<ul>
-<li>Northern Lights</li>
-<li>Mother Russia</li>
-</ul>
-<p><strong>Banco del Mutuo Soccorso</strong></p>
-<ul>
-<li>Non Mi Rompete</li>
-<li>750,000 Years Ago</li>
-</ul>
-<p><strong>Premiata Forneria Marconi</strong></p>
-<ul>
-<li>Impressioni di Settembre</li>
-<li>La Carrozza di Hans</li>
-</ul>
-<p><strong>Soft Machine</strong></p>
-<ul>
-<li>Hope for Happiness</li>
-<li>Out-Bloody-Rageous</li>
-</ul>
-<p><strong>Caravan</strong></p>
-<ul>
-<li>In the Land of Grey and Pink</li>
-<li>If I Could Do It All Over Again</li>
-</ul>
-<p><strong>Gong</strong></p>
-<ul>
-<li>Flying Teapot</li>
-<li>Radio Gnome Invisible</li>
-</ul>
-<h2 id="new-wave-25-artists-">New Wave (25 Artists)</h2>
-<p><strong>Blondie</strong></p>
-<ul>
-<li>Heart of Glass</li>
-<li>Call Me</li>
-<li>One Way or Another</li>
-<li>Rapture</li>
-<li>The Tide Is High</li>
-</ul>
-<p><strong>Devo</strong></p>
-<ul>
-<li>Whip It</li>
-<li>Girl U Want</li>
-<li>Uncontrollable Urge</li>
-</ul>
-<p><strong>The Cars</strong></p>
-<ul>
-<li>Just What I Needed</li>
-<li>My Best Friend&#39;s Girl</li>
-<li>Drive</li>
-<li>You Might Think</li>
-</ul>
-<p><strong>Elvis Costello</strong></p>
-<ul>
-<li>Pump It Up</li>
-<li>Alison</li>
-<li>(What&#39;s So Funny &#39;Bout) Peace, Love and Understanding</li>
-</ul>
-<p><strong>Gary Numan</strong></p>
-<ul>
-<li>Cars</li>
-<li>Are &#39;Friends&#39; Electric?</li>
-</ul>
-<p><strong>Duran Duran</strong></p>
-<ul>
-<li>Hungry Like the Wolf</li>
-<li>Rio</li>
-<li>Girls on Film</li>
-<li>The Reflex</li>
-</ul>
-<p><strong>The B-52&#39;s</strong></p>
-<ul>
-<li>Love Shack</li>
-<li>Rock Lobster</li>
-<li>Private Idaho</li>
-</ul>
-<p><strong>Adam Ant</strong></p>
-<ul>
-<li>Goody Two Shoes</li>
-<li>Stand and Deliver</li>
-</ul>
-<p><strong>Human League</strong></p>
-<ul>
-<li>Don&#39;t You (Forget About Me)</li>
-<li>Together in Electric Dreams</li>
-</ul>
-<p><strong>Depeche Mode</strong></p>
-<ul>
-<li>Just Can&#39;t Get Enough</li>
-<li>Personal Jesus</li>
-<li>Everything Counts</li>
-</ul>
-<p><strong>New Order</strong></p>
-<ul>
-<li>Blue Monday</li>
-<li>True Faith</li>
-<li>Bizarre Love Triangle</li>
-</ul>
-<p><strong>Kraftwerk</strong></p>
-<ul>
-<li>The Model</li>
-<li>Computer World</li>
-<li>Trans-Europe Express</li>
-</ul>
-<p><strong>Roxy Music</strong></p>
-<ul>
-<li>More Than This</li>
-<li>Avalon</li>
-<li>Love Is the Drug</li>
-</ul>
-<p><strong>David Bowie</strong></p>
-<ul>
-<li>Let&#39;s Dance</li>
-<li>Modern Love</li>
-<li>China Girl</li>
-</ul>
-<p><strong>Simple Minds</strong></p>
-<ul>
-<li>Don&#39;t You (Forget About Me)</li>
-<li>Alive and Kicking</li>
-</ul>
-<p><strong>A Flock of Seagulls</strong></p>
-<ul>
-<li>I Ran (So Far Away)</li>
-<li>Space Age Love Song</li>
-</ul>
-<p><strong>Tears for Fears</strong></p>
-<ul>
-<li>Mad World</li>
-<li>Everybody Wants to Rule the World</li>
-<li>Shout</li>
-</ul>
-<p><strong>The Cure</strong></p>
-<ul>
-<li>Just Like Heaven</li>
-<li>Friday I&#39;m in Love</li>
-<li>Close to Me</li>
-</ul>
-<p><strong>Spandau Ballet</strong></p>
-<ul>
-<li>True</li>
-<li>Gold</li>
-</ul>
-<p><strong>Orchestral Manoeuvres in the Dark</strong></p>
-<ul>
-<li>Enola Gay</li>
-<li>If You Leave</li>
-</ul>
-<p><strong>Thomas Dolby</strong></p>
-<ul>
-<li>She Blinded Me with Science</li>
-<li>Hyperactive!</li>
-</ul>
-<p><strong>Missing Persons</strong></p>
-<ul>
-<li>Words</li>
-<li>Destination Unknown</li>
-</ul>
-<p><strong>Berlin</strong></p>
-<ul>
-<li>Take My Breath Away</li>
-<li>The Metro</li>
-</ul>
-<p><strong>Fad Gadget</strong></p>
-<ul>
-<li>Back to Nature</li>
-<li>Collapsing New People</li>
-</ul>
-<p><strong>Ultravox</strong></p>
-<ul>
-<li>Vienna</li>
-<li>Dancing with Tears in My Eyes</li>
-</ul>
-<h2 id="us-hip-hop-20-artists-">US Hip-Hop (20 Artists)</h2>
-<p><strong>Grandmaster Flash and the Furious Five</strong></p>
-<ul>
-<li>The Message</li>
-<li>White Lines (Don&#39;t Don&#39;t Do It)</li>
-<li>Freedom</li>
-</ul>
-<p><strong>Run-DMC</strong></p>
-<ul>
-<li>Walk This Way</li>
-<li>It&#39;s Tricky</li>
-<li>My Adidas</li>
-<li>King of Rock</li>
-</ul>
-<p><strong>LL Cool J</strong></p>
-<ul>
-<li>I Can&#39;t Live Without My Radio</li>
-<li>Mama Said Knock You Out</li>
-<li>I Need Love</li>
-</ul>
-<p><strong>Public Enemy</strong></p>
-<ul>
-<li>Fight the Power</li>
-<li>Bring the Noise</li>
-<li>911 Is a Joke</li>
-<li>Don&#39;t Believe the Hype</li>
-</ul>
-<p><strong>N.W.A</strong></p>
-<ul>
-<li>Straight Outta Compton</li>
-<li>F<em>*</em> tha Police</li>
-<li>Express Yourself</li>
-</ul>
-<p><strong>Dr. Dre</strong></p>
-<ul>
-<li>Nuthin&#39; but a &#39;G&#39; Thang</li>
-<li>Still D.R.E.</li>
-<li>The Chronic</li>
-</ul>
-<p><strong>Snoop Dogg</strong></p>
-<ul>
-<li>Gin and Juice</li>
-<li>What&#39;s My Name?</li>
-<li>Drop It Like It&#39;s Hot</li>
-</ul>
-<p><strong>Ice-T</strong></p>
-<ul>
-<li>Colors</li>
-<li>O.G. Original Gangster</li>
-<li>6 &#39;N the Mornin&#39;</li>
-</ul>
-<p><strong>Beastie Boys</strong></p>
-<ul>
-<li>Fight for Your Right</li>
-<li>Sabotage</li>
-<li>Intergalactic</li>
-</ul>
-<p><strong>De La Soul</strong></p>
-<ul>
-<li>Me Myself and I</li>
-<li>Buddy</li>
-<li>Ring Ring Ring</li>
-</ul>
-<p><strong>A Tribe Called Quest</strong></p>
-<ul>
-<li>Can I Kick It?</li>
-<li>Scenario</li>
-<li>Award Tour</li>
-</ul>
-<p><strong>Digital Underground</strong></p>
-<ul>
-<li>The Humpty Dance</li>
-<li>Doowutchyalike</li>
-</ul>
-<p><strong>Eric B. &amp; Rakim</strong></p>
-<ul>
-<li>Paid in Full</li>
-<li>Follow the Leader</li>
-<li>I Ain&#39;t No Joke</li>
-</ul>
-<p><strong>Big Daddy Kane</strong></p>
-<ul>
-<li>Ain&#39;t No Half-Steppin&#39;</li>
-<li>Smooth Operator</li>
-</ul>
-<p><strong>Heavy D &amp; The Boyz</strong></p>
-<ul>
-<li>Now That We Found Love</li>
-<li>Somebody for Me</li>
-</ul>
-<p><strong>Salt-N-Pepa</strong></p>
-<ul>
-<li>Push It</li>
-<li>Let&#39;s Talk About Sex</li>
-<li>Whatta Man</li>
-</ul>
-<p><strong>Queen Latifah</strong></p>
-<ul>
-<li>Ladies First</li>
-<li>U.N.I.T.Y.</li>
-</ul>
-<p><strong>Kool Moe Dee</strong></p>
-<ul>
-<li>Wild Wild West</li>
-<li>Go See the Doctor</li>
-</ul>
-<p><strong>Tone Lōc</strong></p>
-<ul>
-<li>Wild Thing</li>
-<li>Funky Cold Medina</li>
-</ul>
-<p><strong>Young MC</strong></p>
-<ul>
-<li>Bust a Move</li>
-<li>Principal&#39;s Office</li>
-</ul>
-<h2 id="alternative-rock-20-artists-">Alternative Rock (20 Artists)</h2>
-<p><strong>R.E.M.</strong></p>
-<ul>
-<li>Losing My Religion</li>
-<li>It&#39;s the End of the World as We Know It</li>
-<li>Everybody Hurts</li>
-<li>Man on the Box</li>
-<li>What&#39;s the Frequency, Kenneth?</li>
-</ul>
-<p><strong>The Smiths</strong></p>
-<ul>
-<li>How Soon Is Now?</li>
-<li>There Is a Light That Never Goes Out</li>
-<li>This Charming Man</li>
-<li>Panic</li>
-</ul>
-<p><strong>U2</strong></p>
-<ul>
-<li>With or Without You</li>
-<li>Where the Streets Have No Name</li>
-<li>Sunday Bloody Sunday</li>
-<li>One</li>
-<li>Pride (In the Name of Love)</li>
-</ul>
-<p><strong>Sonic Youth</strong></p>
-<ul>
-<li>Teen Age Riot</li>
-<li>Kool Thing</li>
-<li>Bull in the Heather</li>
-</ul>
-<p><strong>Jane&#39;s Addiction</strong></p>
-<ul>
-<li>Jane Says</li>
-<li>Mountain Song</li>
-<li>Been Caught Stealing</li>
-</ul>
-<p><strong>Red Hot Chili Peppers</strong></p>
-<ul>
-<li>Under the Bridge</li>
-<li>Give It Away</li>
-<li>Californication</li>
-<li>Scar Tissue</li>
-</ul>
-<p><strong>The Pixies</strong></p>
-<ul>
-<li>Where Is My Mind?</li>
-<li>Here Comes Your Man</li>
-<li>Monkey Gone to Heaven</li>
-</ul>
-<p><strong>Radiohead</strong></p>
-<ul>
-<li>Creep</li>
-<li>High and Dry</li>
-<li>Just</li>
-<li>Fake Plastic Trees</li>
-</ul>
-<p><strong>Stone Temple Pilots</strong></p>
-<ul>
-<li>Interstate Love Song</li>
-<li>Plush</li>
-<li>Creep</li>
-</ul>
-<p><strong>Fishbone</strong></p>
-<ul>
-<li>Party at Ground Zero</li>
-<li>Everyday Sunshine</li>
-</ul>
-<p><strong>Living Colour</strong></p>
-<ul>
-<li>Cult of Personality</li>
-<li>Glamour Boys</li>
-</ul>
-<p><strong>Faith No More</strong></p>
-<ul>
-<li>Epic</li>
-<li>Midlife Crisis</li>
-</ul>
-<p><strong>Primus</strong></p>
-<ul>
-<li>Jerry Was a Race Car Driver</li>
-<li>My Name Is Mud</li>
-</ul>
-<p><strong>Blind Melon</strong></p>
-<ul>
-<li>No Rain</li>
-<li>Tones of Home</li>
-</ul>
-<p><strong>The Lemonheads</strong></p>
-<ul>
-<li>Mrs. Robinson</li>
-<li>Into Your Arms</li>
-</ul>
-<p><strong>Dinosaur Jr.</strong></p>
-<ul>
-<li>Freak Scene</li>
-<li>Start Choppin&#39;</li>
-</ul>
-<p><strong>Pavement</strong></p>
-<ul>
-<li>Cut Your Hair</li>
-<li>Range Life</li>
-</ul>
-<p><strong>Weezer</strong></p>
-<ul>
-<li>Buddy Holly</li>
-<li>Say It Ain&#39;t So</li>
-<li>Undone – The Sweater Song</li>
-</ul>
-<p><strong>Beck</strong></p>
-<ul>
-<li>Loser</li>
-<li>Where It&#39;s At</li>
-</ul>
-<p><strong>Foo Fighters</strong></p>
-<ul>
-<li>Everlong</li>
-<li>My Hero</li>
-<li>Big Me</li>
-</ul>
-<h2 id="grunge-18-artists-">Grunge (18 Artists)</h2>
-<p><strong>Nirvana</strong></p>
-<ul>
-<li>Smells Like Teen Spirit</li>
-<li>Come As You Are</li>
-<li>Lithium</li>
-<li>In Bloom</li>
-<li>Heart-Shaped Box</li>
-<li>About a Girl</li>
-</ul>
-<p><strong>Pearl Jam</strong></p>
-<ul>
-<li>Alive</li>
-<li>Even Flow</li>
-<li>Jeremy</li>
-<li>Black</li>
-<li>Better Man</li>
-<li>Daughter</li>
-</ul>
-<p><strong>Soundgarden</strong></p>
-<ul>
-<li>Black Hole Sun</li>
-<li>Spoonman</li>
-<li>Rusty Cage</li>
-<li>Fell on Black Days</li>
-</ul>
-<p><strong>Alice in Chains</strong></p>
-<ul>
-<li>Man in the Box</li>
-<li>Them Bones</li>
-<li>Would?</li>
-<li>Rooster</li>
-</ul>
-<p><strong>Mudhoney</strong></p>
-<ul>
-<li>Touch Me I&#39;m Sick</li>
-<li>Suck You Dry</li>
-</ul>
-<p><strong>The Melvins</strong></p>
-<ul>
-<li>Honey Bucket</li>
-<li>Night Goat</li>
-</ul>
-<p><strong>Screaming Trees</strong></p>
-<ul>
-<li>Nearly Lost You</li>
-<li>Shadow of the Season</li>
-</ul>
-<p><strong>Temple of the Dog</strong></p>
-<ul>
-<li>Hunger Strike</li>
-<li>Say Hello 2 Heaven</li>
-</ul>
-<p><strong>Mad Season</strong></p>
-<ul>
-<li>River of Deceit</li>
-<li>I Don&#39;t Know Anything</li>
-</ul>
-<p><strong>Mother Love Bone</strong></p>
-<ul>
-<li>Stardog Champion</li>
-<li>Crown of Thorns</li>
-</ul>
-<p><strong>Green River</strong></p>
-<ul>
-<li>Swallow My Pride</li>
-<li>Come on Down</li>
-</ul>
-<p><strong>Tad</strong></p>
-<ul>
-<li>Salt Lick</li>
-<li>Jack Pepsi</li>
-</ul>
-<p><strong>Skin Yard</strong></p>
-<ul>
-<li>Start at the Top</li>
-<li>Reptile Boy</li>
-</ul>
-<p><strong>L7</strong></p>
-<ul>
-<li>Pretend We&#39;re Dead</li>
-<li>Everglade</li>
-</ul>
-<p><strong>Hole</strong></p>
-<ul>
-<li>Celebrity Skin</li>
-<li>Violet</li>
-<li>Doll Parts</li>
-</ul>
-<p><strong>Babes in Toyland</strong></p>
-<ul>
-<li>Bruise Violet</li>
-<li>Won&#39;t Tell</li>
-</ul>
-<p><strong>Seven Year Bitch</strong></p>
-<ul>
-<li>Dead Bitch</li>
-<li>M.I.A.</li>
-</ul>
-<p><strong>The Gits</strong></p>
-<ul>
-<li>Seaweed</li>
-<li>Second Skin</li>
-</ul>
-<h2 id="britpop-15-artists-">Britpop (15 Artists)</h2>
-<p><strong>Oasis</strong></p>
-<ul>
-<li>Wonderwall</li>
-<li>Don&#39;t Look Back in Anger</li>
-<li>Champagne Supernova</li>
-<li>Live Forever</li>
-<li>Rock &#39;n&#39; Roll Star</li>
-</ul>
-<p><strong>Blur</strong></p>
-<ul>
-<li>Song 2</li>
-<li>Girls &amp; Boys</li>
-<li>Parklife</li>
-<li>Country House</li>
-</ul>
-<p><strong>Pulp</strong></p>
-<ul>
-<li>Common People</li>
-<li>Disco 2000</li>
-<li>Mis-Shapes</li>
-</ul>
-<p><strong>Radiohead</strong></p>
-<ul>
-<li>Creep</li>
-<li>High and Dry</li>
-<li>Just</li>
-</ul>
-<p><strong>The Stone Roses</strong></p>
-<ul>
-<li>I Wanna Be Adored</li>
-<li>Waterfall</li>
-<li>Fools Gold</li>
-</ul>
-<p><strong>Happy Mondays</strong></p>
-<ul>
-<li>Step On</li>
-<li>Kinky Afro</li>
-</ul>
-<p><strong>Suede</strong></p>
-<ul>
-<li>Animal Nitrate</li>
-<li>Beautiful Ones</li>
-<li>Trash</li>
-</ul>
-<p><strong>The Verve</strong></p>
-<ul>
-<li>Bitter Sweet Symphony</li>
-<li>The Drugs Don&#39;t Work</li>
-</ul>
-<p><strong>Supergrass</strong></p>
-<ul>
-<li>Alright</li>
-<li>Richard III</li>
-</ul>
-<p><strong>Elastica</strong></p>
-<ul>
-<li>Connection</li>
-<li>Waking Up</li>
-</ul>
-<p><strong>Manic Street Preachers</strong></p>
-<ul>
-<li>A Design for Life</li>
-<li>If You Tolerate This Your Children Will Be Next</li>
-</ul>
-<p><strong>The Charlatans</strong></p>
-<ul>
-<li>The Only One I Know</li>
-<li>North Country Boy</li>
-</ul>
-<p><strong>Ocean Colour Scene</strong></p>
-<ul>
-<li>The Day We Caught the Train</li>
-<li>The Riverboat Song</li>
-</ul>
-<p><strong>Cast</strong></p>
-<ul>
-<li>Alright</li>
-<li>Walkaway</li>
-</ul>
-<p><strong>Shed Seven</strong></p>
-<ul>
-<li>Going for Gold</li>
-<li>Chasing Rainbows</li>
-</ul>
-<h2 id="nicht-zuordbar-zu-den-genres-25-artists-">Nicht zuordbar zu den Genres (25 Artists)</h2>
-<p><strong>Frank Zappa</strong></p>
-<ul>
-<li>Don&#39;t Eat the Yellow Snow</li>
-<li>Valley Girl</li>
-<li>Peaches en Regalia</li>
-<li>Montana</li>
-</ul>
-<p><strong>Captain Beefheart</strong></p>
-<ul>
-<li>Trout Mask Replica</li>
-<li>Safe as Milk</li>
-</ul>
-<p><strong>Tom Waits</strong></p>
-<ul>
-<li>Downtown Train</li>
-<li>Jersey Girl</li>
-<li>Time</li>
-</ul>
-<p><strong>Nick Cave and the Bad Seeds</strong></p>
-<ul>
-<li>Red Right Hand</li>
-<li>Into My Arms</li>
-<li>The Mercy Seat</li>
-</ul>
-<p><strong>The Velvet Underground</strong></p>
-<ul>
-<li>Sweet Jane</li>
-<li>Walk on the Wild Side</li>
-<li>I&#39;m Waiting for the Man</li>
-</ul>
-<p><strong>Lou Reed</strong></p>
-<ul>
-<li>Walk on the Wild Side</li>
-<li>Perfect Day</li>
-</ul>
-<p><strong>Iggy Pop</strong></p>
-<ul>
-<li>Lust for Life</li>
-<li>The Passenger</li>
-</ul>
-<p><strong>Big Brother and the Holding Company</strong></p>
-<ul>
-<li>Piece of My Heart</li>
-<li>Ball and Chain</li>
-</ul>
-<p><strong>Roxy Music</strong></p>
-<ul>
-<li>More Than This</li>
-<li>Avalon</li>
-</ul>
-<p><strong>Brian Eno</strong></p>
-<ul>
-<li>Here Come the Warm Jets</li>
-<li>Baby&#39;s on Fire</li>
-</ul>
-<p><strong>King Crimson</strong></p>
-<ul>
-<li>21st Century Schizoid Man</li>
-<li>Starless</li>
-</ul>
-<p><strong>The Residents</strong></p>
-<ul>
-<li>Constantinople</li>
-<li>Kaw-Liga</li>
-</ul>
-<p><strong>Laurie Anderson</strong></p>
-<ul>
-<li>O Superman</li>
-<li>Big Science</li>
-</ul>
-<p><strong>Talking Heads</strong></p>
-<ul>
-<li>Once in a Lifetime</li>
-<li>Burning Down the House</li>
-<li>Psycho Killer</li>
-</ul>
-<p><strong>Television</strong></p>
-<ul>
-<li>Marquee Moon</li>
-<li>See No Evil</li>
-</ul>
-<p><strong>Patti Smith</strong></p>
-<ul>
-<li>Because the Night</li>
-<li>Gloria</li>
-</ul>
-<p><strong>Can</strong></p>
-<ul>
-<li>Spoon</li>
-<li>Vitamin C</li>
-</ul>
-<p><strong>Neu!</strong></p>
-<ul>
-<li>Hallogallo</li>
-<li>Hero</li>
-</ul>
-<p><strong>Kraftwerk</strong></p>
-<ul>
-<li>Autobahn</li>
-<li>Computer World</li>
-</ul>
-<p><strong>Throbbing Gristle</strong></p>
-<ul>
-<li>20 Jazz Funk Greats</li>
-<li>Hamburger Lady</li>
-</ul>
-<p><strong>Cabaret Voltaire</strong></p>
-<ul>
-<li>Sensoria</li>
-<li>I Want You</li>
-</ul>
-<p><strong>Einstürzende Neubauten</strong></p>
-<ul>
-<li>Kollaps</li>
-<li>Halber Mensch</li>
-</ul>
-<p><strong>Suicide</strong></p>
-<ul>
-<li>Ghost Rider</li>
-<li>Rocket USA</li>
-</ul>
-<p><strong>Chrome</strong></p>
-<ul>
-<li>TV as Eyes</li>
-<li>Anti-Fade</li>
-</ul>
-<p><strong>Pere Ubu</strong></p>
-<ul>
-<li>30 Seconds Over Tokyo</li>
-<li>Final Solution</li>
-</ul>
-<hr>
-</body></html>
+    <script>
+        let musicData = [];
+        
+        function parseSongLine(line) {
+            line = line.trim();
+            if (!line) return null;
+            
+            // Suche nach dem ersten " - " als Trenner zwischen Artist und Song
+            const separatorIndex = line.indexOf(' - ');
+            if (separatorIndex === -1) return null;
+            
+            const artist = line.substring(0, separatorIndex).trim();
+            const song = line.substring(separatorIndex + 3).trim();
+            
+            if (!artist || !song) return null;
+            
+            return { artist, song };
+        }
+        
+        function importSongs() {
+            const songListText = document.getElementById('songList').value;
+            const lines = songListText.split('\n');
+            
+            musicData = [];
+            
+            lines.forEach(line => {
+                const parsed = parseSongLine(line);
+                if (parsed) {
+                    musicData.push({
+                        artist: parsed.artist,
+                        song: parsed.song,
+                        genre: '',
+                        rating: '',
+                        comment: ''
+                    });
+                }
+            });
+            
+            renderTable();
+            updateStats();
+            
+            // Textarea leeren
+            document.getElementById('songList').value = '';
+        }
+        
+        function loadSampleData() {
+            const sampleData = [
+                "Miles Davis - Kind of Blue",
+                "Miles Davis - So What",
+                "John Coltrane - Giant Steps",
+                "John Coltrane - A Love Supreme",
+                "Duke Ellington - Take Five",
+                "Duke Ellington - Caravan"
+            ];
+            
+            document.getElementById('songList').value = sampleData.join('\n');
+        }
+        
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            musicData.forEach((song, index) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${song.artist}</td>
+                    <td>${song.song}</td>
+                    <td><input type="text" value="${song.genre}" onchange="updateData(${index}, 'genre', this.value)"></td>
+                    <td><input type="text" class="rating-input" value="${song.rating}" onchange="updateData(${index}, 'rating', this.value)" placeholder="1-10"></td>
+                    <td><textarea onchange="updateData(${index}, 'comment', this.value)">${song.comment}</textarea></td>
+                `;
+            });
+        }
+        
+        function updateData(index, field, value) {
+            if (musicData[index]) {
+                musicData[index][field] = value;
+            }
+        }
+        
+        function filterTable() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+        
+        function updateStats() {
+            const total = musicData.length;
+            const rated = musicData.filter(song => song.rating).length;
+            document.getElementById('statsText').textContent = 
+                `${total} Songs geladen, ${rated} bewertet`;
+        }
+        
+        function exportData() {
+            const dataStr = JSON.stringify(musicData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'musik-bewertungen.json';
+            link.click();
+        }
+        
+        function saveDatabase() {
+            const database = {
+                version: "1.0",
+                created: new Date().toISOString(),
+                lastModified: new Date().toISOString(),
+                totalSongs: musicData.length,
+                ratedSongs: musicData.filter(song => song.rating).length,
+                songs: musicData.map((song, index) => ({
+                    id: index + 1,
+                    artist: song.artist,
+                    song: song.song,
+                    genre: song.genre || null,
+                    rating: song.rating ? parseInt(song.rating) : null,
+                    comment: song.comment || null,
+                    dateAdded: song.dateAdded || new Date().toISOString().split('T')[0]
+                }))
+            };
+            
+            const dataStr = JSON.stringify(database, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'music-database.json';
+            link.click();
+            
+            alert(`Datenbank gespeichert! ${database.totalSongs} Songs, ${database.ratedSongs} bewertet.`);
+        }
+        
+        function loadDatabase() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const database = JSON.parse(e.target.result);
+                        
+                        // Validierung der Datenbankstruktur
+                        if (!database.songs || !Array.isArray(database.songs)) {
+                            alert('Ungültiges Datenbankformat!');
+                            return;
+                        }
+                        
+                        // Daten laden
+                        musicData = database.songs.map(song => ({
+                            artist: song.artist || '',
+                            song: song.song || '',
+                            genre: song.genre || '',
+                            rating: song.rating ? song.rating.toString() : '',
+                            comment: song.comment || '',
+                            dateAdded: song.dateAdded || new Date().toISOString().split('T')[0]
+                        }));
+                        
+                        renderTable();
+                        updateStats();
+                        
+                        alert(`Datenbank geladen! ${database.totalSongs} Songs aus Version ${database.version || '1.0'}`);
+                    } catch (error) {
+                        alert('Fehler beim Laden der Datenbank: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        function autoSaveDatabase() {
+            // Automatisches Speichern alle 10 Minuten als Backup
+            if (musicData.length > 0) {
+                const database = {
+                    version: "1.0",
+                    created: new Date().toISOString(),
+                    lastModified: new Date().toISOString(),
+                    totalSongs: musicData.length,
+                    ratedSongs: musicData.filter(song => song.rating).length,
+                    songs: musicData.map((song, index) => ({
+                        id: index + 1,
+                        artist: song.artist,
+                        song: song.song,
+                        genre: song.genre || null,
+                        rating: song.rating ? parseInt(song.rating) : null,
+                        comment: song.comment || null,
+                        dateAdded: song.dateAdded || new Date().toISOString().split('T')[0]
+                    }))
+                };
+                
+                // Als Backup im localStorage speichern (falls verfügbar)
+                try {
+                    localStorage.setItem('musicDatabaseBackup', JSON.stringify(database));
+                } catch (error) {
+                    // Stilles Fehlschlagen
+                }
+            }
+        }
+        
+        // Event Listener für automatisches Speichern
+        setInterval(() => {
+            if (musicData.length > 0) {
+                try {
+                    saveToLocalStorage();
+                } catch (error) {
+                    // Stilles Fehlschlagen bei automatischem Speichern
+                }
+            }
+        }, 300000); // Alle 5 Minuten automatisch speichern
+    </script>
+</body>
+</html>
