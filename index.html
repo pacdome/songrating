@@ -1,222 +1,186 @@
-<<style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
-
-:root {
-    --bg-primary: #0a0a0b;
-    --bg-secondary: #1a1a1d;
-    --bg-tertiary: #2a2a2f;
-    --accent-cyan: #00f5ff;
-    --accent-purple: #a855f7;
-    --accent-green: #10b981;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --border-color: rgba(255, 255, 255, 0.1);
-    --glow: rgba(0, 245, 255, 0.3);
-}
-
-* {
-    box-sizing: border-box;
-}
-
+<style>
 body {
-    background: var(--bg-primary);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #c0c0c0;
+    font-family: "Times New Roman", serif;
+    font-size: 12pt;
     margin: 0;
-    padding: 2rem;
-    color: var(--text-primary);
-    line-height: 1.6;
-    min-height: 100vh;
-    background-image: 
-        radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(0, 245, 255, 0.05) 0%, transparent 50%);
+    padding: 0;
+    color: #000000;
+    background-image: url("data:image/gif;base64,R0lGODlhBAAEAIAAAP///wAAACH5BAEAAAAALAAAAAAEAAQAAAIEhI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvmMTqvX7Lb7DY/L5/S6/Y7P6/f8vv8PGCg4SFhoeIiYqLjI2Oj4CBkpOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ2tvc3d7f0NHi4+Tl5ufo6err7O3u7+Dh8vP09fb3+Pn6+/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCtavIgxo8aN");
+}
+
+table {
+    width: 100%;
+    border: 2px inset #c0c0c0;
+    background-color: #c0c0c0;
+    border-spacing: 0;
+    margin: 0;
+}
+
+td {
+    padding: 10px;
+    vertical-align: top;
+    background-color: #ffffff;
 }
 
 h1 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    font-weight: 700;
+    font-family: Arial, sans-serif;
+    font-size: 24pt;
+    font-weight: bold;
+    color: #800080;
     text-align: center;
-    margin: 0 0 3rem 0;
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    position: relative;
-    letter-spacing: -0.02em;
+    margin: 10px 0;
+    text-shadow: 2px 2px #c0c0c0;
 }
 
-h1::before {
-    content: '> ';
-    color: var(--accent-cyan);
-    -webkit-text-fill-color: var(--accent-cyan);
+h1::before, h1::after {
+    content: "♪ ";
+    color: #ff0000;
 }
 
-h1::after {
-    content: ' _';
-    color: var(--accent-cyan);
-    -webkit-text-fill-color: var(--accent-cyan);
-    animation: blink 1s infinite;
+h2 {
+    font-family: Arial, sans-serif;
+    font-size: 18pt;
+    font-weight: bold;
+    color: #000080;
+    margin: 15px 0 5px 0;
+    text-decoration: underline;
+    background-color: #ffff00;
+    padding: 5px;
+    border: 1px solid #000000;
 }
 
+h3 {
+    font-family: Arial, sans-serif;
+    font-size: 14pt;
+    font-weight: bold;
+    color: #008000;
+    margin: 10px 0 5px 0;
+    font-style: italic;
+}
+
+ul {
+    margin: 5px 0 15px 20px;
+    padding: 0;
+}
+
+li {
+    font-size: 12pt;
+    margin: 2px 0;
+    color: #000080;
+    list-style-image: url("data:image/gif;base64,R0lGODlhBwAHAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAcAAAIKjI+py+0Po5wUFQA7");
+}
+
+li:hover {
+    background-color: #ffff00;
+    cursor: hand;
+    text-decoration: underline;
+}
+
+/* Visitor Counter */
+body::before {
+    content: "Besucher: 001337 | Letzte Aktualisierung: 23.12.1999";
+    display: block;
+    text-align: center;
+    font-size: 10pt;
+    color: #800000;
+    background-color: #ffff00;
+    padding: 3px;
+    border: 1px solid #000000;
+    margin: 0;
+}
+
+/* Blinking text */
 @keyframes blink {
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
 }
 
-h2 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--accent-cyan);
-    margin: 3rem 0 1.5rem 0;
-    padding: 0.75rem 1.5rem;
-    background: rgba(0, 245, 255, 0.05);
-    border-left: 3px solid var(--accent-cyan);
-    border-radius: 0 8px 8px 0;
-    backdrop-filter: blur(10px);
-    position: relative;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.blink {
+    animation: blink 1s linear infinite;
 }
 
-h2::before {
-    content: '## ';
-    color: var(--accent-cyan);
-    opacity: 0.6;
+/* Marquee effect simulation */
+h1 {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Under construction gif placeholder */
+body::after {
+    content: "🚧 Under Construction 🚧";
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background-color: #ff0000;
+    color: #ffff00;
+    padding: 5px;
+    border: 2px solid #000000;
+    font-weight: bold;
+    font-size: 10pt;
+    animation: blink 2s linear infinite;
+}
+
+/* Netscape-style buttons */
+a {
+    color: #0000ff;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #800080;
+}
+
+a:hover {
+    background-color: #ffff00;
+    text-decoration: none;
+}
+
+/* Frame-like borders */
+h2 {
+    border: 2px inset #c0c0c0;
+    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
 }
 
 h3 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--accent-green);
-    margin: 2rem 0 1rem 0;
-    padding: 0.5rem 1rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    position: relative;
-    transition: all 0.3s ease;
+    border-left: 3px solid #008000;
+    padding-left: 10px;
+    background-color: #f0f0f0;
 }
 
-h3::before {
-    content: '├── ';
-    color: var(--accent-green);
-    margin-right: 0.5rem;
-}
-
-h3:hover {
-    background: var(--bg-tertiary);
-    border-color: var(--accent-green);
-    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
-    transform: translateX(4px);
-}
-
-ul {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0;
-    margin: 1rem 0 2rem 0;
-    list-style: none;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-}
-
-li {
-    padding: 0.875rem 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    position: relative;
-    transition: all 0.3s ease;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-}
-
-li::before {
-    content: '│   ';
-    color: var(--accent-green);
-    font-family: 'JetBrains Mono', monospace;
-    margin-right: 0.75rem;
-    opacity: 0.6;
-}
-
-li:last-child {
-    border-bottom: none;
-}
-
-li:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    padding-left: 2rem;
-    cursor: pointer;
-}
-
-li:hover::before {
-    content: '└── ▶ ';
-    color: var(--accent-cyan);
-    opacity: 1;
-}
-
-/* Terminal-style scrollbar */
+/* 90s scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 16px;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-primary);
+    background-color: #c0c0c0;
+    border: 1px inset #c0c0c0;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent-cyan);
-    border-radius: 4px;
+    background-color: #808080;
+    border: 1px outset #c0c0c0;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-purple);
+::-webkit-scrollbar-button {
+    background-color: #c0c0c0;
+    border: 1px outset #c0c0c0;
+    height: 16px;
 }
 
-/* Subtle animations */
-@media (prefers-reduced-motion: no-preference) {
-    h2, h3, ul {
-        animation: fadeInUp 0.6s ease-out;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+/* Comic Sans for that authentic 90s feel */
+body {
+    font-family: "Comic Sans MS", "Times New Roman", serif;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    body {
-        padding: 1rem;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    h2 {
-        font-size: 1.2rem;
-        padding: 0.5rem 1rem;
-    }
-    
-    h3 {
-        font-size: 1rem;
-    }
-    
-    li {
-        padding: 0.75rem 1rem;
-    }
+/* Web ring links */
+body {
+    border: 3px ridge #c0c0c0;
+    margin: 5px;
+    padding: 10px;
 }
+</style>
 </style>
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
