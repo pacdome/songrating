@@ -8,6 +8,18 @@ body {
     color: #000000;
 }
 
+/* Einfache Navigation */
+body::before {
+    content: "🏠 Startseite | 🔍 Durchsuchen | ℹ️ Info";
+    display: block;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #cccccc;
+    padding: 8px 20px;
+    font-size: 10px;
+    color: #4a90e2;
+    font-weight: bold;
+}
+
 /* Forum header für h1 */
 h1 {
     background: linear-gradient(to bottom, #4a90e2, #357abd);
@@ -25,29 +37,11 @@ h1::before {
 }
 
 h1::after {
-    content: " - Community Database v2.1";
+    content: " - Persönliche Sammlung";
     font-size: 12px;
     opacity: 0.9;
     display: block;
     margin-top: 3px;
-}
-
-/* Navigation bar simulieren */
-body::before {
-    content: "🏠 Hauptseite | 👥 Mitglieder | 🔍 Suchen | ❓ FAQ | 👤 Profil                                           Online: 42 | Gäste: 127";
-    display: block;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #cccccc;
-    padding: 8px 20px;
-    font-size: 10px;
-    color: #4a90e2;
-    font-weight: bold;
-    white-space: pre;
-}
-
-/* Container für Inhalt */
-h1 + * {
-    margin-top: 20px;
 }
 
 /* Genre als Forum-Kategorie */
@@ -67,19 +61,12 @@ h2::before {
     color: #4a90e2;
 }
 
-h2::after {
-    content: " FORUM";
-    font-size: 10px;
-    color: #666666;
-    margin-left: 10px;
-}
-
 h2:hover {
     background: linear-gradient(to bottom, #f0f8ff, #e0e8f0);
     cursor: pointer;
 }
 
-/* Künstler als Post-Header */
+/* Künstler als einfache Kategorie */
 h3 {
     background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
     padding: 8px 15px;
@@ -92,18 +79,10 @@ h3 {
 }
 
 h3::before {
-    content: "📝 ";
+    content: "🎤 ";
 }
 
-h3::after {
-    content: " Collection - gepostet von MusicLover2004 am " attr(data-date);
-    font-size: 10px;
-    color: #666666;
-    font-weight: normal;
-    margin-left: 10px;
-}
-
-/* Songs als Post-Body */
+/* Songs ohne automatische Bewertungen */
 ul {
     background-color: #ffffff;
     border: 1px solid #cccccc;
@@ -115,43 +94,33 @@ ul {
     line-height: 1.6;
 }
 
-ul::before {
-    content: "👤";
-    display: inline-block;
-    width: 32px;
-    height: 32px;
-    background-color: #cccccc;
-    border: 1px solid #999999;
-    margin-right: 10px;
-    vertical-align: top;
-    text-align: center;
-    line-height: 30px;
-}
-
 li {
     margin: 5px 0;
     color: #000000;
-    padding: 3px 0;
+    padding: 5px 0;
+    border-bottom: 1px dotted #eeeeee;
 }
 
 li::before {
-    content: "• ";
+    content: "♪ ";
     color: #4a90e2;
     font-weight: bold;
 }
 
-li::after {
-    content: " ⭐⭐⭐⭐";
-    font-size: 10px;
-    color: #ff6600;
-    margin-left: 5px;
-}
-
+/* Hover Effekt für Interaktivität */
 li:hover {
     background-color: #f0f8ff;
     cursor: pointer;
-    padding-left: 5px;
+    padding-left: 10px;
     border-left: 3px solid #4a90e2;
+    transition: all 0.2s ease;
+}
+
+li:hover::after {
+    content: " [Zur Playlist hinzufügen]";
+    font-size: 9px;
+    color: #666666;
+    font-style: italic;
 }
 
 /* Post hover Effekt */
@@ -159,9 +128,9 @@ ul:hover {
     border-color: #4a90e2;
 }
 
-/* Footer simulieren */
+/* Einfacher Footer */
 body::after {
-    content: "Powered by phpBB 2.0.23 | Impressum | Datenschutz | Kontakt\A© 2004 MusicBoard Community - Alle Zeiten sind GMT+1";
+    content: "Meine persönliche Musiksammlung | Zuletzt aktualisiert: Heute";
     display: block;
     background-color: #f0f0f0;
     border-top: 1px solid #cccccc;
@@ -169,14 +138,7 @@ body::after {
     font-size: 10px;
     color: #666666;
     text-align: center;
-    white-space: pre;
     margin-top: 30px;
-}
-
-/* Online indicator Animation */
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
 }
 
 /* Links im Forum-Style */
@@ -209,6 +171,7 @@ a:visited {
         display: none;
     }
 }
+</style>
 </style>
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
