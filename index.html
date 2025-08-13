@@ -1,97 +1,144 @@
-<style>
+<<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    --bg-primary: #0a0a0b;
+    --bg-secondary: #1a1a1d;
+    --bg-tertiary: #2a2a2f;
+    --accent-cyan: #00f5ff;
+    --accent-purple: #a855f7;
+    --accent-green: #10b981;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --glow: rgba(0, 245, 255, 0.3);
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    background: linear-gradient(45deg, #e6e6fa, #fff8dc, #f0f8ff);
-    font-family: "Times New Roman", serif;
+    background: var(--bg-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
-    padding: 20px;
-    color: #000080;
+    padding: 2rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
     background-image: 
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 2px, transparent 2px),
-        radial-gradient(circle at 80% 60%, rgba(255,255,255,0.2) 1px, transparent 1px);
-    background-size: 50px 50px, 30px 30px;
+        radial-gradient(circle at 25% 25%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 245, 255, 0.05) 0%, transparent 50%);
 }
 
 h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
     text-align: center;
-    font-size: 28px;
-    color: #8B0000;
-    text-shadow: 2px 2px 4px #cccccc;
-    background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
-    padding: 15px;
-    border: 3px solid #8B0000;
-    border-radius: 0;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 4px 4px 8px rgba(0,0,0,0.3);
-    font-weight: bold;
-    letter-spacing: 1px;
+    margin: 0 0 3rem 0;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    letter-spacing: -0.02em;
 }
 
 h1::before {
-    content: "🎵 ";
+    content: '> ';
+    color: var(--accent-cyan);
+    -webkit-text-fill-color: var(--accent-cyan);
 }
 
 h1::after {
-    content: " 🎵";
+    content: ' _';
+    color: var(--accent-cyan);
+    -webkit-text-fill-color: var(--accent-cyan);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
 }
 
 h2 {
-    background: linear-gradient(90deg, #4169E1, #6495ED);
-    color: white;
-    padding: 12px 20px;
-    font-size: 22px;
-    font-weight: bold;
-    text-shadow: 1px 1px 2px #000000;
-    border: 2px solid #000080;
-    margin: 30px 0 15px 0;
-    box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    margin: 3rem 0 1.5rem 0;
+    padding: 0.75rem 1.5rem;
+    background: rgba(0, 245, 255, 0.05);
+    border-left: 3px solid var(--accent-cyan);
+    border-radius: 0 8px 8px 0;
+    backdrop-filter: blur(10px);
+    position: relative;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 0.05em;
+}
+
+h2::before {
+    content: '## ';
+    color: var(--accent-cyan);
+    opacity: 0.6;
 }
 
 h3 {
-    background: linear-gradient(90deg, #32CD32, #98FB98);
-    color: #006400;
-    padding: 10px 15px;
-    font-size: 18px;
-    font-weight: bold;
-    border: 2px solid #228B22;
-    margin: 20px 0 10px 0;
-    box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    text-shadow: 1px 1px 1px rgba(255,255,255,0.7);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-green);
+    margin: 2rem 0 1rem 0;
+    padding: 0.5rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
 }
 
 h3::before {
-    content: "♪ ";
-    color: #8B0000;
+    content: '├── ';
+    color: var(--accent-green);
+    margin-right: 0.5rem;
+}
+
+h3:hover {
+    background: var(--bg-tertiary);
+    border-color: var(--accent-green);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.1);
+    transform: translateX(4px);
 }
 
 ul {
-    background: #F5F5DC;
-    border: 2px solid #DDD;
-    border-left: 6px solid #4169E1;
-    padding: 15px 20px;
-    margin: 10px 0 25px 0;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0;
+    margin: 1rem 0 2rem 0;
     list-style: none;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
 }
 
 li {
-    padding: 8px 0;
-    border-bottom: 1px dotted #999;
-    font-size: 16px;
-    color: #333;
+    padding: 0.875rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-secondary);
     position: relative;
-    padding-left: 25px;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
 }
 
 li::before {
-    content: "▶";
-    color: #8B0000;
-    font-weight: bold;
-    position: absolute;
-    left: 0;
-    top: 8px;
+    content: '│   ';
+    color: var(--accent-green);
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 0.75rem;
+    opacity: 0.6;
 }
 
 li:last-child {
@@ -99,56 +146,78 @@ li:last-child {
 }
 
 li:hover {
-    background: linear-gradient(90deg, rgba(255,255,0,0.3), rgba(255,215,0,0.3));
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    padding-left: 2rem;
     cursor: pointer;
-    transform: translateX(5px);
-    transition: all 0.3s ease;
 }
 
-/* Retro Scrollbar */
+li:hover::before {
+    content: '└── ▶ ';
+    color: var(--accent-cyan);
+    opacity: 1;
+}
+
+/* Terminal-style scrollbar */
 ::-webkit-scrollbar {
-    width: 16px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #C0C0C0;
-    border: 1px inset #C0C0C0;
+    background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, #808080, #A9A9A9);
-    border: 1px outset #808080;
+    background: var(--accent-cyan);
+    border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #696969;
+    background: var(--accent-purple);
 }
 
-/* Blinking animation for extra retro feel */
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+/* Subtle animations */
+@media (prefers-reduced-motion: no-preference) {
+    h2, h3, ul {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 }
 
-/* Add some retro borders */
-* {
-    box-sizing: border-box;
-}
-
-/* Container styling */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 8px ridge #C0C0C0;
-    pointer-events: none;
-    z-index: -1;
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    h3 {
+        font-size: 1rem;
+    }
+    
+    li {
+        padding: 0.75rem 1rem;
+    }
 }
 </style>
-
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
 <h3 id="miles-davis">Miles Davis</h3>
