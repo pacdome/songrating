@@ -1,187 +1,211 @@
-<style>
+   <style>
 body {
-    background-color: #c0c0c0;
-    font-family: "Times New Roman", serif;
-    font-size: 12pt;
+    background-color: #ffffff;
+    font-family: Tahoma, Arial, sans-serif;
+    font-size: 11px;
     margin: 0;
     padding: 0;
     color: #000000;
-    background-image: url("data:image/gif;base64,R0lGODlhBAAEAIAAAP///wAAACH5BAEAAAAALAAAAAAEAAQAAAIEhI+py+0Po5y02ouz3rz7D4biSJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvmMTqvX7Lb7DY/L5/S6/Y7P6/f8vv8PGCg4SFhoeIiYqLjI2Oj4CBkpOUlZaXmJmam5ydnp+QkaKjpKWmp6ipqqusra6voKGys7S1tre4ubq7vL2+v7CxwsPExcbHyMnKy8zNzs/AwdLT1NXW19jZ2tvc3d7f0NHi4+Tl5ufo6err7O3u7+Dh8vP09fb3+Pn6+/z9/v/w8woMCBBAsaPIgwocKFDBs6fAgxosSJFCtavIgxo8aN");
 }
 
-table {
-    width: 100%;
-    border: 2px inset #c0c0c0;
-    background-color: #c0c0c0;
-    border-spacing: 0;
+/* Forum header */
+.header {
+    background: linear-gradient(to bottom, #4a90e2, #357abd);
+    color: white;
+    padding: 8px 15px;
+    border-bottom: 2px solid #2a5490;
+}
+
+.header h1 {
+    font-size: 14px;
     margin: 0;
+    font-weight: bold;
 }
 
-td {
-    padding: 10px;
-    vertical-align: top;
+.header .tagline {
+    font-size: 10px;
+    opacity: 0.9;
+    margin-top: 2px;
+}
+
+/* Navigation bar */
+.navbar {
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #cccccc;
+    padding: 5px 15px;
+    font-size: 10px;
+}
+
+.navbar a {
+    color: #4a90e2;
+    text-decoration: none;
+    margin-right: 15px;
+    font-weight: bold;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.navbar .breadcrumb {
+    color: #666666;
+    float: right;
+}
+
+/* Main content */
+.container {
+    padding: 15px;
     background-color: #ffffff;
 }
 
-h1 {
-    font-family: Arial, sans-serif;
-    font-size: 24pt;
+/* Forum table style */
+.forum-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #cccccc;
+    margin-bottom: 20px;
+}
+
+.forum-header {
+    background: linear-gradient(to bottom, #e8e8e8, #d8d8d8);
+    color: #333333;
     font-weight: bold;
-    color: #800080;
+    padding: 8px 12px;
+    border-bottom: 1px solid #cccccc;
+    font-size: 12px;
+}
+
+.forum-category {
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #cccccc;
+}
+
+.forum-category td {
+    padding: 12px;
+    border-right: 1px solid #eeeeee;
+}
+
+.forum-title {
+    font-weight: bold;
+    font-size: 12px;
+    color: #4a90e2;
+}
+
+.forum-desc {
+    font-size: 10px;
+    color: #666666;
+    margin-top: 3px;
+}
+
+.forum-stats {
     text-align: center;
-    margin: 10px 0;
-    text-shadow: 2px 2px #c0c0c0;
+    font-size: 10px;
+    color: #666666;
+    width: 80px;
 }
 
-h1::before, h1::after {
-    content: "♪ ";
-    color: #ff0000;
+.forum-lastpost {
+    font-size: 10px;
+    color: #666666;
+    width: 150px;
 }
 
-h2 {
-    font-family: Arial, sans-serif;
-    font-size: 18pt;
+/* User info */
+.user-info {
+    background-color: #f0f8ff;
+    border: 1px solid #d0d8e8;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 10px;
+}
+
+.username {
+    color: #4a90e2;
     font-weight: bold;
-    color: #000080;
-    margin: 15px 0 5px 0;
-    text-decoration: underline;
-    background-color: #ffff00;
-    padding: 5px;
-    border: 1px solid #000000;
 }
 
-h3 {
-    font-family: Arial, sans-serif;
-    font-size: 14pt;
+.user-rank {
+    color: #ff6600;
+    font-size: 9px;
+}
+
+/* Posts/Songs as forum posts */
+.post {
+    border: 1px solid #cccccc;
+    margin-bottom: 10px;
+    background-color: #ffffff;
+}
+
+.post-header {
+    background: linear-gradient(to bottom, #f8f8f8, #e8e8e8);
+    padding: 5px 10px;
+    border-bottom: 1px solid #cccccc;
+    font-size: 10px;
+}
+
+.post-body {
+    padding: 10px;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.post-number {
+    color: #666666;
     font-weight: bold;
-    color: #008000;
-    margin: 10px 0 5px 0;
-    font-style: italic;
 }
 
-ul {
-    margin: 5px 0 15px 20px;
-    padding: 0;
-}
-
-li {
-    font-size: 12pt;
-    margin: 2px 0;
-    color: #000080;
-    list-style-image: url("data:image/gif;base64,R0lGODlhBwAHAIABAAAAAP///yH5BAEAAAEALAAAAAAHAAcAAAIKjI+py+0Po5wUFQA7");
-}
-
-li:hover {
-    background-color: #ffff00;
-    cursor: hand;
-    text-decoration: underline;
-}
-
-/* Visitor Counter */
-body::before {
-    content: "Besucher: 001337 | Letzte Aktualisierung: 23.12.1999";
-    display: block;
+/* Footer */
+.footer {
+    background-color: #f0f0f0;
+    border-top: 1px solid #cccccc;
+    padding: 10px 15px;
+    font-size: 10px;
+    color: #666666;
     text-align: center;
-    font-size: 10pt;
-    color: #800000;
-    background-color: #ffff00;
-    padding: 3px;
-    border: 1px solid #000000;
-    margin: 0;
 }
 
-/* Blinking text */
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-.blink {
-    animation: blink 1s linear infinite;
-}
-
-/* Marquee effect simulation */
-h1 {
-    position: relative;
-    overflow: hidden;
-}
-
-/* Under construction gif placeholder */
-body::after {
-    content: "🚧 Under Construction 🚧";
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    background-color: #ff0000;
-    color: #ffff00;
-    padding: 5px;
-    border: 2px solid #000000;
-    font-weight: bold;
-    font-size: 10pt;
-    animation: blink 2s linear infinite;
-}
-
-/* Netscape-style buttons */
-a {
-    color: #0000ff;
-    text-decoration: underline;
-}
-
-a:visited {
-    color: #800080;
-}
-
-a:hover {
-    background-color: #ffff00;
+.footer a {
+    color: #4a90e2;
     text-decoration: none;
 }
 
-/* Frame-like borders */
-h2 {
-    border: 2px inset #c0c0c0;
-    background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+.footer a:hover {
+    text-decoration: underline;
 }
 
-h3 {
-    border-left: 3px solid #008000;
-    padding-left: 10px;
-    background-color: #f0f0f0;
+/* Online indicator */
+.online {
+    color: #00aa00;
+    font-weight: bold;
+    animation: pulse 2s infinite;
 }
 
-/* 90s scrollbar */
-::-webkit-scrollbar {
-    width: 16px;
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 
-::-webkit-scrollbar-track {
-    background-color: #c0c0c0;
-    border: 1px inset #c0c0c0;
+/* Hover effects */
+.forum-category:hover {
+    background-color: #f0f8ff;
+    cursor: pointer;
 }
 
-::-webkit-scrollbar-thumb {
-    background-color: #808080;
-    border: 1px outset #c0c0c0;
+.post:hover {
+    border-color: #4a90e2;
 }
 
-::-webkit-scrollbar-button {
-    background-color: #c0c0c0;
-    border: 1px outset #c0c0c0;
-    height: 16px;
+/* Avatar placeholder */
+.avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #cccccc;
+    border: 1px solid #999999;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: top;
 }
-
-/* Comic Sans for that authentic 90s feel */
-body {
-    font-family: "Comic Sans MS", "Times New Roman", serif;
-}
-
-/* Web ring links */
-body {
-    border: 3px ridge #c0c0c0;
-    margin: 5px;
-    padding: 10px;
-}
-</style>
-</style>
+    </style>
 <h1 id="musiksammlung-nach-genres-und-k-nstlern">Musiksammlung nach Genres und Künstlern</h1>
 <h2 id="jazz">Jazz</h2>
 <h3 id="miles-davis">Miles Davis</h3>
