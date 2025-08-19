@@ -56,16 +56,12 @@
         
         .album-comment {
             font-size: 12px;
-            margin: 8px 0 2px 25px;
+            margin: 2px 0 2px 25px;
             font-style: italic;
             color: #666;
             display: none;
-            border-top: 1px solid #ddd;
-            padding-top: 6px;
-            word-wrap: break-word;
-            max-width: 50%;
         }
-
+        
         .album-comment.show {
             display: block;
         }
@@ -105,47 +101,67 @@
         @media (max-width: 768px) {
             body {
                 margin: 8px;
-                font-size: 13px;
+                font-size: 11px;
             }
             
             h1 {
-                font-size: 16px;
-                margin-bottom: 10px;
+                font-size: 14px;
+                margin-bottom: 8px;
             }
             
             h2 {
-                font-size: 14px;
-                padding: 8px 3px;
-            }
-            
-            h3 {
                 font-size: 12px;
-                margin-left: 8px;
                 padding: 6px 3px;
             }
             
+            h3 {
+                font-size: 10px;
+                margin-left: 8px;
+                padding: 4px 3px;
+            }
+            
+            .album-comment {
+                font-size: 10px;
+                max-width: 80%;
+            }
+            
             input[type="text"] {
-                font-size: 16px;
-                padding: 8px 10px;
+                font-size: 14px;
+                padding: 6px 8px;
             }
             
             .button-row {
-                flex-direction: column;
-                gap: 6px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 4px;
+                justify-content: flex-start;
             }
             
             .button-row button {
+                flex: 0 0 auto;
                 min-width: unset;
-                width: 100%;
+                width: auto;
                 margin: 0;
-                padding: 8px;
-                font-size: 12px;
-                min-height: 32px;
+                padding: 6px 8px;
+                font-size: 10px;
+                min-height: unset;
             }
             
             .controls {
-                padding: 10px 0;
-                margin: 10px 0;
+                padding: 8px 0;
+                margin: 8px 0;
+            }
+            
+            .legend {
+                bottom: 10px;
+                right: 10px;
+                font-size: 9px;
+                padding: 6px 8px;
+                margin-bottom: 120px;
+            }
+            
+            .legend .dark-mode-toggle {
+                font-size: 14px;
             }
         }
         
@@ -185,102 +201,10 @@
         .album-container {
             margin-bottom: 10px;
         }
-        .legend {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    font-size: 11px;
-    font-family: 'Courier New', monospace;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.legend div {
-    margin: 2px 0;
-}
-
-
-
-
-        /* Dark Mode Styles */
-body.dark-mode {
-    background: #1a1a1a;
-    color: #e0e0e0;
-}
-
-body.dark-mode h1 {
-    border-bottom-color: #555;
-}
-
-body.dark-mode h2:hover {
-    background: #333;
-}
-
-body.dark-mode .album-comment {
-    color: #aaa;
-    border-top-color: #444;
-}
-
-body.dark-mode input[type="text"] {
-    background: #333;
-    border-color: #555;
-    color: #e0e0e0;
-}
-
-body.dark-mode button {
-    background: #333;
-    border-color: #555;
-    color: #e0e0e0;
-}
-
-body.dark-mode button:hover {
-    background: #444;
-}
-
-body.dark-mode .controls {
-    border-top-color: #444;
-    border-bottom-color: #444;
-}
-
-body.dark-mode .legend {
-    background: rgba(26, 26, 26, 0.9);
-    border-color: #555;
-    color: #e0e0e0;
-}
-
-/* Dark Mode Toggle Button */
-
-/* Dark Mode Toggle Button */
-.dark-mode-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 1000;
-    padding: 5px;
-}
-
-.dark-mode-toggle:hover {
-    background: rgba(0,0,0,0.1);
-    border-radius: 3px;
-}
-
-body.dark-mode .dark-mode-toggle:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-
-
     </style>
 </head>
 <body>
     <h1>Meine Musikliste</h1>
-    <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeBtn">🌙 Dark</button>
     
     <div class="controls">
         <input type="text" id="searchInput" placeholder="Suche nach Albumname..." onkeyup="searchAlbums()">
@@ -294,164 +218,164 @@ body.dark-mode .dark-mode-toggle:hover {
     </div>
     
     <div id="albumList"></div>
-<script>
-let albums = [];
-let currentAlbums = [];
 
-// Lade Albums aus externer JSON-Datei
-async function loadAlbums() {
-    try {
-        const response = await fetch('albums.json');
-        albums = await response.json();
-        currentAlbums = [...albums];
-        displayAlbums();
-    } catch (error) {
-        console.error('Fehler beim Laden der Albums:', error);
-        // Fallback: leeres Array
-        albums = [];
-        currentAlbums = [];
-        displayAlbums();
-    }
-}
+    <script>
+        // Album-Daten - hier neue Alben hinzufügen
+        let albums = [
+            {
+                artist: "Third Eye Blind",
+                album: "Third Eye Blind",
+                year: 1997,
+                comment: "",
+                songs: [
+                    {name: "Losing a Whole Year", rating: 6.5, favorite: false, interlude: false},
+                    {name: "Narcolepsy", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Semi-Charmed Life", rating: 9.5, favorite: true, interlude: false},
+                    {name: "Jumper", rating: 9, favorite: false, interlude: false},
+                    {name: "Graduate", rating: 8, favorite: false, interlude: false},
+                    {name: "How's It Going to Be", rating: 8, favorite: false, interlude: false},
+                    {name: "Thanks a Lot", rating: 8.5, favorite: false, interlude: false},
+                    {name: "Burning Man", rating: 7, favorite: false, interlude: false},
+                    {name: "Good for You", rating: 7, favorite: false, interlude: false},
+                    {name: "London", rating: 6, favorite: false, interlude: false},
+                    {name: "I Want You", rating: 6.5, favorite: false, interlude: false},
+                    {name: "The Background", rating: 8, favorite: false, interlude: false},
+                    {name: "Motorcycle Drive By", rating: 7.5, favorite: false, interlude: false},
+                    {name: "God of Wine", rating: 7, favorite: false, interlude: false}
+                ]
+            },
+            {
+                artist: "Blur",
+                album: "Parklife",
+                year: 1994,
+                comment: "",
+                songs: [
+                    {name: "Girls & Boys", rating: 9, favorite: false, interlude: false},
+                    {name: "Tracy Jacks", rating: 7.5, favorite: false, interlude: false},
+                    {name: "End of  a Century", rating: 8, favorite: false, interlude: false},
+                    {name: "Parklife", rating: 10, favorite: true, interlude: false},
+                    {name: "Bank Holiday", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Badhead", rating: 7, favorite: false, interlude: false},
+                    {name: "The Debt Collector", rating: 6, favorite: false, interlude: false},
+                    {name: "Far Out", rating: 6, favorite: false, interlude: false},
+                    {name: "To the End", rating: 6.5, favorite: false, interlude: false},
+                    {name: "London Loves", rating: 8, favorite: false, interlude: false},
+                    {name: "Trouble in the Message Center", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Clover Over Dover", rating: 7, favorite: false, interlude: false},
+                    {name: "Magical America", rating: 6.5, favorite: false, interlude: false},
+                    {name: "Jubilee", rating: 7, favorite: false, interlude: false},
+                    {name: "This Is a Low", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Lot 105", rating: 6, favorite: false, interlude: false}
+                ]
+            }
+        ];
 
-function calculateAverageRating(songs) {
-    // Filtere Interludes aus der Bewertung heraus
-    const nonInterludeSongs = songs.filter(song => !song.interlude);
-    if (nonInterludeSongs.length === 0) return 0;
-    const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
-    return (sum / nonInterludeSongs.length).toFixed(1);
-}
+        let currentAlbums = [...albums];
 
-function getRatingClass(rating) {
-    if (rating >= 0 && rating < 3) return 'rating-0-3';
-    if (rating >= 3 && rating < 5) return 'rating-3-5';
-    if (rating >= 5 && rating < 7) return 'rating-5-7';
-    if (rating >= 7 && rating < 9.5) return 'rating-7-9-5';
-    if (rating >= 9.5) return 'rating-10';
-    return '';
-}
+        function calculateAverageRating(songs) {
+            // Filtere Interludes aus der Bewertung heraus
+            const nonInterludeSongs = songs.filter(song => !song.interlude);
+            if (nonInterludeSongs.length === 0) return 0;
+            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
+            return (sum / nonInterludeSongs.length).toFixed(1);
+        }
 
-function displayAlbums() {
-    const albumList = document.getElementById('albumList');
-    albumList.innerHTML = '';
+        function getRatingClass(rating) {
+            if (rating >= 0 && rating < 3) return 'rating-0-3';
+            if (rating >= 3 && rating < 5) return 'rating-3-5';
+            if (rating >= 5 && rating < 7) return 'rating-5-7';
+            if (rating >= 7 && rating < 9.5) return 'rating-7-9-5';
+            if (rating >= 9.5) return 'rating-10';
+            return '';
+        }
 
-    currentAlbums.forEach((album, albumIndex) => {
-        const avgRating = calculateAverageRating(album.songs);
-        const albumDiv = document.createElement('div');
-        albumDiv.className = 'album-container';
-        
-        albumDiv.innerHTML = `
-            <h2 onclick="toggleAlbum(${albumIndex})" id="album-${albumIndex}">
-                ${album.artist} - ${album.album} (${album.year}) (${avgRating}/10)
-            </h2>
-            ${album.songs.map((song, songIndex) => `
-                <h3 id="song-${albumIndex}-${songIndex}">
-                    ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' †' : ''}
-                </h3>
-            `).join('')}
-            ${album.comment ? `<div class="album-comment" id="comment-${albumIndex}">${album.comment}</div>` : ''}
-        `;
-        
-        albumList.appendChild(albumDiv);
-    });
-}
+        function displayAlbums() {
+            const albumList = document.getElementById('albumList');
+            albumList.innerHTML = '';
 
-function toggleAlbum(albumIndex) {
-    const albumHeader = document.getElementById(`album-${albumIndex}`);
-    const isExpanded = albumHeader.classList.contains('expanded');
-    
-    // Toggle der expanded Klasse für das Album-Header
-    albumHeader.classList.toggle('expanded');
-    
-    // Toggle der show Klasse für alle Songs des Albums
-    currentAlbums[albumIndex].songs.forEach((song, songIndex) => {
-        const songElement = document.getElementById(`song-${albumIndex}-${songIndex}`);
-        if (songElement) {
-            if (isExpanded) {
-                songElement.classList.remove('show');
-            } else {
-                songElement.classList.add('show');
+            currentAlbums.forEach((album, albumIndex) => {
+                const avgRating = calculateAverageRating(album.songs);
+                const albumDiv = document.createElement('div');
+                albumDiv.className = 'album-container';
+                
+                albumDiv.innerHTML = `
+                    <h2 onclick="toggleAlbum(${albumIndex})" id="album-${albumIndex}">
+                        ${album.artist} - ${album.album} (${album.year}) (${avgRating}/10)
+                    </h2>
+                    ${album.songs.map((song, songIndex) => `
+                        <h3 id="song-${albumIndex}-${songIndex}">
+                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' †' : ''}
+                        </h3>
+                    `).join('')}
+                    ${album.comment ? `<div class="album-comment" id="comment-${albumIndex}">${album.comment}</div>` : ''}
+                `;
+                
+                albumList.appendChild(albumDiv);
+            });
+        }
+
+        function toggleAlbum(albumIndex) {
+            const albumHeader = document.getElementById(`album-${albumIndex}`);
+            const isExpanded = albumHeader.classList.contains('expanded');
+            
+            // Toggle der expanded Klasse für das Album-Header
+            albumHeader.classList.toggle('expanded');
+            
+            // Toggle der show Klasse für alle Songs des Albums
+            currentAlbums[albumIndex].songs.forEach((song, songIndex) => {
+                const songElement = document.getElementById(`song-${albumIndex}-${songIndex}`);
+                if (songElement) {
+                    if (isExpanded) {
+                        songElement.classList.remove('show');
+                    } else {
+                        songElement.classList.add('show');
+                    }
+                }
+            });
+            
+            // Toggle der show Klasse für den Albumkommentar
+            const commentElement = document.getElementById(`comment-${albumIndex}`);
+            if (commentElement) {
+                if (isExpanded) {
+                    commentElement.classList.remove('show');
+                } else {
+                    commentElement.classList.add('show');
+                }
             }
         }
-    });
-    
-    // Toggle der show Klasse für den Albumkommentar
-    const commentElement = document.getElementById(`comment-${albumIndex}`);
-    if (commentElement) {
-        if (isExpanded) {
-            commentElement.classList.remove('show');
-        } else {
-            commentElement.classList.add('show');
+
+        function searchAlbums() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentAlbums = albums.filter(album => 
+                album.album.toLowerCase().includes(searchTerm)
+            );
+            displayAlbums();
         }
-    }
-}
 
-function searchAlbums() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    currentAlbums = albums.filter(album => 
-        album.album.toLowerCase().includes(searchTerm)
-    );
-    displayAlbums();
-}
-
-function sortBy(criteria) {
-    currentAlbums.sort((a, b) => {
-        switch(criteria) {
-            case 'artist':
-                return a.artist.localeCompare(b.artist);
-            case 'album':
-                return a.album.localeCompare(b.album);
-            case 'year':
-                return a.year - b.year;
-            case 'rating':
-                const avgA = calculateAverageRating(a.songs);
-                const avgB = calculateAverageRating(b.songs);
-                return avgB - avgA; // Höchste Bewertung zuerst
-            default:
-                return 0;
+        function sortBy(criteria) {
+            currentAlbums.sort((a, b) => {
+                switch(criteria) {
+                    case 'artist':
+                        return a.artist.localeCompare(b.artist);
+                    case 'album':
+                        return a.album.localeCompare(b.album);
+                    case 'year':
+                        return a.year - b.year;
+                    case 'rating':
+                        const avgA = calculateAverageRating(a.songs);
+                        const avgB = calculateAverageRating(b.songs);
+                        return avgB - avgA; // Höchste Bewertung zuerst
+                    default:
+                        return 0;
+                }
+            });
+            displayAlbums();
         }
-    });
-    displayAlbums();
-}
 
-// Dark Mode Funktionalität
-function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDarkMode = document.body.classList.contains('dark-mode');
-    const btn = document.getElementById('darkModeBtn');
+        // Beim Laden der Seite alle Alben anzeigen
+        displayAlbums();
+
     
-    if (isDarkMode) {
-        btn.textContent = '☀️';
-        localStorage.setItem('darkMode', 'enabled');
-    } else {
-        btn.textContent = '🌙';
-        localStorage.setItem('darkMode', 'disabled');
-    }
-}
-
-
-// Dark Mode beim Laden der Seite anwenden falls gespeichert
-function initDarkMode() {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
-        document.body.classList.add('dark-mode');
-        document.getElementById('darkModeBtn').textContent = '☀️';
-    }
-}
-
-// Dark Mode initialisieren wenn DOM geladen ist
-document.addEventListener('DOMContentLoaded', initDarkMode);
-    
-// Beim Laden der Seite Albums laden und anzeigen
-// Beim Laden der Seite Albums laden, Dark Mode initialisieren und anzeigen
-document.addEventListener('DOMContentLoaded', () => {
-    initDarkMode();
-    loadAlbums();
-});
-</script>
-    <div class="legend">
-    <div>★ = Lieblingssong</div>
-    <div>▸ = Interlude</div>
-</div>
+    </script>
 </body>
 </html>
