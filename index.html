@@ -185,6 +185,21 @@
         .album-container {
             margin-bottom: 10px;
         }
+        .legend {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-size: 11px;
+    font-family: 'Courier New', monospace;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.legend div {
+    margin: 2px 0;
+}
     </style>
 </head>
 <body>
@@ -403,5 +418,9 @@
         - Albumkommentar erscheint nach der Songliste wenn vorhanden
         */
     </script>
+    <div class="legend">
+    <div>★ = Lieblingssong</div>
+    <div>† = Interlude</div>
+</div>
 </body>
 </html>
