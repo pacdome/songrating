@@ -92,33 +92,32 @@
         // Album-Daten - hier neue Alben hinzufügen
         let albums = [
             {
-                artist: "The Beatles",
-                album: "Abbey Road",
-                year: 1969,
-                songs: [
-                    {name: "Come Together", rating: 9, comment: "Klassiker mit tollem Bass", favorite: false},
-                    {name: "Something", rating: 10, comment: "Wunderschöne Ballade", favorite: true},
-                    {name: "Here Comes The Sun", rating: 9, comment: "", favorite: false}
-                ]
-            },
-            {
-                artist: "Pink Floyd",
-                album: "The Wall",
-                year: 1979,
-                songs: [
-                    {name: "Another Brick In The Wall", rating: 8, comment: "Societäts-Kritik", favorite: false},
-                    {name: "Comfortably Numb", rating: 10, comment: "Episches Gitarrensolo", favorite: true},
-                    {name: "Hey You", rating: 7, comment: "", favorite: false}
-                ]
-            },
-            {
-                artist: "Radiohead",
-                album: "OK Computer",
+                artist: "Third Eye Blind",
+                album: "Third Eye Blind",
                 year: 1997,
                 songs: [
-                    {name: "Paranoid Android", rating: 9, comment: "Komplex und brillant", favorite: true},
-                    {name: "Karma Police", rating: 8, comment: "Eingängiger Hit", favorite: false},
-                    {name: "No Surprises", rating: 7, comment: "Melancholisch schön", favorite: false}
+                    {name: "Losing a Whole Year", rating: 6.5, comment: "", favorite: false},
+                    {name: "Narcolepsy", rating: 7.5, comment: "", favorite: false},
+                    {name: "Semi-Charmed Life", rating: 9.5, comment: "", favorite: true},
+                    {name: "Jumper", rating: 9, comment: "", favorite: false},
+                    {name: "Graduate", rating: 8, comment: "", favorite: false},
+                    {name: "How's It Going to Be", rating: 8, comment: "", favorite: false},
+                    {name: "Thanks a Lot", rating: 8.5, comment: "", favorite: false},
+                    {name: "Burning Man", rating: 7, comment: "", favorite: false},
+                    {name: "Good for You", rating: 7, comment: "", favorite: false},
+                    {name: "London", rating: 6, comment: "", favorite: false},
+                    {name: "I Want You", rating: 6.5, comment: "", favorite: false},
+                    {name: "The Background", rating: 8, comment: "", favorite: false},
+                    {name: "Motorcycle Drive By", rating: 7.5, comment: "", favorite: false},
+                    {name: "God of Wine", rating: 7, comment: "", favorite: false}
+                ]
+            },
+            {
+                artist: "",
+                album: "X",
+                year: 1999,
+                songs: [
+                    {name: "X", rating: 6.5, comment: "", favorite: false},
                 ]
             }
         ];
@@ -140,13 +139,12 @@
                 const albumDiv = document.createElement('div');
                 
                 albumDiv.innerHTML = `
-                    <h2>${album.artist} - ${album.album} (${album.year}) (Bewertung: ${avgRating}/10)</h2>
+                    <h2>${album.artist} - ${album.album} (${album.year}) (${avgRating}/10)</h2>
                     ${album.songs.map((song, songIndex) => `
-                        <h3 onclick="toggleFavorite(${albumIndex}, ${songIndex})" style="cursor: pointer;">
-                            ${song.name} | ${song.rating}/10${song.comment ? ` | <p>${song.comment}</p>` : ''}${song.favorite ? ' ★' : ''}
+                        <h3 onclick="toggleFavorite(${albumIndex}, ${songIndex})">
+                            ${song.name} | ${song.rating}/10${song.comment ? ` | ${song.comment}` : ''}${song.favorite ? ' ★' : ''}
                         </h3>
                     `).join('')}
-                    <br>
                 `;
                 
                 albumList.appendChild(albumDiv);
