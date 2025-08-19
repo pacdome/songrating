@@ -54,6 +54,18 @@
             display: block;
         }
         
+        .album-comment {
+            font-size: 12px;
+            margin: 2px 0 2px 25px;
+            font-style: italic;
+            color: #666;
+            display: none;
+        }
+        
+        .album-comment.show {
+            display: block;
+        }
+        
         .rating-0-3 {
             color: #c66;
         }
@@ -194,45 +206,46 @@
                 artist: "Third Eye Blind",
                 album: "Third Eye Blind",
                 year: 1997,
+                comment: "Eines meiner liebsten selftilted Debut-Alben & vllt einer der besten A Seiten auf einem Album, leider aber auch eine bei der die B Seite nicht mithalten kann. ",
                 songs: [
-                    {name: "Losing a Whole Year", rating: 6.5, comment: "", favorite: false},
-                    {name: "Narcolepsy", rating: 7.5, comment: "", favorite: false},
-                    {name: "Semi-Charmed Life", rating: 9.5, comment: "", favorite: true},
-                    {name: "Jumper", rating: 9, comment: "", favorite: false},
-                    {name: "Graduate", rating: 8, comment: "", favorite: false},
-                    {name: "How's It Going to Be", rating: 8, comment: "", favorite: false},
-                    {name: "Thanks a Lot", rating: 8.5, comment: "", favorite: false},
-                    {name: "Burning Man", rating: 7, comment: "", favorite: false},
-                    {name: "Good for You", rating: 7, comment: "", favorite: false},
-                    {name: "London", rating: 6, comment: "", favorite: false},
-                    {name: "I Want You", rating: 6.5, comment: "", favorite: false},
-                    {name: "The Background", rating: 8, comment: "", favorite: false},
-                    {name: "Motorcycle Drive By", rating: 7.5, comment: "", favorite: false},
-                    {name: "God of Wine", rating: 7, comment: "", favorite: false}
+                    {name: "Losing a Whole Year", rating: 6.5, favorite: false, interlude: false},
+                    {name: "Narcolepsy", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Semi-Charmed Life", rating: 10, favorite: true, interlude: false},
+                    {name: "Jumper", rating: 9, favorite: false, interlude: false},
+                    {name: "Graduate", rating: 8, favorite: false, interlude: false},
+                    {name: "How's It Going to Be", rating: 8, favorite: false, interlude: false},
+                    {name: "Thanks a Lot", rating: 8.5, favorite: false, interlude: false},
+                    {name: "Burning Man", rating: 7, favorite: false, interlude: false},
+                    {name: "Good for You", rating: 7, favorite: false, interlude: false},
+                    {name: "London", rating: 6.5, favorite: false, interlude: false},
+                    {name: "I Want You", rating: 6.5, favorite: false, interlude: false},
+                    {name: "The Background", rating: 8, favorite: false, interlude: false},
+                    {name: "Motorcycle Drive By", rating: 7.5, favorite: false, interlude: false},
+                    {name: "God of Wine", rating: 7, favorite: false, interlude: false}
                 ]
             },
             {
                 artist: "Blur",
                 album: "Parklife",
                 year: 1994,
+                comment: "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk ",
                 songs: [
-                    {name: "Girls & Boys", rating: 9, comment: "", favorite: false},
-                    {name: "Tracy Jacks", rating: 7.5, comment: "", favorite: false},
-                    {name: "End of  a Century", rating: 8, comment: "", favorite: false},
-                    {name: "Parklife", rating: 10, comment: "", favorite: true},
-                    {name: "Bank Holiday", rating: 7.5, comment: "", favorite: false},
-                    {name: "Badhead", rating: 7, comment: "", favorite: false},
-                    {name: "The Debt Collector", rating: 6, comment: "", favorite: false},
-                    {name: "Far Out", rating: 6, comment: "", favorite: false},
-                    {name: "To the End", rating: 6.5, comment: "", favorite: false},
-                    {name: "London Loves", rating: 8, comment: "", favorite: false},
-                    {name: "Trouble in the Message Center", rating: 7.5, comment: "", favorite: false},
-                    {name: "Clover Over Dover", rating: 7, comment: "starker Name", favorite: false},
-                    {name: "Magical America", rating: 6.5, comment: "", favorite: false},
-                    {name: "Jubilee", rating: 7, comment: "", favorite: false},
-                    {name: "This Is a Low", rating: 7.5, comment: "", favorite: false},
-                    {name: "Lot 105", rating: 6, comment: "Passendes Ende", favorite: false}
-
+                    {name: "Girls & Boys", rating: 9, favorite: false, interlude: false},
+                    {name: "Tracy Jacks", rating: 7.5, favorite: false, interlude: false},
+                    {name: "End of  a Century", rating: 8, favorite: false, interlude: false},
+                    {name: "Parklife", rating: 10, favorite: true, interlude: false},
+                    {name: "Bank Holiday", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Badhead", rating: 7, favorite: false, interlude: false},
+                    {name: "The Debt Collector", rating: 6, favorite: false, interlude: true},
+                    {name: "Far Out", rating: 6, favorite: false, interlude: true},
+                    {name: "To the End", rating: 6.5, favorite: false, interlude: false},
+                    {name: "London Loves", rating: 8, favorite: false, interlude: false},
+                    {name: "Trouble in the Message Center", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Clover Over Dover", rating: 7, favorite: false, interlude: false},
+                    {name: "Magical America", rating: 6.5, favorite: false, interlude: false},
+                    {name: "Jubilee", rating: 7, favorite: false, interlude: false},
+                    {name: "This Is a Low", rating: 7.5, favorite: false, interlude: false},
+                    {name: "Lot 105", rating: 6, favorite: false, interlude: true}
                 ]
             }
         ];
@@ -240,9 +253,11 @@
         let currentAlbums = [...albums];
 
         function calculateAverageRating(songs) {
-            if (songs.length === 0) return 0;
-            const sum = songs.reduce((acc, song) => acc + song.rating, 0);
-            return (sum / songs.length).toFixed(1);
+            // Filtere Interludes aus der Bewertung heraus
+            const nonInterludeSongs = songs.filter(song => !song.interlude);
+            if (nonInterludeSongs.length === 0) return 0;
+            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
+            return (sum / nonInterludeSongs.length).toFixed(1);
         }
 
         function getRatingClass(rating) {
@@ -269,9 +284,10 @@
                     </h2>
                     ${album.songs.map((song, songIndex) => `
                         <h3 id="song-${albumIndex}-${songIndex}">
-                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.comment ? ` | ${song.comment}` : ''}${song.favorite ? ' ★' : ''}
+                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' †' : ''}
                         </h3>
                     `).join('')}
+                    ${album.comment ? `<div class="album-comment" id="comment-${albumIndex}">${album.comment}</div>` : ''}
                 `;
                 
                 albumList.appendChild(albumDiv);
@@ -296,6 +312,16 @@
                     }
                 }
             });
+            
+            // Toggle der show Klasse für den Albumkommentar
+            const commentElement = document.getElementById(`comment-${albumIndex}`);
+            if (commentElement) {
+                if (isExpanded) {
+                    commentElement.classList.remove('show');
+                } else {
+                    commentElement.classList.add('show');
+                }
+            }
         }
 
         function searchAlbums() {
@@ -338,10 +364,11 @@
             artist: "KÜNSTLERNAME",
             album: "ALBUMNAME",
             year: JAHR,
+            comment: "ALBUM GESAMTKOMMENTAR (OPTIONAL)",
             songs: [
-                {name: "SONGNAME1", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR", favorite: false},
-                {name: "SONGNAME2", rating: BEWERTUNG_1_BIS_10, comment: "", favorite: true},
-                {name: "SONGNAME3", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR", favorite: false}
+                {name: "SONGNAME1", rating: BEWERTUNG_1_BIS_10, favorite: false, interlude: false},
+                {name: "SONGNAME2", rating: BEWERTUNG_1_BIS_10, favorite: true, interlude: false},
+                {name: "SONGNAME3", rating: BEWERTUNG_1_BIS_10, favorite: false, interlude: true}
             ]
         },
         
@@ -350,20 +377,26 @@
             artist: "Led Zeppelin",
             album: "Led Zeppelin IV",
             year: 1971,
+            comment: "Ein zeitloses Meisterwerk des Rock",
             songs: [
-                {name: "Black Dog", rating: 8, comment: "Grooviger Opener", favorite: false},
-                {name: "Rock and Roll", rating: 7, comment: "", favorite: false},
-                {name: "Stairway to Heaven", rating: 10, comment: "Das Meisterwerk", favorite: true}
+                {name: "Black Dog", rating: 8, favorite: false, interlude: false},
+                {name: "Rock and Roll", rating: 7, favorite: false, interlude: false},
+                {name: "Stairway to Heaven", rating: 10, favorite: true, interlude: false},
+                {name: "Instrumental Break", rating: 6, favorite: false, interlude: true}
             ]
         },
         
-        STERNE (NUR ÜBER MANUELLE EINGABE):
+        SYMBOLE (NUR ÜBER MANUELLE EINGABE):
         - favorite: true = ausgefüllter Stern ★ (Lieblingssong)
         - favorite: false = kein Stern
+        - interlude: true = Kreuz † (Interlude - wird nicht in Albumbewertung einbezogen)
+        - interlude: false = kein Kreuz
         
         BEDIENUNG:
         - Klick auf Albumname um Songs ein-/auszuklappen
         - Pfeil zeigt an ob Album ausgeklappt (▼) oder eingeklappt (▶) ist
+        - Interludes werden automatisch aus der Durchschnittsbewertung des Albums ausgeschlossen
+        - Albumkommentar erscheint nach der Songliste wenn vorhanden
         */
     </script>
 </body>
