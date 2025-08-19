@@ -63,7 +63,7 @@
             {"name": "Shoot You Down", "rating": 8, "favorite": false, "interlude": false},
             {"name": "this Is the One", "rating": 8.5, "favorite": false, "interlude": false},
             {"name": "I Am the Resurrection", "rating": 9.5, "favorite": false, "interlude": false},
-            {"name": "Fools Gold", "rating": 9.5, "favorite": true, "interlude": false},
+            {"name": "Fools Gold", "rating": 9.5, "favorite": true, "interlude": false}
  
         ]
     }
