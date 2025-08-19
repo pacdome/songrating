@@ -44,5 +44,27 @@
             {"name": "This Is a Low", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Lot 105", "rating": 6, "favorite": false, "interlude": true}
         ]
+    },
+    {
+        "artist": "The Stone Roses",
+        "album": "The Stone Roses",
+        "year": 1989,
+        "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses Album.",
+        "songs": [
+
+            {"name": "I Wanna Be Adored", "rating": 10, "favorite": false, "interlude": false},
+            {"name": "She Bangs the Drums", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Waterfall", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Waterfall", "rating": 5, "favorite": false, "interlude": true},
+            {"name": "Bye Bye Bad Man", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Elizabeth My Dear", "rating": 5, "favorite": false, "interlude": true},
+            {"name": "(Song for My) Sugur Spun Sister", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Made of Stone", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Shoot You Down", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "this Is the One", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "I Am the Resurrection", "rating": 9.5, "favorite": false, "interlude": false},
+            {"name": "Fools Gold", "rating": 9.5, "favorite": true, "interlude": false},
+ 
+        ]
     }
 ]
