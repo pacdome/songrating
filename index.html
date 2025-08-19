@@ -200,10 +200,89 @@
 .legend div {
     margin: 2px 0;
 }
+
+
+
+
+        /* Dark Mode Styles */
+body.dark-mode {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body.dark-mode h1 {
+    border-bottom-color: #555;
+}
+
+body.dark-mode h2:hover {
+    background: #333;
+}
+
+body.dark-mode .album-comment {
+    color: #aaa;
+    border-top-color: #444;
+}
+
+body.dark-mode input[type="text"] {
+    background: #333;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode button {
+    background: #333;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode button:hover {
+    background: #444;
+}
+
+body.dark-mode .controls {
+    border-top-color: #444;
+    border-bottom-color: #444;
+}
+
+body.dark-mode .legend {
+    background: rgba(26, 26, 26, 0.9);
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #f8f8f8;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    border-radius: 3px;
+    z-index: 1000;
+}
+
+.dark-mode-toggle:hover {
+    background: #e0e0e0;
+}
+
+body.dark-mode .dark-mode-toggle {
+    background: #333;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    background: #444;
+}
     </style>
 </head>
 <body>
     <h1>Meine Musikliste</h1>
+    <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeBtn">🌙 Dark</button>
     
     <div class="controls">
         <input type="text" id="searchInput" placeholder="Suche nach Albumname..." onkeyup="searchAlbums()">
@@ -337,8 +416,39 @@ function sortBy(criteria) {
     displayAlbums();
 }
 
+// Dark Mode Funktionalität
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    const btn = document.getElementById('darkModeBtn');
+    
+    if (isDarkMode) {
+        btn.textContent = '☀️ Light';
+        localStorage.setItem('darkMode', 'enabled');
+    } else {
+        btn.textContent = '🌙 Dark';
+        localStorage.setItem('darkMode', 'disabled');
+    }
+}
+
+// Dark Mode beim Laden der Seite anwenden falls gespeichert
+function initDarkMode() {
+    const darkMode = localStorage.getItem('darkMode');
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        document.getElementById('darkModeBtn').textContent = '☀️ Light';
+    }
+}
+
+// Dark Mode initialisieren wenn DOM geladen ist
+document.addEventListener('DOMContentLoaded', initDarkMode);
+    
 // Beim Laden der Seite Albums laden und anzeigen
-loadAlbums();
+// Beim Laden der Seite Albums laden, Dark Mode initialisieren und anzeigen
+document.addEventListener('DOMContentLoaded', () => {
+    initDarkMode();
+    loadAlbums();
+});
 </script>
     <div class="legend">
     <div>★ = Lieblingssong</div>
