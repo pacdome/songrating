@@ -340,8 +340,8 @@
             if (rating >= 0 && rating < 3) return 'rating-0-3';
             if (rating >= 3 && rating < 5) return 'rating-3-5';
             if (rating >= 5 && rating < 7) return 'rating-5-7';
-            if (rating >= 7 && rating < 9.5) return 'rating-7-9-5';
-            if (rating >= 9.5) return 'rating-10';
+            if (rating >= 7 && rating <= 9.5) return 'rating-7-9-5';
+            if (rating > 9.5) return 'rating-10';
             return '';
         }
 
@@ -360,7 +360,7 @@
                     </h2>
                     ${album.songs.map((song, songIndex) => `
                         <h3 id="song-${albumIndex}-${songIndex}">
-                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' †' : ''}
+                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' i' : ''}
                         </h3>
                     `).join('')}
                     ${album.comment ? `<div class="album-comment" id="comment-${albumIndex}">${album.comment}</div>` : ''}
@@ -505,7 +505,7 @@
     
     <div class="legend">
         <div>★ = Lieblingssong</div>
-        <div>† = Interlude</div>
+        <div>i = Interlude</div>
         <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeBtn">🌙</button>
     </div>
 </body>
