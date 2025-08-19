@@ -53,6 +53,21 @@
             font-style: italic;
         }
         
+        .star {
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: 5px;
+            user-select: none;
+        }
+        
+        .star.filled {
+            color: black;
+        }
+        
+        .star.empty {
+            display: none
+        }
+        
         .controls {
             margin: 20px 0;
             padding: 10px 0;
@@ -82,12 +97,14 @@
         let albums = [
             {
                 artist: "Third Eye Blind",
-                album: "Third Eye Blind",
+                album: "Ahird Eye Blind",
                 year: 1997,
                 songs: [
-                    {name: "Losing a Whole Year", rating: 6.5, comment: "Klassiker mit tollem Bass"},
-                    {name: "Narcolepsy", rating: 7.5, comment: "Wunderschöne Ballade"},
-                    {name: "Semi-Charmed Life", rating: 9.5, comment: ""}
+                    {name: "Losing a Whole Year", rating: 6.5, comment: "", favorite: false},
+                    {name: "Narcolepsy", rating: 7.5, comment: "", favorite: false},
+                    {name: "Semi-Charmed Life", rating: 9.5, comment: "", favorite: true},
+                    {name: "Jumper", rating: 9, comment: "", favorite: false},
+                    {name: "Graduate", rating: 8, comment: "", favorite: false}
                 ]
             }
         ];
@@ -104,14 +121,16 @@
             const albumList = document.getElementById('albumList');
             albumList.innerHTML = '';
 
-            currentAlbums.forEach(album => {
+            currentAlbums.forEach((album, albumIndex) => {
                 const avgRating = calculateAverageRating(album.songs);
                 const albumDiv = document.createElement('div');
                 
                 albumDiv.innerHTML = `
                     <h2>${album.artist} - ${album.album} (${album.year}) (Bewertung: ${avgRating}/10)</h2>
-                    ${album.songs.map(song => `
-                        <h3>${song.name} | ${song.rating}/10 ${song.comment ? `| <p>${song.comment}</p>` : ''}</h3>
+                    ${album.songs.map((song, songIndex) => `
+                        <h3>
+                            ${song.name} | ${song.rating}/10 ${song.comment ? `| <p>${song.comment}</p>` : ''}${song.favorite ? ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">★</span>` : ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">☆</span>`}
+                        </h3>
                     `).join('')}
                     <br>
                 `;
@@ -148,6 +167,20 @@
             displayAlbums();
         }
 
+        function toggleFavorite(albumIndex, songIndex) {
+            // Finde das Original-Album in der albums Array
+            const originalAlbumIndex = albums.findIndex(album => 
+                album.artist === currentAlbums[albumIndex].artist && 
+                album.album === currentAlbums[albumIndex].album
+            );
+            
+            // Toggle favorite status
+            albums[originalAlbumIndex].songs[songIndex].favorite = !albums[originalAlbumIndex].songs[songIndex].favorite;
+            currentAlbums[albumIndex].songs[songIndex].favorite = albums[originalAlbumIndex].songs[songIndex].favorite;
+            
+            displayAlbums();
+        }
+
         // Beim Laden der Seite alle Alben anzeigen
         displayAlbums();
 
@@ -161,9 +194,9 @@
             album: "ALBUMNAME",
             year: JAHR,
             songs: [
-                {name: "SONGNAME1", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR"},
-                {name: "SONGNAME2", rating: BEWERTUNG_1_BIS_10, comment: ""},
-                {name: "SONGNAME3", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR"}
+                {name: "SONGNAME1", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR", favorite: false},
+                {name: "SONGNAME2", rating: BEWERTUNG_1_BIS_10, comment: "", favorite: true},
+                {name: "SONGNAME3", rating: BEWERTUNG_1_BIS_10, comment: "OPTIONAL KOMMENTAR", favorite: false}
             ]
         },
         
@@ -173,11 +206,16 @@
             album: "Led Zeppelin IV",
             year: 1971,
             songs: [
-                {name: "Black Dog", rating: 8, comment: "Grooviger Opener"},
-                {name: "Rock and Roll", rating: 7, comment: ""},
-                {name: "Stairway to Heaven", rating: 10, comment: "Das Meisterwerk"}
+                {name: "Black Dog", rating: 8, comment: "Grooviger Opener", favorite: false},
+                {name: "Rock and Roll", rating: 7, comment: "", favorite: false},
+                {name: "Stairway to Heaven", rating: 10, comment: "Das Meisterwerk", favorite: true}
             ]
         },
+        
+        STERNE:
+        - favorite: true = ausgefüllter Stern ★ (Lieblingssong)
+        - favorite: false = leerer Stern ☆
+        - Klick auf Stern um zwischen Favorit und Normal zu wechseln
         */
     </script>
 </body>
