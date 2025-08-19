@@ -25,17 +25,33 @@
             font-size: 14px;
             margin: 15px 0 5px 0;
             font-weight: bold;
+            cursor: pointer;
+            padding: 3px;
+        }
+        
+        h2:hover {
+            background: #f0f0f0;
+        }
+        
+        h2::before {
+            content: "▶ ";
+            font-size: 10px;
+            margin-right: 5px;
+        }
+        
+        h2.expanded::before {
+            content: "▼ ";
         }
         
         h3 {
             font-size: 12px;
-            margin: 2px 0 2px 15px;
+            margin: 2px 0 2px 25px;
             font-weight: normal;
-            cursor: pointer;
+            display: none;
         }
         
-        h3:hover {
-            background: #f0f0f0;
+        h3.show {
+            display: block;
         }
         
         input[type="text"] {
@@ -69,6 +85,10 @@
             border-top: 1px solid #ccc;
             border-bottom: 1px solid #ccc;
             font-size: 12px;
+        }
+        
+        .album-container {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -123,11 +143,14 @@
                     {name: "Parklife", rating: 10, comment: "", favorite: true},
                     {name: "Bank Holiday", rating: 7.5, comment: "", favorite: false},
                     {name: "Badhead", rating: 7, comment: "", favorite: false},
-                    {name: "The Debt Collector", rating: 6, comment: "", favorite: false},
-                    {name: "Far Out", rating: 6, comment: "", favorite: false},
+                    {name: "The Debt Collector", rating: 6, comment: "???", favorite: false},
+                    {name: "Far Out", rating: 6, comment: "??", favorite: false},
                     {name: "To the End", rating: 6.5, comment: "", favorite: false},
                     {name: "London Loves", rating: 8, comment: "", favorite: false},
                     {name: "Trouble in the Message Center", rating: 7.5, comment: "", favorite: false},
+                    {name: "Clover Over Dover", rating: 7, comment: "starker Name", favorite: false},
+                    {name: "Magical America", rating: 6.5, comment: "", favorite: false},
+                    {name: "Junilee", rating: 7, comment: "", favorite: false},
 
                 ]
             }
@@ -148,17 +171,40 @@
             currentAlbums.forEach((album, albumIndex) => {
                 const avgRating = calculateAverageRating(album.songs);
                 const albumDiv = document.createElement('div');
+                albumDiv.className = 'album-container';
                 
                 albumDiv.innerHTML = `
-                    <h2>${album.artist} - ${album.album} (${album.year}) (${avgRating}/10)</h2>
+                    <h2 onclick="toggleAlbum(${albumIndex})" id="album-${albumIndex}">
+                        ${album.artist} - ${album.album} (${album.year}) (${avgRating}/10)
+                    </h2>
                     ${album.songs.map((song, songIndex) => `
-                        <h3 onclick="toggleFavorite(${albumIndex}, ${songIndex})">
+                        <h3 id="song-${albumIndex}-${songIndex}">
                             ${song.name} | ${song.rating}/10${song.comment ? ` | ${song.comment}` : ''}${song.favorite ? ' ★' : ''}
                         </h3>
                     `).join('')}
                 `;
                 
                 albumList.appendChild(albumDiv);
+            });
+        }
+
+        function toggleAlbum(albumIndex) {
+            const albumHeader = document.getElementById(`album-${albumIndex}`);
+            const isExpanded = albumHeader.classList.contains('expanded');
+            
+            // Toggle der expanded Klasse für das Album-Header
+            albumHeader.classList.toggle('expanded');
+            
+            // Toggle der show Klasse für alle Songs des Albums
+            currentAlbums[albumIndex].songs.forEach((song, songIndex) => {
+                const songElement = document.getElementById(`song-${albumIndex}-${songIndex}`);
+                if (songElement) {
+                    if (isExpanded) {
+                        songElement.classList.remove('show');
+                    } else {
+                        songElement.classList.add('show');
+                    }
+                }
             });
         }
 
@@ -187,20 +233,6 @@
                         return 0;
                 }
             });
-            displayAlbums();
-        }
-
-        function toggleFavorite(albumIndex, songIndex) {
-            // Finde das Original-Album in der albums Array
-            const originalAlbumIndex = albums.findIndex(album => 
-                album.artist === currentAlbums[albumIndex].artist && 
-                album.album === currentAlbums[albumIndex].album
-            );
-            
-            // Toggle favorite status
-            albums[originalAlbumIndex].songs[songIndex].favorite = !albums[originalAlbumIndex].songs[songIndex].favorite;
-            currentAlbums[albumIndex].songs[songIndex].favorite = albums[originalAlbumIndex].songs[songIndex].favorite;
-            
             displayAlbums();
         }
 
@@ -235,10 +267,13 @@
             ]
         },
         
-        STERNE:
+        STERNE (NUR ÜBER MANUELLE EINGABE):
         - favorite: true = ausgefüllter Stern ★ (Lieblingssong)
-        - favorite: false = leerer Stern ☆
-        - Klick auf Stern um zwischen Favorit und Normal zu wechseln
+        - favorite: false = kein Stern
+        
+        BEDIENUNG:
+        - Klick auf Albumname um Songs ein-/auszuklappen
+        - Pfeil zeigt an ob Album ausgeklappt (▼) oder eingeklappt (▶) ist
         */
     </script>
 </body>
