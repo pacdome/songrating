@@ -303,7 +303,7 @@
                     </h2>
                     ${album.songs.map((song, songIndex) => `
                         <h3 id="song-${albumIndex}-${songIndex}">
-                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' †' : ''}
+                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.favorite ? ' ★' : ''}${song.interlude ? ' ▶' : ''}
                         </h3>
                     `).join('')}
                     ${album.comment ? `<div class="album-comment" id="comment-${albumIndex}">${album.comment}</div>` : ''}
@@ -420,7 +420,7 @@
     </script>
     <div class="legend">
     <div>★ = Lieblingssong</div>
-    <div>† = Interlude</div>
+    <div>▶ = Interlude</div>
 </div>
 </body>
 </html>
