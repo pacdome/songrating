@@ -1,0 +1,48 @@
+[
+    {
+        "artist": "Third Eye Blind",
+        "album": "Third Eye Blind",
+        "year": 1997,
+        "comment": "Eines meiner liebsten selftilted Debut-Alben & vllt einer der besten A Seiten auf einem Album, leider aber auch eine bei der die B Seite nicht mithalten kann. ",
+        "songs": [
+            {"name": "Losing a Whole Year", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Narcolepsy", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Semi-Charmed Life", "rating": 10, "favorite": true, "interlude": false},
+            {"name": "Jumper", "rating": 9, "favorite": false, "interlude": false},
+            {"name": "Graduate", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "How's It Going to Be", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Thanks a Lot", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Burning Man", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Good for You", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "London", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "I Want You", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "The Background", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Motorcycle Drive By", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "God of Wine", "rating": 7, "favorite": false, "interlude": false}
+        ]
+    },
+    {
+        "artist": "Blur",
+        "album": "Parklife",
+        "year": 1994,
+        "comment": "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk ",
+        "songs": [
+            {"name": "Girls & Boys", "rating": 9, "favorite": false, "interlude": false},
+            {"name": "Tracy Jacks", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "End of  a Century", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Parklife", "rating": 10, "favorite": true, "interlude": false},
+            {"name": "Bank Holiday", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Badhead", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "The Debt Collector", "rating": 6, "favorite": false, "interlude": true},
+            {"name": "Far Out", "rating": 6, "favorite": false, "interlude": true},
+            {"name": "To the End", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "London Loves", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Trouble in the Message Center", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Clover Over Dover", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Magical America", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Jubilee", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "This Is a Low", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Lot 105", "rating": 6, "favorite": false, "interlude": true}
+        ]
+    }
+]
