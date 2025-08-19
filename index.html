@@ -54,6 +54,38 @@
             display: block;
         }
         
+        .rating-0-3 {
+            color: #c66;
+        }
+        
+        .rating-3-5 {
+            color: #cc8844;
+        }
+        
+        .rating-5-7 {
+            color: #b5a02e;
+        }
+        
+        .rating-7-9-5 {
+            color: #4a9;
+        }
+        
+        .rating-10 {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57, #ff9ff3, #54a0ff);
+            background-size: 300% 300%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow 2s ease-in-out infinite;
+            font-weight: bold;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
         input[type="text"] {
             border: 1px solid #ccc;
             padding: 3px 5px;
@@ -143,14 +175,16 @@
                     {name: "Parklife", rating: 10, comment: "", favorite: true},
                     {name: "Bank Holiday", rating: 7.5, comment: "", favorite: false},
                     {name: "Badhead", rating: 7, comment: "", favorite: false},
-                    {name: "The Debt Collector", rating: 6, comment: "???", favorite: false},
-                    {name: "Far Out", rating: 6, comment: "??", favorite: false},
+                    {name: "The Debt Collector", rating: 6, comment: "", favorite: false},
+                    {name: "Far Out", rating: 6, comment: "", favorite: false},
                     {name: "To the End", rating: 6.5, comment: "", favorite: false},
                     {name: "London Loves", rating: 8, comment: "", favorite: false},
                     {name: "Trouble in the Message Center", rating: 7.5, comment: "", favorite: false},
                     {name: "Clover Over Dover", rating: 7, comment: "starker Name", favorite: false},
                     {name: "Magical America", rating: 6.5, comment: "", favorite: false},
-                    {name: "Junilee", rating: 7, comment: "", favorite: false},
+                    {name: "Jubilee", rating: 7, comment: "", favorite: false},
+                    {name: "This Is a Low", rating: 7.5, comment: "", favorite: false},
+                    {name: "Lot 105", rating: 6, comment: "Passendes Ende", favorite: false},
 
                 ]
             }
@@ -162,6 +196,15 @@
             if (songs.length === 0) return 0;
             const sum = songs.reduce((acc, song) => acc + song.rating, 0);
             return (sum / songs.length).toFixed(1);
+        }
+
+        function getRatingClass(rating) {
+            if (rating >= 0 && rating < 3) return 'rating-0-3';
+            if (rating >= 3 && rating < 5) return 'rating-3-5';
+            if (rating >= 5 && rating < 7) return 'rating-5-7';
+            if (rating >= 7 && rating <= 9.5) return 'rating-7-9-5';
+            if (rating > 9.5) return 'rating-10';
+            return '';
         }
 
         function displayAlbums() {
@@ -179,7 +222,7 @@
                     </h2>
                     ${album.songs.map((song, songIndex) => `
                         <h3 id="song-${albumIndex}-${songIndex}">
-                            ${song.name} | ${song.rating}/10${song.comment ? ` | ${song.comment}` : ''}${song.favorite ? ' ★' : ''}
+                            ${song.name} | <span class="${getRatingClass(song.rating)}">${song.rating}/10</span>${song.comment ? ` | ${song.comment}` : ''}${song.favorite ? ' ★' : ''}
                         </h3>
                     `).join('')}
                 `;
