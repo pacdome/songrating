@@ -129,7 +129,7 @@
                     <h2>${album.artist} - ${album.album} (${album.year}) (Bewertung: ${avgRating}/10)</h2>
                     ${album.songs.map((song, songIndex) => `
                         <h3>
-                            ${song.name} | ${song.rating}/10 ${song.comment ? `| <p>${song.comment}</p>` : ''}${song.favorite ? ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">★</span>` : ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">☆</span>`}
+                            ${song.name} | ${song.rating}/10 ${song.comment ? `| <p>${song.comment}</p>` : ''}${song.favorite ? ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">★</span>` : ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})"></span>`}
                         </h3>
                     `).join('')}
                     <br>
