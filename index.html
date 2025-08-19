@@ -9,43 +9,53 @@
             background: white;
             color: black;
             font-family: 'Courier New', monospace;
-            margin: 40px;
-            line-height: 1.5;
+            margin: 20px;
+            line-height: 1.3;
+            font-size: 13px;
         }
         
         h1 {
-            font-size: 28px;
-            border-bottom: 3px solid black;
-            padding-bottom: 5px;
+            font-size: 20px;
+            border-bottom: 2px solid black;
+            padding-bottom: 3px;
+            margin-bottom: 15px;
         }
         
         h2 {
-            font-size: 18px;
-            margin-top: 30px;
+            font-size: 14px;
+            margin: 15px 0 5px 0;
+            font-weight: bold;
         }
         
         h3 {
-            font-size: 14px;
-            margin-left: 20px;
+            font-size: 12px;
+            margin: 2px 0 2px 15px;
             font-weight: normal;
+            cursor: pointer;
+        }
+        
+        h3:hover {
+            background: #f0f0f0;
         }
         
         input[type="text"] {
-            border: 2px solid black;
-            padding: 5px;
+            border: 1px solid #ccc;
+            padding: 3px 5px;
             font-family: 'Courier New', monospace;
+            font-size: 12px;
         }
         
         button {
-            border: 2px solid black;
-            background: white;
-            padding: 5px 10px;
+            border: 1px solid #ccc;
+            background: #f8f8f8;
+            padding: 3px 8px;
             font-family: 'Courier New', monospace;
-            margin: 2px;
+            font-size: 11px;
+            margin: 1px;
         }
         
         button:hover {
-            background: #f0f0f0;
+            background: #e0e0e0;
         }
         
         p {
@@ -53,26 +63,12 @@
             font-style: italic;
         }
         
-        .star {
-            cursor: pointer;
-            font-size: 16px;
-            margin-left: 5px;
-            user-select: none;
-        }
-        
-        .star.filled {
-            color: black;
-        }
-        
-        .star.empty {
-            color: transparent;
-        }
-        
         .controls {
-            margin: 20px 0;
-            padding: 10px 0;
-            border-top: 1px solid black;
-            border-bottom: 1px solid black;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -96,32 +92,33 @@
         // Album-Daten - hier neue Alben hinzufügen
         let albums = [
             {
-                artist: "Third Eye Blind",
-                album: "Third Eye Blind",
-                year: 1997,
+                artist: "The Beatles",
+                album: "Abbey Road",
+                year: 1969,
                 songs: [
-                    {name: "Losing a Whole Year", rating: 6.5, comment: "", favorite: false},
-                    {name: "Narcolepsy", rating: 7.5, comment: "", favorite: false},
-                    {name: "Semi-Charmed Life", rating: 9.5, comment: "", favorite: true},
-                    {name: "Jumper", rating: 9, comment: "", favorite: false},
-                    {name: "Graduate", rating: 8, comment: "", favorite: false},
-                    {name: "How's It Going to Be", rating: 8, comment: "", favorite: false},
-                    {name: "Thanks a Lot", rating: 8.5, comment: "", favorite: false},
-                    {name: "Burning Man", rating: 7, comment: "", favorite: false},
-                    {name: "Good for You", rating: 7, comment: "", favorite: false},
-                    {name: "London", rating: 6, comment: "", favorite: false},
-                    {name: "I Want You", rating: 6.5, comment: "", favorite: false},
-                    {name: "The Background", rating: 8, comment: "", favorite: false},
-                    {name: "Motorcycle Drive By", rating: 7.5, comment: "", favorite: false},
-                    {name: "God of Wine", rating: 7, comment: "", favorite: false}
+                    {name: "Come Together", rating: 9, comment: "Klassiker mit tollem Bass", favorite: false},
+                    {name: "Something", rating: 10, comment: "Wunderschöne Ballade", favorite: true},
+                    {name: "Here Comes The Sun", rating: 9, comment: "", favorite: false}
                 ]
             },
             {
-                artist: "X",
-                album: "X",
-                year: 1999,
+                artist: "Pink Floyd",
+                album: "The Wall",
+                year: 1979,
                 songs: [
-                    {name: "X", rating: 6.5, comment: "", favorite: false},
+                    {name: "Another Brick In The Wall", rating: 8, comment: "Societäts-Kritik", favorite: false},
+                    {name: "Comfortably Numb", rating: 10, comment: "Episches Gitarrensolo", favorite: true},
+                    {name: "Hey You", rating: 7, comment: "", favorite: false}
+                ]
+            },
+            {
+                artist: "Radiohead",
+                album: "OK Computer",
+                year: 1997,
+                songs: [
+                    {name: "Paranoid Android", rating: 9, comment: "Komplex und brillant", favorite: true},
+                    {name: "Karma Police", rating: 8, comment: "Eingängiger Hit", favorite: false},
+                    {name: "No Surprises", rating: 7, comment: "Melancholisch schön", favorite: false}
                 ]
             }
         ];
@@ -145,8 +142,8 @@
                 albumDiv.innerHTML = `
                     <h2>${album.artist} - ${album.album} (${album.year}) (Bewertung: ${avgRating}/10)</h2>
                     ${album.songs.map((song, songIndex) => `
-                        <h3>
-                            ${song.name} | ${song.rating}/10 ${song.comment ? `| <p>${song.comment}</p>` : ''}${song.favorite ? ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})">★</span>` : ` <span class="star" onclick="toggleFavorite(${albumIndex}, ${songIndex})"></span>`}
+                        <h3 onclick="toggleFavorite(${albumIndex}, ${songIndex})" style="cursor: pointer;">
+                            ${song.name} | ${song.rating}/10${song.comment ? ` | <p>${song.comment}</p>` : ''}${song.favorite ? ' ★' : ''}
                         </h3>
                     `).join('')}
                     <br>
