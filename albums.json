@@ -79,10 +79,10 @@
             {"name": "Where Do You Think You're Going", "rating": 8.5, "favorite": false, "interlude": false},
             {"name": "Communiqué", "rating": 9.5, "favorite": false, "interlude": false},
             {"name": "Lady Writer", "rating": 10, "favorite": true, "interlude": false},
-            {"name": "Angel Of Mercy", "rating" 8.5: , "favorite": false, "interlude": false},
-            {"name": "Portobello Belle", "rating" 7.5: , "favorite": false, "interlude": false},
-            {"name": "Single Handed Sailor", "rating" 8.5: , "favorite": false, "interlude": false},
-            {"name": "Follow Me Home", "rating" 7: , "favorite": false, "interlude": false}
+            {"name": "Angel Of Mercy", "rating": 8.5 , "favorite": false, "interlude": false},
+            {"name": "Portobello Belle", "rating": 7.5 , "favorite": false, "interlude": false},
+            {"name": "Single Handed Sailor", "rating": 8.5 , "favorite": false, "interlude": false},
+            {"name": "Follow Me Home", "rating": 7, "favorite": false, "interlude": false}
 
  
         ]
