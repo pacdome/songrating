@@ -12,6 +12,7 @@
             margin: 20px;
             line-height: 1.3;
             font-size: 13px;
+            margin-bottom: 120px;
         }
         
         h1 {
@@ -56,12 +57,16 @@
         
         .album-comment {
             font-size: 12px;
-            margin: 2px 0 2px 25px;
+            margin: 8px 0 2px 25px;
             font-style: italic;
             color: #666;
             display: none;
+            border-top: 1px solid #ddd;
+            padding-top: 6px;
+            word-wrap: break-word;
+            max-width: 50%;
         }
-        
+
         .album-comment.show {
             display: block;
         }
@@ -102,6 +107,7 @@
             body {
                 margin: 8px;
                 font-size: 11px;
+                margin-bottom: 140px;
             }
             
             h1 {
@@ -157,7 +163,6 @@
                 right: 10px;
                 font-size: 9px;
                 padding: 6px 8px;
-                margin-bottom: 120px;
             }
             
             .legend .dark-mode-toggle {
@@ -201,6 +206,90 @@
         .album-container {
             margin-bottom: 10px;
         }
+        
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            font-size: 11px;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .legend div {
+            margin: 0;
+        }
+
+        .legend .dark-mode-toggle {
+            position: static;
+            background: transparent;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 2px 0;
+            align-self: center;
+        }
+
+        .legend .dark-mode-toggle:hover {
+            background: rgba(0,0,0,0.1);
+            border-radius: 3px;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode h1 {
+            border-bottom-color: #555;
+        }
+
+        body.dark-mode h2:hover {
+            background: #333;
+        }
+
+        body.dark-mode .album-comment {
+            color: #aaa;
+            border-top-color: #444;
+        }
+
+        body.dark-mode input[type="text"] {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode button {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode button:hover {
+            background: #444;
+        }
+
+        body.dark-mode .controls {
+            border-top-color: #444;
+            border-bottom-color: #444;
+        }
+
+        body.dark-mode .legend {
+            background: rgba(26, 26, 26, 0.9);
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .legend .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
@@ -220,57 +309,24 @@
     <div id="albumList"></div>
 
     <script>
-        // Album-Daten - hier neue Alben hinzufügen
-        let albums = [
-            {
-                artist: "Third Eye Blind",
-                album: "Third Eye Blind",
-                year: 1997,
-                comment: "",
-                songs: [
-                    {name: "Losing a Whole Year", rating: 6.5, favorite: false, interlude: false},
-                    {name: "Narcolepsy", rating: 7.5, favorite: false, interlude: false},
-                    {name: "Semi-Charmed Life", rating: 9.5, favorite: true, interlude: false},
-                    {name: "Jumper", rating: 9, favorite: false, interlude: false},
-                    {name: "Graduate", rating: 8, favorite: false, interlude: false},
-                    {name: "How's It Going to Be", rating: 8, favorite: false, interlude: false},
-                    {name: "Thanks a Lot", rating: 8.5, favorite: false, interlude: false},
-                    {name: "Burning Man", rating: 7, favorite: false, interlude: false},
-                    {name: "Good for You", rating: 7, favorite: false, interlude: false},
-                    {name: "London", rating: 6, favorite: false, interlude: false},
-                    {name: "I Want You", rating: 6.5, favorite: false, interlude: false},
-                    {name: "The Background", rating: 8, favorite: false, interlude: false},
-                    {name: "Motorcycle Drive By", rating: 7.5, favorite: false, interlude: false},
-                    {name: "God of Wine", rating: 7, favorite: false, interlude: false}
-                ]
-            },
-            {
-                artist: "Blur",
-                album: "Parklife",
-                year: 1994,
-                comment: "",
-                songs: [
-                    {name: "Girls & Boys", rating: 9, favorite: false, interlude: false},
-                    {name: "Tracy Jacks", rating: 7.5, favorite: false, interlude: false},
-                    {name: "End of  a Century", rating: 8, favorite: false, interlude: false},
-                    {name: "Parklife", rating: 10, favorite: true, interlude: false},
-                    {name: "Bank Holiday", rating: 7.5, favorite: false, interlude: false},
-                    {name: "Badhead", rating: 7, favorite: false, interlude: false},
-                    {name: "The Debt Collector", rating: 6, favorite: false, interlude: false},
-                    {name: "Far Out", rating: 6, favorite: false, interlude: false},
-                    {name: "To the End", rating: 6.5, favorite: false, interlude: false},
-                    {name: "London Loves", rating: 8, favorite: false, interlude: false},
-                    {name: "Trouble in the Message Center", rating: 7.5, favorite: false, interlude: false},
-                    {name: "Clover Over Dover", rating: 7, favorite: false, interlude: false},
-                    {name: "Magical America", rating: 6.5, favorite: false, interlude: false},
-                    {name: "Jubilee", rating: 7, favorite: false, interlude: false},
-                    {name: "This Is a Low", rating: 7.5, favorite: false, interlude: false},
-                    {name: "Lot 105", rating: 6, favorite: false, interlude: false}
-                ]
-            }
-        ];
+        let albums = [];
+        let currentAlbums = [];
 
-        let currentAlbums = [...albums];
+        // Lade Albums aus externer JSON-Datei
+        async function loadAlbums() {
+            try {
+                const response = await fetch('albums.json');
+                albums = await response.json();
+                currentAlbums = [...albums];
+                displayAlbums();
+            } catch (error) {
+                console.error('Fehler beim Laden der Albums:', error);
+                // Fallback: leeres Array
+                albums = [];
+                currentAlbums = [];
+                displayAlbums();
+            }
+        }
 
         function calculateAverageRating(songs) {
             // Filtere Interludes aus der Bewertung heraus
@@ -372,10 +428,85 @@
             displayAlbums();
         }
 
-        // Beim Laden der Seite alle Alben anzeigen
-        displayAlbums();
+        // Dark Mode Funktionalität
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const btn = document.getElementById('darkModeBtn');
+            
+            if (isDarkMode) {
+                btn.textContent = '☀️';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                btn.textContent = '🌙';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
 
-    
+        // Dark Mode beim Laden der Seite anwenden falls gespeichert
+        function initDarkMode() {
+            const darkMode = localStorage.getItem('darkMode');
+            if (darkMode === 'enabled') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('darkModeBtn').textContent = '☀️';
+            }
+        }
+
+        // Beim Laden der Seite Albums laden, Dark Mode initialisieren und anzeigen
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            loadAlbums();
+        });
+
+        /*
+        ANLEITUNG ZUM HINZUFÜGEN NEUER ALBEN:
+
+        Bearbeite die Datei "albums.json" und füge neue Alben in folgendem Format hinzu:
+
+        {
+            "artist": "KÜNSTLERNAME",
+            "album": "ALBUMNAME",
+            "year": JAHR,
+            "comment": "ALBUM GESAMTKOMMENTAR (OPTIONAL)",
+            "songs": [
+                {"name": "SONGNAME1", "rating": BEWERTUNG_1_BIS_10, "favorite": false, "interlude": false},
+                {"name": "SONGNAME2", "rating": BEWERTUNG_1_BIS_10, "favorite": true, "interlude": false},
+                {"name": "SONGNAME3", "rating": BEWERTUNG_1_BIS_10, "favorite": false, "interlude": true}
+            ]
+        },
+
+        Beispiel:
+        {
+            "artist": "Led Zeppelin",
+            "album": "Led Zeppelin IV",
+            "year": 1971,
+            "comment": "Ein zeitloses Meisterwerk des Rock",
+            "songs": [
+                {"name": "Black Dog", "rating": 8, "favorite": false, "interlude": false},
+                {"name": "Rock and Roll", "rating": 7, "favorite": false, "interlude": false},
+                {"name": "Stairway to Heaven", "rating": 10, "favorite": true, "interlude": false},
+                {"name": "Instrumental Break", "rating": 6, "favorite": false, "interlude": true}
+            ]
+        },
+
+        SYMBOLE:
+        - favorite: true = ausgefüllter Stern ★ (Lieblingssong)
+        - favorite: false = kein Stern
+        - interlude: true = Kreuz † (Interlude - wird nicht in Albumbewertung einbezogen)
+        - interlude: false = kein Kreuz
+
+        BEDIENUNG:
+        - Klick auf Albumname um Songs ein-/auszuklappen
+        - Pfeil zeigt an ob Album ausgeklappt (▼) oder eingeklappt (▶) ist
+        - Interludes werden automatisch aus der Durchschnittsbewertung des Albums ausgeschlossen
+        - Albumkommentar erscheint nach der Songliste wenn vorhanden
+        */
     </script>
+    
+    <div class="legend">
+        <div>★ = Lieblingssong</div>
+        <div>† = Interlude</div>
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeBtn">🌙</button>
+    </div>
 </body>
 </html>
