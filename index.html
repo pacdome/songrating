@@ -251,33 +251,31 @@ body.dark-mode .legend {
 }
 
 /* Dark Mode Toggle Button */
+
+/* Dark Mode Toggle Button */
 .dark-mode-toggle {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #f8f8f8;
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    font-family: 'Courier New', monospace;
-    font-size: 11px;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
-    border-radius: 3px;
     z-index: 1000;
+    padding: 5px;
 }
 
 .dark-mode-toggle:hover {
-    background: #e0e0e0;
-}
-
-body.dark-mode .dark-mode-toggle {
-    background: #333;
-    border-color: #555;
-    color: #e0e0e0;
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
 }
 
 body.dark-mode .dark-mode-toggle:hover {
-    background: #444;
+    background: rgba(255,255,255,0.1);
 }
+
+
+
     </style>
 </head>
 <body>
@@ -423,20 +421,21 @@ function toggleDarkMode() {
     const btn = document.getElementById('darkModeBtn');
     
     if (isDarkMode) {
-        btn.textContent = '☀️ Light';
+        btn.textContent = '☀️';
         localStorage.setItem('darkMode', 'enabled');
     } else {
-        btn.textContent = '🌙 Dark';
+        btn.textContent = '🌙';
         localStorage.setItem('darkMode', 'disabled');
     }
 }
+
 
 // Dark Mode beim Laden der Seite anwenden falls gespeichert
 function initDarkMode() {
     const darkMode = localStorage.getItem('darkMode');
     if (darkMode === 'enabled') {
         document.body.classList.add('dark-mode');
-        document.getElementById('darkModeBtn').textContent = '☀️ Light';
+        document.getElementById('darkModeBtn').textContent = '☀️';
     }
 }
 
