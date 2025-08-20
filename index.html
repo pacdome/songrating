@@ -13,6 +13,22 @@
             line-height: 1.4;
             font-size: 13px;
             margin-bottom: 120px;
+            position: relative;
+        }
+
+        /* Subtle retro pattern background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0);
+            background-size: 20px 20px;
+            pointer-events: none;
+            z-index: -1;
         }
         
         h1 {
@@ -20,14 +36,31 @@
             border-bottom: 2px solid black;
             padding-bottom: 3px;
             margin-bottom: 8px;
+            position: relative;
+        }
+
+        /* Vintage computer terminal cursor effect */
+        h1::after {
+            content: '█';
+            animation: blink 1s infinite;
+            color: #333;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         h3.intro {
             font-size: 12px;
             color: #666;
             font-style: italic;
-            margin: 5px 0 15px 0;
+            margin: 8px 0 15px 0;
             font-weight: normal;
+            padding: 8px 12px;
+            background: linear-gradient(45deg, transparent, rgba(0,0,0,0.03), transparent);
+            border-left: 3px solid #ddd;
         }
         
         h2 {
@@ -37,10 +70,32 @@
             cursor: pointer;
             padding: 3px;
             transition: all 0.2s ease;
+            position: relative;
         }
         
         h2:hover {
             background: #f0f0f0;
+            transform: translateX(2px);
+        }
+
+        /* Retro ASCII-style decorative elements */
+        h2::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 4px solid #ccc;
+            border-top: 3px solid transparent;
+            border-bottom: 3px solid transparent;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        h2:hover::after {
+            opacity: 1;
         }
         
         h2::before {
@@ -208,12 +263,34 @@
             flex-wrap: wrap;
             gap: 10px;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle animated background pattern */
+        .controls::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+            z-index: 0;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
 
         .search-group, .sort-group {
             display: flex;
             align-items: center;
             gap: 5px;
+            position: relative;
+            z-index: 1;
         }
 
         .search-group label, .sort-group label {
@@ -303,12 +380,23 @@
             color: #e0e0e0;
         }
 
+        body.dark-mode::before {
+            background-image: 
+                radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+        }
+
         body.dark-mode h1 {
             border-bottom-color: #555;
         }
 
+        body.dark-mode h1::after {
+            color: #ccc;
+        }
+
         body.dark-mode h3.intro {
             color: #999;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            border-left-color: #555;
         }
 
         body.dark-mode h2 {
@@ -511,8 +599,9 @@
             const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
             const pagination = document.getElementById('pagination');
             
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
+            // Zeige Pagination auch bei wenigen Alben für Demo-Zwecke
+            if (totalPages <= 1 && currentAlbums.length < 10) {
+                pagination.innerHTML = `<div style="font-style: italic; color: #666; text-align: center; margin: 20px 0;">Alle ${currentAlbums.length} Alben werden angezeigt</div>`;
                 return;
             }
 
@@ -621,7 +710,7 @@
                     case 'rating':
                         const avgA = parseFloat(calculateAverageRating(a.songs));
                         const avgB = parseFloat(calculateAverageRating(b.songs));
-                        comparison = avgB - avgA; // Default: höchste zuerst
+                        comparison = avgA - avgB; // Für korrekte Sortierung
                         break;
                     default:
                         return 0;
