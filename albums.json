@@ -120,7 +120,7 @@
             {"name": "Our Love", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Hazy", "rating": 9.5, "favorite": true, "interlude": false},
             {"name": "If You & I", "rating": 7, "favorite": false, "interlude": false},
-            {"name": "When I Grow Up", "rating": 7,5, "favorite": false, "interlude": false},
+            {"name": "When I Grow Up", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "I Know", "rating": 6.5, "favorite": false, "interlude": false},
             {"name": "Pedestal", "rating": 7, "favorite": false, "interlude": false},
             {"name": "Sirens", "rating": 7.5, "favorite": false, "interlude": false},
