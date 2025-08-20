@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUSICBASE.EXE - Music Database v1.3</title>
+    <title>VINYL.NET - Record Collection Browser v2.0</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=MS+Sans+Serif&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Courier+Prime:wght@400;700&display=swap');
         
         * {
             margin: 0;
@@ -14,556 +14,864 @@
         }
         
         body {
-            font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
-            font-size: 11px;
-            background: #c0c0c0;
-            background-image: 
-                repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,.1) 2px, rgba(0,0,0,.1) 4px);
+            font-family: 'Courier Prime', 'Courier New', monospace;
+            background: #1a1a1a;
+            color: #00ff41;
+            overflow-x: hidden;
             min-height: 100vh;
-            overflow-x: auto;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #003300 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #001100 0%, transparent 50%),
+                linear-gradient(45deg, #000000 25%, transparent 25%),
+                linear-gradient(-45deg, #000000 25%, transparent 25%);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            animation: backgroundShift 30s linear infinite;
         }
         
-        .window {
-            background: #c0c0c0;
-            border: 2px outset #c0c0c0;
-            margin: 20px;
-            min-height: calc(100vh - 40px);
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%, 0% 0%, 0px 0px, 10px 10px; }
+            100% { background-position: 100% 100%, -100% -100%, 20px 20px, 30px 30px; }
         }
         
-        .title-bar {
-            background: linear-gradient(90deg, #0080ff 0%, #0040ff 100%);
-            color: white;
-            padding: 2px;
+        .browser-window {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #2a2a2a;
+            border: 3px solid #666;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .browser-header {
+            background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+            padding: 8px 15px;
+            border-bottom: 2px solid #666;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-weight: bold;
-            font-size: 11px;
-        }
-        
-        .title-text {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .window-icon {
-            width: 16px;
-            height: 16px;
-            background: #ffff00;
-            border: 1px solid #000;
-            display: inline-block;
-        }
-        
-        .window-controls {
-            display: flex;
-            gap: 2px;
-        }
-        
-        .control-btn {
-            width: 16px;
-            height: 14px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            font-size: 8px;
-            text-align: center;
-            line-height: 12px;
-            cursor: pointer;
-        }
-        
-        .control-btn:active {
-            border: 1px inset #c0c0c0;
-        }
-        
-        .menu-bar {
-            background: #c0c0c0;
-            border-bottom: 1px solid #808080;
-            padding: 2px;
-            display: flex;
             gap: 10px;
         }
         
-        .menu-item {
-            padding: 2px 8px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        
-        .menu-item:hover {
-            border: 1px outset #c0c0c0;
-        }
-        
-        .toolbar {
-            background: #c0c0c0;
-            border-bottom: 1px solid #808080;
-            padding: 3px;
+        .browser-dots {
             display: flex;
-            align-items: center;
-            gap: 3px;
-            flex-wrap: wrap;
-        }
-        
-        .tool-btn {
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            padding: 2px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            min-height: 20px;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        
-        .tool-btn:active {
-            border: 1px inset #c0c0c0;
-        }
-        
-        .tool-btn:hover {
-            background: #d0d0d0;
-        }
-        
-        .separator {
-            width: 1px;
-            height: 20px;
-            background: #808080;
-            margin: 0 2px;
-        }
-        
-        .search-group {
-            display: flex;
-            align-items: center;
             gap: 5px;
-            margin-left: auto;
         }
         
-        .search-input {
-            font-family: inherit;
-            font-size: 11px;
-            padding: 1px 3px;
-            border: 1px inset #c0c0c0;
-            background: white;
-            width: 150px;
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
         }
         
-        .content-area {
-            display: flex;
-            height: calc(100vh - 140px);
-        }
+        .dot.red { background: #ff6b6b; }
+        .dot.yellow { background: #ffd93d; }
+        .dot.green { background: #6bcf7f; }
         
-        .sidebar {
-            width: 200px;
-            background: #c0c0c0;
-            border-right: 1px solid #808080;
-            padding: 5px;
-        }
-        
-        .group-box {
-            border: 1px inset #c0c0c0;
-            margin-bottom: 8px;
-            background: #c0c0c0;
-        }
-        
-        .group-title {
-            background: #c0c0c0;
-            padding: 2px 5px;
-            font-weight: bold;
-            font-size: 10px;
-            border-bottom: 1px solid #808080;
-        }
-        
-        .group-content {
-            padding: 5px;
-        }
-        
-        .stats-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            margin-bottom: 2px;
-        }
-        
-        .filter-item {
-            margin-bottom: 3px;
-            font-size: 10px;
-        }
-        
-        .filter-item input[type="checkbox"] {
-            margin-right: 5px;
-        }
-        
-        .main-content {
+        .url-bar {
             flex: 1;
-            background: white;
-            overflow: auto;
+            background: #1a1a1a;
+            border: 2px inset #666;
+            padding: 4px 8px;
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            border-radius: 3px;
         }
         
-        .list-header {
-            background: #c0c0c0;
-            border-bottom: 1px solid #808080;
-            display: grid;
-            grid-template-columns: 30px 200px 150px 80px 80px 100px 1fr;
-            font-weight: bold;
-            font-size: 10px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        .header-cell {
-            padding: 3px 5px;
-            border-right: 1px solid #808080;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .header-cell:hover {
-            background: #d0d0d0;
-        }
-        
-        .sort-arrow {
-            font-size: 8px;
-            margin-left: 3px;
-        }
-        
-        .album-row {
-            display: grid;
-            grid-template-columns: 30px 200px 150px 80px 80px 100px 1fr;
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 11px;
-            cursor: pointer;
-            background: white;
-        }
-        
-        .album-row:hover {
-            background: #e0e0ff;
-        }
-        
-        .album-row.selected {
-            background: #0080ff;
-            color: white;
-        }
-        
-        .cell {
-            padding: 2px 5px;
-            border-right: 1px solid #e0e0e0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-        }
-        
-        .cell-number {
+        .vinyl-header {
+            background: linear-gradient(45deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+            padding: 20px;
             text-align: center;
-            justify-content: center;
-        }
-        
-        .rating-cell {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        
-        .rating-number {
-            font-weight: bold;
-            min-width: 25px;
-        }
-        
-        .rating-bar {
-            display: flex;
-            gap: 1px;
-        }
-        
-        .rating-block {
-            width: 4px;
-            height: 8px;
-            background: #e0e0e0;
-            border: 1px solid #808080;
-        }
-        
-        .rating-block.filled { background: #00ff00; }
-        .rating-block.filled.high { background: #ffff00; }
-        .rating-block.filled.max { background: #ff00ff; }
-        
-        .tracks-panel {
-            display: none;
-            background: #f0f0f0;
-            border-top: 1px solid #808080;
-            grid-column: 1 / -1;
-        }
-        
-        .tracks-panel.show {
-            display: block;
-        }
-        
-        .tracks-header {
-            background: #d0d0d0;
-            padding: 3px 8px;
-            font-weight: bold;
-            font-size: 10px;
-            border-bottom: 1px solid #808080;
-        }
-        
-        .tracks-list {
-            padding: 5px 8px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .track-item {
-            display: grid;
-            grid-template-columns: 20px 1fr 40px 30px;
-            gap: 8px;
-            padding: 1px 0;
-            font-size: 10px;
-            align-items: center;
-            border-bottom: 1px dotted #c0c0c0;
-        }
-        
-        .track-number {
-            text-align: center;
-            color: #808080;
-        }
-        
-        .track-name.favorite {
-            font-weight: bold;
-            color: #0000ff;
-        }
-        
-        .track-name.interlude {
-            font-style: italic;
-            color: #808080;
-        }
-        
-        .track-rating {
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .track-icons {
-            text-align: center;
-            font-size: 8px;
-        }
-        
-        .status-bar {
-            background: #c0c0c0;
-            border-top: 1px solid #808080;
-            padding: 2px 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 10px;
-        }
-        
-        .status-left {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .status-panel {
-            border: 1px inset #c0c0c0;
-            padding: 1px 5px;
-            background: white;
-        }
-        
-        .progressbar {
-            border: 1px inset #c0c0c0;
-            width: 100px;
-            height: 16px;
-            background: white;
+            border-bottom: 3px solid #00ff41;
             position: relative;
             overflow: hidden;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0080ff 0%, #0040ff 100%);
-            width: 65%;
-            animation: pulse 2s infinite;
+        .vinyl-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.1) 2px,
+                rgba(0, 255, 65, 0.1) 4px
+            );
+            animation: scanlines 3s linear infinite;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes scanlines {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
         }
         
-        .pixel-icon {
-            width: 12px;
-            height: 12px;
-            background: #ffff00;
-            border: 1px solid #000;
-            display: inline-block;
-            margin-right: 3px;
+        .main-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #00ff41;
+            text-shadow: 0 0 20px #00ff41, 0 0 40px #00ff41;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 2;
         }
         
-        .comment-panel {
-            background: #ffffcc;
-            border: 1px solid #cccc00;
-            margin: 5px 8px;
-            padding: 5px;
+        .subtitle {
+            font-size: 14px;
+            color: #88ff88;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .control-panel {
+            background: #1e1e1e;
+            border-bottom: 2px solid #333;
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .vinyl-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vinyl-disc {
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #1a1a1a 20%, #333 40%, #1a1a1a 42%, #666 43%, #1a1a1a 100%);
+            border-radius: 50%;
+            border: 2px solid #00ff41;
+            position: relative;
+            animation: spin 3s linear infinite;
+            cursor: pointer;
+        }
+        
+        .vinyl-disc::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: #00ff41;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .vinyl-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        
+        .control-btn {
+            background: #333;
+            border: 2px outset #666;
+            color: #00ff41;
+            padding: 2px 8px;
+            font-family: inherit;
             font-size: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .control-btn:hover {
+            background: #00ff41;
+            color: #000;
+            box-shadow: 0 0 10px #00ff41;
+        }
+        
+        .control-btn:active {
+            border: 2px inset #666;
+        }
+        
+        .search-console {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #0a0a0a;
+            border: 2px inset #333;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .console-prompt {
+            color: #ffff00;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+        
+        .search-input {
+            background: transparent;
+            border: none;
+            color: #00ff41;
+            font-family: inherit;
+            font-size: 12px;
+            flex: 1;
+            outline: none;
+            caret-color: #00ff41;
+        }
+        
+        .search-input::placeholder {
+            color: #666;
+        }
+        
+        .cassette-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .cassette {
+            width: 80px;
+            height: 50px;
+            background: linear-gradient(45deg, #333 0%, #555 50%, #333 100%);
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px;
+        }
+        
+        .cassette-reel {
+            width: 18px;
+            height: 18px;
+            background: #1a1a1a;
+            border: 1px solid #00ff41;
+            border-radius: 50%;
+            position: relative;
+        }
+        
+        .cassette-reel::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #00ff41;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .counter-display {
+            background: #0a0a0a;
+            border: 1px inset #333;
+            padding: 2px 8px;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            color: #ff4444;
+            text-align: center;
+            min-width: 60px;
+        }
+        
+        .filter-tabs {
+            background: #1e1e1e;
+            border-bottom: 1px solid #333;
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff41 #1e1e1e;
+        }
+        
+        .filter-tab {
+            background: #2a2a2a;
+            border: none;
+            color: #888;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-right: 1px solid #333;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        
+        .filter-tab:hover {
+            background: #333;
+            color: #00ff41;
+        }
+        
+        .filter-tab.active {
+            background: #00ff41;
+            color: #000;
+            font-weight: bold;
+        }
+        
+        .content-area {
+            display: flex;
+            min-height: 500px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #1a1a1a;
+            border-right: 2px solid #333;
+            padding: 15px;
+        }
+        
+        .info-panel {
+            background: #0a0a0a;
+            border: 2px inset #333;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .info-header {
+            background: #00ff41;
+            color: #000;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .info-content {
+            padding: 10px;
+        }
+        
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 11px;
+        }
+        
+        .info-value {
+            color: #ffff00;
+            font-weight: bold;
+        }
+        
+        .equalizer {
+            display: flex;
+            gap: 3px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+        
+        .eq-bar {
+            width: 4px;
+            background: #333;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .eq-fill {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to top, #ff4444 0%, #ffff00 50%, #00ff41 100%);
+            animation: equalizer 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes equalizer {
+            from { height: 20%; }
+            to { height: 90%; }
+        }
+        
+        .eq-bar:nth-child(odd) .eq-fill { animation-delay: 0.1s; }
+        .eq-bar:nth-child(3n) .eq-fill { animation-delay: 0.2s; }
+        .eq-bar:nth-child(4n) .eq-fill { animation-delay: 0.3s; }
+        
+        .main-content {
+            flex: 1;
+            background: #0f0f0f;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 15px;
+        }
+        
+        .album-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .album-card:hover {
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .album-card.expanded {
+            border-color: #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+        }
+        
+        .album-header {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+            position: relative;
+        }
+        
+        .album-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: #00ff41;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .album-artist {
+            color: #888;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .album-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: #666;
+        }
+        
+        .rating-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .rating-number {
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: 16px;
+            color: #ffff00;
+            text-shadow: 0 0 10px #ffff00;
+        }
+        
+        .rating-bars {
+            display: flex;
+            gap: 1px;
+        }
+        
+        .rating-bar {
+            width: 3px;
+            height: 16px;
+            background: #333;
+            border: 1px solid #666;
+        }
+        
+        .rating-bar.filled { background: #00ff41; box-shadow: 0 0 5px #00ff41; }
+        .rating-bar.filled.high { background: #ffff00; box-shadow: 0 0 5px #ffff00; }
+        .rating-bar.filled.max { background: #ff4444; box-shadow: 0 0 5px #ff4444; }
+        
+        .tracks-section {
+            display: none;
+            background: #0a0a0a;
+            border-top: 1px solid #333;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .tracks-section.show {
+            display: block;
+        }
+        
+        .tracks-header {
+            background: #1a1a1a;
+            padding: 8px 12px;
+            font-weight: bold;
+            font-size: 11px;
+            color: #ffff00;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .track-list {
+            padding: 8px 0;
+        }
+        
+        .track-item {
+            display: grid;
+            grid-template-columns: 25px 1fr 40px 20px;
+            gap: 8px;
+            padding: 3px 12px;
+            font-size: 11px;
+            align-items: center;
+            border-bottom: 1px dotted #333;
+        }
+        
+        .track-item:last-child {
+            border-bottom: none;
+        }
+        
+        .track-number {
+            color: #666;
+            text-align: center;
+        }
+        
+        .track-name {
+            color: #ccc;
+        }
+        
+        .track-name.favorite {
+            color: #ffff00;
+            font-weight: bold;
+        }
+        
+        .track-name.interlude {
+            color: #666;
             font-style: italic;
         }
         
-        .comment-panel::before {
-            content: "💬 ";
-            font-style: normal;
+        .track-rating {
+            color: #00ff41;
+            font-weight: bold;
+            text-align: center;
         }
         
+        .track-icons {
+            text-align: center;
+            color: #ffff00;
+        }
+        
+        .comment-section {
+            background: #2a1a00;
+            border: 1px solid #ff8800;
+            margin: 8px 12px;
+            padding: 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            color: #ffaa44;
+            font-style: italic;
+        }
+        
+        .status-bar {
+            background: #1a1a1a;
+            border-top: 2px solid #333;
+            padding: 8px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+        }
+        
+        .status-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .light-green { background: #00ff41; }
+        .light-yellow { background: #ffff00; animation-delay: 0.5s; }
+        .light-red { background: #ff4444; animation-delay: 1s; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #00ff41;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1000;
+        }
+        
+        .loading-screen.show {
+            display: flex;
+        }
+        
+        .loading-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 18px;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px #00ff41; }
+            to { text-shadow: 0 0 30px #00ff41, 0 0 40px #00ff41; }
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 20px;
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1a1a1a;
+        }
+        
+        .loading-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41 0%, #ffff00 50%, #00ff41 100%);
+            width: 0%;
+            animation: loading 3s ease-in-out forwards;
+        }
+        
+        @keyframes loading {
+            to { width: 100%; }
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .window { margin: 5px; }
-            .list-header, .album-row {
-                grid-template-columns: 25px 150px 100px 60px 80px 1fr;
+            .browser-window {
+                margin: 10px;
+                border-radius: 5px 5px 0 0;
             }
-            .header-cell:nth-child(5), .cell:nth-child(5) { display: none; }
-            .sidebar { width: 150px; }
-            .search-input { width: 100px; }
-            .content-area { height: calc(100vh - 120px); }
+            
+            .main-title {
+                font-size: 1.8em;
+                letter-spacing: 1px;
+            }
+            
+            .control-panel {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .vinyl-player {
+                justify-content: center;
+            }
+            
+            .content-area {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #333;
+            }
+            
+            .info-panel {
+                margin-bottom: 10px;
+            }
+            
+            .album-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 10px;
+            }
+            
+            .filter-tabs {
+                overflow-x: scroll;
+            }
+            
+            .main-content {
+                max-height: 400px;
+            }
+            
+            .equalizer {
+                margin: 5px 0;
+            }
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #00ff41;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ffff00;
         }
     </style>
 </head>
 <body>
-    <div class="window">
-        <div class="title-bar">
-            <div class="title-text">
-                <span class="window-icon"></span>
-                MUSICBASE.EXE - Music Database v1.3
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">INITIALIZING VINYL.NET</div>
+        <div class="loading-bar">
+            <div class="loading-fill"></div>
+        </div>
+        <div style="font-size: 12px; color: #666;">Loading record collection database...</div>
+    </div>
+
+    <div class="browser-window" id="mainWindow" style="display: none;">
+        <div class="browser-header">
+            <div class="browser-dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
             </div>
-            <div class="window-controls">
-                <div class="control-btn">_</div>
-                <div class="control-btn">□</div>
-                <div class="control-btn">×</div>
+            <input type="text" class="url-bar" value="vinyl://localhost/collection/browse" readonly>
+        </div>
+        
+        <div class="vinyl-header">
+            <div class="main-title">VINYL.NET</div>
+            <div class="subtitle">◄ RETRO RECORD COLLECTION BROWSER ►</div>
+        </div>
+        
+        <div class="control-panel">
+            <div class="vinyl-player">
+                <div class="vinyl-disc" onclick="executeCommand('random')" title="Click to play random album"></div>
+                <div class="vinyl-controls">
+                    <button class="control-btn" onclick="executeCommand('sort-rating')">▲ RATING</button>
+                    <button class="control-btn" onclick="executeCommand('sort-artist')">▲ ARTIST</button>
+                    <button class="control-btn" onclick="executeCommand('sort-year')">▲ YEAR</button>
+                </div>
+            </div>
+            
+            <div class="search-console">
+                <span class="console-prompt">SEARCH></span>
+                <input type="text" class="search-input" id="searchInput" placeholder="Enter album, artist or track..." onkeyup="handleSearch(event)">
+            </div>
+            
+            <div class="cassette-counter">
+                <div class="cassette">
+                    <div class="cassette-reel"></div>
+                    <div class="cassette-reel"></div>
+                </div>
+                <div class="counter-display" id="albumCounter">000</div>
             </div>
         </div>
         
-        <div class="menu-bar">
-            <div class="menu-item">File</div>
-            <div class="menu-item">Edit</div>
-            <div class="menu-item">View</div>
-            <div class="menu-item">Tools</div>
-            <div class="menu-item">Help</div>
-        </div>
-        
-        <div class="toolbar">
-            <div class="tool-btn" onclick="executeCommand('random')">
-                <span class="pixel-icon"></span>Random
-            </div>
-            <div class="separator"></div>
-            <div class="tool-btn" onclick="executeCommand('expand-all')">Expand All</div>
-            <div class="tool-btn" onclick="executeCommand('collapse-all')">Collapse</div>
-            <div class="separator"></div>
-            <div class="tool-btn" onclick="executeCommand('sort-rating')">By Rating</div>
-            <div class="tool-btn" onclick="executeCommand('sort-artist')">By Artist</div>
-            <div class="tool-btn" onclick="executeCommand('sort-year')">By Year</div>
-            <div class="separator"></div>
-            <div class="search-group">
-                <label>Search:</label>
-                <input type="text" class="search-input" id="searchInput" placeholder="Type to filter..." onkeyup="handleSearch(event)">
-            </div>
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="setFilter('all')">ALL RECORDS</button>
+            <button class="filter-tab" onclick="setFilter('90s')">90s CLASSICS</button>
+            <button class="filter-tab" onclick="setFilter('2000s')">2000s HITS</button>
+            <button class="filter-tab" onclick="setFilter('top-rated')">TOP RATED</button>
+            <button class="filter-tab" onclick="setFilter('favorites')">FAVORITES</button>
+            <button class="filter-tab" onclick="setFilter('recent')">RECENT ADDS</button>
         </div>
         
         <div class="content-area">
             <div class="sidebar">
-                <div class="group-box">
-                    <div class="group-title">DATABASE STATS</div>
-                    <div class="group-content">
-                        <div class="stats-item">
+                <div class="info-panel">
+                    <div class="info-header">COLLECTION STATS</div>
+                    <div class="info-content">
+                        <div class="info-item">
                             <span>Total Albums:</span>
-                            <span id="totalAlbums">0</span>
+                            <span class="info-value" id="totalAlbums">0</span>
                         </div>
-                        <div class="stats-item">
-                            <span>Avg Rating:</span>
-                            <span id="avgRating">0.0</span>
-                        </div>
-                        <div class="stats-item">
+                        <div class="info-item">
                             <span>Total Tracks:</span>
-                            <span id="totalTracks">0</span>
+                            <span class="info-value" id="totalTracks">0</span>
                         </div>
-                        <div class="stats-item">
+                        <div class="info-item">
+                            <span>Avg Rating:</span>
+                            <span class="info-value" id="avgRating">0.0</span>
+                        </div>
+                        <div class="info-item">
                             <span>Showing:</span>
-                            <span id="showingCount">0</span>
+                            <span class="info-value" id="showingCount">0</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="group-box">
-                    <div class="group-title">QUICK FILTERS</div>
-                    <div class="group-content">
-                        <div class="filter-item">
-                            <input type="checkbox" id="filter90s" onchange="applyFilters()">
-                            <label for="filter90s">90s Albums</label>
-                        </div>
-                        <div class="filter-item">
-                            <input type="checkbox" id="filter2000s" onchange="applyFilters()">
-                            <label for="filter2000s">2000s Albums</label>
-                        </div>
-                        <div class="filter-item">
-                            <input type="checkbox" id="filterHighRated" onchange="applyFilters()">
-                            <label for="filterHighRated">High Rated (8+)</label>
-                        </div>
-                        <div class="filter-item">
-                            <input type="checkbox" id="filterFavorites" onchange="applyFilters()">
-                            <label for="filterFavorites">Has Favorites</label>
+                <div class="info-panel">
+                    <div class="info-header">AUDIO LEVELS</div>
+                    <div class="info-content">
+                        <div class="equalizer">
+                            <div class="eq-bar" style="height: 40px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 35px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 45px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 38px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 42px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 36px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 44px;"><div class="eq-fill"></div></div>
+                            <div class="eq-bar" style="height: 40px;"><div class="eq-fill"></div></div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="group-box">
-                    <div class="group-title">SYSTEM INFO</div>
-                    <div class="group-content">
-                        <div class="stats-item">
-                            <span>Memory:</span>
-                            <span id="memUsage">42MB</span>
+                <div class="info-panel">
+                    <div class="info-header">SYSTEM STATUS</div>
+                    <div class="info-content">
+                        <div class="info-item">
+                            <span>Connection:</span>
+                            <span class="info-value">ONLINE</span>
                         </div>
-                        <div class="stats-item">
-                            <span>CPU:</span>
-                            <span>12%</span>
+                        <div class="info-item">
+                            <span>Buffer:</span>
+                            <span class="info-value" id="bufferStatus">85%</span>
                         </div>
-                        <div class="stats-item">
-                            <span>Uptime:</span>
-                            <span id="uptime">00:00</span>
+                        <div class="info-item">
+                            <span>Session:</span>
+                            <span class="info-value" id="sessionTime">00:00</span>
                         </div>
                     </div>
                 </div>
             </div>
             
             <div class="main-content">
-                <div class="list-header">
-                    <div class="header-cell cell-number">#</div>
-                    <div class="header-cell" onclick="sortBy('artist')">
-                        Artist <span class="sort-arrow" id="sort-artist"></span>
-                    </div>
-                    <div class="header-cell" onclick="sortBy('album')">
-                        Album <span class="sort-arrow" id="sort-album"></span>
-                    </div>
-                    <div class="header-cell" onclick="sortBy('year')">
-                        Year <span class="sort-arrow" id="sort-year"></span>
-                    </div>
-                    <div class="header-cell" onclick="sortBy('tracks')">
-                        Tracks <span class="sort-arrow" id="sort-tracks"></span>
-                    </div>
-                    <div class="header-cell" onclick="sortBy('rating')">
-                        Rating <span class="sort-arrow" id="sort-rating">▼</span>
-                    </div>
-                    <div class="header-cell">Comment</div>
-                </div>
-                
-                <div id="albumList"></div>
+                <div class="album-grid" id="albumGrid"></div>
             </div>
         </div>
         
         <div class="status-bar">
             <div class="status-left">
-                <div class="status-panel">Ready</div>
-                <div class="status-panel">Records: <span id="statusRecords">0</span></div>
-                <div class="progressbar">
-                    <div class="progress-fill"></div>
+                <div class="status-indicator">
+                    <div class="status-light light-green"></div>
+                    <span>DB CONNECTED</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-light light-yellow"></div>
+                    <span>INDEXING</span>
+                </div>
+                <div class="status-indicator">
+                    <div class="status-light light-red"></div>
+                    <span>BUFFER</span>
                 </div>
             </div>
-            <div>Last Updated: <span id="lastUpdate"></span></div>
+            <div>VINYL.NET v2.0 | © 1999 RetroSoft Technologies</div>
         </div>
     </div>
 
@@ -571,76 +879,162 @@
         let albums = [];
         let currentAlbums = [];
         let currentSort = 'rating-desc';
+        let currentFilter = 'all';
         let expandedAlbums = new Set();
-        let selectedAlbum = null;
         let startTime = Date.now();
-
-        // Sample data for demo - replace with your actual albums.json loading
-        const sampleAlbums = [
-            {
-                artist: "Radiohead",
-                album: "OK Computer",
-                year: 1997,
-                comment: "Meisterwerk des Alternative Rock",
-                songs: [
-                    { name: "Airbag", rating: 8.5, favorite: false, interlude: false },
-                    { name: "Paranoid Android", rating: 9.5, favorite: true, interlude: false },
-                    { name: "Subterranean Homesick Alien", rating: 7.8, favorite: false, interlude: false },
-                    { name: "Exit Music", rating: 9.0, favorite: true, interlude: false },
-                    { name: "Let Down", rating: 8.8, favorite: false, interlude: false },
-                    { name: "Karma Police", rating: 9.2, favorite: true, interlude: false }
-                ]
-            },
-            {
-                artist: "Nirvana",
-                album: "Nevermind",
-                year: 1991,
-                comment: "Grunge-Klassiker",
-                songs: [
-                    { name: "Smells Like Teen Spirit", rating: 9.0, favorite: true, interlude: false },
-                    { name: "In Bloom", rating: 8.2, favorite: false, interlude: false },
-                    { name: "Come As You Are", rating: 8.7, favorite: false, interlude: false },
-                    { name: "Breed", rating: 7.5, favorite: false, interlude: false },
-                    { name: "Lithium", rating: 8.9, favorite: true, interlude: false }
-                ]
-            },
-            {
-                artist: "Daft Punk",
-                album: "Discovery",
-                year: 2001,
-                comment: "Electronic Perfection",
-                songs: [
-                    { name: "One More Time", rating: 9.1, favorite: true, interlude: false },
-                    { name: "Aerodynamic", rating: 8.6, favorite: false, interlude: false },
-                    { name: "Digital Love", rating: 8.9, favorite: true, interlude: false },
-                    { name: "Harder Better Faster Stronger", rating: 9.3, favorite: true, interlude: false },
-                    { name: "Crescendolls", rating: 7.8, favorite: false, interlude: false }
-                ]
-            }
-        ];
 
         async function loadAlbumsFromFile() {
             try {
+                console.log('Attempting to load albums.json...');
                 const response = await fetch('albums.json');
+                
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`Failed to load albums.json: ${response.status} ${response.statusText}`);
                 }
-                return await response.json();
+                
+                const albumsData = await response.json();
+                console.log(`Successfully loaded ${albumsData.length} albums from albums.json`);
+                
+                // Validate data structure
+                if (!Array.isArray(albumsData) || albumsData.length === 0) {
+                    throw new Error('albums.json is empty or not an array');
+                }
+                
+                // Validate album structure
+                const validAlbums = albumsData.filter(album => {
+                    return album.artist && album.album && album.year && 
+                           Array.isArray(album.songs) && album.songs.length > 0;
+                });
+                
+                if (validAlbums.length !== albumsData.length) {
+                    console.warn(`Some albums had invalid structure. Using ${validAlbums.length} of ${albumsData.length} albums.`);
+                }
+                
+                if (validAlbums.length === 0) {
+                    throw new Error('No valid albums found in albums.json');
+                }
+                
+                return validAlbums;
+                
             } catch (error) {
-                console.warn('Could not load albums.json, using sample data:', error);
-                return sampleAlbums;
+                console.error('Could not load albums.json:', error.message);
+                showError('albums.json file not found or invalid. Please place a valid albums.json file in the same directory.');
+                return [];
             }
         }
 
-        async function initializeDatabase() {
-            const albumsData = await loadAlbumsFromFile();
-            albums = albumsData;
-            currentAlbums = [...albums];
+        function showError(message) {
+            const albumGrid = document.getElementById('albumGrid');
+            albumGrid.innerHTML = `
+                <div style="
+                    grid-column: 1 / -1;
+                    background: linear-gradient(135deg, #2a0000 0%, #4a0000 100%);
+                    border: 2px solid #ff4444;
+                    border-radius: 8px;
+                    padding: 30px;
+                    text-align: center;
+                    color: #ff6666;
+                    margin: 20px;
+                ">
+                    <div style="font-size: 24px; margin-bottom: 15px; color: #ff4444;">⚠ DATABASE ERROR</div>
+                    <div style="font-size: 14px; margin-bottom: 20px; line-height: 1.5;">${message}</div>
+                    <div style="font-size: 12px; color: #ff8888; background: #1a0000; padding: 15px; border-radius: 5px; font-family: 'Courier Prime', monospace;">
+                        Expected file structure:<br><br>
+                        [<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"artist": "Artist Name",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"album": "Album Name",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"year": 2000,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"comment": "Optional comment",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"songs": [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"name": "Song Name",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rating": 8.5,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"favorite": false,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"interlude": false<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+                        &nbsp;&nbsp;}<br>
+                        ]
+                    </div>
+                </div>
+            `;
+        }
+
+        function showDataSourceNotification(message) {
+            // Create a temporary notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff8800;
+                color: #000;
+                padding: 10px 15px;
+                border: 2px solid #ffaa00;
+                border-radius: 5px;
+                font-family: inherit;
+                font-size: 12px;
+                z-index: 1001;
+                max-width: 300px;
+                box-shadow: 0 0 15px rgba(255, 136, 0, 0.5);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
-            sortAlbums();
-            displayAlbums();
-            updateStats();
-            updateLastUpdate();
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 5000);
+        }
+
+        async function initializeDatabase() {
+            showLoading();
+            
+            // Show loading for at least 2 seconds for better UX
+            const startTime = Date.now();
+            
+            try {
+                const albumsData = await loadAlbumsFromFile();
+                albums = albumsData;
+                currentAlbums = [...albums];
+                
+                // Ensure minimum loading time
+                const elapsed = Date.now() - startTime;
+                const remainingTime = Math.max(0, 2000 - elapsed);
+                
+                setTimeout(() => {
+                    if (albums.length > 0) {
+                        sortAlbums();
+                        displayAlbums();
+                        updateStats();
+                        console.log(`Successfully loaded ${albums.length} albums from albums.json`);
+                    } else {
+                        updateStats();
+                    }
+                    hideLoading();
+                }, remainingTime);
+                
+            } catch (error) {
+                console.error('Failed to initialize database:', error);
+                setTimeout(() => {
+                    hideLoading();
+                    showDataSourceNotification('Error loading albums.json');
+                    updateStats();
+                }, 2000);
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('loadingScreen').classList.add('show');
+            document.getElementById('mainWindow').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingScreen').classList.remove('show');
+            document.getElementById('mainWindow').style.display = 'block';
         }
 
         function calculateAverageRating(songs) {
@@ -650,34 +1044,35 @@
             return (sum / nonInterludeSongs.length).toFixed(1);
         }
 
-        function createRatingBlocks(rating) {
-            const blocks = [];
+        function createRatingBars(rating) {
+            const bars = [];
             const normalizedRating = Math.round(parseFloat(rating));
             
             for (let i = 1; i <= 10; i++) {
                 const filled = i <= normalizedRating;
-                let className = 'rating-block';
+                let className = 'rating-bar';
                 if (filled) {
                     className += ' filled';
                     if (i >= 9) className += ' max';
                     else if (i >= 7) className += ' high';
                 }
-                blocks.push(`<div class="${className}"></div>`);
+                bars.push(`<div class="${className}"></div>`);
             }
             
-            return blocks.join('');
+            return bars.join('');
         }
 
         function displayAlbums() {
-            const albumList = document.getElementById('albumList');
-            albumList.innerHTML = '';
+            const albumGrid = document.getElementById('albumGrid');
+            albumGrid.innerHTML = '';
 
             currentAlbums.forEach((album, index) => {
                 const avgRating = calculateAverageRating(album.songs);
                 const isExpanded = expandedAlbums.has(index);
-                const isSelected = selectedAlbum === index;
                 
-                const albumDiv = document.createElement('div');
+                const albumCard = document.createElement('div');
+                albumCard.className = `album-card ${isExpanded ? 'expanded' : ''}`;
+                albumCard.onclick = () => toggleAlbum(index);
                 
                 const tracksHtml = album.songs.map((song, trackIndex) => `
                     <div class="track-item">
@@ -688,43 +1083,36 @@
                         <span class="track-rating">${song.rating}</span>
                         <span class="track-icons">
                             ${song.favorite ? '★' : ''}
-                            ${song.interlude ? 'i' : ''}
+                            ${song.interlude ? '◊' : ''}
                         </span>
                     </div>
                 `).join('');
                 
-                albumDiv.innerHTML = `
-                    <div class="album-row ${isSelected ? 'selected' : ''}" onclick="selectAlbum(${index})">
-                        <div class="cell cell-number">${index + 1}</div>
-                        <div class="cell">${album.artist}</div>
-                        <div class="cell">${album.album}</div>
-                        <div class="cell cell-number">${album.year}</div>
-                        <div class="cell cell-number">${album.songs.length}</div>
-                        <div class="cell rating-cell">
-                            <span class="rating-number">${avgRating}</span>
-                            <div class="rating-bar">${createRatingBlocks(avgRating)}</div>
+                albumCard.innerHTML = `
+                    <div class="album-header">
+                        <div class="album-title">${album.album}</div>
+                        <div class="album-artist">by ${album.artist}</div>
+                        <div class="album-meta">
+                            <span>${album.year} • ${album.songs.length} tracks</span>
+                            <div class="rating-display">
+                                <span class="rating-number">${avgRating}</span>
+                                <div class="rating-bars">${createRatingBars(avgRating)}</div>
+                            </div>
                         </div>
-                        <div class="cell">${album.comment ? album.comment.substring(0, 30) + '...' : ''}</div>
                     </div>
-                    <div class="tracks-panel ${isExpanded ? 'show' : ''}" id="tracks-${index}">
-                        <div class="tracks-header">♪ TRACKLIST - ${album.artist.toUpperCase()} - ${album.album.toUpperCase()}</div>
-                        <div class="tracks-list">
+                    <div class="tracks-section ${isExpanded ? 'show' : ''}" id="tracks-${index}">
+                        <div class="tracks-header">♫ TRACK LISTING</div>
+                        <div class="track-list">
                             ${tracksHtml}
-                            ${album.comment ? `<div class="comment-panel">${album.comment}</div>` : ''}
                         </div>
+                        ${album.comment ? `<div class="comment-section">📼 ${album.comment}</div>` : ''}
                     </div>
                 `;
                 
-                albumList.appendChild(albumDiv);
+                albumGrid.appendChild(albumCard);
             });
-        }
 
-        function selectAlbum(index) {
-            selectedAlbum = selectedAlbum === index ? null : index;
-            if (selectedAlbum !== null) {
-                toggleAlbum(index);
-            }
-            displayAlbums();
+            updateAlbumCounter();
         }
 
         function toggleAlbum(index) {
@@ -733,6 +1121,7 @@
             } else {
                 expandedAlbums.add(index);
             }
+            displayAlbums();
         }
 
         function executeCommand(command) {
@@ -754,7 +1143,6 @@
                     return;
                 case 'collapse-all':
                     expandedAlbums.clear();
-                    selectedAlbum = null;
                     displayAlbums();
                     return;
                 case 'random':
@@ -764,27 +1152,76 @@
                     input.value = '';
                     currentAlbums = [...albums];
                     expandedAlbums.clear();
-                    selectedAlbum = null;
                     currentSort = 'rating-desc';
-                    clearFilters();
+                    currentFilter = 'all';
+                    setFilter('all');
                     break;
             }
             
             sortAlbums();
             displayAlbums();
             updateStats();
-            updateSortArrows();
         }
 
-        function sortBy(criteria) {
-            const newSort = currentSort.startsWith(criteria) 
-                ? (currentSort.endsWith('asc') ? criteria + '-desc' : criteria + '-asc')
-                : criteria + '-desc';
+        function setFilter(filter) {
+            currentFilter = filter;
             
-            currentSort = newSort;
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            applyFilter();
+        }
+
+        function applyFilter() {
+            let filteredAlbums = [...albums];
+            
+            // Apply search first
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                filteredAlbums = filteredAlbums.filter(album => 
+                    album.album.toLowerCase().includes(searchTerm) ||
+                    album.artist.toLowerCase().includes(searchTerm) ||
+                    album.songs.some(song => song.name.toLowerCase().includes(searchTerm)) ||
+                    (album.comment && album.comment.toLowerCase().includes(searchTerm))
+                );
+            }
+            
+            // Apply filter
+            switch(currentFilter) {
+                case '90s':
+                    filteredAlbums = filteredAlbums.filter(album => album.year >= 1990 && album.year < 2000);
+                    break;
+                case '2000s':
+                    filteredAlbums = filteredAlbums.filter(album => album.year >= 2000 && album.year < 2010);
+                    break;
+                case 'top-rated':
+                    filteredAlbums = filteredAlbums.filter(album => 
+                        parseFloat(calculateAverageRating(album.songs)) >= 8.5
+                    );
+                    break;
+                case 'favorites':
+                    filteredAlbums = filteredAlbums.filter(album => 
+                        album.songs.some(song => song.favorite)
+                    );
+                    break;
+                case 'recent':
+                    filteredAlbums = filteredAlbums.filter(album => album.year >= 2020);
+                    break;
+                case 'all':
+                default:
+                    break;
+            }
+            
+            currentAlbums = filteredAlbums;
+            expandedAlbums.clear();
             sortAlbums();
             displayAlbums();
-            updateSortArrows();
+            updateStats();
+        }
+
+        function handleSearch(event) {
+            applyFilter();
         }
 
         function sortAlbums() {
@@ -803,9 +1240,6 @@
                     case 'year':
                         comparison = a.year - b.year;
                         break;
-                    case 'tracks':
-                        comparison = a.songs.length - b.songs.length;
-                        break;
                     case 'rating':
                         const avgA = parseFloat(calculateAverageRating(a.songs));
                         const avgB = parseFloat(calculateAverageRating(b.songs));
@@ -817,42 +1251,94 @@
             });
         }
 
-        function updateSortArrows() {
-            document.querySelectorAll('.sort-arrow').forEach(arrow => arrow.textContent = '');
+        function showRandomAlbum() {
+            if (currentAlbums.length === 0) return;
             
-            const [criteria, order] = currentSort.split('-');
-            const arrowElement = document.getElementById(`sort-${criteria}`);
-            if (arrowElement) {
-                arrowElement.textContent = order === 'desc' ? '▼' : '▲';
-            }
-        }
-
-        function handleSearch(event) {
-            searchAlbums();
-        }
-
-        function searchAlbums() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            currentAlbums = albums.filter(album => 
-                album.album.toLowerCase().includes(searchTerm) ||
-                album.artist.toLowerCase().includes(searchTerm) ||
-                album.songs.some(song => song.name.toLowerCase().includes(searchTerm)) ||
-                (album.comment && album.comment.toLowerCase().includes(searchTerm))
-            );
-            
-            applyFilters();
+            const randomIndex = Math.floor(Math.random() * currentAlbums.length);
             expandedAlbums.clear();
-            selectedAlbum = null;
-            sortAlbums();
+            expandedAlbums.add(randomIndex);
+            
             displayAlbums();
-            updateStats();
+            
+            // Scroll to album
+            setTimeout(() => {
+                const albumCards = document.querySelectorAll('.album-card');
+                if (albumCards[randomIndex]) {
+                    albumCards[randomIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
         }
 
-        function applyFilters() {
-            let filteredAlbums = [...albums];
+        function updateStats() {
+            const totalTracks = albums.reduce((sum, album) => sum + album.songs.length, 0);
+            const totalRating = albums.reduce((sum, album) => {
+                return sum + parseFloat(calculateAverageRating(album.songs));
+            }, 0);
+            const avgRating = albums.length > 0 ? (totalRating / albums.length).toFixed(1) : '0.0';
             
-            // Apply search first
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            if (searchTerm) {
-                filteredAlbums = filteredAlbums.filter(album => 
-                    album.album.toLowerCase().includes(search
+            document.getElementById('totalAlbums').textContent = albums.length;
+            document.getElementById('totalTracks').textContent = totalTracks;
+            document.getElementById('avgRating').textContent = avgRating;
+            document.getElementById('showingCount').textContent = currentAlbums.length;
+        }
+
+        function updateAlbumCounter() {
+            const count = currentAlbums.length.toString().padStart(3, '0');
+            document.getElementById('albumCounter').textContent = count;
+        }
+
+        function updateSessionTime() {
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / 60000).toString().padStart(2, '0');
+            const seconds = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+            
+            document.getElementById('sessionTime').textContent = `${minutes}:${seconds}`;
+        }
+
+        function updateBufferStatus() {
+            const buffer = Math.floor(Math.random() * 30) + 70; // 70-100%
+            document.getElementById('bufferStatus').textContent = `${buffer}%`;
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeDatabase();
+            
+            // Update session time every second
+            setInterval(updateSessionTime, 1000);
+            
+            // Update buffer status every 3 seconds
+            setInterval(updateBufferStatus, 3000);
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                    document.getElementById('searchInput').select();
+                }
+                
+                if (e.key === 'Escape') {
+                    expandedAlbums.clear();
+                    displayAlbums();
+                }
+                
+                if (e.key === 'F5') {
+                    e.preventDefault();
+                    executeCommand('random');
+                }
+                
+                if (e.key === ' ') {
+                    e.preventDefault();
+                    executeCommand('random');
+                }
+            });
+            
+            // Focus search input after loading
+            setTimeout(() => {
+                document.getElementById('searchInput').focus();
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
