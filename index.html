@@ -3,511 +3,597 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOME.MUSIC.DB://TERMINAL</title>
+    <title>Music Database System v3.2 - [DOME]</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        
-        * {
+        body {
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: #000;
-            color: #0f0;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-size: 12px;
-            line-height: 1.2;
+            background: #c0c0c0;
+            font-family: 'MS Sans Serif', Verdana, sans-serif;
+            font-size: 11px;
+            color: #000000;
             overflow-x: auto;
         }
         
-        .terminal {
-            min-height: 100vh;
-            padding: 20px;
-            background: 
-                radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.03) 0%, transparent 50%),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 255, 0, 0.02) 2px,
-                    rgba(0, 255, 0, 0.02) 4px
-                );
+        .window {
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            margin: 8px;
+            box-shadow: 2px 2px 4px #808080;
         }
         
-        .ascii-header {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 8px;
-            line-height: 1;
-            color: #0a0;
-            text-shadow: 0 0 10px #0f0;
-            animation: flicker 3s infinite;
-        }
-        
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-            75% { opacity: 0.95; }
-        }
-        
-        .system-info {
-            border: 2px solid #0f0;
-            padding: 15px;
-            margin-bottom: 20px;
-            background: rgba(0, 255, 0, 0.05);
-            position: relative;
-        }
-        
-        .system-info::before {
-            content: "[ SYSTEM INFO ]";
-            position: absolute;
-            top: -12px;
-            left: 10px;
-            background: #000;
-            padding: 0 5px;
-            color: #0f0;
+        .title-bar {
+            background: linear-gradient(to right, #0a246a, #a6caf0);
+            color: white;
+            padding: 4px 8px;
             font-weight: bold;
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        
-        .info-item {
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px dotted #333;
-            padding: 2px 0;
+            align-items: center;
+            border-bottom: 1px solid #000040;
         }
         
-        .command-bar {
-            background: #111;
-            border: 1px solid #0f0;
-            padding: 10px;
-            margin-bottom: 20px;
-            font-family: inherit;
-        }
-        
-        .command-line {
+        .title-text {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            gap: 8px;
         }
         
-        .prompt {
-            color: #ff0;
-            margin-right: 10px;
+        .window-icon {
+            width: 16px;
+            height: 16px;
+            background: #ffff00;
+            border: 1px solid #000;
+            display: inline-block;
+            text-align: center;
+            line-height: 14px;
+            font-size: 10px;
             font-weight: bold;
         }
         
-        .command-input {
-            background: transparent;
-            border: none;
-            color: #0f0;
-            font-family: inherit;
-            font-size: inherit;
-            flex-grow: 1;
-            outline: none;
-            padding: 2px;
+        .window-controls {
+            display: flex;
+            gap: 2px;
         }
         
-        .command-buttons {
+        .control-btn {
+            width: 16px;
+            height: 14px;
+            background: #c0c0c0;
+            border: 1px outset #c0c0c0;
+            font-size: 8px;
+            text-align: center;
+            line-height: 12px;
+            cursor: pointer;
+        }
+        
+        .control-btn:active {
+            border: 1px inset #c0c0c0;
+        }
+        
+        .menu-bar {
+            background: #e0e0e0;
+            border-bottom: 1px solid #808080;
+            padding: 4px;
+            font-size: 10px;
+        }
+        
+        .menu-item {
+            display: inline-block;
+            padding: 2px 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        
+        .menu-item:hover {
+            border: 1px outset #c0c0c0;
+            background: #f0f0f0;
+        }
+        
+        .toolbar {
+            background: #e0e0e0;
+            border-bottom: 1px solid #808080;
+            padding: 6px;
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 10px;
+            gap: 4px;
+            align-items: center;
         }
         
-        .cmd-btn {
-            background: #222;
-            border: 1px solid #0f0;
-            color: #0f0;
-            padding: 4px 8px;
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0 6px;
+            border-right: 1px solid #808080;
+        }
+        
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+        
+        .toolbar-label {
+            font-size: 10px;
+            color: #000080;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            border: 1px inset #c0c0c0;
+            background: white;
+            padding: 2px 4px;
             font-family: inherit;
-            font-size: 11px;
+            font-size: 10px;
+        }
+        
+        .form-control:focus {
+            outline: 1px dotted #000080;
+        }
+        
+        .btn {
+            background: #e0e0e0;
+            border: 1px outset #c0c0c0;
+            padding: 2px 8px;
+            font-family: inherit;
+            font-size: 10px;
             cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s;
+            color: #000000;
         }
         
-        .cmd-btn:hover {
-            background: #0f0;
-            color: #000;
-            box-shadow: 0 0 10px #0f0;
+        .btn:hover {
+            background: #f0f0f0;
         }
         
-        .cmd-btn:active {
-            transform: scale(0.98);
+        .btn:active {
+            border: 1px inset #c0c0c0;
         }
         
-        .data-container {
-            border: 1px solid #0f0;
-            background: rgba(0, 20, 0, 0.3);
+        .btn-primary {
+            background: #000080;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn-primary:hover {
+            background: #0000a0;
+        }
+        
+        .data-area {
+            background: white;
+            border: 1px inset #c0c0c0;
+            margin: 8px;
             min-height: 400px;
         }
         
-        .data-header {
-            background: #0f0;
-            color: #000;
-            padding: 8px 15px;
-            font-weight: bold;
-            text-transform: uppercase;
+        .status-bar {
+            background: #e0e0e0;
+            border-top: 1px solid #808080;
+            padding: 2px 8px;
+            font-size: 10px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
         
-        .status-lights {
-            display: flex;
-            gap: 5px;
+        .status-item {
+            padding: 0 8px;
+            border-right: 1px solid #808080;
         }
         
-        .status-light {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .status-item:last-child {
+            border-right: none;
         }
         
-        .light-green { background: #0f0; }
-        .light-red { background: #f00; animation-delay: 0.5s; }
-        .light-yellow { background: #ff0; animation-delay: 1s; }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        .record-header {
+            background: #d0d0d0;
+            border-bottom: 1px solid #808080;
+            padding: 6px 8px;
+            font-weight: bold;
+            font-size: 10px;
+            text-transform: uppercase;
         }
         
-        .album-list {
-            padding: 0;
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
         }
         
-        .album-entry {
-            border-bottom: 1px solid #333;
-            padding: 12px 15px;
+        .records-table th {
+            background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+            border: 1px solid #808080;
+            padding: 4px 6px;
+            text-align: left;
+            font-size: 9px;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
             position: relative;
         }
         
-        .album-entry:hover {
-            background: rgba(0, 255, 0, 0.1);
-            border-left: 4px solid #0f0;
-            padding-left: 23px;
+        .records-table th:hover {
+            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
         }
         
-        .album-entry.selected {
-            background: rgba(0, 255, 0, 0.2);
-            border-left: 4px solid #ff0;
-            padding-left: 23px;
+        .records-table th.sorted-asc::after {
+            content: "▲";
+            position: absolute;
+            right: 2px;
+            font-size: 8px;
         }
         
-        .album-header-line {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
+        .records-table th.sorted-desc::after {
+            content: "▼";
+            position: absolute;
+            right: 2px;
+            font-size: 8px;
         }
         
-        .album-title {
+        .records-table td {
+            border: 1px solid #d0d0d0;
+            padding: 3px 6px;
+            vertical-align: top;
+            font-size: 10px;
+        }
+        
+        .record-row {
+            cursor: pointer;
+        }
+        
+        .record-row:nth-child(even) {
+            background: #f8f8f8;
+        }
+        
+        .record-row:hover {
+            background: #e0e8ff;
+        }
+        
+        .record-row.selected {
+            background: #000080;
+            color: white;
+        }
+        
+        .record-row.selected td {
+            border-color: #000080;
+        }
+        
+        .rating-cell {
+            text-align: center;
             font-weight: bold;
-            color: #fff;
+            font-family: 'Courier New', monospace;
         }
         
-        .album-meta {
-            font-size: 11px;
-            color: #888;
-        }
+        .rating-excellent { background: #ff00ff; color: white; }
+        .rating-great { background: #ff0000; color: white; }
+        .rating-good { background: #ff8000; color: black; }
+        .rating-fair { background: #ffff00; color: black; }
+        .rating-poor { background: #80ff00; color: black; }
+        .rating-bad { background: #00ffff; color: black; }
         
-        .rating-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .rating-number {
-            font-weight: bold;
-            font-size: 14px;
-            min-width: 40px;
-            text-align: right;
-        }
-        
-        .rating-blocks {
-            display: flex;
-            gap: 1px;
-        }
-        
-        .rating-block {
-            width: 8px;
-            height: 12px;
-            background: #333;
-        }
-        
-        .rating-block.filled { background: #0f0; }
-        .rating-block.filled.high { background: #ff0; }
-        .rating-block.filled.max { background: #f0f; }
-        
-        .tracks-panel {
+        .details-panel {
             display: none;
-            background: #111;
-            border-top: 1px solid #333;
-            padding: 15px;
-            margin-top: 10px;
+            border-top: 2px solid #000080;
+            background: #f0f8ff;
         }
         
-        .tracks-panel.show {
+        .details-panel.show {
             display: block;
         }
         
-        .tracks-header {
-            color: #ff0;
-            margin-bottom: 10px;
+        .details-header {
+            background: #000080;
+            color: white;
+            padding: 4px 8px;
             font-weight: bold;
-            text-transform: uppercase;
+            font-size: 10px;
         }
         
-        .track-grid {
+        .details-content {
+            padding: 8px;
+        }
+        
+        .field-group {
+            margin-bottom: 8px;
+            display: flex;
+        }
+        
+        .field-label {
+            width: 80px;
+            font-weight: bold;
+            color: #000080;
+            font-size: 10px;
+        }
+        
+        .field-value {
+            flex: 1;
+            font-size: 10px;
+        }
+        
+        .tracks-list {
+            border: 1px inset #c0c0c0;
+            background: white;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 8px;
+        }
+        
+        .track-header {
+            background: #d0d0d0;
+            padding: 2px 4px;
+            font-weight: bold;
+            font-size: 9px;
+            border-bottom: 1px solid #808080;
             display: grid;
-            grid-template-columns: 1fr 60px 40px;
-            gap: 10px;
-            margin-bottom: 2px;
-            padding: 3px 0;
-            border-bottom: 1px dotted #333;
+            grid-template-columns: 1fr 40px 30px;
+            gap: 4px;
+        }
+        
+        .track-item {
+            padding: 2px 4px;
+            border-bottom: 1px dotted #d0d0d0;
+            font-size: 9px;
+            display: grid;
+            grid-template-columns: 1fr 40px 30px;
+            gap: 4px;
             align-items: center;
         }
         
-        .track-name {
-            color: #ccc;
+        .track-item:hover {
+            background: #f0f0f0;
         }
         
-        .track-name.favorite {
-            color: #ff0;
+        .track-item.favorite {
+            background: #ffffcc;
             font-weight: bold;
         }
         
-        .track-name.interlude {
-            color: #666;
+        .track-item.interlude {
+            color: #808080;
             font-style: italic;
         }
         
         .track-rating {
-            text-align: right;
+            text-align: center;
             font-weight: bold;
+            font-family: 'Courier New', monospace;
         }
         
-        .track-icons {
+        .track-flags {
             text-align: center;
+            font-size: 8px;
+        }
+        
+        .comment-box {
+            margin-top: 8px;
+            border: 1px inset #c0c0c0;
+            background: #ffffcc;
+            padding: 6px;
+            font-size: 10px;
+            font-style: italic;
+        }
+        
+        .comment-box::before {
+            content: "Notizen:";
+            font-weight: bold;
+            font-style: normal;
+            display: block;
+            margin-bottom: 4px;
+            color: #000080;
+        }
+        
+        .pagination {
+            padding: 6px 8px;
+            background: #e0e0e0;
+            border-top: 1px solid #808080;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 10px;
         }
         
-        .comment-section {
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px dashed #666;
-            background: rgba(255, 255, 0, 0.1);
-            color: #ff0;
-            font-size: 11px;
-        }
-        
-        .comment-section::before {
-            content: "// COMMENT:";
-            display: block;
-            margin-bottom: 5px;
+        .pagination-info {
+            color: #000080;
             font-weight: bold;
         }
         
-        .pagination-bar {
-            background: #111;
-            border-top: 1px solid #0f0;
-            padding: 10px 15px;
+        .pagination-controls {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+        }
+        
+        .page-btn {
+            background: #e0e0e0;
+            border: 1px outset #c0c0c0;
+            padding: 2px 6px;
+            font-family: inherit;
+            font-size: 9px;
+            cursor: pointer;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .page-btn:hover {
+            background: #f0f0f0;
+        }
+        
+        .page-btn:active {
+            border: 1px inset #c0c0c0;
+        }
+        
+        .page-btn.active {
+            background: #000080;
+            color: white;
+            border: 1px inset #c0c0c0;
+        }
+        
+        .page-btn:disabled {
+            background: #c0c0c0;
+            color: #808080;
+            cursor: not-allowed;
+        }
+        
+        .error-dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #c0c0c0;
+            border: 2px outset #c0c0c0;
+            box-shadow: 4px 4px 8px #808080;
+            z-index: 1000;
+            min-width: 300px;
+        }
+        
+        .error-title-bar {
+            background: #800000;
+            color: white;
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 11px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .page-controls {
+        .error-content {
+            padding: 16px;
+            text-align: center;
+        }
+        
+        .error-icon {
+            width: 32px;
+            height: 32px;
+            background: #ff0000;
+            border: 2px outset #c0c0c0;
+            margin: 0 auto 12px;
             display: flex;
-            gap: 5px;
             align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
         }
         
-        .page-btn {
-            background: #222;
-            border: 1px solid #666;
-            color: #ccc;
-            padding: 2px 6px;
-            font-family: inherit;
+        .error-message {
+            margin-bottom: 16px;
             font-size: 11px;
-            cursor: pointer;
         }
         
-        .page-btn:hover {
-            border-color: #0f0;
-            color: #0f0;
-        }
-        
-        .page-btn.active {
-            background: #0f0;
-            color: #000;
-            border-color: #0f0;
-        }
-        
-        .page-btn:disabled {
-            background: #111;
-            color: #333;
-            border-color: #333;
-            cursor: not-allowed;
-        }
-        
-        .footer-bar {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #333;
-            background: #111;
-            text-align: center;
-            font-size: 10px;
-            color: #666;
-        }
-        
-        .glitch {
-            animation: glitch-text 0.3s infinite;
-        }
-        
-        @keyframes glitch-text {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-2px); }
-            40% { transform: translateX(2px); }
-            60% { transform: translateX(-1px); }
-            80% { transform: translateX(1px); }
-            100% { transform: translateX(0); }
-        }
-        
-        .loading {
+        .hidden {
             display: none;
-            text-align: center;
-            padding: 20px;
-            color: #ff0;
-        }
-        
-        .loading.show {
-            display: block;
-        }
-        
-        .loading::after {
-            content: "";
-            animation: loading-dots 1.5s infinite;
-        }
-        
-        @keyframes loading-dots {
-            0% { content: ""; }
-            25% { content: "."; }
-            50% { content: ".."; }
-            75% { content: "..."; }
-            100% { content: ""; }
         }
         
         @media (max-width: 768px) {
-            .terminal { padding: 10px; }
-            .ascii-header { font-size: 6px; }
-            .info-grid { grid-template-columns: 1fr; }
-            .command-buttons { flex-direction: column; }
-            .track-grid { grid-template-columns: 1fr 50px 30px; gap: 5px; }
-            body { font-size: 11px; }
+            .window { margin: 4px; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar-group { border-right: none; border-bottom: 1px solid #808080; padding: 4px 0; }
+            .records-table { font-size: 9px; }
+            .records-table th, .records-table td { padding: 2px 3px; }
+            .track-header, .track-item { grid-template-columns: 1fr 35px 25px; }
         }
     </style>
 </head>
 <body>
-    <div class="terminal">
-        <div class="ascii-header">
-<pre>
-████████▄   ▄██████▄    ▄▄▄▄███▄▄▄▄      ▄████████         ▄▄▄▄███▄▄▄▄   ███    █▄     ▄████████  ▄█   ▄████████ 
-███   ▀███ ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███       ▄██▀▀▀███▀▀▀██▄ ███    ███   ███    ███ ███  ███    ███ 
-███    ███ ███    ███ ███   ███   ███   ███    █▀        ███   ███   ███ ███    ███   ███    █▀  ███▌ ███    █▀  
-███    ███ ███    ███ ███   ███   ███  ▄███▄▄▄           ███   ███   ███ ███    ███   ███        ███▌ ███        
-███    ███ ███    ███ ███   ███   ███ ▀▀███▀▀▀           ███   ███   ███ ███    ███ ▀███████████ ███▌ ███        
-███    ███ ███    ███ ███   ███   ███   ███    █▄        ███   ███   ███ ███    ███          ███ ███  ███    █▄  
-███   ▄███ ███    ███ ███   ███   ███   ███    ███       ███   ███   ███ ███    ███    ▄█    ███ ███  ███    ███ 
-████████▀   ▀██████▀   ▀█   ███   █▀    ██████████        ▀█   ███   █▀  ████████▀   ▄████████▀  █▀   ████████▀  
-</pre>
-        </div>
-        
-        <div class="system-info">
-            <div class="info-grid">
-                <div class="info-item">
-                    <span>USER:</span>
-                    <span>root@musicdb</span>
-                </div>
-                <div class="info-item">
-                    <span>TOTAL_ALBUMS:</span>
-                    <span id="systemTotalAlbums">0</span>
-                </div>
-                <div class="info-item">
-                    <span>SESSION:</span>
-                    <span id="sessionId">0x7F4A9B2C</span>
-                </div>
-                <div class="info-item">
-                    <span>AVG_RATING:</span>
-                    <span id="systemAvgRating">0.0</span>
-                </div>
-                <div class="info-item">
-                    <span>UPTIME:</span>
-                    <span id="uptime">00:00:00</span>
-                </div>
-                <div class="info-item">
-                    <span>STATUS:</span>
-                    <span class="glitch">ONLINE</span>
-                </div>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-text">
+                <span class="window-icon">♪</span>
+                Music Database System v3.2 - [DOME] - albums.mdb
+            </div>
+            <div class="window-controls">
+                <div class="control-btn">_</div>
+                <div class="control-btn">□</div>
+                <div class="control-btn">×</div>
             </div>
         </div>
         
-        <div class="command-bar">
-            <div class="command-line">
-                <span class="prompt">dome@musicdb:~$</span>
-                <input type="text" class="command-input" id="searchInput" placeholder="search albums..." onkeyup="handleSearch(event)">
+        <div class="menu-bar">
+            <span class="menu-item">Datei</span>
+            <span class="menu-item">Bearbeiten</span>
+            <span class="menu-item">Ansicht</span>
+            <span class="menu-item">Datensätze</span>
+            <span class="menu-item">Extras</span>
+            <span class="menu-item">Hilfe</span>
+        </div>
+        
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <span class="toolbar-label">Suchen:</span>
+                <input type="text" class="form-control" id="searchField" placeholder="Künstler oder Album..." 
+                       onkeyup="handleSearch()" style="width: 150px;">
             </div>
-            <div class="command-buttons">
-                <button class="cmd-btn" onclick="executeCommand('sort-rating')">sort --rating</button>
-                <button class="cmd-btn" onclick="executeCommand('sort-artist')">sort --artist</button>
-                <button class="cmd-btn" onclick="executeCommand('sort-year')">sort --year</button>
-                <button class="cmd-btn" onclick="executeCommand('expand-all')">expand --all</button>
-                <button class="cmd-btn" onclick="executeCommand('random')">random</button>
-                <button class="cmd-btn" onclick="executeCommand('reset')">reset</button>
+            <div class="toolbar-group">
+                <span class="toolbar-label">Sortieren:</span>
+                <select class="form-control" id="sortField" onchange="applySorting()">
+                    <option value="rating-desc">Bewertung (hoch-niedrig)</option>
+                    <option value="rating-asc">Bewertung (niedrig-hoch)</option>
+                    <option value="artist-asc">Künstler (A-Z)</option>
+                    <option value="artist-desc">Künstler (Z-A)</option>
+                    <option value="album-asc">Album (A-Z)</option>
+                    <option value="album-desc">Album (Z-A)</option>
+                    <option value="year-asc">Jahr (alt-neu)</option>
+                    <option value="year-desc">Jahr (neu-alt)</option>
+                </select>
+            </div>
+            <div class="toolbar-group">
+                <button class="btn" onclick="expandAllRecords()">Alle Details</button>
+                <button class="btn" onclick="collapseAllRecords()">Kompakt</button>
+                <button class="btn" onclick="refreshDatabase()">Aktualisieren</button>
+                <button class="btn btn-primary" onclick="showRandomRecord()">Zufällig</button>
             </div>
         </div>
         
-        <div class="data-container">
-            <div class="data-header">
-                <span>DATABASE RECORDS</span>
-                <div class="status-lights">
-                    <div class="status-light light-green"></div>
-                    <div class="status-light light-red"></div>
-                    <div class="status-light light-yellow"></div>
-                </div>
+        <div class="data-area">
+            <div class="record-header">
+                Datensätze - Musik-Sammlung
             </div>
             
-            <div class="loading" id="loading">
-                LOADING DATABASE
+            <div id="loadingIndicator" class="hidden" style="text-align: center; padding: 40px; color: #000080;">
+                Lade Datenbank...
             </div>
             
-            <div class="album-list" id="albumList"></div>
+            <table class="records-table" id="recordsTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortByColumn('artist')">KÜNSTLER</th>
+                        <th onclick="sortByColumn('album')">ALBUM</th>
+                        <th onclick="sortByColumn('year')">JAHR</th>
+                        <th onclick="sortByColumn('rating')" style="width: 80px;">BEWERTUNG</th>
+                        <th style="width: 60px;">TRACKS</th>
+                        <th style="width: 80px;">STATUS</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsBody">
+                </tbody>
+            </table>
             
-            <div class="pagination-bar">
-                <div>
-                    <span>SHOWING: </span>
-                    <span id="showingRange">0-0</span>
-                    <span> OF </span>
-                    <span id="totalRecords">0</span>
+            <div class="pagination">
+                <div class="pagination-info">
+                    Datensatz <span id="recordRange">0-0</span> von <span id="totalRecords">0</span>
                 </div>
-                <div class="page-controls" id="pageControls"></div>
+                <div class="pagination-controls" id="paginationControls">
+                </div>
             </div>
         </div>
         
-        <div class="footer-bar">
-            DOME.MUSIC.DB://TERMINAL v2.1.0 | LAST_SYNC: <span id="lastSync"></span> | MEM_USAGE: <span id="memUsage">42%</span>
+        <div class="status-bar">
+            <div class="status-item">Bereit</div>
+            <div class="status-item">Datensätze: <span id="statusRecordCount">0</span></div>
+            <div class="status-item">Durchschnitt: <span id="statusAvgRating">0.0</span></div>
+            <div class="status-item">Letzte Aktualisierung: <span id="statusLastUpdate">--:--</span></div>
+        </div>
+    </div>
+    
+    <!-- Error Dialog -->
+    <div id="errorDialog" class="error-dialog hidden">
+        <div class="error-title-bar">
+            <span>Fehler - Music Database System</span>
+            <span class="control-btn" onclick="closeErrorDialog()">×</span>
+        </div>
+        <div class="error-content">
+            <div class="error-icon">!</div>
+            <div class="error-message" id="errorMessage"></div>
+            <button class="btn btn-primary" onclick="closeErrorDialog()">OK</button>
         </div>
     </div>
 
@@ -515,47 +601,43 @@
         let albums = [];
         let currentAlbums = [];
         let currentPage = 1;
-        const albumsPerPage = 5;
+        const recordsPerPage = 10;
         let currentSort = 'rating-desc';
-        let expandedAlbums = new Set();
-        let startTime = Date.now();
+        let expandedRecords = new Set();
+        let selectedRecord = null;
 
         async function loadAlbumsFromFile() {
             try {
                 const response = await fetch('albums.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP-Fehler! Status: ${response.status}`);
                 }
                 const albumsData = await response.json();
                 return albumsData;
             } catch (error) {
-                console.error('Error loading albums.json:', error);
-                showError(`FEHLER BEIM LADEN DER albums.json: ${error.message}`);
+                console.error('Fehler beim Laden der albums.json:', error);
+                showErrorDialog(`Fehler beim Laden der Datenbankdatei:\n\n${error.message}\n\nStellen Sie sicher, dass 'albums.json' im Programmverzeichnis vorhanden ist.`);
                 return [];
             }
         }
 
-        function showError(message) {
-            const albumList = document.getElementById('albumList');
-            albumList.innerHTML = `
-                <div style="padding: 20px; text-align: center; color: #f00; border: 1px solid #f00; background: rgba(255, 0, 0, 0.1); margin: 20px;">
-                    <div style="font-weight: bold; margin-bottom: 10px;">DATABASE ERROR</div>
-                    <div style="font-size: 11px;">${message}</div>
-                    <div style="font-size: 10px; margin-top: 10px; color: #ff0;">
-                        Stellen Sie sicher, dass die Datei 'albums.json' im selben Verzeichnis liegt.
-                    </div>
-                </div>
-            `;
-            hideLoading();
+        function showErrorDialog(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorDialog').classList.remove('hidden');
+        }
+
+        function closeErrorDialog() {
+            document.getElementById('errorDialog').classList.add('hidden');
         }
 
         async function initializeDatabase() {
-            showLoading();
+            showLoadingIndicator();
             
             const albumsData = await loadAlbumsFromFile();
             
             if (albumsData.length === 0) {
-                return; // Error already shown by showError
+                hideLoadingIndicator();
+                return;
             }
             
             // Remove duplicates
@@ -574,22 +656,22 @@
             currentAlbums = [...albums];
             
             setTimeout(() => {
-                hideLoading();
-                sortAlbums();
-                displayAlbums();
-                updateSystemInfo();
+                hideLoadingIndicator();
+                applySorting();
+                displayRecords();
+                updateStatusBar();
                 updatePagination();
-            }, 1000);
+            }, 800);
         }
 
-        function showLoading() {
-            document.getElementById('loading').classList.add('show');
-            document.getElementById('albumList').style.display = 'none';
+        function showLoadingIndicator() {
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('recordsTable').style.display = 'none';
         }
 
-        function hideLoading() {
-            document.getElementById('loading').classList.remove('show');
-            document.getElementById('albumList').style.display = 'block';
+        function hideLoadingIndicator() {
+            document.getElementById('loadingIndicator').classList.add('hidden');
+            document.getElementById('recordsTable').style.display = 'table';
         }
 
         function calculateAverageRating(songs) {
@@ -599,149 +681,150 @@
             return (sum / nonInterludeSongs.length).toFixed(1);
         }
 
-        function getRatingColor(rating) {
+        function getRatingClass(rating) {
             const r = parseFloat(rating);
-            if (r >= 9) return '#f0f';
-            if (r >= 8) return '#ff0';
-            if (r >= 7) return '#0f0';
-            if (r >= 6) return '#0ff';
-            if (r >= 5) return '#f80';
-            return '#f00';
+            if (r >= 9) return 'rating-excellent';
+            if (r >= 8) return 'rating-great';
+            if (r >= 7) return 'rating-good';
+            if (r >= 6) return 'rating-fair';
+            if (r >= 5) return 'rating-poor';
+            return 'rating-bad';
         }
 
-        function createRatingBlocks(rating) {
-            const blocks = [];
-            const normalizedRating = Math.round(parseFloat(rating));
-            
-            for (let i = 1; i <= 10; i++) {
-                const filled = i <= normalizedRating;
-                let className = 'rating-block';
-                if (filled) {
-                    className += ' filled';
-                    if (i >= 9) className += ' max';
-                    else if (i >= 7) className += ' high';
-                }
-                blocks.push(`<div class="${className}"></div>`);
-            }
-            
-            return blocks.join('');
-        }
+        function displayRecords() {
+            const tbody = document.getElementById('recordsBody');
+            tbody.innerHTML = '';
 
-        function displayAlbums() {
-            const albumList = document.getElementById('albumList');
-            albumList.innerHTML = '';
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = startIndex + recordsPerPage;
+            const pageRecords = currentAlbums.slice(startIndex, endIndex);
 
-            const startIndex = (currentPage - 1) * albumsPerPage;
-            const endIndex = startIndex + albumsPerPage;
-            const pageAlbums = currentAlbums.slice(startIndex, endIndex);
-
-            pageAlbums.forEach((album, index) => {
+            pageRecords.forEach((album, index) => {
                 const globalIndex = startIndex + index;
                 const avgRating = calculateAverageRating(album.songs);
-                const isExpanded = expandedAlbums.has(globalIndex);
+                const isExpanded = expandedRecords.has(globalIndex);
+                const isSelected = selectedRecord === globalIndex;
                 
-                const albumDiv = document.createElement('div');
-                albumDiv.className = `album-entry ${isExpanded ? 'selected' : ''}`;
-                albumDiv.onclick = () => toggleAlbum(globalIndex);
+                // Main record row
+                const row = document.createElement('tr');
+                row.className = `record-row ${isSelected ? 'selected' : ''}`;
+                row.onclick = () => toggleRecordSelection(globalIndex, row);
+                row.ondblclick = () => toggleRecordDetails(globalIndex);
                 
-                const tracksHtml = album.songs.map(song => `
-                    <div class="track-grid">
-                        <span class="track-name ${song.favorite ? 'favorite' : ''} ${song.interlude ? 'interlude' : ''}">
-                            ${song.name}
-                        </span>
-                        <span class="track-rating" style="color: ${getRatingColor(song.rating)}">${song.rating}</span>
-                        <span class="track-icons">
-                            ${song.favorite ? '★' : ''}
-                            ${song.interlude ? 'i' : ''}
-                        </span>
-                    </div>
-                `).join('');
-                
-                albumDiv.innerHTML = `
-                    <div class="album-header-line">
-                        <div>
-                            <div class="album-title">${album.artist.toUpperCase()} - ${album.album.toUpperCase()}</div>
-                            <div class="album-meta">YEAR: ${album.year} | TRACKS: ${album.songs.length}</div>
-                        </div>
-                        <div class="rating-bar">
-                            <div class="rating-blocks">${createRatingBlocks(avgRating)}</div>
-                            <span class="rating-number" style="color: ${getRatingColor(avgRating)}">${avgRating}</span>
-                        </div>
-                    </div>
-                    <div class="tracks-panel ${isExpanded ? 'show' : ''}" id="tracks-${globalIndex}">
-                        <div class="tracks-header">TRACKLIST:</div>
-                        ${tracksHtml}
-                        ${album.comment ? `<div class="comment-section">${album.comment}</div>` : ''}
-                    </div>
+                row.innerHTML = `
+                    <td><strong>${album.artist}</strong></td>
+                    <td>${album.album}</td>
+                    <td>${album.year}</td>
+                    <td class="rating-cell ${getRatingClass(avgRating)}">${avgRating}</td>
+                    <td style="text-align: center;">${album.songs.length}</td>
+                    <td style="text-align: center;">${isExpanded ? 'Erweitert' : 'Kompakt'}</td>
                 `;
                 
-                albumList.appendChild(albumDiv);
+                tbody.appendChild(row);
+                
+                // Details panel row
+                if (isExpanded) {
+                    const detailRow = document.createElement('tr');
+                    detailRow.className = 'details-panel show';
+                    
+                    const tracksHtml = album.songs.map(song => `
+                        <div class="track-item ${song.favorite ? 'favorite' : ''} ${song.interlude ? 'interlude' : ''}">
+                            <span>${song.name}</span>
+                            <span class="track-rating ${getRatingClass(song.rating)}">${song.rating}</span>
+                            <span class="track-flags">
+                                ${song.favorite ? '★' : ''}
+                                ${song.interlude ? 'I' : ''}
+                            </span>
+                        </div>
+                    `).join('');
+                    
+                    detailRow.innerHTML = `
+                        <td colspan="6">
+                            <div class="details-content">
+                                <div class="field-group">
+                                    <div class="field-label">Künstler:</div>
+                                    <div class="field-value">${album.artist}</div>
+                                </div>
+                                <div class="field-group">
+                                    <div class="field-label">Album:</div>
+                                    <div class="field-value">${album.album}</div>
+                                </div>
+                                <div class="field-group">
+                                    <div class="field-label">Jahr:</div>
+                                    <div class="field-value">${album.year}</div>
+                                </div>
+                                <div class="field-group">
+                                    <div class="field-label">Ø-Bewertung:</div>
+                                    <div class="field-value">${avgRating}/10</div>
+                                </div>
+                                <div class="field-group">
+                                    <div class="field-label">Trackliste:</div>
+                                    <div class="field-value">
+                                        <div class="tracks-list">
+                                            <div class="track-header">
+                                                <span>TITEL</span>
+                                                <span>BEWERTUNG</span>
+                                                <span>FLAGS</span>
+                                            </div>
+                                            ${tracksHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                                ${album.comment ? `<div class="comment-box">${album.comment}</div>` : ''}
+                            </div>
+                        </td>
+                    `;
+                    
+                    tbody.appendChild(detailRow);
+                }
             });
 
-            updateShowingRange();
+            updateRecordRange();
         }
 
-        function toggleAlbum(index) {
-            const tracksPanel = document.getElementById(`tracks-${index}`);
-            const albumEntry = tracksPanel.parentElement;
+        function toggleRecordSelection(index, row) {
+            // Clear previous selection
+            document.querySelectorAll('.record-row').forEach(r => r.classList.remove('selected'));
             
-            if (expandedAlbums.has(index)) {
-                expandedAlbums.delete(index);
-                tracksPanel.classList.remove('show');
-                albumEntry.classList.remove('selected');
+            if (selectedRecord === index) {
+                selectedRecord = null;
             } else {
-                expandedAlbums.add(index);
-                tracksPanel.classList.add('show');
-                albumEntry.classList.add('selected');
+                selectedRecord = index;
+                row.classList.add('selected');
             }
         }
 
-        function executeCommand(command) {
-            const input = document.getElementById('searchInput');
-            
-            switch(command) {
-                case 'sort-rating':
-                    currentSort = currentSort === 'rating-desc' ? 'rating-asc' : 'rating-desc';
-                    break;
-                case 'sort-artist':
-                    currentSort = currentSort === 'artist-asc' ? 'artist-desc' : 'artist-asc';
-                    break;
-                case 'sort-year':
-                    currentSort = currentSort === 'year-asc' ? 'year-desc' : 'year-asc';
-                    break;
-                case 'expand-all':
-                    toggleAllAlbums();
-                    return;
-                case 'random':
-                    showRandomAlbum();
-                    return;
-                case 'reset':
-                    input.value = '';
-                    currentAlbums = [...albums];
-                    expandedAlbums.clear();
-                    currentSort = 'rating-desc';
-                    break;
-            }
-            
-            currentPage = 1;
-            sortAlbums();
-            displayAlbums();
-            updateSystemInfo();
-            updatePagination();
-        }
-
-        function handleSearch(event) {
-            if (event.key === 'Enter') {
-                searchAlbums();
+        function toggleRecordDetails(index) {
+            if (expandedRecords.has(index)) {
+                expandedRecords.delete(index);
             } else {
-                // Real-time search after a delay
-                clearTimeout(window.searchTimeout);
-                window.searchTimeout = setTimeout(searchAlbums, 300);
+                expandedRecords.add(index);
             }
+            displayRecords();
         }
 
-        function searchAlbums() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        function expandAllRecords() {
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = startIndex + recordsPerPage;
+            
+            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
+                expandedRecords.add(i);
+            }
+            displayRecords();
+        }
+
+        function collapseAllRecords() {
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = startIndex + recordsPerPage;
+            
+            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
+                expandedRecords.delete(i);
+            }
+            displayRecords();
+        }
+
+        function handleSearch() {
+            const searchTerm = document.getElementById('searchField').value.toLowerCase();
             currentAlbums = albums.filter(album => 
                 album.album.toLowerCase().includes(searchTerm) ||
                 album.artist.toLowerCase().includes(searchTerm) ||
@@ -749,15 +832,23 @@
             );
             
             currentPage = 1;
-            expandedAlbums.clear();
-            sortAlbums();
-            displayAlbums();
-            updateSystemInfo();
+            selectedRecord = null;
+            expandedRecords.clear();
+            applySorting();
+            displayRecords();
+            updateStatusBar();
             updatePagination();
         }
 
-        function sortAlbums() {
-            const [criteria, order] = currentSort.split('-');
+        function applySorting() {
+            const sortValue = document.getElementById('sortField').value;
+            currentSort = sortValue;
+            const [criteria, order] = sortValue.split('-');
+            
+            // Update table headers
+            document.querySelectorAll('.records-table th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+            });
             
             currentAlbums.sort((a, b) => {
                 let comparison = 0;
@@ -781,153 +872,148 @@
                 
                 return order === 'desc' ? -comparison : comparison;
             });
+            
+            currentPage = 1;
+            displayRecords();
+            updatePagination();
         }
 
-        function toggleAllAlbums() {
-            const startIndex = (currentPage - 1) * albumsPerPage;
-            const endIndex = startIndex + albumsPerPage;
+        function sortByColumn(column) {
+            const select = document.getElementById('sortField');
+            const currentValue = select.value;
+            const [currentCriteria, currentOrder] = currentValue.split('-');
             
-            let shouldExpand = true;
-            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
-                if (expandedAlbums.has(i)) {
-                    shouldExpand = false;
-                    break;
-                }
+            if (currentCriteria === column) {
+                const newOrder = currentOrder === 'asc' ? 'desc' : 'asc';
+                select.value = `${column}-${newOrder}`;
+            } else {
+                const defaultOrder = column === 'rating' ? 'desc' : 'asc';
+                select.value = `${column}-${defaultOrder}`;
             }
             
-            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
-                if (shouldExpand) {
-                    expandedAlbums.add(i);
-                } else {
-                    expandedAlbums.delete(i);
-                }
-            }
-            
-            displayAlbums();
+            applySorting();
         }
 
-        function showRandomAlbum() {
+        function refreshDatabase() {
+            initializeDatabase();
+        }
+
+        function showRandomRecord() {
             if (currentAlbums.length === 0) return;
             
             const randomIndex = Math.floor(Math.random() * currentAlbums.length);
-            const randomPage = Math.ceil((randomIndex + 1) / albumsPerPage);
+            const randomPage = Math.ceil((randomIndex + 1) / recordsPerPage);
             
             currentPage = randomPage;
-            expandedAlbums.clear();
-            expandedAlbums.add(randomIndex);
+            selectedRecord = randomIndex;
+            expandedRecords.clear();
+            expandedRecords.add(randomIndex);
             
-            displayAlbums();
+            displayRecords();
             updatePagination();
-            
-            // Flash effect
-            setTimeout(() => {
-                const albumEntries = document.querySelectorAll('.album-entry');
-                const targetEntry = albumEntries[randomIndex % albumsPerPage];
-                if (targetEntry) {
-                    targetEntry.style.animation = 'glitch-text 0.5s ease-out';
-                    setTimeout(() => {
-                        targetEntry.style.animation = '';
-                    }, 500);
-                }
-            }, 100);
         }
 
         function updatePagination() {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            const pageControls = document.getElementById('pageControls');
+            const totalPages = Math.ceil(currentAlbums.length / recordsPerPage);
+            const controls = document.getElementById('paginationControls');
             
             let html = '';
             
             if (totalPages > 1) {
-                html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>PREV</button>`;
+                html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>◄◄</button>`;
+                html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>◄</button>`;
                 
-                // Show page numbers
+                // Page numbers
                 for (let i = 1; i <= totalPages; i++) {
-                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
                         html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-                    } else if (i === currentPage - 2 || i === currentPage + 2) {
-                        html += '<span>...</span>';
+                    } else if (i === currentPage - 3 || i === currentPage + 3) {
+                        html += '<span style="padding: 0 4px;">...</span>';
                     }
                 }
                 
-                html += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>NEXT</button>`;
+                html += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>►</button>`;
+                html += `<button class="page-btn" onclick="changePage(${totalPages})" ${currentPage >= totalPages ? 'disabled' : ''}>►►</button>`;
             }
             
-            pageControls.innerHTML = html;
+            controls.innerHTML = html;
         }
 
         function changePage(page) {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
+            const totalPages = Math.ceil(currentAlbums.length / recordsPerPage);
             if (page < 1 || page > totalPages) return;
             
             currentPage = page;
-            expandedAlbums.clear();
-            displayAlbums();
+            selectedRecord = null;
+            expandedRecords.clear();
+            displayRecords();
             updatePagination();
             
-            // Scroll to top
-            document.querySelector('.terminal').scrollTop = 0;
+            // Scroll to top of data area
+            document.querySelector('.data-area').scrollTop = 0;
         }
 
-        function updateShowingRange() {
-            const startIndex = (currentPage - 1) * albumsPerPage + 1;
-            const endIndex = Math.min(startIndex + albumsPerPage - 1, currentAlbums.length);
+        function updateRecordRange() {
+            const startIndex = (currentPage - 1) * recordsPerPage + 1;
+            const endIndex = Math.min(startIndex + recordsPerPage - 1, currentAlbums.length);
             
-            document.getElementById('showingRange').textContent = `${startIndex}-${endIndex}`;
+            document.getElementById('recordRange').textContent = 
+                currentAlbums.length > 0 ? `${startIndex}-${endIndex}` : '0-0';
             document.getElementById('totalRecords').textContent = currentAlbums.length;
         }
 
-        function updateSystemInfo() {
+        function updateStatusBar() {
             const totalCount = albums.length;
+            const displayCount = currentAlbums.length;
+            
             const totalRating = albums.reduce((sum, album) => {
                 return sum + parseFloat(calculateAverageRating(album.songs));
             }, 0);
             const avgRating = totalCount > 0 ? (totalRating / totalCount).toFixed(1) : '0.0';
             
-            document.getElementById('systemTotalAlbums').textContent = totalCount;
-            document.getElementById('systemAvgRating').textContent = avgRating;
-            document.getElementById('lastSync').textContent = new Date().toLocaleTimeString();
+            document.getElementById('statusRecordCount').textContent = 
+                displayCount === totalCount ? totalCount : `${displayCount}/${totalCount}`;
+            document.getElementById('statusAvgRating').textContent = avgRating;
+            document.getElementById('statusLastUpdate').textContent = 
+                new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                switch(e.key) {
+                    case 'f':
+                    case 'F':
+                        e.preventDefault();
+                        document.getElementById('searchField').focus();
+                        break;
+                    case 'r':
+                    case 'R':
+                        e.preventDefault();
+                        refreshDatabase();
+                        break;
+                }
+            }
             
-            // Update session ID randomly
-            const sessionId = '0x' + Math.random().toString(16).substr(2, 8).toUpperCase();
-            document.getElementById('sessionId').textContent = sessionId;
-        }
+            switch(e.key) {
+                case 'F5':
+                    e.preventDefault();
+                    refreshDatabase();
+                    break;
+                case 'Escape':
+                    if (!document.getElementById('errorDialog').classList.contains('hidden')) {
+                        closeErrorDialog();
+                    }
+                    break;
+            }
+        });
 
-        function updateUptime() {
-            const elapsed = Date.now() - startTime;
-            const hours = Math.floor(elapsed / 3600000).toString().padStart(2, '0');
-            const minutes = Math.floor((elapsed % 3600000) / 60000).toString().padStart(2, '0');
-            const seconds = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
-            
-            document.getElementById('uptime').textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        function updateMemoryUsage() {
-            const usage = Math.floor(Math.random() * 20) + 35; // 35-55%
-            document.getElementById('memUsage').textContent = `${usage}%`;
-        }
-
-        // Initialize everything
+        // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             initializeDatabase();
             
-            // Update uptime every second
-            setInterval(updateUptime, 1000);
-            
-            // Update memory usage every 3 seconds
-            setInterval(updateMemoryUsage, 3000);
-            
-            // Focus search input
-            document.getElementById('searchInput').focus();
-            
-            // Add terminal-like behavior
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey && e.key === 'c') {
-                    e.preventDefault();
-                    document.getElementById('searchInput').value = '';
-                    searchAlbums();
-                }
-            });
+            // Set focus to search field
+            document.getElementById('searchField').focus();
         });
     </script>
 </body>
