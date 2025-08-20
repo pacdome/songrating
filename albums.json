@@ -92,7 +92,7 @@
         "artist": "Faces",
         "album": "Ooh La la",
         "year": 1973,
-        "comment": "",
+        "comment": "Kann nicht viel dazu sagen, einfach ein gutes Album ohne viel schnick schnack.",
         "songs": [
             {"name": "Silicone Grown", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Cindy Incidentally", "rating": 8.5, "favorite": false, "interlude": false},
@@ -106,14 +106,31 @@
             {"name": "Ooh La la", "rating": 9, "favorite": false, "interlude": false}
         
         ] },
-       
 
     {
-        "artist": "Test2",
-        "album": "Test2",
-        "year": 1979,
+        "artist": "Great Gable",
+        "album": "Eines der seltenen Alben nach 2000 in meiner Bibliothek aber einfach ein gutes. Simpel aber Indie at its best.",
+        "year": 2022,
         "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
+        "songs": [
+            {"name": "Dancing Shoes", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Another Day", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Sidewalk", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "The Lookout", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Our Love", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Hazy", "rating": 9.5, "favorite": true, "interlude": false},
+            {"name": "If You & I", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "", "rating": , "favorite": false, "interlude": false},
+            {"name": "", "rating": , "favorite": false, "interlude": false},
+            {"name": "", "rating": , "favorite": false, "interlude": false},
+            {"name": "", "rating": , "favorite": false, "interlude": false},
+            {"name": "", "rating": , "favorite": false, "interlude": false},
+
+        
+        ] },
+       
+
+
 
     {
         "artist": "Test3",
