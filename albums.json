@@ -120,11 +120,11 @@
             {"name": "Our Love", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Hazy", "rating": 9.5, "favorite": true, "interlude": false},
             {"name": "If You & I", "rating": 7, "favorite": false, "interlude": false},
-            {"name": "When I Grow Up", "rating": , "favorite": false, "interlude": false},
-            {"name": "I Know", "rating": , "favorite": false, "interlude": false},
-            {"name": "Pedestal", "rating": , "favorite": false, "interlude": false},
-            {"name": "Sirens", "rating": , "favorite": false, "interlude": false},
-            {"name": "Do You Belong", "rating": , "favorite": false, "interlude": false}
+            {"name": "When I Grow Up", "rating": 0, "favorite": false, "interlude": false},
+            {"name": "I Know", "rating": 0, "favorite": false, "interlude": false},
+            {"name": "Pedestal", "rating": 0, "favorite": false, "interlude": false},
+            {"name": "Sirens", "rating": 0, "favorite": false, "interlude": false},
+            {"name": "Do You Belong", "rating": 0, "favorite": false, "interlude": false}
         ] },
        
 
