@@ -61,6 +61,7 @@
             padding: 8px 12px;
             background: linear-gradient(45deg, transparent, rgba(0,0,0,0.03), transparent);
             border-left: 3px solid #ddd;
+            display: block !important;
         }
         
         h2 {
@@ -507,7 +508,7 @@
         let albums = [];
         let currentAlbums = [];
         let currentPage = 1;
-        const albumsPerPage = 20;
+        const albumsPerPage = 4; // Temporär auf 4 gesetzt für Demo, normalerweise 20
 
         // Lade Albums aus externer JSON-Datei
         async function loadAlbums() {
@@ -599,41 +600,49 @@
             const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
             const pagination = document.getElementById('pagination');
             
-            // Zeige Pagination auch bei wenigen Alben für Demo-Zwecke
-            if (totalPages <= 1 && currentAlbums.length < 10) {
-                pagination.innerHTML = `<div style="font-style: italic; color: #666; text-align: center; margin: 20px 0;">Alle ${currentAlbums.length} Alben werden angezeigt</div>`;
-                return;
-            }
-
+            // Immer Pagination anzeigen, auch bei einer Seite
             let html = '';
             
-            // Previous button
-            html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>`;
-            
-            // Page numbers
-            let startPage = Math.max(1, currentPage - 2);
-            let endPage = Math.min(totalPages, currentPage + 2);
-            
-            if (startPage > 1) {
-                html += `<button onclick="changePage(1)">1</button>`;
-                if (startPage > 2) {
-                    html += `<span style="margin: 0 5px;">...</span>`;
+            if (totalPages <= 1) {
+                // Auch bei einer Seite eine "Seite 1 von 1" Anzeige
+                html = `<div style="text-align: center; margin: 20px 0;">
+                    <button class="active" disabled>1</button>
+                    <span style="margin-left: 10px; color: #666;">Seite 1 von 1 • ${currentAlbums.length} Alben</span>
+                </div>`;
+            } else {
+                // Previous button
+                html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>`;
+                
+                // Page numbers
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, currentPage + 2);
+                
+                if (startPage > 1) {
+                    html += `<button onclick="changePage(1)">1</button>`;
+                    if (startPage > 2) {
+                        html += `<span style="margin: 0 5px;">...</span>`;
+                    }
                 }
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
-            }
-            
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    html += `<span style="margin: 0 5px;">...</span>`;
+                
+                for (let i = startPage; i <= endPage; i++) {
+                    html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
                 }
-                html += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
+                
+                if (endPage < totalPages) {
+                    if (endPage < totalPages - 1) {
+                        html += `<span style="margin: 0 5px;">...</span>`;
+                    }
+                    html += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
+                }
+                
+                // Next button
+                html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>›</button>`;
+                
+                // Info text
+                const startItem = (currentPage - 1) * albumsPerPage + 1;
+                const endItem = Math.min(currentPage * albumsPerPage, currentAlbums.length);
+                html += `<span style="margin-left: 15px; color: #666;">Seite ${currentPage} von ${totalPages} • Alben ${startItem}-${endItem} von ${currentAlbums.length}</span>`;
             }
-            
-            // Next button
-            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>›</button>`;
             
             pagination.innerHTML = html;
         }
