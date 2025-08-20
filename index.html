@@ -512,92 +512,6 @@
     </div>
 
     <script>
-        const albumsData = [
-            {
-                "artist": "Third Eye Blind",
-                "album": "Third Eye Blind",
-                "year": 1997,
-                "comment": "Eines meiner liebsten selftilted Debut-Alben & vllt einer der besten A Seiten auf einem Album, leider aber auch eine bei der die B Seite nicht mithalten kann.",
-                "songs": [
-                    {"name": "Losing a Whole Year", "rating": 6.5, "favorite": false, "interlude": false},
-                    {"name": "Narcolepsy", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "Semi-Charmed Life", "rating": 10, "favorite": true, "interlude": false},
-                    {"name": "Jumper", "rating": 9, "favorite": false, "interlude": false},
-                    {"name": "Graduate", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "How's It Going to Be", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "Thanks a Lot", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Burning Man", "rating": 7, "favorite": false, "interlude": false},
-                    {"name": "Good for You", "rating": 7, "favorite": false, "interlude": false},
-                    {"name": "London", "rating": 6.5, "favorite": false, "interlude": false},
-                    {"name": "I Want You", "rating": 6.5, "favorite": false, "interlude": false},
-                    {"name": "The Background", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "Motorcycle Drive By", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "God of Wine", "rating": 7, "favorite": false, "interlude": false}
-                ]
-            },
-            {
-                "artist": "Blur",
-                "album": "Parklife",
-                "year": 1994,
-                "comment": "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk",
-                "songs": [
-                    {"name": "Girls & Boys", "rating": 9, "favorite": false, "interlude": false},
-                    {"name": "Tracy Jacks", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "End of a Century", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "Parklife", "rating": 10, "favorite": true, "interlude": false},
-                    {"name": "Bank Holiday", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "Badhead", "rating": 7, "favorite": false, "interlude": false},
-                    {"name": "The Debt Collector", "rating": 6, "favorite": false, "interlude": true},
-                    {"name": "Far Out", "rating": 6, "favorite": false, "interlude": true},
-                    {"name": "To the End", "rating": 6.5, "favorite": false, "interlude": false},
-                    {"name": "London Loves", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "Trouble in the Message Center", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "Clover Over Dover", "rating": 7, "favorite": false, "interlude": false},
-                    {"name": "Magical America", "rating": 6.5, "favorite": false, "interlude": false},
-                    {"name": "Jubilee", "rating": 7, "favorite": false, "interlude": false},
-                    {"name": "This Is a Low", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "Lot 105", "rating": 6, "favorite": false, "interlude": true}
-                ]
-            },
-            {
-                "artist": "The Stone Roses",
-                "album": "The Stone Roses",
-                "year": 1989,
-                "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses album.",
-                "songs": [
-                    {"name": "I Wanna Be Adored", "rating": 10, "favorite": false, "interlude": false},
-                    {"name": "She Bangs the Drums", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Waterfall", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Don't Stop", "rating": 4, "favorite": false, "interlude": true},
-                    {"name": "Bye Bye Bad Man", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "Elizabeth My Dear", "rating": 5, "favorite": false, "interlude": true},
-                    {"name": "(Song for My) Sugar Spun Sister", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Made of Stone", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Shoot You Down", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "This Is the One", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "I Am the Resurrection", "rating": 9.5, "favorite": false, "interlude": false},
-                    {"name": "Fools Gold", "rating": 9.5, "favorite": true, "interlude": false}
-                ]
-            },
-            {
-                "artist": "Dire Straits",
-                "album": "Communiqué",
-                "year": 1979,
-                "comment": "Das beste Dire Straits Album change my mind.",
-                "songs": [
-                    {"name": "Once Upon A Time In The West", "rating": 8, "favorite": false, "interlude": false},
-                    {"name": "News", "rating": 9, "favorite": false, "interlude": false},
-                    {"name": "Where Do You Think You're Going", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Communiqué", "rating": 9.5, "favorite": false, "interlude": false},
-                    {"name": "Lady Writer", "rating": 10, "favorite": true, "interlude": false},
-                    {"name": "Angel Of Mercy", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Portobello Belle", "rating": 7.5, "favorite": false, "interlude": false},
-                    {"name": "Single Handed Sailor", "rating": 8.5, "favorite": false, "interlude": false},
-                    {"name": "Follow Me Home", "rating": 7, "favorite": false, "interlude": false}
-                ]
-            }
-        ];
-
         let albums = [];
         let currentAlbums = [];
         let currentPage = 1;
@@ -606,7 +520,44 @@
         let expandedAlbums = new Set();
         let startTime = Date.now();
 
-        function initializeDatabase() {
+        async function loadAlbumsFromFile() {
+            try {
+                const response = await fetch('albums.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const albumsData = await response.json();
+                return albumsData;
+            } catch (error) {
+                console.error('Error loading albums.json:', error);
+                showError(`FEHLER BEIM LADEN DER albums.json: ${error.message}`);
+                return [];
+            }
+        }
+
+        function showError(message) {
+            const albumList = document.getElementById('albumList');
+            albumList.innerHTML = `
+                <div style="padding: 20px; text-align: center; color: #f00; border: 1px solid #f00; background: rgba(255, 0, 0, 0.1); margin: 20px;">
+                    <div style="font-weight: bold; margin-bottom: 10px;">DATABASE ERROR</div>
+                    <div style="font-size: 11px;">${message}</div>
+                    <div style="font-size: 10px; margin-top: 10px; color: #ff0;">
+                        Stellen Sie sicher, dass die Datei 'albums.json' im selben Verzeichnis liegt.
+                    </div>
+                </div>
+            `;
+            hideLoading();
+        }
+
+        async function initializeDatabase() {
+            showLoading();
+            
+            const albumsData = await loadAlbumsFromFile();
+            
+            if (albumsData.length === 0) {
+                return; // Error already shown by showError
+            }
+            
             // Remove duplicates
             const uniqueAlbums = [];
             const seen = new Set();
@@ -622,7 +573,6 @@
             albums = uniqueAlbums;
             currentAlbums = [...albums];
             
-            showLoading();
             setTimeout(() => {
                 hideLoading();
                 sortAlbums();
