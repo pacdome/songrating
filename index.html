@@ -3,441 +3,643 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>[ M U S I K   A R C H I V ]</title>
+    <title>DOME.MUSIC.DB://TERMINAL</title>
     <style>
-        * { box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         
         body {
             background: #000;
-            color: #00ff00;
-            font-family: 'Courier New', monospace;
-            margin: 1;
+            color: #0f0;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.2;
+            overflow-x: auto;
+        }
+        
+        .terminal {
+            min-height: 100vh;
             padding: 20px;
-            line-height: 1.4;
-            font-size: 14px;
-            background-image: 
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(0, 255, 0, 0.03) 0%, transparent 50%),
                 repeating-linear-gradient(
                     0deg,
                     transparent,
                     transparent 2px,
-                    rgba(0, 255, 0, 0.03) 2px,
-                    rgba(0, 255, 0, 0.03) 4px
+                    rgba(0, 255, 0, 0.02) 2px,
+                    rgba(0, 255, 0, 0.02) 4px
                 );
         }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            border: 2px solid currentColor;
-            padding: 0;
-            background: rgba(0, 20, 0, 0.3);
-            box-shadow: 
-                0 0 20px rgba(0, 255, 0, 0.3),
-                inset 0 0 20px rgba(0, 255, 0, 0.1);
+        .ascii-header {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 8px;
+            line-height: 1;
+            color: #0a0;
+            text-shadow: 0 0 10px #0f0;
+            animation: flicker 3s infinite;
         }
         
-        .header {
-            border-bottom: 2px solid currentColor;
-            padding: 15px 20px;
-            background: rgba(0, 255, 0, 0.1);
-            text-align: center;
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            75% { opacity: 0.95; }
+        }
+        
+        .system-info {
+            border: 2px solid #0f0;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(0, 255, 0, 0.05);
             position: relative;
         }
         
-        .header::before {
-            content: ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>";
-            display: block;
-            font-size: 8px;
-            opacity: 0.3;
-            margin-bottom: 5px;
-        }
-        
-        .header::after {
-            content: "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<";
-            display: block;
-            font-size: 8px;
-            opacity: 0.3;
-            margin-top: 5px;
-        }
-        
-        .title {
-            font-size: 24px;
+        .system-info::before {
+            content: "[ SYSTEM INFO ]";
+            position: absolute;
+            top: -12px;
+            left: 10px;
+            background: #000;
+            padding: 0 5px;
+            color: #0f0;
             font-weight: bold;
-            letter-spacing: 3px;
-            margin: 10px 0;
-            text-shadow: 0 0 10px currentColor;
         }
         
-        .subtitle {
-            font-size: 12px;
-            opacity: 0.8;
-            letter-spacing: 1px;
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
         }
         
-        .status-bar {
-            background: rgba(0, 255, 0, 0.2);
-            padding: 8px 20px;
-            border-bottom: 1px solid currentColor;
-            font-size: 11px;
+        .info-item {
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
+            border-bottom: 1px dotted #333;
+            padding: 2px 0;
         }
         
-        .controls {
-            padding: 15px 20px;
-            border-bottom: 2px solid currentColor;
-            background: rgba(0, 0, 0, 0.5);
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            align-items: center;
+        .command-bar {
+            background: #111;
+            border: 1px solid #0f0;
+            padding: 10px;
+            margin-bottom: 20px;
+            font-family: inherit;
         }
         
-        .control-group {
+        .command-line {
             display: flex;
             align-items: center;
-            gap: 8px;
+            margin-bottom: 10px;
         }
         
-        .control-group label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
+        .prompt {
+            color: #ff0;
+            margin-right: 10px;
+            font-weight: bold;
         }
         
-        input, select, button {
-            background: #000;
-            color: currentColor;
-            border: 1px solid currentColor;
+        .command-input {
+            background: transparent;
+            border: none;
+            color: #0f0;
+            font-family: inherit;
+            font-size: inherit;
+            flex-grow: 1;
+            outline: none;
+            padding: 2px;
+        }
+        
+        .command-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .cmd-btn {
+            background: #222;
+            border: 1px solid #0f0;
+            color: #0f0;
             padding: 4px 8px;
             font-family: inherit;
-            font-size: 12px;
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 5px currentColor;
-            background: rgba(0, 255, 0, 0.05);
-        }
-        
-        button {
+            font-size: 11px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 1px;
             transition: all 0.2s;
         }
         
-        button:hover {
-            background: currentColor;
+        .cmd-btn:hover {
+            background: #0f0;
             color: #000;
-            box-shadow: 0 0 10px currentColor;
+            box-shadow: 0 0 10px #0f0;
         }
         
-        .main-content {
-            padding: 20px;
+        .cmd-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .data-container {
+            border: 1px solid #0f0;
+            background: rgba(0, 20, 0, 0.3);
             min-height: 400px;
         }
         
-        .album-grid {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .album-card {
-            border: 1px solid currentColor;
-            background: rgba(0, 0, 0, 0.7);
-            position: relative;
-            transition: all 0.3s;
-        }
-        
-        .album-card:hover {
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .album-header {
-            padding: 12px 15px;
-            border-bottom: 1px solid currentColor;
-            background: rgba(0, 255, 0, 0.05);
-            cursor: pointer;
+        .data-header {
+            background: #0f0;
+            color: #000;
+            padding: 8px 15px;
+            font-weight: bold;
+            text-transform: uppercase;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
+        }
+        
+        .status-lights {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .light-green { background: #0f0; }
+        .light-red { background: #f00; animation-delay: 0.5s; }
+        .light-yellow { background: #ff0; animation-delay: 1s; }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .album-list {
+            padding: 0;
+        }
+        
+        .album-entry {
+            border-bottom: 1px solid #333;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
             position: relative;
         }
         
-        .album-header::before {
-            content: "■";
-            margin-right: 10px;
-            transition: transform 0.2s;
+        .album-entry:hover {
+            background: rgba(0, 255, 0, 0.1);
+            border-left: 4px solid #0f0;
+            padding-left: 23px;
         }
         
-        .album-header.expanded::before {
-            content: "▼";
-            transform: rotate(0deg);
+        .album-entry.selected {
+            background: rgba(0, 255, 0, 0.2);
+            border-left: 4px solid #ff0;
+            padding-left: 23px;
         }
         
-        .album-info {
-            flex-grow: 1;
+        .album-header-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
         }
         
         .album-title {
             font-weight: bold;
-            font-size: 14px;
-            margin-bottom: 2px;
+            color: #fff;
         }
         
         .album-meta {
             font-size: 11px;
-            opacity: 0.8;
+            color: #888;
         }
         
-        .album-rating {
-            font-size: 16px;
-            font-weight: bold;
-            text-shadow: 0 0 5px currentColor;
-            padding: 5px 10px;
-            border: 1px solid currentColor;
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
-        .songs-container {
-            display: none;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.9);
-        }
-        
-        .songs-container.show {
-            display: block;
-        }
-        
-        .songs-list {
-            margin-bottom: 15px;
-        }
-        
-        .song-item {
+        .rating-bar {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 6px 0;
-            border-bottom: 1px dotted rgba(0, 255, 0, 0.3);
-            font-size: 12px;
+            gap: 10px;
         }
         
-        .song-item:last-child {
-            border-bottom: none;
-        }
-        
-        .song-name {
-            flex-grow: 1;
-        }
-        
-        .song-rating {
+        .rating-number {
             font-weight: bold;
-            margin-left: 10px;
+            font-size: 14px;
             min-width: 40px;
             text-align: right;
         }
         
-        .song-icons {
-            margin-left: 10px;
-            min-width: 30px;
-            text-align: center;
+        .rating-blocks {
+            display: flex;
+            gap: 1px;
         }
         
-        .favorite { color: #ffff00; }
-        .interlude { opacity: 0.5; }
-        
-        .rating-10 { color: #ffffff; text-shadow: 0 0 10px #ffffff; }
-        .rating-9-10 { color: #00ff00; }
-        .rating-8-9 { color: #88ff00; }
-        .rating-7-8 { color: #ffff00; }
-        .rating-6-7 { color: #ffcc00; }
-        .rating-5-6 { color: #ff9900; }
-        .rating-4-5 { color: #ff6600; }
-        .rating-3-4 { color: #ff3300; }
-        .rating-2-3 { color: #ff0066; }
-        .rating-1-2 { color: #ff0099; }
-        .rating-0-1 { color: #ff00cc; }
-        
-        .album-comment {
-            margin-top: 15px;
-            padding: 10px;
-            border: 1px dashed currentColor;
-            background: rgba(0, 255, 0, 0.05);
-            font-style: italic;
-            font-size: 11px;
-            line-height: 1.5;
+        .rating-block {
+            width: 8px;
+            height: 12px;
+            background: #333;
         }
         
-        .album-comment::before {
-            content: "// KOMMENTAR: ";
-            font-weight: bold;
+        .rating-block.filled { background: #0f0; }
+        .rating-block.filled.high { background: #ff0; }
+        .rating-block.filled.max { background: #f0f; }
+        
+        .tracks-panel {
+            display: none;
+            background: #111;
+            border-top: 1px solid #333;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        
+        .tracks-panel.show {
             display: block;
-            margin-bottom: 5px;
-            font-style: normal;
         }
         
-        .pagination {
-            padding: 20px;
-            text-align: center;
-            border-top: 2px solid currentColor;
-            background: rgba(0, 255, 0, 0.05);
+        .tracks-header {
+            color: #ff0;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
         }
         
-        .pagination button {
-            margin: 0 2px;
-            min-width: 30px;
+        .track-grid {
+            display: grid;
+            grid-template-columns: 1fr 60px 40px;
+            gap: 10px;
+            margin-bottom: 2px;
+            padding: 3px 0;
+            border-bottom: 1px dotted #333;
+            align-items: center;
         }
         
-        .pagination button.active {
-            background: currentColor;
-            color: #000;
+        .track-name {
+            color: #ccc;
+        }
+        
+        .track-name.favorite {
+            color: #ff0;
             font-weight: bold;
         }
         
-        .footer {
-            border-top: 2px solid currentColor;
-            padding: 15px 20px;
-            background: rgba(0, 255, 0, 0.1);
+        .track-name.interlude {
+            color: #666;
+            font-style: italic;
+        }
+        
+        .track-rating {
+            text-align: right;
+            font-weight: bold;
+        }
+        
+        .track-icons {
             text-align: center;
             font-size: 10px;
         }
         
-        .footer::before {
-            content: "[ SYSTEM STATUS: ONLINE ] [ ALBUMS LOADED: ";
+        .comment-section {
+            margin-top: 15px;
+            padding: 10px;
+            border: 1px dashed #666;
+            background: rgba(255, 255, 0, 0.1);
+            color: #ff0;
+            font-size: 11px;
         }
         
-        .footer::after {
-            content: " ] [ CONNECTION: STABLE ]";
+        .comment-section::before {
+            content: "// COMMENT:";
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
         }
         
-        .error-message {
-            color: #ff3333;
+        .pagination-bar {
+            background: #111;
+            border-top: 1px solid #0f0;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        
+        .page-btn {
+            background: #222;
+            border: 1px solid #666;
+            color: #ccc;
+            padding: 2px 6px;
+            font-family: inherit;
+            font-size: 11px;
+            cursor: pointer;
+        }
+        
+        .page-btn:hover {
+            border-color: #0f0;
+            color: #0f0;
+        }
+        
+        .page-btn.active {
+            background: #0f0;
+            color: #000;
+            border-color: #0f0;
+        }
+        
+        .page-btn:disabled {
+            background: #111;
+            color: #333;
+            border-color: #333;
+            cursor: not-allowed;
+        }
+        
+        .footer-bar {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #333;
+            background: #111;
             text-align: center;
-            padding: 20px;
-            font-size: 16px;
-            background: rgba(255, 51, 51, 0.1);
-            border: 1px solid #ff3333;
-            margin: 20px;
-        }
-        
-        @media (max-width: 768px) {
-            body { padding: 10px; font-size: 12px; }
-            .container { border: 1px solid currentColor; }
-            .controls { 
-                grid-template-columns: 1fr; 
-                gap: 10px; 
-                text-align: center;
-            }
-            .title { font-size: 18px; letter-spacing: 2px; }
-            .album-header { flex-direction: column; text-align: center; gap: 5px; }
-            .status-bar { flex-direction: column; gap: 5px; text-align: center; }
+            font-size: 10px;
+            color: #666;
         }
         
         .glitch {
-            animation: glitch 2s infinite;
+            animation: glitch-text 0.3s infinite;
         }
         
-        @keyframes glitch {
+        @keyframes glitch-text {
             0% { transform: translateX(0); }
-            10% { transform: translateX(-2px); }
-            20% { transform: translateX(2px); }
-            30% { transform: translateX(-1px); }
-            40% { transform: translateX(1px); }
-            50% { transform: translateX(0); }
+            20% { transform: translateX(-2px); }
+            40% { transform: translateX(2px); }
+            60% { transform: translateX(-1px); }
+            80% { transform: translateX(1px); }
             100% { transform: translateX(0); }
         }
         
-        .blink {
-            animation: blink 1s infinite;
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #ff0;
         }
         
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        .loading.show {
+            display: block;
+        }
+        
+        .loading::after {
+            content: "";
+            animation: loading-dots 1.5s infinite;
+        }
+        
+        @keyframes loading-dots {
+            0% { content: ""; }
+            25% { content: "."; }
+            50% { content: ".."; }
+            75% { content: "..."; }
+            100% { content: ""; }
+        }
+        
+        @media (max-width: 768px) {
+            .terminal { padding: 10px; }
+            .ascii-header { font-size: 6px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .command-buttons { flex-direction: column; }
+            .track-grid { grid-template-columns: 1fr 50px 30px; gap: 5px; }
+            body { font-size: 11px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="title glitch">[ M U S I K   A R C H I V ]</div>
-            <div class="subtitle">DOME'S PERSONAL MUSIC DATABASE</div>
+    <div class="terminal">
+        <div class="ascii-header">
+<pre>
+████████▄   ▄██████▄    ▄▄▄▄███▄▄▄▄      ▄████████         ▄▄▄▄███▄▄▄▄   ███    █▄     ▄████████  ▄█   ▄████████ 
+███   ▀███ ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███       ▄██▀▀▀███▀▀▀██▄ ███    ███   ███    ███ ███  ███    ███ 
+███    ███ ███    ███ ███   ███   ███   ███    █▀        ███   ███   ███ ███    ███   ███    █▀  ███▌ ███    █▀  
+███    ███ ███    ███ ███   ███   ███  ▄███▄▄▄           ███   ███   ███ ███    ███   ███        ███▌ ███        
+███    ███ ███    ███ ███   ███   ███ ▀▀███▀▀▀           ███   ███   ███ ███    ███ ▀███████████ ███▌ ███        
+███    ███ ███    ███ ███   ███   ███   ███    █▄        ███   ███   ███ ███    ███          ███ ███  ███    █▄  
+███   ▄███ ███    ███ ███   ███   ███   ███    ███       ███   ███   ███ ███    ███    ▄█    ███ ███  ███    ███ 
+████████▀   ▀██████▀   ▀█   ███   █▀    ██████████        ▀█   ███   █▀  ████████▀   ▄████████▀  █▀   ████████▀  
+</pre>
         </div>
         
-        <div class="status-bar">
-            <span>SYSTEM: ONLINE</span>
-            <span>USER: MUSIC_LOVER_69</span>
-            <span>DATE: <span id="currentDate"></span></span>
-            <span class="blink">READY</span>
-        </div>
-        
-        <div class="controls">
-            <div class="control-group">
-                <label>SEARCH:</label>
-                <input type="text" id="searchInput" placeholder="Album suchen..." onkeyup="searchAlbums()">
+        <div class="system-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span>USER:</span>
+                    <span>root@musicdb</span>
+                </div>
+                <div class="info-item">
+                    <span>TOTAL_ALBUMS:</span>
+                    <span id="systemTotalAlbums">0</span>
+                </div>
+                <div class="info-item">
+                    <span>SESSION:</span>
+                    <span id="sessionId">0x7F4A9B2C</span>
+                </div>
+                <div class="info-item">
+                    <span>AVG_RATING:</span>
+                    <span id="systemAvgRating">0.0</span>
+                </div>
+                <div class="info-item">
+                    <span>UPTIME:</span>
+                    <span id="uptime">00:00:00</span>
+                </div>
+                <div class="info-item">
+                    <span>STATUS:</span>
+                    <span class="glitch">ONLINE</span>
+                </div>
             </div>
-            <div class="control-group">
-                <label>SORT:</label>
-                <select id="sortSelect" onchange="sortAlbums()">
-                    <option value="rating-desc">RATING HIGH→LOW</option>
-                    <option value="rating-asc">RATING LOW→HIGH</option>
-                    <option value="artist-asc">ARTIST A→Z</option>
-                    <option value="artist-desc">ARTIST Z→A</option>
-                    <option value="album-asc">ALBUM A→Z</option>
-                    <option value="album-desc">ALBUM Z→A</option>
-                    <option value="year-asc">YEAR OLD→NEW</option>
-                    <option value="year-desc">YEAR NEW→OLD</option>
-                </select>
+        </div>
+        
+        <div class="command-bar">
+            <div class="command-line">
+                <span class="prompt">dome@musicdb:~$</span>
+                <input type="text" class="command-input" id="searchInput" placeholder="search albums..." onkeyup="handleSearch(event)">
             </div>
-            <div class="control-group">
-                <button onclick="toggleAllAlbums()">EXPAND ALL</button>
-                <button onclick="resetFilters()">RESET</button>
+            <div class="command-buttons">
+                <button class="cmd-btn" onclick="executeCommand('sort-rating')">sort --rating</button>
+                <button class="cmd-btn" onclick="executeCommand('sort-artist')">sort --artist</button>
+                <button class="cmd-btn" onclick="executeCommand('sort-year')">sort --year</button>
+                <button class="cmd-btn" onclick="executeCommand('expand-all')">expand --all</button>
+                <button class="cmd-btn" onclick="executeCommand('random')">random</button>
+                <button class="cmd-btn" onclick="executeCommand('reset')">reset</button>
             </div>
         </div>
         
-        <div class="main-content">
-            <div class="album-grid" id="albumList"></div>
+        <div class="data-container">
+            <div class="data-header">
+                <span>DATABASE RECORDS</span>
+                <div class="status-lights">
+                    <div class="status-light light-green"></div>
+                    <div class="status-light light-red"></div>
+                    <div class="status-light light-yellow"></div>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                LOADING DATABASE
+            </div>
+            
+            <div class="album-list" id="albumList"></div>
+            
+            <div class="pagination-bar">
+                <div>
+                    <span>SHOWING: </span>
+                    <span id="showingRange">0-0</span>
+                    <span> OF </span>
+                    <span id="totalRecords">0</span>
+                </div>
+                <div class="page-controls" id="pageControls"></div>
+            </div>
         </div>
         
-        <div class="pagination" id="pagination"></div>
-        
-        <div class="footer">
-            <span id="albumCount">0</span>
+        <div class="footer-bar">
+            DOME.MUSIC.DB://TERMINAL v2.1.0 | LAST_SYNC: <span id="lastSync"></span> | MEM_USAGE: <span id="memUsage">42%</span>
         </div>
     </div>
 
     <script>
+        const albumsData = [
+            {
+                "artist": "Third Eye Blind",
+                "album": "Third Eye Blind",
+                "year": 1997,
+                "comment": "Eines meiner liebsten selftilted Debut-Alben & vllt einer der besten A Seiten auf einem Album, leider aber auch eine bei der die B Seite nicht mithalten kann.",
+                "songs": [
+                    {"name": "Losing a Whole Year", "rating": 6.5, "favorite": false, "interlude": false},
+                    {"name": "Narcolepsy", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "Semi-Charmed Life", "rating": 10, "favorite": true, "interlude": false},
+                    {"name": "Jumper", "rating": 9, "favorite": false, "interlude": false},
+                    {"name": "Graduate", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "How's It Going to Be", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "Thanks a Lot", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Burning Man", "rating": 7, "favorite": false, "interlude": false},
+                    {"name": "Good for You", "rating": 7, "favorite": false, "interlude": false},
+                    {"name": "London", "rating": 6.5, "favorite": false, "interlude": false},
+                    {"name": "I Want You", "rating": 6.5, "favorite": false, "interlude": false},
+                    {"name": "The Background", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "Motorcycle Drive By", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "God of Wine", "rating": 7, "favorite": false, "interlude": false}
+                ]
+            },
+            {
+                "artist": "Blur",
+                "album": "Parklife",
+                "year": 1994,
+                "comment": "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk",
+                "songs": [
+                    {"name": "Girls & Boys", "rating": 9, "favorite": false, "interlude": false},
+                    {"name": "Tracy Jacks", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "End of a Century", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "Parklife", "rating": 10, "favorite": true, "interlude": false},
+                    {"name": "Bank Holiday", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "Badhead", "rating": 7, "favorite": false, "interlude": false},
+                    {"name": "The Debt Collector", "rating": 6, "favorite": false, "interlude": true},
+                    {"name": "Far Out", "rating": 6, "favorite": false, "interlude": true},
+                    {"name": "To the End", "rating": 6.5, "favorite": false, "interlude": false},
+                    {"name": "London Loves", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "Trouble in the Message Center", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "Clover Over Dover", "rating": 7, "favorite": false, "interlude": false},
+                    {"name": "Magical America", "rating": 6.5, "favorite": false, "interlude": false},
+                    {"name": "Jubilee", "rating": 7, "favorite": false, "interlude": false},
+                    {"name": "This Is a Low", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "Lot 105", "rating": 6, "favorite": false, "interlude": true}
+                ]
+            },
+            {
+                "artist": "The Stone Roses",
+                "album": "The Stone Roses",
+                "year": 1989,
+                "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses album.",
+                "songs": [
+                    {"name": "I Wanna Be Adored", "rating": 10, "favorite": false, "interlude": false},
+                    {"name": "She Bangs the Drums", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Waterfall", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Don't Stop", "rating": 4, "favorite": false, "interlude": true},
+                    {"name": "Bye Bye Bad Man", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "Elizabeth My Dear", "rating": 5, "favorite": false, "interlude": true},
+                    {"name": "(Song for My) Sugar Spun Sister", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Made of Stone", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Shoot You Down", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "This Is the One", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "I Am the Resurrection", "rating": 9.5, "favorite": false, "interlude": false},
+                    {"name": "Fools Gold", "rating": 9.5, "favorite": true, "interlude": false}
+                ]
+            },
+            {
+                "artist": "Dire Straits",
+                "album": "Communiqué",
+                "year": 1979,
+                "comment": "Das beste Dire Straits Album change my mind.",
+                "songs": [
+                    {"name": "Once Upon A Time In The West", "rating": 8, "favorite": false, "interlude": false},
+                    {"name": "News", "rating": 9, "favorite": false, "interlude": false},
+                    {"name": "Where Do You Think You're Going", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Communiqué", "rating": 9.5, "favorite": false, "interlude": false},
+                    {"name": "Lady Writer", "rating": 10, "favorite": true, "interlude": false},
+                    {"name": "Angel Of Mercy", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Portobello Belle", "rating": 7.5, "favorite": false, "interlude": false},
+                    {"name": "Single Handed Sailor", "rating": 8.5, "favorite": false, "interlude": false},
+                    {"name": "Follow Me Home", "rating": 7, "favorite": false, "interlude": false}
+                ]
+            }
+        ];
+
         let albums = [];
         let currentAlbums = [];
         let currentPage = 1;
-        const albumsPerPage = 10;
-        let allExpanded = false;
+        const albumsPerPage = 5;
+        let currentSort = 'rating-desc';
+        let expandedAlbums = new Set();
+        let startTime = Date.now();
 
-        async function loadAlbums() {
-            try {
-                const response = await fetch('albums.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+        function initializeDatabase() {
+            // Remove duplicates
+            const uniqueAlbums = [];
+            const seen = new Set();
+            
+            albumsData.forEach(album => {
+                const key = `${album.artist}-${album.album}-${album.year}`;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    uniqueAlbums.push(album);
                 }
-                albums = await response.json();
-                currentAlbums = [...albums];
+            });
+            
+            albums = uniqueAlbums;
+            currentAlbums = [...albums];
+            
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
                 sortAlbums();
                 displayAlbums();
+                updateSystemInfo();
                 updatePagination();
-                updateStatus();
-            } catch (error) {
-                console.error('Fehler beim Laden der albums.json:', error);
-                showError(`Fehler beim Laden der Albumdaten: ${error.message}`);
-            }
+            }, 1000);
         }
 
-        function showError(message) {
-            const albumList = document.getElementById('albumList');
-            albumList.innerHTML = `<div class="error-message">${message}<br><br>Bitte stellen Sie sicher, dass die Datei 'albums.json' im selben Verzeichnis liegt.</div>`;
+        function showLoading() {
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('albumList').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('show');
+            document.getElementById('albumList').style.display = 'block';
         }
 
         function calculateAverageRating(songs) {
@@ -447,18 +649,32 @@
             return (sum / nonInterludeSongs.length).toFixed(1);
         }
 
-        function getRatingClass(rating) {
-            if (rating == 10) return 'rating-10';
-            if (rating >= 9) return 'rating-9-10';
-            if (rating >= 8) return 'rating-8-9';
-            if (rating >= 7) return 'rating-7-8';
-            if (rating >= 6) return 'rating-6-7';
-            if (rating >= 5) return 'rating-5-6';
-            if (rating >= 4) return 'rating-4-5';
-            if (rating >= 3) return 'rating-3-4';
-            if (rating >= 2) return 'rating-2-3';
-            if (rating >= 1) return 'rating-1-2';
-            return 'rating-0-1';
+        function getRatingColor(rating) {
+            const r = parseFloat(rating);
+            if (r >= 9) return '#f0f';
+            if (r >= 8) return '#ff0';
+            if (r >= 7) return '#0f0';
+            if (r >= 6) return '#0ff';
+            if (r >= 5) return '#f80';
+            return '#f00';
+        }
+
+        function createRatingBlocks(rating) {
+            const blocks = [];
+            const normalizedRating = Math.round(parseFloat(rating));
+            
+            for (let i = 1; i <= 10; i++) {
+                const filled = i <= normalizedRating;
+                let className = 'rating-block';
+                if (filled) {
+                    className += ' filled';
+                    if (i >= 9) className += ' max';
+                    else if (i >= 7) className += ' high';
+                }
+                blocks.push(`<div class="${className}"></div>`);
+            }
+            
+            return blocks.join('');
         }
 
         function displayAlbums() {
@@ -470,89 +686,128 @@
             const pageAlbums = currentAlbums.slice(startIndex, endIndex);
 
             pageAlbums.forEach((album, index) => {
+                const globalIndex = startIndex + index;
                 const avgRating = calculateAverageRating(album.songs);
-                const albumDiv = document.createElement('div');
-                albumDiv.className = 'album-card';
+                const isExpanded = expandedAlbums.has(globalIndex);
                 
-                const songsHtml = album.songs.map(song => `
-                    <div class="song-item ${song.interlude ? 'interlude' : ''}">
-                        <span class="song-name">${song.name}</span>
-                        <span class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
-                        <span class="song-icons">
-                            ${song.favorite ? '<span class="favorite">★</span>' : ''}
+                const albumDiv = document.createElement('div');
+                albumDiv.className = `album-entry ${isExpanded ? 'selected' : ''}`;
+                albumDiv.onclick = () => toggleAlbum(globalIndex);
+                
+                const tracksHtml = album.songs.map(song => `
+                    <div class="track-grid">
+                        <span class="track-name ${song.favorite ? 'favorite' : ''} ${song.interlude ? 'interlude' : ''}">
+                            ${song.name}
+                        </span>
+                        <span class="track-rating" style="color: ${getRatingColor(song.rating)}">${song.rating}</span>
+                        <span class="track-icons">
+                            ${song.favorite ? '★' : ''}
                             ${song.interlude ? 'i' : ''}
                         </span>
                     </div>
                 `).join('');
                 
                 albumDiv.innerHTML = `
-                    <div class="album-header" onclick="toggleAlbum(${startIndex + index})">
-                        <div class="album-info">
-                            <div class="album-title">${album.artist} - ${album.album}</div>
-                            <div class="album-meta">YEAR: ${album.year} | TRACKS: ${album.songs.length} | AVG: ${avgRating}/10</div>
+                    <div class="album-header-line">
+                        <div>
+                            <div class="album-title">${album.artist.toUpperCase()} - ${album.album.toUpperCase()}</div>
+                            <div class="album-meta">YEAR: ${album.year} | TRACKS: ${album.songs.length}</div>
                         </div>
-                        <div class="album-rating ${getRatingClass(avgRating)}">${avgRating}</div>
+                        <div class="rating-bar">
+                            <div class="rating-blocks">${createRatingBlocks(avgRating)}</div>
+                            <span class="rating-number" style="color: ${getRatingColor(avgRating)}">${avgRating}</span>
+                        </div>
                     </div>
-                    <div class="songs-container" id="songs-${startIndex + index}">
-                        <div class="songs-list">
-                            ${songsHtml}
-                        </div>
-                        ${album.comment ? `<div class="album-comment">${album.comment}</div>` : ''}
+                    <div class="tracks-panel ${isExpanded ? 'show' : ''}" id="tracks-${globalIndex}">
+                        <div class="tracks-header">TRACKLIST:</div>
+                        ${tracksHtml}
+                        ${album.comment ? `<div class="comment-section">${album.comment}</div>` : ''}
                     </div>
                 `;
                 
                 albumList.appendChild(albumDiv);
             });
+
+            updateShowingRange();
         }
 
         function toggleAlbum(index) {
-            const songsContainer = document.getElementById(`songs-${index}`);
-            const header = songsContainer.previousElementSibling;
+            const tracksPanel = document.getElementById(`tracks-${index}`);
+            const albumEntry = tracksPanel.parentElement;
             
-            songsContainer.classList.toggle('show');
-            header.classList.toggle('expanded');
+            if (expandedAlbums.has(index)) {
+                expandedAlbums.delete(index);
+                tracksPanel.classList.remove('show');
+                albumEntry.classList.remove('selected');
+            } else {
+                expandedAlbums.add(index);
+                tracksPanel.classList.add('show');
+                albumEntry.classList.add('selected');
+            }
         }
 
-        function toggleAllAlbums() {
-            allExpanded = !allExpanded;
-            const containers = document.querySelectorAll('.songs-container');
-            const headers = document.querySelectorAll('.album-header');
+        function executeCommand(command) {
+            const input = document.getElementById('searchInput');
             
-            containers.forEach(container => {
-                if (allExpanded) {
-                    container.classList.add('show');
-                } else {
-                    container.classList.remove('show');
-                }
-            });
+            switch(command) {
+                case 'sort-rating':
+                    currentSort = currentSort === 'rating-desc' ? 'rating-asc' : 'rating-desc';
+                    break;
+                case 'sort-artist':
+                    currentSort = currentSort === 'artist-asc' ? 'artist-desc' : 'artist-asc';
+                    break;
+                case 'sort-year':
+                    currentSort = currentSort === 'year-asc' ? 'year-desc' : 'year-asc';
+                    break;
+                case 'expand-all':
+                    toggleAllAlbums();
+                    return;
+                case 'random':
+                    showRandomAlbum();
+                    return;
+                case 'reset':
+                    input.value = '';
+                    currentAlbums = [...albums];
+                    expandedAlbums.clear();
+                    currentSort = 'rating-desc';
+                    break;
+            }
             
-            headers.forEach(header => {
-                if (allExpanded) {
-                    header.classList.add('expanded');
-                } else {
-                    header.classList.remove('expanded');
-                }
-            });
-            
-            const button = event.target;
-            button.textContent = allExpanded ? 'COLLAPSE ALL' : 'EXPAND ALL';
+            currentPage = 1;
+            sortAlbums();
+            displayAlbums();
+            updateSystemInfo();
+            updatePagination();
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                searchAlbums();
+            } else {
+                // Real-time search after a delay
+                clearTimeout(window.searchTimeout);
+                window.searchTimeout = setTimeout(searchAlbums, 300);
+            }
         }
 
         function searchAlbums() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             currentAlbums = albums.filter(album => 
                 album.album.toLowerCase().includes(searchTerm) ||
-                album.artist.toLowerCase().includes(searchTerm)
+                album.artist.toLowerCase().includes(searchTerm) ||
+                album.songs.some(song => song.name.toLowerCase().includes(searchTerm))
             );
+            
             currentPage = 1;
+            expandedAlbums.clear();
+            sortAlbums();
             displayAlbums();
+            updateSystemInfo();
             updatePagination();
-            updateStatus();
         }
 
         function sortAlbums() {
-            const sortValue = document.getElementById('sortSelect').value;
-            const [criteria, order] = sortValue.split('-');
+            const [criteria, order] = currentSort.split('-');
             
             currentAlbums.sort((a, b) => {
                 let comparison = 0;
@@ -572,48 +827,83 @@
                         const avgB = parseFloat(calculateAverageRating(b.songs));
                         comparison = avgA - avgB;
                         break;
-                    default:
-                        return 0;
                 }
                 
                 return order === 'desc' ? -comparison : comparison;
             });
-            
-            currentPage = 1;
-            displayAlbums();
-            updatePagination();
         }
 
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('sortSelect').value = 'rating-desc';
-            currentAlbums = [...albums];
-            currentPage = 1;
-            sortAlbums();
-            updateStatus();
+        function toggleAllAlbums() {
+            const startIndex = (currentPage - 1) * albumsPerPage;
+            const endIndex = startIndex + albumsPerPage;
+            
+            let shouldExpand = true;
+            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
+                if (expandedAlbums.has(i)) {
+                    shouldExpand = false;
+                    break;
+                }
+            }
+            
+            for (let i = startIndex; i < endIndex && i < currentAlbums.length; i++) {
+                if (shouldExpand) {
+                    expandedAlbums.add(i);
+                } else {
+                    expandedAlbums.delete(i);
+                }
+            }
+            
+            displayAlbums();
+        }
+
+        function showRandomAlbum() {
+            if (currentAlbums.length === 0) return;
+            
+            const randomIndex = Math.floor(Math.random() * currentAlbums.length);
+            const randomPage = Math.ceil((randomIndex + 1) / albumsPerPage);
+            
+            currentPage = randomPage;
+            expandedAlbums.clear();
+            expandedAlbums.add(randomIndex);
+            
+            displayAlbums();
+            updatePagination();
+            
+            // Flash effect
+            setTimeout(() => {
+                const albumEntries = document.querySelectorAll('.album-entry');
+                const targetEntry = albumEntries[randomIndex % albumsPerPage];
+                if (targetEntry) {
+                    targetEntry.style.animation = 'glitch-text 0.5s ease-out';
+                    setTimeout(() => {
+                        targetEntry.style.animation = '';
+                    }, 500);
+                }
+            }, 100);
         }
 
         function updatePagination() {
             const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            const pagination = document.getElementById('pagination');
+            const pageControls = document.getElementById('pageControls');
             
             let html = '';
             
             if (totalPages > 1) {
-                html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>◀</button>`;
+                html += `<button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>PREV</button>`;
                 
+                // Show page numbers
                 for (let i = 1; i <= totalPages; i++) {
                     if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                        html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+                        html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
                     } else if (i === currentPage - 2 || i === currentPage + 2) {
                         html += '<span>...</span>';
                     }
                 }
                 
-                html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>▶</button>`;
+                html += `<button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>NEXT</button>`;
             }
             
-            pagination.innerHTML = html;
+            pageControls.innerHTML = html;
         }
 
         function changePage(page) {
@@ -621,18 +911,73 @@
             if (page < 1 || page > totalPages) return;
             
             currentPage = page;
+            expandedAlbums.clear();
             displayAlbums();
             updatePagination();
-            window.scrollTo(0, 0);
+            
+            // Scroll to top
+            document.querySelector('.terminal').scrollTop = 0;
         }
 
-        function updateStatus() {
-            document.getElementById('albumCount').textContent = currentAlbums.length;
-            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('de-DE');
+        function updateShowingRange() {
+            const startIndex = (currentPage - 1) * albumsPerPage + 1;
+            const endIndex = Math.min(startIndex + albumsPerPage - 1, currentAlbums.length);
+            
+            document.getElementById('showingRange').textContent = `${startIndex}-${endIndex}`;
+            document.getElementById('totalRecords').textContent = currentAlbums.length;
         }
 
+        function updateSystemInfo() {
+            const totalCount = albums.length;
+            const totalRating = albums.reduce((sum, album) => {
+                return sum + parseFloat(calculateAverageRating(album.songs));
+            }, 0);
+            const avgRating = totalCount > 0 ? (totalRating / totalCount).toFixed(1) : '0.0';
+            
+            document.getElementById('systemTotalAlbums').textContent = totalCount;
+            document.getElementById('systemAvgRating').textContent = avgRating;
+            document.getElementById('lastSync').textContent = new Date().toLocaleTimeString();
+            
+            // Update session ID randomly
+            const sessionId = '0x' + Math.random().toString(16).substr(2, 8).toUpperCase();
+            document.getElementById('sessionId').textContent = sessionId;
+        }
+
+        function updateUptime() {
+            const elapsed = Date.now() - startTime;
+            const hours = Math.floor(elapsed / 3600000).toString().padStart(2, '0');
+            const minutes = Math.floor((elapsed % 3600000) / 60000).toString().padStart(2, '0');
+            const seconds = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+            
+            document.getElementById('uptime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateMemoryUsage() {
+            const usage = Math.floor(Math.random() * 20) + 35; // 35-55%
+            document.getElementById('memUsage').textContent = `${usage}%`;
+        }
+
+        // Initialize everything
         document.addEventListener('DOMContentLoaded', () => {
-            loadAlbums();
+            initializeDatabase();
+            
+            // Update uptime every second
+            setInterval(updateUptime, 1000);
+            
+            // Update memory usage every 3 seconds
+            setInterval(updateMemoryUsage, 3000);
+            
+            // Focus search input
+            document.getElementById('searchInput').focus();
+            
+            // Add terminal-like behavior
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'c') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').value = '';
+                    searchAlbums();
+                }
+            });
         });
     </script>
 </body>
