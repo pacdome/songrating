@@ -109,9 +109,9 @@
 
     {
         "artist": "Great Gable",
-        "album": "Eines der seltenen Alben nach 2000 in meiner Bibliothek aber einfach ein gutes. Simpel aber Indie at its best.",
+        "album": "On the Wall in The Moring Sun",
         "year": 2022,
-        "comment": "",
+        "comment": "Eines der seltenen Alben nach 2000 in meiner Bibliothek aber einfach ein gutes. Simpel aber Indie at its best.",
         "songs": [
             {"name": "Dancing Shoes", "rating": 8, "favorite": false, "interlude": false},
             {"name": "Another Day", "rating": 7.5, "favorite": false, "interlude": false},
@@ -120,49 +120,15 @@
             {"name": "Our Love", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Hazy", "rating": 9.5, "favorite": true, "interlude": false},
             {"name": "If You & I", "rating": 7, "favorite": false, "interlude": false},
-            {"name": "When I Grow Up", "rating": 0, "favorite": false, "interlude": false},
-            {"name": "I Know", "rating": 0, "favorite": false, "interlude": false},
-            {"name": "Pedestal", "rating": 0, "favorite": false, "interlude": false},
-            {"name": "Sirens", "rating": 0, "favorite": false, "interlude": false},
-            {"name": "Do You Belong", "rating": 0, "favorite": false, "interlude": false}
-        ] },
+            {"name": "When I Grow Up", "rating": 7,5, "favorite": false, "interlude": false},
+            {"name": "I Know", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Pedestal", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Sirens", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Do You Belong", "rating": 7, "favorite": false, "interlude": false}
+        ] }
        
 
 
 
-    {
-        "artist": "Test3",
-        "album": "Test3",
-        "year": 1979,
-        "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
-
-    {
-        "artist": "Test2",
-        "album": "Test4",
-        "year": 1979,
-        "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
-
-    {
-        "artist": "Test1",
-        "album": "Test5",
-        "year": 1979,
-        "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
-
-    {
-        "artist": "Test1",
-        "album": "Test5",
-        "year": 1979,
-        "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
-
-    {
-        "artist": "Test1",
-        "album": "Test6",
-        "year": 1979,
-        "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] }
     
 ]
