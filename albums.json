@@ -89,11 +89,24 @@
     },
 
     {
-        "artist": "Test1",
-        "album": "Test1",
-        "year": 1979,
+        "artist": "Faces",
+        "album": "Ooh La la",
+        "year": 1973,
         "comment": "",
-        "songs": [{"name": "Test1", "rating": 5, "favorite": false, "interlude": false}] },
+        "songs": [
+            {"name": "Silicone Grown", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Cindy Incidentally", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Flags and Banners", "rating": 6, "favorite": false, "interlude": false},
+            {"name": "My Fault", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Borstal Boys", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Fly in the Ointment", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "If I'm on the Late Side", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Glad and Sorry", "rating": 9.5, "favorite": true, "interlude": false},
+            {"name": "Just Another Honky", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Ooh La la", "rating": 9, "favorite": false, "interlude": false}
+        
+        ] },
+       
 
     {
         "artist": "Test2",
