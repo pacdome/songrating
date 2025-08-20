@@ -93,48 +93,48 @@
         "album": "Test1",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test2",
         "album": "Test2",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test3",
         "album": "Test3",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test2",
         "album": "Test4",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test1",
         "album": "Test5",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test1",
         "album": "Test5",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] },
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] },
 
     {
         "artist": "Test1",
         "album": "Test6",
         "year": 1979,
         "comment": "",
-        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false},] }
+        "songs": [{"name": "Test1, "rating": 5, "favorite": false, "interlude": false}] }
     
 ]
