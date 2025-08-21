@@ -1,1217 +1,1053 @@
-.comment-box {
-            background: linear-gradient(135deg, #fff8dc 0%, #ffdd44 100%);
-            border: 3px dashed #ff4444;
-            padding: 12px;
-            margin-top: 12px;
-            font-style: italic;
-            font-size: 11px;
-            color: #cc0000;
-            border-radius: 8px;
-        }
-        
-        .comment-box::before {
-            content: "💬 MEIN KOMMENTAR<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOME'S MUSIC COLLECTION</title>
+    <title>DOME'S MUSIC DEPARTURES</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
         
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
-            font-size: 11px;
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    #ff4444 0px,
-                    #ff4444 20px,
-                    #ffffff 20px,
-                    #ffffff 40px
-                ),
-                linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
-            color: #000;
-            min-height: 100vh;
-        }
-        
-        .page-wrapper {
-            padding: 10px;
-            min-height: 100vh;
-        }
-        
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: #ffffff;
-            border: 3px solid #ff4444;
-            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
-            border-radius: 8px;
-        }
-        
-        .title-bar {
-            background: linear-gradient(90deg, #ff4444 0%, #cc0000 100%);
-            color: white;
-            padding: 8px 12px;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #aa0000;
-            border-radius: 5px 5px 0 0;
-        }
-        
-        .title-text {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-        }
-        
-        .title-icon {
-            width: 20px;
-            height: 20px;
-            background: #ffdd44;
-            border: 2px solid #000;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-            color: #000;
-        }
-        
-        .window-controls {
-            display: flex;
-            gap: 2px;
-        }
-        
-        .control-btn {
-            width: 22px;
-            height: 20px;
-            background: #ffdd44;
-            border: 2px solid #cc9900;
-            font-size: 10px;
-            color: #000;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 3px;
-        }
-        
-        .control-btn:active {
-            background: #cc9900;
-        }
-        
-        .header-zone {
-            background: 
-                radial-gradient(ellipse at center, #ffdd44 0%, #ff4444 70%),
-                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
-            border: 3px solid #cc0000;
-            margin: 12px;
-            padding: 20px;
-            text-align: center;
-            border-radius: 15px;
-            box-shadow: inset 0 0 20px rgba(255,221,68,0.5);
-        }
-        
-        .main-title {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #00ff41;
             font-family: 'Orbitron', monospace;
-            font-size: 28px;
-            font-weight: 900;
-            color: #ffffff;
-            text-shadow: 
-                2px 2px 0px #cc0000,
-                -1px -1px 0px #cc0000,
-                1px -1px 0px #cc0000,
-                -1px 1px 0px #cc0000,
-                3px 3px 6px rgba(0,0,0,0.5);
-            margin: 0 0 10px 0;
-            letter-spacing: 3px;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
         }
         
-        .subtitle {
-            font-size: 16px;
-            font-weight: bold;
-            color: #ffffff;
-            margin: 8px 0;
-            text-shadow: 2px 2px 4px rgba(204,0,0,0.8);
-        }
-        
-        .loading-banner {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #ff4444;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            font-family: 'Courier New', monospace;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
         }
         
-        .loading-text {
-            font-size: 20px;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-        
-        .loading-progress {
-            width: 400px;
-            height: 20px;
-            border: 3px solid #ffffff;
-            background: #cc0000;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-        
-        .progress-fill {
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #ffdd44, #ffffff);
-            width: 0%;
-            animation: progressLoad 3s ease-out forwards;
-            border-radius: 7px;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px,
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 1000;
+            animation: scanlines 0.1s linear infinite;
         }
         
-        @keyframes progressLoad {
-            to { width: 100%; }
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
         }
         
-        .status-display {
-            background: #000000;
-            color: #ffdd44;
-            font-family: 'Courier New', monospace;
-            font-size: 11px;
-            padding: 8px;
-            margin: 12px;
-            border: 2px solid #ff4444;
-            border-radius: 5px;
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            border-bottom: 2px solid #00ff41;
+            box-shadow: 0 2px 20px rgba(0, 255, 65, 0.3);
+            position: relative;
         }
         
-        .status-cursor {
-            animation: cursorBlink 1s step-start infinite;
+        .header::before {
+            content: '█ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █';
+            display: block;
+            font-size: 8px;
+            opacity: 0.3;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
         }
         
-        @keyframes cursorBlink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        .main-title {
+            font-size: clamp(24px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-shadow: 
+                0 0 10px #00ff41,
+                0 0 20px #00ff41,
+                0 0 30px #00ff41;
+            animation: flicker 3s infinite alternate;
+            margin: 10px 0;
         }
         
-        .toolbar-area {
-            background: 
-                linear-gradient(90deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%),
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,68,68,0.1) 2px, rgba(255,68,68,0.1) 4px);
-            border: 2px solid #ff4444;
-            padding: 10px;
-            margin: 12px;
+        .subtitle {
+            font-size: 14px;
+            color: #ffa500;
+            letter-spacing: 2px;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .status-bar {
             display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            border-radius: 8px;
-        }
-        
-        .tool-btn {
-            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-            border: 2px solid #aa0000;
-            padding: 8px 12px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #ffffff;
-            cursor: pointer;
-            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-            border-radius: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            padding: 15px 30px;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid #333;
+            font-size: 12px;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         
-        .tool-btn:hover {
-            background: linear-gradient(135deg, #ffdd44 0%, #ff4444 100%);
-            color: #000000;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
-            transform: translateY(-1px);
-        }
-        
-        .tool-btn:active, .tool-btn.active {
-            background: linear-gradient(135deg, #cc0000 0%, #aa0000 100%);
-            color: #ffffff;
-            transform: translateY(1px);
-            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .search-panel {
-            background: 
-                linear-gradient(135deg, #ffffff 0%, #ffdd44 100%),
-                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,68,68,0.05) 20px, rgba(255,68,68,0.05) 40px);
-            border: 2px solid #ff4444;
-            margin: 12px;
-            padding: 12px;
-            border-radius: 8px;
-        }
-        
-        .search-group {
+        .status-item {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
         }
         
-        .search-label {
-            font-weight: bold;
-            min-width: 80px;
-            color: #cc0000;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-        }
-        
-        .retro-input, .retro-select {
-            border: 2px solid #ff4444;
-            padding: 4px 8px;
-            font-size: 11px;
-            background: white;
-            color: #000;
-            font-family: inherit;
-            border-radius: 4px;
-        }
-        
-        .retro-input:focus, .retro-select:focus {
-            outline: none;
-            border: 2px solid #cc0000;
-            background: #fff8dc;
-            box-shadow: 0 0 5px rgba(255,68,68,0.5);
-        }
-        
-        .content-display {
-            background: #ffffff;
-            border: 3px solid #ff4444;
-            margin: 12px;
-            min-height: 500px;
-            max-height: 700px;
-            overflow-y: auto;
-            border-radius: 8px;
-        }
-        
-        .album-entry {
-            border-bottom: 1px solid #e0e0e0;
-            background: white;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .album-entry:hover {
-            background: linear-gradient(90deg, #fff8dc 0%, #ffdd44 20%, #fff8dc 100%);
-        }
-        
-        .album-entry.open {
-            background: linear-gradient(90deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%);
-        }
-        
-        .album-header {
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .album-disc {
-            width: 32px;
-            height: 32px;
-            background: radial-gradient(circle, #ffff00 20%, #ff0080 40%, #000 60%);
-            border: 2px solid #808080;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 2px #000;
-        }
-        
-        .album-disc::after {
-            content: '';
-            position: absolute;
+        .status-dot {
             width: 8px;
             height: 8px;
-            background: #000;
             border-radius: 50%;
+            background: #00ff41;
+            animation: pulse 2s infinite;
         }
         
-        .album-details {
-            flex: 1;
-            min-width: 0;
+        .controls {
+            padding: 20px 30px;
+            background: rgba(0, 20, 40, 0.8);
+            border-bottom: 1px solid #333;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
         }
         
-        .album-name {
-            font-weight: bold;
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            color: #00ff41;
+            padding: 12px 40px 12px 15px;
+            font-family: inherit;
             font-size: 14px;
-            color: #cc0000;
-            margin-bottom: 4px;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #ffa500;
+        }
+        
+        select, button {
+            background: rgba(0, 0, 0, 0.8);
+            color: #00ff41;
+            border: 2px solid #333;
+            padding: 12px 15px;
+            font-family: inherit;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        select:hover, button:hover {
+            border-color: #ffa500;
+            background: rgba(255, 165, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2);
+        }
+        
+        .departure-board {
+            margin: 20px 30px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .board-header {
+            background: linear-gradient(90deg, #1a1a2e, #16213e);
+            padding: 15px 20px;
+            border-bottom: 2px solid #333;
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 80px;
+            gap: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .board-header div {
+            color: #ffa500;
+            text-shadow: 0 0 10px #ffa500;
+        }
+        
+        .album-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 80px;
+            gap: 20px;
+            padding: 15px 20px;
+            border-bottom: 1px solid #222;
+            align-items: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .album-row:hover {
+            background: rgba(0, 255, 65, 0.05);
+            border-left: 4px solid #00ff41;
+            padding-left: 16px;
+            transform: scale(1.02);
+        }
+        
+        .album-row::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #00ff41, transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .album-row:hover::before {
+            opacity: 1;
         }
         
         .album-info {
-            font-size: 11px;
-            color: #666;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
         
-        .album-score {
-            background: 
-                linear-gradient(45deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%),
-                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,68,68,0.1) 3px, rgba(255,68,68,0.1) 6px);
-            border: 3px solid #ff4444;
-            padding: 12px 16px;
-            font-weight: bold;
+        .album-title {
+            font-weight: 700;
             font-size: 16px;
-            color: #cc0000;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-            min-width: 60px;
+            color: #ffffff;
+            text-shadow: 0 0 5px #ffffff;
+        }
+        
+        .artist-name {
+            font-size: 12px;
+            color: #00ff41;
+            opacity: 0.8;
+        }
+        
+        .year {
+            color: #ffa500;
+            font-weight: 700;
+        }
+        
+        .track-count {
+            color: #00ffff;
+            font-size: 14px;
+        }
+        
+        .rating-display {
+            background: linear-gradient(135deg, #000, #333);
+            border: 2px solid;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-weight: 900;
+            font-size: 16px;
             text-align: center;
-            border-radius: 15px;
-            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
-        }
-        
-        .album-expanded {
-            display: none;
-            background: linear-gradient(135deg, #ffffff 0%, #fff8dc 100%);
-            border-top: 2px solid #ffdd44;
-            padding: 15px;
-        }
-        
-        .album-expanded.show {
-            display: block;
-        }
-        
-        .tracklist-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11px;
-            margin-bottom: 12px;
-            border: 2px solid #ff4444;
-            border-radius: 5px;
+            text-shadow: 0 0 10px currentColor;
+            min-width: 60px;
+            position: relative;
             overflow: hidden;
         }
         
-        .tracklist-table th {
-            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
-            border: 1px solid #aa0000;
-            padding: 6px 8px;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        .rating-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: sweep 3s infinite;
         }
         
-        .tracklist-table td {
-            border: 1px solid #ffdd44;
-            padding: 4px 8px;
-            background: white;
+        @keyframes sweep {
+            0% { left: -100%; }
+            100% { left: 100%; }
         }
         
-        .tracklist-table tr:nth-child(even) td {
-            background: #fff8dc;
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
         
-        .tracklist-table tr:hover td {
-            background: #ffdd44;
+        .status-active {
+            background: #00ff41;
+            box-shadow: 0 0 10px #00ff41;
         }
         
-        .track-rating {
-            text-align: center;
-            font-weight: bold;
+        .status-standby {
+            background: #ffa500;
+            box-shadow: 0 0 10px #ffa500;
         }
         
-        .rating-10, .rating-9 { 
-            color: #ffffff; 
-            background: linear-gradient(45deg, #ff4444, #cc0000);
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        .expanded-content {
+            grid-column: 1 / -1;
+            background: rgba(0, 20, 40, 0.9);
+            border-top: 1px solid #333;
+            padding: 20px;
+            margin-top: 10px;
             border-radius: 4px;
-            padding: 2px 4px;
-        }
-        .rating-8, .rating-7 { 
-            color: #ffffff; 
-            background: linear-gradient(45deg, #ffdd44, #cc9900);
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
-            border-radius: 4px;
-            padding: 2px 4px;
-        }
-        .rating-6, .rating-5 { 
-            color: #000000; 
-            background: linear-gradient(45deg, #ffffff, #ffdd44);
-            font-weight: bold;
-            border-radius: 4px;
-            padding: 2px 4px;
-        }
-        .rating-low { 
-            color: #666; 
-            background: #f0f0f0;
-            border-radius: 4px;
-            padding: 2px 4px;
+            display: none;
+            animation: slideDown 0.3s ease-out;
         }
         
-        .fav-star {
-            color: #ff4444;
-            font-weight: bold;
-            font-size: 14px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        .expanded-content.show {
+            display: block;
         }
         
-        .interlude-text {
-            color: #666;
-            font-style: italic;
-            font-size: 9px;
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        .comment-box {
-            background: #ffffcc;
-            border: 2px dashed #cc9900;
-            padding: 8px;
-            margin-top: 8px;
-            font-style: italic;
-            font-size: 10px;
-            color: #000080;
+        .songs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
-        .comment-box::before {
-            content: "💬 MEIN KOMMENTAR: ";
-            font-weight: bold;
-            font-style: normal;
-            color: #800080;
-        }
-        
-        .stats-footer {
-            background: linear-gradient(90deg, #c0c0c0 0%, #e0e0e0 50%, #c0c0c0 100%);
-            border-top: 2px outset #c0c0c0;
-            padding: 8px;
+        .song-item {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            font-size: 10px;
-            font-weight: bold;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-left: 3px solid #333;
+            border-radius: 3px;
+            transition: all 0.3s;
         }
         
-        .stat-box {
-            background: linear-gradient(45deg, #ffcc99, #ff9999);
-            border: 1px outset #c0c0c0;
-            padding: 4px 8px;
-            margin: 2px;
-            color: #000;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        .song-item:hover {
+            border-left-color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
         }
         
-        .pagination-zone {
-            text-align: center;
-            padding: 8px;
-            background: #f0f0f0;
-            margin: 8px;
-            border: 1px inset #c0c0c0;
+        .song-name {
+            font-size: 12px;
+            flex-grow: 1;
         }
         
-        .page-btn {
-            background: linear-gradient(135deg, #cc99ff, #99ccff);
-            border: 2px outset #c0c0c0;
-            color: #000;
-            padding: 4px 8px;
-            margin: 0 2px;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.1s;
+        .song-rating {
+            font-weight: 700;
+            margin-left: 10px;
+            min-width: 40px;
+            text-align: right;
         }
         
-        .page-btn:hover {
-            background: linear-gradient(135deg, #ddaaff, #aaddff);
+        .song-icons {
+            margin-left: 10px;
+            min-width: 20px;
         }
         
-        .page-btn.active {
-            background: #ff9999;
-            color: white;
-            border: 2px inset #c0c0c0;
-        }
-        
-        .bottom-bar {
-            background: linear-gradient(90deg, #000080 0%, #800080 100%);
-            color: white;
-            text-align: center;
-            padding: 8px;
-            font-size: 10px;
-        }
-        
-        .web-link {
+        .favorite {
             color: #ffff00;
-            text-decoration: underline;
-            cursor: pointer;
+            text-shadow: 0 0 5px #ffff00;
         }
         
-        .web-link:hover {
-            color: #ff99cc;
+        .interlude {
+            opacity: 0.5;
+            font-style: italic;
+        }
+        
+        .album-comment {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px dashed #333;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 15px;
+            font-style: italic;
+            font-size: 11px;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        
+        .album-comment::before {
+            content: '// KOMMENTAR: ';
+            color: #ffa500;
+            font-weight: 700;
+            font-style: normal;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        .pagination button {
+            min-width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #333;
+            color: #00ff41;
+            border-radius: 4px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .pagination button:hover:not(:disabled) {
+            border-color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .pagination button.active {
+            background: #00ff41;
+            color: #000;
+            border-color: #00ff41;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+        }
+        
+        .pagination button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+            border-top: 2px solid #333;
+            margin-top: 40px;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+        
+        /* Rating Colors */
+        .rating-10 { 
+            color: #ffffff; 
+            border-color: #ffffff;
+            text-shadow: 0 0 15px #ffffff;
+        }
+        .rating-9-10 { 
+            color: #00ff41; 
+            border-color: #00ff41;
+        }
+        .rating-8-9 { 
+            color: #88ff00; 
+            border-color: #88ff00;
+        }
+        .rating-7-8 { 
+            color: #ffff00; 
+            border-color: #ffff00;
+        }
+        .rating-6-7 { 
+            color: #ffa500; 
+            border-color: #ffa500;
+        }
+        .rating-5-6 { 
+            color: #ff6600; 
+            border-color: #ff6600;
+        }
+        .rating-4-5 { 
+            color: #ff3300; 
+            border-color: #ff3300;
+        }
+        .rating-3-4 { 
+            color: #ff0066; 
+            border-color: #ff0066;
+        }
+        .rating-2-3 { 
+            color: #ff0099; 
+            border-color: #ff0099;
+        }
+        .rating-1-2 { 
+            color: #ff00cc; 
+            border-color: #ff00cc;
+        }
+        .rating-0-1 { 
+            color: #cc00ff; 
+            border-color: #cc00ff;
+        }
+        
+        /* Animations */
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        @keyframes flip {
+            0% { transform: rotateX(0); }
+            50% { transform: rotateX(-90deg); }
+            100% { transform: rotateX(0); }
+        }
+        
+        .flip-animation {
+            animation: flip 0.6s ease-in-out;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .controls {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .board-header,
+            .album-row {
+                grid-template-columns: 2fr 1fr 80px;
+                gap: 15px;
+            }
+            
+            .board-header div:nth-child(3),
+            .board-header div:nth-child(4),
+            .album-row > div:nth-child(3),
+            .album-row > div:nth-child(4) {
+                display: none;
+            }
         }
         
         @media (max-width: 768px) {
-            .main-container {
-                margin: 5px;
+            body {
+                font-size: 12px;
             }
             
-            .album-header {
+            .departure-board {
+                margin: 20px 15px;
+            }
+            
+            .board-header,
+            .album-row {
+                grid-template-columns: 1fr 80px;
+                gap: 10px;
+                padding: 12px 15px;
+            }
+            
+            .board-header div:nth-child(2),
+            .album-row > div:nth-child(2) {
+                display: none;
+            }
+            
+            .songs-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                padding: 15px 20px;
+            }
+            
+            .status-bar {
+                padding: 10px 20px;
                 flex-direction: column;
-                text-align: center;
-                gap: 5px;
+                gap: 10px;
             }
-            
-            .search-group {
-                justify-content: center;
-            }
-            
-            .toolbar-area {
-                justify-content: center;
-            }
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #ffa500;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffa500;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #ff3333;
+            background: rgba(255, 51, 51, 0.1);
+            border: 2px solid #ff3333;
+            border-radius: 8px;
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="loading-banner" id="loadingScreen">
-        <div class="loading-text">>>> LADE DOME'S MUSIK SAMMLUNG <<<</div>
-        <div class="loading-progress">
-            <div class="progress-fill"></div>
+    <div class="scanlines"></div>
+    
+    <header class="header">
+        <h1 class="main-title">DOME'S MUSIC DEPARTURES</h1>
+        <p class="subtitle">ALBUM DATABASE SYSTEM v2.4.1</p>
+    </header>
+    
+    <div class="status-bar">
+        <div class="status-item">
+            <div class="status-dot"></div>
+            <span>SYSTEM ONLINE</span>
         </div>
-        <div style="margin-top: 15px; font-size: 12px;">
-            Lade albums.json...
+        <div class="status-item">
+            <span>ALBUMS LOADED: <span id="albumCount">0</span></span>
         </div>
-    </div>
-
-    <div class="page-wrapper">
-        <div class="main-container">
-            <div class="title-bar">
-                <div class="title-text">
-                    <div class="title-icon">♫</div>
-                    DOME'S MUSIC COLLECTION v2.1
-                </div>
-                <div class="window-controls">
-                    <div class="control-btn">_</div>
-                    <div class="control-btn">□</div>
-                    <div class="control-btn">×</div>
-                </div>
-            </div>
-            
-            <div class="header-zone">
-                <h1 class="main-title">🎵 DOME'S MUSIC COLLECTION 🎵</h1>
-                <div class="subtitle">DIE ULTIMATIVE ALBUM-BEWERTUNGS-DATENBANK</div>
-                <div style="font-size: 10px; color: #000080; margin-top: 5px;">
-                    Powered by Retro Web Technology
-                </div>
-            </div>
-            
-            <div class="status-display">
-                STATUS: ONLINE | USER: DOME | 
-                ALBEN: <span id="loadedAlbums">0</span> | 
-                SONGS: <span id="totalSongs">0</span> | 
-                UPDATE: <span id="lastUpdate"></span>
-                <span class="status-cursor">█</span>
-            </div>
-            
-            <div class="toolbar-area">
-                <div class="tool-btn active" onclick="switchView('home')">
-                    🏠 HOME
-                </div>
-                <div class="tool-btn" onclick="switchView('stats')">
-                    📊 STATS
-                </div>
-                <div class="tool-btn" onclick="switchView('favorites')">
-                    ⭐ FAVORITES
-                </div>
-                <div class="tool-btn" onclick="switchView('top10')">
-                    🏆 TOP 10
-                </div>
-                <div class="tool-btn" onclick="expandAllAlbums()">
-                    📂 EXPAND ALL
-                </div>
-                <div class="tool-btn" onclick="getRandomAlbum()">
-                    🎲 RANDOM
-                </div>
-            </div>
-            
-            <div class="search-panel">
-                <div class="search-group">
-                    <div class="search-label">SUCHE:</div>
-                    <input type="text" class="retro-input" id="searchField" 
-                           placeholder="Album oder Künstler eingeben..." 
-                           style="flex: 1; min-width: 200px;" 
-                           onkeyup="performSearch()">
-                </div>
-                <div class="search-group">
-                    <div class="search-label">SORTIEREN:</div>
-                    <select class="retro-select" id="sortingSelect" onchange="applySorting()">
-                        <option value="rating-desc">★ BEWERTUNG (HOCH → NIEDRIG)</option>
-                        <option value="rating-asc">★ BEWERTUNG (NIEDRIG → HOCH)</option>
-                        <option value="artist-asc">👤 KÜNSTLER (A → Z)</option>
-                        <option value="artist-desc">👤 KÜNSTLER (Z → A)</option>
-                        <option value="album-asc">💿 ALBUM (A → Z)</option>
-                        <option value="album-desc">💿 ALBUM (Z → A)</option>
-                        <option value="year-desc">📅 JAHR (NEU → ALT)</option>
-                        <option value="year-asc">📅 JAHR (ALT → NEU)</option>
-                    </select>
-                    <div class="tool-btn" onclick="resetAllFilters()">🔄 RESET</div>
-                </div>
-            </div>
-            
-            <div class="content-display" id="mainContent">
-            </div>
-            
-            <div class="pagination-zone" id="paginationArea"></div>
-            
-            <div class="stats-footer">
-                <div class="stat-box">ALBEN: <span id="albumCounter">0</span></div>
-                <div class="stat-box">SONGS: <span id="songCounter">0</span></div>
-                <div class="stat-box">Ø BEWERTUNG: <span id="avgRating">0.0</span></div>
-                <div class="stat-box">FAVORITEN: <span id="favoriteCounter">0</span></div>
-                <div class="stat-box">PERFECT 10s: <span id="perfectCounter">0</span></div>
-            </div>
-            
-            <div class="bottom-bar">
-                © 2024 DOME'S MUSIC ARCHIVE | 
-                <span class="web-link" onclick="showSystemInfo()">SYSTEM INFO</span> | 
-                <span class="web-link" onclick="showAbout()">ABOUT</span>
-            </div>
+        <div class="status-item">
+            <span>CURRENT TIME: <span id="currentTime"></span></span>
+        </div>
+        <div class="status-item">
+            <span>STATUS: <span class="status-ready">READY</span></span>
         </div>
     </div>
+    
+    <div class="controls">
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search albums, artists..." onkeyup="searchAlbums()">
+            <span class="search-icon">🔍</span>
+        </div>
+        <select id="sortSelect" onchange="sortAlbums()">
+            <option value="rating-desc">RATING ↓</option>
+            <option value="rating-asc">RATING ↑</option>
+            <option value="artist-asc">ARTIST A→Z</option>
+            <option value="artist-desc">ARTIST Z→A</option>
+            <option value="album-asc">ALBUM A→Z</option>
+            <option value="album-desc">ALBUM Z→A</option>
+            <option value="year-asc">YEAR ↑</option>
+            <option value="year-desc">YEAR ↓</option>
+        </select>
+        <button onclick="resetFilters()">RESET FILTERS</button>
+    </div>
+    
+    <div class="departure-board">
+        <div class="board-header">
+            <div>ALBUM / ARTIST</div>
+            <div>YEAR</div>
+            <div>TRACKS</div>
+            <div>AVG RATING</div>
+            <div>STATUS</div>
+        </div>
+        <div id="albumList" class="loading">
+            Loading database...
+        </div>
+    </div>
+    
+    <div class="pagination" id="pagination"></div>
+    
+    <footer class="footer">
+        <p>DATABASE TERMINAL © 2025 | TOTAL ALBUMS: <span id="totalAlbums">0</span> | LAST UPDATE: <span id="lastUpdate"></span></p>
+    </footer>
 
     <script>
-        let albumsDatabase = [];
-        let currentAlbumList = [];
+        let albums = [];
+        let currentAlbums = [];
         let currentPage = 1;
-        const itemsPerPage = 6;
-        let allExpanded = false;
-        let activeView = 'home';
+        const albumsPerPage = 10;
 
-        async function loadAlbumsFromJSON() {
+        // Load albums from JSON
+        async function loadAlbums() {
             try {
                 const response = await fetch('albums.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                return await response.json();
-            } catch (error) {
-                console.error('Could not load albums.json:', error);
-                throw error;
-            }
-        }
-
-        async function initializeApp() {
-            try {
-                document.getElementById('loadingScreen').style.display = 'flex';
                 
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                const data = await response.json();
                 
-                albumsDatabase = await loadAlbumsFromJSON();
-                currentAlbumList = [...albumsDatabase];
-                
-                document.getElementById('loadingScreen').style.display = 'none';
-                
-                applySorting();
-                updateAllStats();
-                renderActiveView();
-                
-                console.log('Music collection loaded successfully!');
-            } catch (error) {
-                console.error('Failed to initialize app:', error);
-                document.getElementById('loadingScreen').innerHTML = 
-                    '<div style="color: #ff0000; font-size: 18px;">ERROR: KONNTE albums.json NICHT LADEN!</div>' +
-                    '<div style="margin-top: 10px;">Bitte überprüfen Sie die Datei.</div>';
-            }
-        }
-
-        function getAlbumAverageRating(album) {
-            const validSongs = album.songs.filter(song => !song.interlude);
-            if (validSongs.length === 0) return 0;
-            const total = validSongs.reduce((sum, song) => sum + song.rating, 0);
-            return (total / validSongs.length).toFixed(1);
-        }
-
-        function getRatingColorClass(rating) {
-            const numRating = parseFloat(rating);
-            if (numRating >= 9) return 'rating-10';
-            if (numRating >= 7) return 'rating-8';
-            if (numRating >= 5) return 'rating-6';
-            return 'rating-low';
-        }
-
-        function switchView(viewName) {
-            document.querySelectorAll('.tool-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            activeView = viewName;
-            currentPage = 1;
-            renderActiveView();
-        }
-
-        function renderActiveView() {
-            switch(activeView) {
-                case 'home':
-                    renderAlbumsList();
-                    break;
-                case 'stats':
-                    renderStatsView();
-                    break;
-                case 'favorites':
-                    renderFavoritesView();
-                    break;
-                case 'top10':
-                    renderTop10View();
-                    break;
-                default:
-                    renderAlbumsList();
-            }
-        }
-
-        function renderAlbumsList() {
-            const content = document.getElementById('mainContent');
-            content.innerHTML = '';
-            
-            const startIdx = (currentPage - 1) * itemsPerPage;
-            const endIdx = startIdx + itemsPerPage;
-            const pageAlbums = currentAlbumList.slice(startIdx, endIdx);
-            
-            pageAlbums.forEach((album, index) => {
-                const globalIndex = startIdx + index;
-                const avgRating = getAlbumAverageRating(album);
-                
-                const albumDiv = document.createElement('div');
-                albumDiv.className = 'album-entry';
-                albumDiv.innerHTML = `
-                    <div class="album-header" onclick="toggleAlbumExpansion(${globalIndex})">
-                        <div class="album-disc">♫</div>
-                        <div class="album-details">
-                            <div class="album-name">${album.artist} - ${album.album}</div>
-                            <div class="album-info">
-                                Jahr: ${album.year} | Tracks: ${album.songs.length} | 
-                                Durchschnitt: ${avgRating}/10
-                            </div>
-                        </div>
-                        <div class="album-score ${getRatingColorClass(avgRating)}">${avgRating}</div>
-                    </div>
-                    <div class="album-expanded" id="expanded-${globalIndex}">
-                        ${generateTracklistTable(album.songs)}
-                        ${album.comment ? `<div class="comment-box">${album.comment}</div>` : ''}
-                    </div>
-                `;
-                content.appendChild(albumDiv);
-            });
-            
-            updatePaginationControls();
-        }
-
-        function generateTracklistTable(songs) {
-            let html = `
-                <table class="tracklist-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Song Title</th>
-                            <th>Rating</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            songs.forEach((song, idx) => {
-                html += `
-                    <tr ${song.interlude ? 'class="interlude-text"' : ''}>
-                        <td>${idx + 1}</td>
-                        <td>${song.name} ${song.interlude ? '(Interlude)' : ''}</td>
-                        <td class="track-rating ${getRatingColorClass(song.rating)}">${song.rating}</td>
-                        <td>
-                            ${song.favorite ? '<span class="fav-star">★ FAV</span>' : ''}
-                            ${song.interlude ? '<span class="interlude-text">Interlude</span>' : ''}
-                        </td>
-                    </tr>
-                `;
-            });
-            
-            html += '</tbody></table>';
-            return html;
-        }
-
-        function toggleAlbumExpansion(index) {
-            const expandedDiv = document.getElementById(`expanded-${index}`);
-            const albumEntry = expandedDiv.closest('.album-entry');
-            
-            if (expandedDiv.classList.contains('show')) {
-                expandedDiv.classList.remove('show');
-                albumEntry.classList.remove('open');
-            } else {
-                expandedDiv.classList.add('show');
-                albumEntry.classList.add('open');
-            }
-        }
-
-        function renderStatsView() {
-            const content = document.getElementById('mainContent');
-            
-            const totalSongs = albumsDatabase.reduce((sum, album) => sum + album.songs.length, 0);
-            const totalFavorites = albumsDatabase.reduce((sum, album) => 
-                sum + album.songs.filter(s => s.favorite).length, 0);
-            const totalInterludes = albumsDatabase.reduce((sum, album) => 
-                sum + album.songs.filter(s => s.interlude).length, 0);
-            
-            const allValidRatings = albumsDatabase.flatMap(album => 
-                album.songs.filter(s => !s.interlude).map(s => s.rating));
-            const overallAvg = allValidRatings.reduce((a, b) => a + b, 0) / allValidRatings.length;
-            
-            const distribution = {};
-            for (let i = 1; i <= 10; i++) {
-                distribution[i] = allValidRatings.filter(r => 
-                    Math.floor(r) === i || (i === 10 && r === 10)).length;
-            }
-            
-            let html = `
-                <div style="padding: 20px; background: #f8f8f8;">
-                    <h2 style="color: #000080; font-family: 'Orbitron', monospace; text-align: center; margin-bottom: 20px;">
-                        📊 SAMMLUNGS-STATISTIKEN 📊
-                    </h2>
-                    
-                    <table class="tracklist-table" style="margin-bottom: 20px;">
-                        <tr><th>Kategorie</th><th>Anzahl</th></tr>
-                        <tr><td>Gesamte Alben</td><td>${albumsDatabase.length}</td></tr>
-                        <tr><td>Gesamte Songs</td><td>${totalSongs}</td></tr>
-                        <tr><td>Favoriten</td><td>${totalFavorites}</td></tr>
-                        <tr><td>Interludes</td><td>${totalInterludes}</td></tr>
-                        <tr><td>Gesamtbewertung</td><td>${overallAvg.toFixed(2)}/10</td></tr>
-                    </table>
-                    
-                    <h3 style="color: #800080; margin: 20px 0 10px 0;">Bewertungsverteilung:</h3>
-                    <table class="tracklist-table">
-                        <tr><th>Rating</th><th>Anzahl Songs</th><th>Prozent</th></tr>
-            `;
-            
-            for (let i = 10; i >= 1; i--) {
-                const count = distribution[i] || 0;
-                const percent = ((count / allValidRatings.length) * 100).toFixed(1);
-                html += `<tr><td>${i}/10</td><td>${count}</td><td>${percent}%</td></tr>`;
-            }
-            
-            html += '</table></div>';
-            
-            content.innerHTML = html;
-            document.getElementById('paginationArea').innerHTML = '';
-        }
-
-        function renderFavoritesView() {
-            const content = document.getElementById('mainContent');
-            const favorites = [];
-            
-            albumsDatabase.forEach(album => {
-                album.songs.filter(s => s.favorite).forEach(song => {
-                    favorites.push({
-                        artist: album.artist,
-                        album: album.album,
-                        song: song.name,
-                        rating: song.rating
-                    });
-                });
-            });
-            
-            favorites.sort((a, b) => b.rating - a.rating);
-            
-            let html = `
-                <div style="padding: 20px; background: #ffffcc;">
-                    <h2 style="color: #800080; font-family: 'Orbitron', monospace; text-align: center; margin-bottom: 20px;">
-                        ⭐ MEINE LIEBLINGSSONGS ⭐
-                    </h2>
-                    
-                    <table class="tracklist-table">
-                        <tr><th>Künstler</th><th>Album</th><th>Song</th><th>Rating</th></tr>
-            `;
-            
-            favorites.forEach(fav => {
-                html += `
-                    <tr>
-                        <td>${fav.artist}</td>
-                        <td>${fav.album}</td>
-                        <td>${fav.song}</td>
-                        <td class="track-rating ${getRatingColorClass(fav.rating)}">
-                            <span class="fav-star">★</span> ${fav.rating}
-                        </td>
-                    </tr>
-                `;
-            });
-            
-            html += `
-                    </table>
-                    
-                    <div style="margin-top: 15px; text-align: center; font-weight: bold; color: #000080;">
-                        Gesamt: ${favorites.length} Lieblingssongs gefunden!
-                    </div>
-                </div>
-            `;
-            
-            content.innerHTML = html;
-            document.getElementById('paginationArea').innerHTML = '';
-        }
-
-        function renderTop10View() {
-            const content = document.getElementById('mainContent');
-            const allSongs = [];
-            
-            albumsDatabase.forEach(album => {
-                album.songs.filter(s => !s.interlude).forEach(song => {
-                    allSongs.push({
-                        artist: album.artist,
-                        album: album.album,
-                        song: song.name,
-                        rating: song.rating,
-                        favorite: song.favorite
-                    });
-                });
-            });
-            
-            allSongs.sort((a, b) => b.rating - a.rating);
-            const top10 = allSongs.slice(0, 10);
-            
-            let html = `
-                <div style="padding: 20px; background: #ffcccc;">
-                    <h2 style="color: #800000; font-family: 'Orbitron', monospace; text-align: center; margin-bottom: 20px;">
-                        🏆 TOP 10 BESTBEWERTETE SONGS 🏆
-                    </h2>
-                    
-                    <table class="tracklist-table">
-                        <tr><th>Rank</th><th>Künstler</th><th>Album</th><th>Song</th><th>Rating</th><th>Status</th></tr>
-            `;
-            
-            top10.forEach((song, idx) => {
-                const medal = idx < 3 ? ['🥇', '🥈', '🥉'][idx] : `#${idx + 1}`;
-                html += `
-                    <tr style="${idx < 3 ? 'background: #ffff99;' : ''}">
-                        <td style="font-weight: bold; font-size: 12px;">${medal}</td>
-                        <td>${song.artist}</td>
-                        <td>${song.album}</td>
-                        <td>${song.song}</td>
-                        <td class="track-rating ${getRatingColorClass(song.rating)}">${song.rating}</td>
-                        <td>${song.favorite ? '<span class="fav-star">★</span>' : ''}</td>
-                    </tr>
-                `;
-            });
-            
-            html += `
-                    </table>
-                    
-                    <div style="margin-top: 15px; text-align: center; font-weight: bold; color: #800000;">
-                        Die absolute Elite meiner Musiksammlung!
-                    </div>
-                </div>
-            `;
-            
-            content.innerHTML = html;
-            document.getElementById('paginationArea').innerHTML = '';
-        }
-
-        function performSearch() {
-            const searchTerm = document.getElementById('searchField').value.toLowerCase().trim();
-            
-            if (searchTerm === '') {
-                currentAlbumList = [...albumsDatabase];
-            } else {
-                currentAlbumList = albumsDatabase.filter(album =>
-                    album.album.toLowerCase().includes(searchTerm) ||
-                    album.artist.toLowerCase().includes(searchTerm) ||
-                    album.songs.some(song => song.name.toLowerCase().includes(searchTerm))
+                // Remove duplicates based on artist and album
+                const uniqueAlbums = data.filter((album, index, self) => 
+                    index === self.findIndex(a => 
+                        a.artist.toLowerCase().trim() === album.artist.toLowerCase().trim() && 
+                        a.album.toLowerCase().trim() === album.album.toLowerCase().trim()
+                    )
                 );
-            }
-            
-            currentPage = 1;
-            if (activeView === 'home') {
-                renderAlbumsList();
+                
+                albums = uniqueAlbums;
+                currentAlbums = [...albums];
+                
+                sortAlbums();
+                displayAlbums();
+                updatePagination();
+                updateStatus();
+                
+            } catch (error) {
+                console.error('Error loading albums:', error);
+                showError(`DATABASE CONNECTION FAILED: ${error.message}`);
             }
         }
 
-        function applySorting() {
-            const sortValue = document.getElementById('sortingSelect').value;
-            const [criteria, direction] = sortValue.split('-');
+        function showError(message) {
+            document.getElementById('albumList').innerHTML = `<div class="error">${message}</div>`;
+        }
+
+        function calculateAverageRating(songs) {
+            const nonInterludeSongs = songs.filter(song => !song.interlude);
+            if (nonInterludeSongs.length === 0) return 0;
+            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
+            return (sum / nonInterludeSongs.length).toFixed(1);
+        }
+
+        function getRatingClass(rating) {
+            const r = parseFloat(rating);
+            if (r >= 10) return 'rating-10';
+            if (r >= 9) return 'rating-9-10';
+            if (r >= 8) return 'rating-8-9';
+            if (r >= 7) return 'rating-7-8';
+            if (r >= 6) return 'rating-6-7';
+            if (r >= 5) return 'rating-5-6';
+            if (r >= 4) return 'rating-4-5';
+            if (r >= 3) return 'rating-3-4';
+            if (r >= 2) return 'rating-2-3';
+            if (r >= 1) return 'rating-1-2';
+            return 'rating-0-1';
+        }
+
+        function displayAlbums() {
+            const albumList = document.getElementById('albumList');
             
-            currentAlbumList.sort((a, b) => {
+            if (currentAlbums.length === 0) {
+                albumList.innerHTML = '<div class="error">NO ALBUMS FOUND</div>';
+                return;
+            }
+
+            const startIndex = (currentPage - 1) * albumsPerPage;
+            const endIndex = startIndex + albumsPerPage;
+            const pageAlbums = currentAlbums.slice(startIndex, endIndex);
+
+            albumList.innerHTML = '';
+
+            pageAlbums.forEach((album, index) => {
+                const avgRating = calculateAverageRating(album.songs);
+                const ratingClass = getRatingClass(avgRating);
+                const albumIndex = startIndex + index;
+
+                const albumRow = document.createElement('div');
+                albumRow.className = 'album-row';
+                albumRow.onclick = () => toggleAlbumDetails(albumIndex);
+
+                const songsHtml = album.songs.map(song => `
+                    <div class="song-item ${song.interlude ? 'interlude' : ''}">
+                        <span class="song-name">${song.name}</span>
+                        <span class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
+                        <span class="song-icons">
+                            ${song.favorite ? '<span class="favorite">★</span>' : ''}
+                            ${song.interlude ? '<span style="opacity:0.5;">♪</span>' : ''}
+                        </span>
+                    </div>
+                `).join('');
+
+                albumRow.innerHTML = `
+                    <div class="album-info">
+                        <div class="album-title">${album.album}</div>
+                        <div class="artist-name">${album.artist}</div>
+                    </div>
+                    <div class="year">${album.year}</div>
+                    <div class="track-count">${album.songs.length} TRACKS</div>
+                    <div class="rating-display ${ratingClass}">${avgRating}</div>
+                    <div class="status-indicator ${parseFloat(avgRating) >= 8 ? 'status-active' : 'status-standby'}"></div>
+                    
+                    <div class="expanded-content" id="details-${albumIndex}">
+                        <div class="songs-grid">
+                            ${songsHtml}
+                        </div>
+                        ${album.comment ? `<div class="album-comment">${album.comment}</div>` : ''}
+                    </div>
+                `;
+
+                albumList.appendChild(albumRow);
+            });
+        }
+
+        function toggleAlbumDetails(index) {
+            const details = document.getElementById(`details-${index}`);
+            const isVisible = details.classList.contains('show');
+            
+            // Close all other expanded details
+            document.querySelectorAll('.expanded-content.show').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            // Toggle current details
+            if (!isVisible) {
+                details.classList.add('show');
+                // Add flip animation to rating
+                const row = details.parentElement;
+                const rating = row.querySelector('.rating-display');
+                rating.classList.add('flip-animation');
+                setTimeout(() => rating.classList.remove('flip-animation'), 600);
+            }
+        }
+
+        function searchAlbums() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            currentAlbums = albums.filter(album => 
+                album.album.toLowerCase().includes(searchTerm) ||
+                album.artist.toLowerCase().includes(searchTerm) ||
+                album.songs.some(song => song.name.toLowerCase().includes(searchTerm))
+            );
+            currentPage = 1;
+            displayAlbums();
+            updatePagination();
+            updateStatus();
+        }
+
+        function sortAlbums() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const [criteria, order] = sortValue.split('-');
+            
+            currentAlbums.sort((a, b) => {
                 let comparison = 0;
                 
                 switch(criteria) {
                     case 'artist':
-                        comparison = a.artist.localeCompare(b.artist, 'de');
+                        comparison = a.artist.localeCompare(b.artist);
                         break;
                     case 'album':
-                        comparison = a.album.localeCompare(b.album, 'de');
+                        comparison = a.album.localeCompare(b.album);
                         break;
                     case 'year':
                         comparison = a.year - b.year;
                         break;
                     case 'rating':
-                        const avgA = parseFloat(getAlbumAverageRating(a));
-                        const avgB = parseFloat(getAlbumAverageRating(b));
+                        const avgA = parseFloat(calculateAverageRating(a.songs));
+                        const avgB = parseFloat(calculateAverageRating(b.songs));
                         comparison = avgA - avgB;
                         break;
                 }
                 
-                return direction === 'desc' ? -comparison : comparison;
+                return order === 'desc' ? -comparison : comparison;
             });
             
             currentPage = 1;
-            if (activeView === 'home') {
-                renderAlbumsList();
+            displayAlbums();
+            updatePagination();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'rating-desc';
+            currentAlbums = [...albums];
+            currentPage = 1;
+            sortAlbums();
+            updateStatus();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
             }
-        }
-
-        function resetAllFilters() {
-            document.getElementById('searchField').value = '';
-            document.getElementById('sortingSelect').value = 'rating-desc';
-            currentAlbumList = [...albumsDatabase];
-            currentPage = 1;
-            applySorting();
-        }
-
-        function expandAllAlbums() {
-            allExpanded = !allExpanded;
-            const expandedDivs = document.querySelectorAll('.album-expanded');
-            const albumEntries = document.querySelectorAll('.album-entry');
-            
-            expandedDivs.forEach(div => {
-                if (allExpanded) {
-                    div.classList.add('show');
-                } else {
-                    div.classList.remove('show');
-                }
-            });
-            
-            albumEntries.forEach(entry => {
-                if (allExpanded) {
-                    entry.classList.add('open');
-                } else {
-                    entry.classList.remove('open');
-                }
-            });
-            
-            event.target.textContent = allExpanded ? '📁 COLLAPSE ALL' : '📂 EXPAND ALL';
-        }
-
-        function getRandomAlbum() {
-            if (currentAlbumList.length === 0) return;
-            
-            const randomIndex = Math.floor(Math.random() * currentAlbumList.length);
-            const randomAlbum = currentAlbumList[randomIndex];
-            
-            alert(`🎲 ZUFÄLLIGES ALBUM:\n\n${randomAlbum.artist} - ${randomAlbum.album} (${randomAlbum.year})\n\nDurchschnittsbewertung: ${getAlbumAverageRating(randomAlbum)}/10\n\n${randomAlbum.comment || 'Kein Kommentar verfügbar.'}`);
-        }
-
-        function updatePaginationControls() {
-            const totalPages = Math.ceil(currentAlbumList.length / itemsPerPage);
-            const pagination = document.getElementById('paginationArea');
             
             let html = '';
             
-            if (totalPages > 1) {
-                if (currentPage > 1) {
-                    html += `<span class="page-btn" onclick="navigateToPage(${currentPage - 1})">« ZURÜCK</span>`;
-                }
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                        html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="navigateToPage(${i})">${i}</span>`;
-                    } else if (i === currentPage - 2 || i === currentPage + 2) {
-                        html += '<span style="padding: 0 5px;">...</span>';
-                    }
-                }
-                
-                if (currentPage < totalPages) {
-                    html += `<span class="page-btn" onclick="navigateToPage(${currentPage + 1})">WEITER »</span>`;
+            // Previous button
+            html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>&lt;&lt;</button>`;
+            
+            // Page numbers
+            const maxVisiblePages = 7;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            // Adjust start page if we're near the end
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // First page and ellipsis
+            if (startPage > 1) {
+                html += `<button onclick="changePage(1)">1</button>`;
+                if (startPage > 2) {
+                    html += '<span style="color: #666; padding: 0 10px;">...</span>';
                 }
             }
+            
+            // Page numbers
+            for (let i = startPage; i <= endPage; i++) {
+                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+            }
+            
+            // Last page and ellipsis
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    html += '<span style="color: #666; padding: 0 10px;">...</span>';
+                }
+                html += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
+            }
+            
+            // Next button
+            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>&gt;&gt;</button>`;
             
             pagination.innerHTML = html;
         }
 
-        function navigateToPage(page) {
-            const totalPages = Math.ceil(currentAlbumList.length / itemsPerPage);
+        function changePage(page) {
+            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
             if (page < 1 || page > totalPages) return;
             
             currentPage = page;
-            renderAlbumsList();
+            
+            // Close all expanded details when changing page
+            document.querySelectorAll('.expanded-content.show').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            displayAlbums();
+            updatePagination();
+            
+            // Smooth scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateAllStats() {
-            const totalAlbums = albumsDatabase.length;
-            const totalSongs = albumsDatabase.reduce((sum, album) => sum + album.songs.length, 0);
-            const totalFavorites = albumsDatabase.reduce((sum, album) => 
-                sum + album.songs.filter(s => s.favorite).length, 0);
-            const perfectRatings = albumsDatabase.reduce((sum, album) => 
-                sum + album.songs.filter(s => s.rating === 10).length, 0);
+        function updateStatus() {
+            document.getElementById('albumCount').textContent = currentAlbums.length;
+            document.getElementById('totalAlbums').textContent = albums.length;
             
-            const allValidRatings = albumsDatabase.flatMap(album => 
-                album.songs.filter(s => !s.interlude).map(s => s.rating));
-            const avgRating = allValidRatings.length > 0 ? 
-                (allValidRatings.reduce((a, b) => a + b, 0) / allValidRatings.length).toFixed(2) : '0.00';
-            
-            document.getElementById('loadedAlbums').textContent = totalAlbums;
-            document.getElementById('totalSongs').textContent = totalSongs;
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleDateString('de-DE');
-            
-            document.getElementById('albumCounter').textContent = totalAlbums;
-            document.getElementById('songCounter').textContent = totalSongs;
-            document.getElementById('avgRating').textContent = avgRating;
-            document.getElementById('favoriteCounter').textContent = totalFavorites;
-            document.getElementById('perfectCounter').textContent = perfectRatings;
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE');
+            document.getElementById('lastUpdate').textContent = now.toLocaleDateString('de-DE');
         }
 
-        function showSystemInfo() {
-            alert('💻 SYSTEM INFORMATION 💻\n\n' +
-                  'Application: DOME\'s Music Collection v2.1\n' +
-                  'Format: JSON Database\n' +
-                  'Albums: ' + albumsDatabase.length + '\n' +
-                  'Total Songs: ' + albumsDatabase.reduce((sum, album) => sum + album.songs.length, 0) + '\n\n' +
-                  'Status: All systems operational!');
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE');
         }
 
-        function showAbout() {
-            alert('ℹ️ ÜBER DOME\'S MUSIC ARCHIVE ℹ️\n\n' +
-                  'Version: 2.1\n' +
-                  'Erstellt von: DOME\n' +
-                  'Datenformat: JSON\n\n' +
-                  'Diese Seite dokumentiert meine persönliche\n' +
-                  'Albumsammlung mit detaillierten Bewertungen.\n\n' +
-                  '© 2024 DOME Productions');
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
-                e.preventDefault();
-                document.getElementById('searchField').focus();
-            }
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAlbums();
             
-            if (e.key === 'Escape') {
-                document.querySelectorAll('.album-expanded.show').forEach(div => {
-                    div.classList.remove('show');
-                    div.closest('.album-entry').classList.remove('open');
-                });
-            }
+            // Update time every second
+            setInterval(updateTime, 1000);
             
-            if (e.code === 'Space' && e.target === document.body) {
-                e.preventDefault();
-                getRandomAlbum();
-            }
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) return;
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        if (currentPage > 1) {
+                            changePage(currentPage - 1);
+                        }
+                        break;
+                    case 'ArrowRight':
+                        const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
+                        if (currentPage < totalPages) {
+                            changePage(currentPage + 1);
+                        }
+                        break;
+                    case '/':
+                        e.preventDefault();
+                        document.getElementById('searchInput').focus();
+                        break;
+                    case 'Escape':
+                        document.getElementById('searchInput').blur();
+                        document.querySelectorAll('.expanded-content.show').forEach(el => {
+                            el.classList.remove('show');
+                        });
+                        break;
+                }
+            });
+            
+            // Add search input auto-focus on '/' key
+            document.getElementById('searchInput').addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    e.target.blur();
+                }
+            });
         });
 
-        document.addEventListener('DOMContentLoaded', initializeApp);
+        // Add some random flickering effects for authenticity
+        setInterval(() => {
+            const statusDots = document.querySelectorAll('.status-dot');
+            statusDots.forEach(dot => {
+                if (Math.random() < 0.1) {
+                    dot.style.opacity = '0.3';
+                    setTimeout(() => dot.style.opacity = '1', 100);
+                }
+            });
+        }, 2000);
+
+        // Add terminal-like loading simulation
+        function simulateTerminalLoading() {
+            const loadingText = document.querySelector('.loading');
+            if (!loadingText) return;
+            
+            const messages = [
+                'Initializing database connection...',
+                'Loading album data...',
+                'Processing ratings...',
+                'Calculating averages...',
+                'Database ready.'
+            ];
+            
+            let messageIndex = 0;
+            const interval = setInterval(() => {
+                if (messageIndex < messages.length) {
+                    loadingText.textContent = messages[messageIndex];
+                    messageIndex++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
     </script>
 </body>
 </html>
