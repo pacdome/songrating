@@ -30,48 +30,50 @@
         
         .pager-device {
             background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
-            padding: 25px;
+            padding: 30px;
             box-shadow: 
-                0 20px 40px rgba(0,0,0,0.8),
-                inset 0 2px 10px rgba(255,255,255,0.1),
-                inset 0 -2px 10px rgba(0,0,0,0.3);
+                0 25px 50px rgba(0,0,0,0.8),
+                inset 0 3px 15px rgba(255,255,255,0.1),
+                inset 0 -3px 15px rgba(0,0,0,0.3);
             position: relative;
         }
         
-        /* Desktop: Parallelogram shape */
+        /* Desktop: Größerer Parallelogram Pager */
         @media (min-width: 769px) {
             .pager-device {
-                width: 600px;
-                height: 280px;
+                width: 900px;
+                height: 400px;
                 transform: skewX(-8deg);
-                border-radius: 15px 25px 15px 25px;
+                border-radius: 20px 35px 20px 35px;
                 display: flex;
                 align-items: stretch;
-                padding: 20px;
-                gap: 10px;
+                gap: 25px;
             }
             
             .device-left {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
+                min-width: 0;
             }
             
             .device-right {
-                width: 70px;
+                width: 140px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                gap: 4px;
+                align-items: center;
+                gap: 12px;
+                padding: 20px 0;
             }
         }
         
-        /* Mobile: Traditional pager shape but bigger */
+        /* Mobile: Optimierte Größe */
         @media (max-width: 768px) {
             .pager-device {
-                width: 380px;
-                height: 640px;
-                border-radius: 25px;
+                width: 390px;
+                height: 650px;
+                border-radius: 30px;
                 flex-direction: column;
             }
             
@@ -82,110 +84,114 @@
             }
             
             .device-right {
-                height: 100px;
+                height: 110px;
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
-                margin-top: 20px;
+                margin-top: 25px;
+                padding: 0 20px;
             }
         }
         
         .device-top {
-            height: 35px;
+            height: 45px;
             background: linear-gradient(90deg, #333, #444, #333);
-            border-radius: 18px;
-            margin-bottom: 12px;
+            border-radius: 23px;
+            margin-bottom: 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 15px;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+            padding: 0 20px;
+            box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
         }
         
         .antenna {
-            width: 4px;
-            height: 20px;
+            width: 5px;
+            height: 25px;
             background: linear-gradient(45deg, #666, #888, #666);
-            border-radius: 2px;
+            border-radius: 3px;
             position: relative;
             box-shadow: 
-                0 0 3px rgba(0,0,0,0.5),
-                inset 1px 0 1px rgba(255,255,255,0.3);
+                0 0 4px rgba(0,0,0,0.5),
+                inset 2px 0 2px rgba(255,255,255,0.3);
         }
         
         .antenna::before {
             content: '';
             position: absolute;
-            top: -6px;
-            left: -1px;
-            width: 6px;
-            height: 6px;
+            top: -8px;
+            left: -2px;
+            width: 9px;
+            height: 9px;
             background: radial-gradient(circle, #aaa, #666);
             border-radius: 50%;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            box-shadow: 0 2px 3px rgba(0,0,0,0.8);
         }
         
         .antenna::after {
             content: '';
             position: absolute;
-            top: -12px;
+            top: -18px;
             left: 1px;
-            width: 2px;
-            height: 8px;
+            width: 3px;
+            height: 12px;
             background: linear-gradient(to top, #888, #ccc);
-            border-radius: 1px;
-            box-shadow: 0 0 2px rgba(0,0,0,0.5);
+            border-radius: 2px;
+            box-shadow: 0 0 3px rgba(0,0,0,0.5);
         }
         
         .brand {
-            font-size: 7px;
+            font-size: 9px;
             color: #666;
             letter-spacing: 1px;
+            font-weight: bold;
         }
         
         .signal-bars {
             display: flex;
-            gap: 2px;
+            gap: 3px;
             align-items: flex-end;
         }
         
         .signal-bar {
-            width: 3px;
+            width: 4px;
             background: #00ff41;
-            border-radius: 1px;
-            box-shadow: 0 0 2px rgba(0,255,65,0.5);
+            border-radius: 2px;
+            box-shadow: 0 0 3px rgba(0,255,65,0.5);
         }
         
-        .signal-bar:nth-child(1) { height: 4px; }
-        .signal-bar:nth-child(2) { height: 6px; }
-        .signal-bar:nth-child(3) { height: 8px; }
-        .signal-bar:nth-child(4) { height: 10px; opacity: 0.3; }
+        .signal-bar:nth-child(1) { height: 5px; }
+        .signal-bar:nth-child(2) { height: 8px; }
+        .signal-bar:nth-child(3) { height: 11px; }
+        .signal-bar:nth-child(4) { height: 14px; opacity: 0.3; }
         
         .display {
             flex: 1;
             background: #0a0a0a;
-            border: 3px solid #444;
+            border: 4px solid #444;
             position: relative;
             overflow: hidden;
             box-shadow: 
-                inset 0 0 20px rgba(0,0,0,0.8),
-                inset 0 0 40px rgba(0,255,65,0.1);
+                inset 0 0 25px rgba(0,0,0,0.8),
+                inset 0 0 50px rgba(0,255,65,0.1);
             display: flex;
             flex-direction: column;
         }
         
         @media (min-width: 769px) {
             .display {
-                border-radius: 8px;
-                padding: 12px;
+                border-radius: 12px;
+                padding: 18px;
+                font-size: 12px;
             }
         }
         
         @media (max-width: 768px) {
             .display {
-                border-radius: 8px;
-                padding: 15px;
-                min-height: 360px;
+                border-radius: 12px;
+                padding: 18px;
+                min-height: 420px;
+                font-size: 13px;
             }
         }
         
@@ -210,37 +216,45 @@
         .status-line {
             display: flex;
             justify-content: space-between;
-            font-size: 9px;
-            margin-bottom: 6px;
-            padding-bottom: 3px;
+            font-size: 11px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
             border-bottom: 1px solid #00ff41;
             opacity: 0.8;
             flex-shrink: 0;
         }
         
+        @media (max-width: 768px) {
+            .status-line {
+                font-size: 12px;
+                margin-bottom: 10px;
+                padding-bottom: 5px;
+            }
+        }
+        
         .battery {
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
         }
         
         .battery-icon {
-            width: 12px;
-            height: 7px;
+            width: 15px;
+            height: 9px;
             border: 1px solid #00ff41;
-            border-radius: 1px;
+            border-radius: 2px;
             position: relative;
         }
         
         .battery-icon::after {
             content: '';
             position: absolute;
-            right: -3px;
-            top: 1px;
-            width: 2px;
-            height: 3px;
+            right: -4px;
+            top: 2px;
+            width: 3px;
+            height: 4px;
             background: #00ff41;
-            border-radius: 0 1px 1px 0;
+            border-radius: 0 2px 2px 0;
         }
         
         .battery-fill {
@@ -265,16 +279,15 @@
         
         .back-option {
             border-top: 1px solid #00ff41;
-            padding-top: 4px;
-            margin-top: 4px;
+            padding-top: 6px;
+            margin-top: 6px;
             flex-shrink: 0;
         }
         
         .menu-item, .album-item, .song-item, .back-item {
-            font-size: 10px;
-            line-height: 14px;
-            margin-bottom: 1px;
-            padding: 1px 0;
+            line-height: 18px;
+            margin-bottom: 2px;
+            padding: 2px 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -282,25 +295,25 @@
         
         @media (max-width: 768px) {
             .menu-item, .album-item, .song-item, .back-item {
-                font-size: 11px;
-                line-height: 16px;
-                margin-bottom: 2px;
-                padding: 2px 0;
+                line-height: 20px;
+                margin-bottom: 3px;
+                padding: 3px 0;
             }
         }
         
         .menu-item.selected, .album-item.selected, .song-item.selected, .back-item.selected {
             background: #00ff41;
             color: #000;
-            padding: 1px 4px;
-            margin: 0 -4px 1px -4px;
+            padding: 2px 6px;
+            margin: 0 -6px 2px -6px;
             animation: blink 1s infinite;
+            border-radius: 2px;
         }
         
         @media (max-width: 768px) {
             .menu-item.selected, .album-item.selected, .song-item.selected, .back-item.selected {
-                padding: 2px 4px;
-                margin: 0 -4px 2px -4px;
+                padding: 3px 6px;
+                margin: 0 -6px 3px -6px;
             }
         }
         
@@ -311,7 +324,13 @@
         
         .song-rating {
             float: right;
-            font-size: 8px;
+            font-size: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .song-rating {
+                font-size: 11px;
+            }
         }
         
         .song-favorite {
@@ -326,39 +345,31 @@
         .controls {
             display: flex;
             justify-content: space-around;
-            gap: 15px;
+            gap: 18px;
         }
         
         @media (min-width: 769px) {
             .controls {
                 flex-direction: column;
-                gap: 4px;
+                gap: 12px;
             }
         }
         
         .control-btn {
             border-radius: 50%;
             background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
-            border: 2px solid #555;
+            border: 3px solid #555;
             color: #00ff41;
             font-family: inherit;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.1s;
             box-shadow: 
-                0 4px 8px rgba(0,0,0,0.5),
-                inset 0 1px 2px rgba(255,255,255,0.1);
+                0 6px 12px rgba(0,0,0,0.5),
+                inset 0 2px 4px rgba(255,255,255,0.1);
         }
         
         @media (min-width: 769px) {
-            .control-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 14px;
-            }
-        }
-        
-        @media (max-width: 768px) {
             .control-btn {
                 width: 60px;
                 height: 60px;
@@ -366,18 +377,26 @@
             }
         }
         
+        @media (max-width: 768px) {
+            .control-btn {
+                width: 65px;
+                height: 65px;
+                font-size: 20px;
+            }
+        }
+        
         .control-btn:active {
-            transform: translateY(2px);
+            transform: translateY(3px);
             box-shadow: 
-                0 2px 4px rgba(0,0,0,0.5),
-                inset 0 1px 4px rgba(0,0,0,0.3);
+                0 3px 6px rgba(0,0,0,0.5),
+                inset 0 2px 6px rgba(0,0,0,0.3);
         }
         
         .control-btn:hover {
             background: linear-gradient(145deg, #4a4a4a, #2a2a2a);
             box-shadow: 
-                0 6px 12px rgba(0,0,0,0.6),
-                inset 0 1px 2px rgba(255,255,255,0.2);
+                0 8px 16px rgba(0,0,0,0.6),
+                inset 0 2px 4px rgba(255,255,255,0.2);
         }
         
         @keyframes blink {
@@ -387,8 +406,8 @@
         
         .loading {
             text-align: center;
-            margin-top: 40px;
-            font-size: 11px;
+            margin-top: 60px;
+            font-size: 14px;
         }
         
         .loading::after {
@@ -403,16 +422,16 @@
         }
         
         .info-text {
-            font-size: 8px;
+            font-size: 10px;
             opacity: 0.7;
-            margin-top: 8px;
+            margin-top: 12px;
             text-align: center;
         }
         
         @media (max-width: 768px) {
             .info-text {
-                font-size: 9px;
-                margin-top: 10px;
+                font-size: 11px;
+                margin-top: 15px;
             }
         }
         
@@ -432,7 +451,18 @@
         .decade-header {
             color: #ffff00;
             font-weight: bold;
-            margin-top: 4px;
+            margin-top: 6px;
+            border-bottom: 1px dotted #ffff00;
+            padding-bottom: 2px;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 8px;
+            opacity: 0.5;
         }
     </style>
 </head>
@@ -467,10 +497,14 @@
                         <div class="loading">LOADING MUSIC DB</div>
                     </div>
                 </div>
+                
+                <div class="scroll-indicator" id="scrollIndicator" style="display: none;">
+                    ↑↓
+                </div>
             </div>
             
             <div class="info-text">
-                ▲/▼ SCROLL • OK SELECT
+                ▲/▼ SCROLL • OK SELECT • ESC BACK
             </div>
         </div>
         
@@ -526,7 +560,7 @@
 
         function showError(message) {
             const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `<div class="content-scroll"><div style="text-align: center; margin-top: 40px; color: #ff3333;">${message}</div></div>`;
+            contentArea.innerHTML = `<div class="content-scroll"><div style="text-align: center; margin-top: 60px; color: #ff3333;">${message}</div></div>`;
         }
 
         function updateTime() {
@@ -540,6 +574,10 @@
 
         function updateMessageCount() {
             document.getElementById('messageCount').textContent = albums.length;
+        }
+
+        function getVisibleItemCount() {
+            return window.innerWidth <= 768 ? 15 : 12;
         }
 
         function showMainMenu() {
@@ -581,7 +619,6 @@
                 year: album.year
             }));
             
-            // Add back option
             viewData.push({ text: '← ZURÜCK', action: 'back' });
             
             renderAlbums(sortBy);
@@ -748,13 +785,42 @@
             return parseFloat((sum / nonInterludeSongs.length).toFixed(1));
         }
 
+        function calculateScrollWindow() {
+            const visibleCount = getVisibleItemCount();
+            const totalItems = viewData.length;
+            
+            if (totalItems <= visibleCount) {
+                return { startIndex: 0, endIndex: totalItems };
+            }
+            
+            // Center the selected item in the visible window
+            let startIndex = Math.max(0, selectedIndex - Math.floor(visibleCount / 2));
+            let endIndex = Math.min(totalItems, startIndex + visibleCount);
+            
+            // Adjust if we're near the end
+            if (endIndex === totalItems) {
+                startIndex = Math.max(0, totalItems - visibleCount);
+            }
+            
+            return { startIndex, endIndex };
+        }
+
+        function updateScrollIndicator() {
+            const indicator = document.getElementById('scrollIndicator');
+            const visibleCount = getVisibleItemCount();
+            
+            if (viewData.length > visibleCount) {
+                indicator.style.display = 'block';
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+
         function renderMenu() {
             const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 10px;">';
+            const { startIndex, endIndex } = calculateScrollWindow();
             
-            const displayCount = window.innerWidth <= 768 ? 12 : 8;
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), viewData.length - displayCount));
-            const endIndex = Math.min(viewData.length, startIndex + displayCount);
+            let html = '<div class="content-scroll"><div style="margin-top: 15px;">';
             
             for (let i = startIndex; i < endIndex; i++) {
                 const item = viewData[i];
@@ -764,15 +830,14 @@
             
             html += '</div></div>';
             contentArea.innerHTML = html;
+            updateScrollIndicator();
         }
 
         function renderAlbums(sortBy) {
             const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 8px;">';
+            const { startIndex, endIndex } = calculateScrollWindow();
             
-            const displayCount = window.innerWidth <= 768 ? 11 : 7;
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), viewData.length - displayCount));
-            const endIndex = Math.min(viewData.length, startIndex + displayCount);
+            let html = '<div class="content-scroll"><div style="margin-top: 12px;">';
             
             for (let i = startIndex; i < endIndex; i++) {
                 const item = viewData[i];
@@ -781,9 +846,10 @@
                     html += `</div><div class="back-option"><div class="${className}">${item.text}</div></div>`;
                 } else {
                     const className = i === selectedIndex ? 'album-item selected' : 'album-item';
-                    if (sortBy === 'bydecade') {
+                    if (sortBy === 'bydecade' && item.year) {
                         const decade = Math.floor(item.year / 10) * 10;
-                        const prevDecade = i > 0 && !viewData[i-1].action ? Math.floor(viewData[i-1].year / 10) * 10 : null;
+                        const prevItem = i > 0 ? viewData[i-1] : null;
+                        const prevDecade = prevItem && prevItem.year ? Math.floor(prevItem.year / 10) * 10 : null;
                         if (decade !== prevDecade) {
                             html += `<div class="decade-header">${decade}s:</div>`;
                         }
@@ -799,281 +865,23 @@
                 html += '</div>';
             }
             contentArea.innerHTML = html;
+            updateScrollIndicator();
         }
 
         function renderSongs() {
             const contentArea = document.getElementById('contentArea');
-            let html = `<div class="content-scroll"><div style="margin-top: 8px;">
-                <div style="font-size: 9px; margin-bottom: 6px; border-bottom: 1px solid #00ff41; padding-bottom: 2px;">
+            const { startIndex, endIndex } = calculateScrollWindow();
+            
+            let html = `<div class="content-scroll"><div style="margin-top: 12px;">
+                <div style="font-size: 11px; margin-bottom: 8px; border-bottom: 1px solid #00ff41; padding-bottom: 3px;">
                     ${currentAlbum.artist} - ${currentAlbum.album}
                 </div>`;
             
-            const displayCount = window.innerWidth <= 768 ? 10 : 6;
             const contentItems = viewData.filter(item => !item.action);
             const backItem = viewData.find(item => item.action === 'back');
             
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), contentItems.length - displayCount));
-            const endIndex = Math.min(contentItems.length, startIndex + displayCount);
-            
             for (let i = startIndex; i < endIndex; i++) {
-                const item = contentItems[i];
-                let className = i === selectedIndex ? 'song-item selected' : 'song-item';
-                if (item.interlude) className += ' song-interlude';
-                if (item.favorite) className += ' song-favorite';
+                const item = viewData[i];
                 
-                html += `<div class="${className}">
-                    ${item.favorite ? '★ ' : ''}${item.text}
-                    <span class="song-rating">${item.rating}</span>
-                </div>`;
-            }
-            
-            html += `</div><div class="back-option">
-                <div class="${selectedIndex >= contentItems.length ? 'back-item selected' : 'back-item'}">${backItem.text}</div>
-            </div></div>`;
-            
-            contentArea.innerHTML = html;
-        }
-
-        function renderFavorites() {
-            const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 8px;">';
-            
-            const displayCount = window.innerWidth <= 768 ? 10 : 6;
-            const contentItems = viewData.filter(item => !item.action);
-            const backItem = viewData.find(item => item.action === 'back');
-            
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), contentItems.length - displayCount));
-            const endIndex = Math.min(contentItems.length, startIndex + displayCount);
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = contentItems[i];
-                const className = i === selectedIndex ? 'song-item selected song-favorite' : 'song-item song-favorite';
-                
-                html += `<div class="${className}">
-                    ★ ${item.text}
-                    <span class="song-rating">${item.rating}</span>
-                </div>`;
-            }
-            
-            html += `</div><div class="back-option">
-                <div class="${selectedIndex >= contentItems.length ? 'back-item selected' : 'back-item'}">${backItem.text}</div>
-            </div></div>`;
-            
-            contentArea.innerHTML = html;
-        }
-
-        function renderRandom() {
-            const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 15px; text-align: center;">';
-            
-            viewData.forEach((item, index) => {
                 if (item.action === 'back') {
-                    html += `</div><div class="back-option">
-                        <div class="${index === selectedIndex ? 'back-item selected' : 'back-item'}">${item.text}</div>
-                    </div></div>`;
-                } else {
-                    let className = 'menu-item';
-                    if (item.random) className += ' random-song';
-                    if (item.favorite) className += ' song-favorite';
-                    
-                    html += `<div class="${className}">
-                        ${item.text}
-                        ${item.rating ? `<span class="song-rating">${item.rating}/10</span>` : ''}
-                    </div>`;
-                }
-            });
-            
-            if (!html.includes('back-option')) {
-                html += '</div>';
-            }
-            contentArea.innerHTML = html;
-        }
-
-        function renderSearch() {
-            const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 8px;">';
-            
-            const displayCount = window.innerWidth <= 768 ? 11 : 7;
-            const contentItems = viewData.filter(item => !item.action);
-            const backItem = viewData.find(item => item.action === 'back');
-            
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), contentItems.length - displayCount));
-            const endIndex = Math.min(contentItems.length, startIndex + displayCount);
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = contentItems[i];
-                const className = i === selectedIndex ? 'menu-item selected' : 'menu-item';
-                html += `<div class="${className}">${item.text}</div>`;
-            }
-            
-            html += `</div><div class="back-option">
-                <div class="${selectedIndex >= contentItems.length ? 'back-item selected' : 'back-item'}">${backItem.text}</div>
-            </div></div>`;
-            
-            contentArea.innerHTML = html;
-        }
-
-        function renderArtistAlbums(artistName) {
-            const contentArea = document.getElementById('contentArea');
-            let html = `<div class="content-scroll"><div style="margin-top: 8px;">
-                <div style="font-size: 9px; margin-bottom: 6px; border-bottom: 1px solid #00ff41; padding-bottom: 2px;">
-                    ${artistName}
-                </div>`;
-            
-            const displayCount = window.innerWidth <= 768 ? 10 : 6;
-            const contentItems = viewData.filter(item => !item.action);
-            const backItem = viewData.find(item => item.action === 'back');
-            
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), contentItems.length - displayCount));
-            const endIndex = Math.min(contentItems.length, startIndex + displayCount);
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = contentItems[i];
-                const className = i === selectedIndex ? 'album-item selected' : 'album-item';
-                html += `<div class="${className}">
-                    ${item.text}
-                    <span class="album-rating">${item.rating}</span>
-                </div>`;
-            }
-            
-            html += `</div><div class="back-option">
-                <div class="${selectedIndex >= contentItems.length ? 'back-item selected' : 'back-item'}">${backItem.text}</div>
-            </div></div>`;
-            
-            contentArea.innerHTML = html;
-        }
-
-        function renderStats() {
-            const contentArea = document.getElementById('contentArea');
-            let html = '<div class="content-scroll"><div style="margin-top: 8px;">';
-            
-            const displayCount = window.innerWidth <= 768 ? 11 : 7;
-            const contentItems = viewData.filter(item => !item.action);
-            const backItem = viewData.find(item => item.action === 'back');
-            
-            const startIndex = Math.max(0, Math.min(selectedIndex - Math.floor(displayCount/2), contentItems.length - displayCount));
-            const endIndex = Math.min(contentItems.length, startIndex + displayCount);
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = contentItems[i];
-                html += `<div class="menu-item" style="text-align: center;">${item.text}</div>`;
-            }
-            
-            html += `</div><div class="back-option">
-                <div class="${selectedIndex >= contentItems.length ? 'back-item selected' : 'back-item'}">${backItem.text}</div>
-            </div></div>`;
-            
-            contentArea.innerHTML = html;
-        }
-
-        // Button handlers
-        document.getElementById('upBtn').addEventListener('click', () => {
-            if (viewData.length === 0) return;
-            selectedIndex = Math.max(0, selectedIndex - 1);
-            updateDisplay();
-        });
-
-        document.getElementById('downBtn').addEventListener('click', () => {
-            if (viewData.length === 0) return;
-            selectedIndex = Math.min(viewData.length - 1, selectedIndex + 1);
-            updateDisplay();
-        });
-
-        document.getElementById('selectBtn').addEventListener('click', () => {
-            handleSelect();
-        });
-
-        function updateDisplay() {
-            if (currentView === 'main') renderMenu();
-            else if (currentView === 'albums') renderAlbums();
-            else if (currentView === 'songs') renderSongs();
-            else if (currentView === 'favorites') renderFavorites();
-            else if (currentView === 'random') renderRandom();
-            else if (currentView === 'search') renderSearch();
-            else if (currentView === 'artist_albums') renderArtistAlbums();
-            else if (currentView === 'stats') renderStats();
-        }
-
-        function handleSelect() {
-            const selected = viewData[selectedIndex];
-            
-            if (selected.action === 'back') {
-                if (currentView === 'artist_albums') {
-                    searchArtist();
-                } else {
-                    showMainMenu();
-                }
-                return;
-            }
-            
-            if (currentView === 'main') {
-                if (selected.action === 'albums') {
-                    showAlbums();
-                } else if (selected.action === 'toprated') {
-                    showAlbums('toprated');
-                } else if (selected.action === 'byartist') {
-                    showAlbums('byartist');
-                } else if (selected.action === 'bydecade') {
-                    showAlbums('bydecade');
-                } else if (selected.action === 'random') {
-                    showRandomSong();
-                } else if (selected.action === 'search') {
-                    searchArtist();
-                } else if (selected.action === 'favorites') {
-                    showFavorites();
-                } else if (selected.action === 'stats') {
-                    showStats();
-                }
-            } else if (currentView === 'albums') {
-                if (selected.album) {
-                    showSongs(selected.album);
-                }
-            } else if (currentView === 'search') {
-                if (selected.action === 'artist') {
-                    showArtistAlbums(selected.artist);
-                }
-            } else if (currentView === 'artist_albums') {
-                if (selected.album) {
-                    showSongs(selected.album);
-                }
-            } else if (currentView === 'songs' || currentView === 'favorites' || currentView === 'stats' || currentView === 'random') {
-                // Do nothing on song selection, just show it's selected
-            }
-        }
-
-        // Keyboard controls
-        document.addEventListener('keydown', (e) => {
-            switch(e.key) {
-                case 'ArrowUp':
-                    e.preventDefault();
-                    document.getElementById('upBtn').click();
-                    break;
-                case 'ArrowDown':
-                    e.preventDefault();
-                    document.getElementById('downBtn').click();
-                    break;
-                case 'Enter':
-                case ' ':
-                    e.preventDefault();
-                    document.getElementById('selectBtn').click();
-                    break;
-                case 'Escape':
-                    e.preventDefault();
-                    if (currentView !== 'main') {
-                        if (currentView === 'artist_albums') {
-                            searchArtist();
-                        } else {
-                            showMainMenu();
-                        }
-                    }
-                    break;
-            }
-        });
-
-        // Initialize
-        setInterval(updateTime, 1000);
-        updateTime();
-        loadAlbums();
-    </script>
-</body>
-</html>
+                    const className = i === selectedIndex ? 'back-item selected'
