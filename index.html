@@ -3,898 +3,662 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOME'S MUSIC DEPARTURES</title>
+    <title>PAGER-9000 MUSIC DB</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
-        * {
-            margin: 0;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
             padding: 0;
-            box-sizing: border-box;
         }
         
         body {
             background: #1a1a1a;
-            color: #f0f0f0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            line-height: 1.4;
-            overflow-x: hidden;
-        }
-        
-        .airport-header {
-            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
-            border-bottom: 3px solid #444;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-        
-        .airport-info {
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #333 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, #222 1px, transparent 1px);
+            background-size: 20px 20px;
         }
         
-        .airport-code {
-            font-size: 28px;
-            font-weight: 700;
-            color: #fff;
-            letter-spacing: 2px;
-        }
-        
-        .airport-name {
-            font-size: 14px;
-            color: #bbb;
-            font-weight: 400;
-        }
-        
-        .time-info {
-            text-align: right;
-            font-size: 12px;
-            color: #999;
-        }
-        
-        .current-time {
-            font-size: 18px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-        
-        .nav-bar {
-            background: #333;
-            border-bottom: 1px solid #555;
-            padding: 12px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .nav-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #4CAF50;
-        }
-        
-        .controls-section {
-            background: #f5f5f5;
-            color: #333;
-            padding: 15px 30px;
-            border-bottom: 2px solid #ddd;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .search-container {
+        .pager-device {
+            width: 380px;
+            height: 520px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.8),
+                inset 0 2px 10px rgba(255,255,255,0.1),
+                inset 0 -2px 10px rgba(0,0,0,0.3);
             position: relative;
         }
         
-        .search-input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background: #fff;
-            color: #333;
-            font-family: inherit;
-            font-size: 13px;
-        }
-        
-        .search-input:focus {
-            outline: none;
-            border-color: #666;
-            box-shadow: 0 0 5px rgba(0,0,0,0.1);
-        }
-        
-        select, button {
-            padding: 10px 15px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            background: #fff;
-            color: #333;
-            font-family: inherit;
-            font-size: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        
-        button:hover {
-            background: #f0f0f0;
-            border-color: #999;
-        }
-        
-        .departure-board {
-            background: #000;
-            color: #ffcc00;
-            margin: 0;
-            font-family: 'JetBrains Mono', monospace;
-            overflow: hidden;
-        }
-        
-        .board-header {
-            background: #1a1a1a;
-            border-bottom: 2px solid #333;
-            padding: 12px 20px;
-            display: grid;
-            grid-template-columns: 50px 3fr 120px 80px 100px 80px;
-            gap: 15px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #ffcc00;
-        }
-        
-        .album-row {
-            display: grid;
-            grid-template-columns: 50px 3fr 120px 80px 100px 80px;
-            gap: 15px;
-            padding: 12px 20px;
-            border-bottom: 1px solid #222;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            min-height: 45px;
-        }
-        
-        .album-row:hover {
-            background: #1a1a1a;
-        }
-        
-        .album-row:nth-child(even) {
-            background: #0a0a0a;
-        }
-        
-        .album-row:nth-child(even):hover {
-            background: #1a1a1a;
-        }
-        
-        .row-number {
-            color: #666;
-            font-size: 11px;
-            text-align: center;
-        }
-        
-        .album-destination {
+        .device-top {
+            height: 40px;
+            background: linear-gradient(90deg, #333, #444, #333);
+            border-radius: 20px;
+            margin-bottom: 15px;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+        
+        .antenna {
+            width: 3px;
+            height: 25px;
+            background: #666;
+            border-radius: 2px;
+            position: relative;
+        }
+        
+        .antenna::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -2px;
+            width: 7px;
+            height: 7px;
+            background: #888;
+            border-radius: 50%;
+        }
+        
+        .brand {
+            font-size: 8px;
+            color: #666;
+            letter-spacing: 1px;
+        }
+        
+        .signal-bars {
+            display: flex;
             gap: 2px;
+            align-items: flex-end;
         }
         
-        .album-title {
-            font-weight: 700;
-            font-size: 14px;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .signal-bar {
+            width: 3px;
+            background: #00ff41;
+            border-radius: 1px;
         }
         
-        .artist-name {
-            font-size: 11px;
-            color: #ffcc00;
+        .signal-bar:nth-child(1) { height: 4px; }
+        .signal-bar:nth-child(2) { height: 6px; }
+        .signal-bar:nth-child(3) { height: 8px; }
+        .signal-bar:nth-child(4) { height: 10px; opacity: 0.3; }
+        
+        .display {
+            width: 100%;
+            height: 280px;
+            background: #0a0a0a;
+            border: 3px solid #444;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 20px rgba(0,0,0,0.8),
+                inset 0 0 40px rgba(0,255,65,0.1);
+        }
+        
+        .display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0,255,65,0.03) 2px,
+                    rgba(0,255,65,0.03) 4px
+                );
+            pointer-events: none;
+        }
+        
+        .status-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            margin-bottom: 8px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid #00ff41;
             opacity: 0.8;
         }
         
-        .departure-time {
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
-        }
-        
-        .track-count {
-            color: #ffcc00;
-            text-align: center;
-            font-size: 12px;
-        }
-        
-        .rating-board {
-            background: #333;
-            color: #fff;
-            text-align: center;
-            padding: 8px 4px;
-            border-radius: 3px;
-            font-weight: 700;
-            font-size: 14px;
-            border: 1px solid #555;
-        }
-        
-        .status-display {
-            text-align: center;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .status-on-time {
-            color: #4CAF50;
-        }
-        
-        .status-delayed {
-            color: #FF9800;
-        }
-        
-        .status-boarding {
-            color: #2196F3;
-        }
-        
-        .status-cancelled {
-            color: #f44336;
-        }
-        
-        .expanded-details {
-            grid-column: 1 / -1;
-            background: #1a1a1a;
-            border-top: 1px solid #333;
-            border-bottom: 2px solid #333;
-            padding: 20px;
-            display: none;
-            color: #f0f0f0;
-        }
-        
-        .expanded-details.show {
-            display: block;
-        }
-        
-        .details-header {
+        .battery {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
+            gap: 3px;
         }
         
-        .gate-info {
+        .battery-icon {
+            width: 12px;
+            height: 7px;
+            border: 1px solid #00ff41;
+            border-radius: 1px;
+            position: relative;
+        }
+        
+        .battery-icon::after {
+            content: '';
+            position: absolute;
+            right: -3px;
+            top: 1px;
+            width: 2px;
+            height: 3px;
+            background: #00ff41;
+            border-radius: 0 1px 1px 0;
+        }
+        
+        .battery-fill {
+            width: 70%;
+            height: 100%;
+            background: #00ff41;
+            border-radius: 1px;
+        }
+        
+        .content-area {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .menu-item, .album-item, .song-item {
             font-size: 11px;
-            color: #999;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            line-height: 16px;
+            margin-bottom: 2px;
+            padding: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
-        .songs-manifest {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
+        .menu-item.selected, .album-item.selected, .song-item.selected {
+            background: #00ff41;
+            color: #000;
+            padding: 2px 4px;
+            margin: 0 -4px 2px -4px;
+            animation: blink 1s infinite;
         }
         
-        .song-entry {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 10px;
-            background: #262626;
-            border-left: 3px solid #444;
-            font-size: 11px;
-        }
-        
-        .song-entry:hover {
-            background: #333;
-        }
-        
-        .song-name {
-            flex-grow: 1;
+        .album-rating {
+            float: right;
+            font-weight: bold;
         }
         
         .song-rating {
-            font-weight: 600;
-            margin-left: 10px;
-            min-width: 35px;
-            text-align: right;
+            float: right;
+            font-size: 9px;
         }
         
-        .song-status {
-            margin-left: 8px;
-            font-size: 10px;
+        .song-favorite {
+            color: #ffff00;
         }
         
-        .favorite {
-            color: #FFD700;
-        }
-        
-        .interlude {
-            opacity: 0.6;
+        .song-interlude {
+            opacity: 0.5;
             font-style: italic;
         }
         
-        .album-notes {
-            background: #262626;
-            border: 1px solid #444;
-            border-radius: 4px;
-            padding: 12px;
-            margin-top: 15px;
-            font-size: 11px;
-            line-height: 1.5;
-            color: #ccc;
-        }
-        
-        .album-notes::before {
-            content: 'FLIGHT NOTES: ';
-            font-weight: 600;
-            color: #ffcc00;
-            display: block;
-            margin-bottom: 6px;
-        }
-        
-        .pagination {
-            background: #f5f5f5;
-            color: #333;
+        .controls {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            padding: 20px;
+            justify-content: space-around;
+            gap: 15px;
         }
         
-        .pagination button {
-            min-width: 35px;
-            height: 35px;
-            background: #fff;
-            border: 1px solid #ccc;
-            color: #333;
-            border-radius: 3px;
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #3a3a3a, #1a1a1a);
+            border: 2px solid #555;
+            color: #00ff41;
             font-family: inherit;
-            font-size: 11px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.1s;
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.5),
+                inset 0 1px 2px rgba(255,255,255,0.1);
         }
         
-        .pagination button:hover:not(:disabled) {
-            background: #e0e0e0;
+        .control-btn:active {
+            transform: translateY(2px);
+            box-shadow: 
+                0 2px 4px rgba(0,0,0,0.5),
+                inset 0 1px 4px rgba(0,0,0,0.3);
         }
         
-        .pagination button.active {
-            background: #333;
-            color: #fff;
-            border-color: #333;
+        .control-btn:hover {
+            background: linear-gradient(145deg, #4a4a4a, #2a2a2a);
+            box-shadow: 
+                0 6px 12px rgba(0,0,0,0.6),
+                inset 0 1px 2px rgba(255,255,255,0.2);
         }
         
-        .pagination button:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
         }
         
-        .footer-info {
-            background: #2c2c2c;
-            color: #999;
-            text-align: center;
-            padding: 15px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        @keyframes textScroll {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
         
-        /* Rating Colors - more subtle */
-        .rating-10 { 
-            background: #2E7D32; 
-            color: #fff;
-            border-color: #4CAF50;
-        }
-        .rating-9-10 { 
-            background: #388E3C; 
-            color: #fff;
-        }
-        .rating-8-9 { 
-            background: #689F38; 
-            color: #fff;
-        }
-        .rating-7-8 { 
-            background: #F57C00; 
-            color: #fff;
-        }
-        .rating-6-7 { 
-            background: #FF6F00; 
-            color: #fff;
-        }
-        .rating-5-6 { 
-            background: #E65100; 
-            color: #fff;
-        }
-        .rating-4-5 { 
-            background: #D84315; 
-            color: #fff;
-        }
-        .rating-below-4 { 
-            background: #C62828; 
-            color: #fff;
+        .scrolling-text {
+            animation: textScroll 10s linear infinite;
+            white-space: nowrap;
         }
         
         .loading {
             text-align: center;
-            padding: 50px;
-            font-size: 14px;
-            color: #ffcc00;
+            margin-top: 80px;
+            font-size: 12px;
         }
         
-        .error {
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0% { content: '.'; }
+            33% { content: '..'; }
+            66% { content: '...'; }
+        }
+        
+        .info-text {
+            font-size: 9px;
+            opacity: 0.7;
+            margin-top: 5px;
             text-align: center;
-            padding: 50px;
-            color: #f44336;
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid #f44336;
-            margin: 20px;
         }
         
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .controls-section {
-                grid-template-columns: 1fr;
-                gap: 10px;
-            }
-            
-            .board-header,
-            .album-row {
-                grid-template-columns: 40px 2fr 80px 70px;
-                gap: 10px;
-            }
-            
-            .board-header div:nth-child(5),
-            .board-header div:nth-child(6),
-            .album-row > div:nth-child(5),
-            .album-row > div:nth-child(6) {
-                display: none;
-            }
+        .back-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            opacity: 0.5;
         }
         
-        @media (max-width: 768px) {
-            .airport-header {
-                padding: 15px 20px;
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
+        @media (max-width: 480px) {
+            .pager-device {
+                width: 320px;
+                height: 460px;
+                padding: 20px;
             }
             
-            .nav-bar {
-                padding: 10px 20px;
-                flex-direction: column;
-                gap: 10px;
+            .display {
+                height: 240px;
             }
             
-            .controls-section {
-                padding: 15px 20px;
+            .content-area {
+                height: 180px;
             }
             
-            .board-header,
-            .album-row {
-                grid-template-columns: 1fr 60px;
-                gap: 10px;
-                padding: 10px 15px;
-            }
-            
-            .board-header div:nth-child(3),
-            .board-header div:nth-child(4),
-            .album-row > div:nth-child(3),
-            .album-row > div:nth-child(4) {
-                display: none;
-            }
-            
-            .songs-manifest {
-                grid-template-columns: 1fr;
+            .control-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 14px;
             }
         }
     </style>
 </head>
 <body>
-    <header class="airport-header">
-        <div class="airport-info">
-            <div class="airport-code">DMZ</div>
-            <div class="airport-name">
-                <div>DOME'S MUSIC ZONE</div>
-                <div>Personal Album Database</div>
+    <div class="pager-device">
+        <div class="device-top">
+            <div class="antenna"></div>
+            <div class="brand">MUSICPAGER-9000</div>
+            <div class="signal-bars">
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
+                <div class="signal-bar"></div>
             </div>
         </div>
-        <div class="time-info">
-            <div class="current-time" id="currentTime">--:--</div>
-            <div>Local Time</div>
-        </div>
-    </header>
-    
-    <nav class="nav-bar">
-        <div class="nav-section">
-            <span>DEPARTURES</span>
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span>SYSTEM OPERATIONAL</span>
+        
+        <div class="display">
+            <div class="status-line">
+                <span id="currentTime">--:--</span>
+                <span>MSG: <span id="messageCount">0</span></span>
+                <div class="battery">
+                    <div class="battery-icon">
+                        <div class="battery-fill"></div>
+                    </div>
+                    88%
+                </div>
+            </div>
+            
+            <div class="content-area" id="contentArea">
+                <div class="loading">LOADING MUSIC DB</div>
+            </div>
+            
+            <div class="back-indicator" id="backIndicator" style="display: none;">
+                ← BACK
             </div>
         </div>
-        <div class="nav-section">
-            <span>ALBUMS: <span id="albumCount">0</span></span>
-            <span>TERMINAL: A1</span>
+        
+        <div class="controls">
+            <button class="control-btn" id="upBtn">▲</button>
+            <button class="control-btn" id="selectBtn">OK</button>
+            <button class="control-btn" id="downBtn">▼</button>
         </div>
-    </nav>
-    
-    <div class="controls-section">
-        <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Search destinations, airlines, flight numbers..." onkeyup="searchAlbums()">
-        </div>
-        <select id="sortSelect" onchange="sortAlbums()">
-            <option value="rating-desc">Sort by Rating ↓</option>
-            <option value="rating-asc">Sort by Rating ↑</option>
-            <option value="artist-asc">Sort by Airline A-Z</option>
-            <option value="artist-desc">Sort by Airline Z-A</option>
-            <option value="album-asc">Sort by Destination A-Z</option>
-            <option value="album-desc">Sort by Destination Z-A</option>
-            <option value="year-asc">Sort by Year ↑</option>
-            <option value="year-desc">Sort by Year ↓</option>
-        </select>
-        <button onclick="resetFilters()">Reset Filters</button>
-    </div>
-    
-    <div class="departure-board">
-        <div class="board-header">
-            <div>FLT</div>
-            <div>DESTINATION / AIRLINE</div>
-            <div>DEPARTURE</div>
-            <div>GATE</div>
-            <div>RATING</div>
-            <div>STATUS</div>
-        </div>
-        <div id="albumList" class="loading">
-            Loading flight information...
+        
+        <div class="info-text">
+            ▲/▼ SCROLL • OK SELECT
         </div>
     </div>
-    
-    <div class="pagination" id="pagination"></div>
-    
-    <footer class="footer-info">
-        <p>Terminal Information System © 2025 | Total Flights: <span id="totalAlbums">0</span> | Last Updated: <span id="lastUpdate"></span></p>
-    </footer>
 
     <script>
         let albums = [];
-        let currentAlbums = [];
-        let currentPage = 1;
-        const albumsPerPage = 15;
+        let currentView = 'main'; // 'main', 'albums', 'songs'
+        let selectedIndex = 0;
+        let currentAlbum = null;
+        let viewData = [];
 
+        // Load albums data
         async function loadAlbums() {
             try {
                 const response = await fetch('albums.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
                 const data = await response.json();
                 
-                // Remove duplicates
-                const uniqueAlbums = data.filter((album, index, self) => 
-                    index === self.findIndex(a => 
-                        a.artist.toLowerCase().trim() === album.artist.toLowerCase().trim() && 
-                        a.album.toLowerCase().trim() === album.album.toLowerCase().trim()
-                    )
-                );
+                // Clean up duplicates and fix typos
+                const uniqueAlbums = [];
+                const seen = new Set();
+                
+                for (const album of data) {
+                    const key = `${album.artist}-${album.album}-${album.year}`;
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        // Fix artist name typos
+                        if (album.artist.includes('Dire Str')) {
+                            album.artist = 'Dire Straits';
+                        }
+                        if (album.album.includes('Communi')) {
+                            album.album = 'Communiqué';
+                        }
+                        uniqueAlbums.push(album);
+                    }
+                }
                 
                 albums = uniqueAlbums;
-                currentAlbums = [...albums];
-                
-                sortAlbums();
-                displayAlbums();
-                updatePagination();
-                updateStatus();
-                
+                updateMessageCount();
+                showMainMenu();
             } catch (error) {
                 console.error('Error loading albums:', error);
-                showError(`SYSTEM ERROR: Unable to load flight data - ${error.message}`);
+                showError('ERROR: albums.json not found');
             }
         }
 
         function showError(message) {
-            document.getElementById('albumList').innerHTML = `<div class="error">${message}</div>`;
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = `<div style="text-align: center; margin-top: 80px; color: #ff3333;">${message}</div>`;
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('de-DE', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            document.getElementById('currentTime').textContent = timeStr;
+        }
+
+        function updateMessageCount() {
+            document.getElementById('messageCount').textContent = albums.length;
+        }
+
+        function showMainMenu() {
+            currentView = 'main';
+            selectedIndex = 0;
+            viewData = [
+                { text: '1. BROWSE ALBUMS', action: 'albums' },
+                { text: '2. TOP RATED', action: 'toprated' },
+                { text: '3. BY ARTIST', action: 'byartist' },
+                { text: '4. BY YEAR', action: 'byyear' },
+                { text: '5. STATISTICS', action: 'stats' }
+            ];
+            renderMenu();
+            document.getElementById('backIndicator').style.display = 'none';
+        }
+
+        function showAlbums(sortBy = null) {
+            currentView = 'albums';
+            selectedIndex = 0;
+            
+            let sortedAlbums = [...albums];
+            
+            if (sortBy === 'toprated') {
+                sortedAlbums.sort((a, b) => calculateAverageRating(b.songs) - calculateAverageRating(a.songs));
+            } else if (sortBy === 'byartist') {
+                sortedAlbums.sort((a, b) => a.artist.localeCompare(b.artist));
+            } else if (sortBy === 'byyear') {
+                sortedAlbums.sort((a, b) => b.year - a.year);
+            }
+            
+            viewData = sortedAlbums.map(album => ({
+                text: `${album.artist} - ${album.album}`,
+                rating: calculateAverageRating(album.songs),
+                album: album
+            }));
+            
+            renderAlbums();
+            document.getElementById('backIndicator').style.display = 'block';
+        }
+
+        function showSongs(album) {
+            currentView = 'songs';
+            selectedIndex = 0;
+            currentAlbum = album;
+            
+            viewData = album.songs.map(song => ({
+                text: song.name,
+                rating: song.rating,
+                favorite: song.favorite,
+                interlude: song.interlude,
+                song: song
+            }));
+            
+            renderSongs();
+            document.getElementById('backIndicator').style.display = 'block';
+        }
+
+        function showStats() {
+            currentView = 'stats';
+            selectedIndex = 0;
+            
+            const totalAlbums = albums.length;
+            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
+            const avgRating = (albums.reduce((sum, album) => 
+                sum + calculateAverageRating(album.songs), 0) / totalAlbums).toFixed(1);
+            const topAlbum = albums.reduce((best, album) => 
+                calculateAverageRating(album.songs) > calculateAverageRating(best.songs) ? album : best);
+            
+            viewData = [
+                { text: `TOTAL ALBUMS: ${totalAlbums}` },
+                { text: `TOTAL SONGS: ${totalSongs}` },
+                { text: `AVG RATING: ${avgRating}/10` },
+                { text: `TOP ALBUM:` },
+                { text: `${topAlbum.artist} - ${topAlbum.album}` },
+                { text: `(${calculateAverageRating(topAlbum.songs)}/10)` }
+            ];
+            
+            renderStats();
+            document.getElementById('backIndicator').style.display = 'block';
         }
 
         function calculateAverageRating(songs) {
             const nonInterludeSongs = songs.filter(song => !song.interlude);
             if (nonInterludeSongs.length === 0) return 0;
             const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
-            return (sum / nonInterludeSongs.length).toFixed(1);
+            return parseFloat((sum / nonInterludeSongs.length).toFixed(1));
         }
 
-        function getRatingClass(rating) {
-            const r = parseFloat(rating);
-            if (r >= 10) return 'rating-10';
-            if (r >= 9) return 'rating-9-10';
-            if (r >= 8) return 'rating-8-9';
-            if (r >= 7) return 'rating-7-8';
-            if (r >= 6) return 'rating-6-7';
-            if (r >= 5) return 'rating-5-6';
-            if (r >= 4) return 'rating-4-5';
-            return 'rating-below-4';
-        }
-
-        function getFlightStatus(rating) {
-            const r = parseFloat(rating);
-            if (r >= 9) return { status: 'ON TIME', class: 'status-on-time' };
-            if (r >= 7) return { status: 'BOARDING', class: 'status-boarding' };
-            if (r >= 5) return { status: 'DELAYED', class: 'status-delayed' };
-            return { status: 'CANCELLED', class: 'status-cancelled' };
-        }
-
-        function formatFlightNumber(index) {
-            return `DM${String(index + 1).padStart(3, '0')}`;
-        }
-
-        function displayAlbums() {
-            const albumList = document.getElementById('albumList');
+        function renderMenu() {
+            const contentArea = document.getElementById('contentArea');
+            let html = '<div style="margin-top: 20px;">';
             
-            if (currentAlbums.length === 0) {
-                albumList.innerHTML = '<div class="error">NO FLIGHTS SCHEDULED</div>';
-                return;
-            }
-
-            const startIndex = (currentPage - 1) * albumsPerPage;
-            const endIndex = startIndex + albumsPerPage;
-            const pageAlbums = currentAlbums.slice(startIndex, endIndex);
-
-            albumList.innerHTML = '';
-
-            pageAlbums.forEach((album, index) => {
-                const avgRating = calculateAverageRating(album.songs);
-                const ratingClass = getRatingClass(avgRating);
-                const flightStatus = getFlightStatus(avgRating);
-                const albumIndex = startIndex + index;
-                const flightNumber = formatFlightNumber(albumIndex);
-
-                const albumRow = document.createElement('div');
-                albumRow.className = 'album-row';
-                albumRow.onclick = () => toggleFlightDetails(albumIndex);
-
-                const songsHtml = album.songs.map(song => `
-                    <div class="song-entry ${song.interlude ? 'interlude' : ''}">
-                        <span class="song-name">${song.name}</span>
-                        <span class="song-rating">${song.rating}/10</span>
-                        <span class="song-status">
-                            ${song.favorite ? '<span class="favorite">VIP</span>' : ''}
-                            ${song.interlude ? '<span style="opacity:0.6;">INT</span>' : ''}
-                        </span>
-                    </div>
-                `).join('');
-
-                albumRow.innerHTML = `
-                    <div class="row-number">${flightNumber}</div>
-                    <div class="album-destination">
-                        <div class="album-title">${album.album}</div>
-                        <div class="artist-name">${album.artist}</div>
-                    </div>
-                    <div class="departure-time">${album.year}</div>
-                    <div class="track-count">${album.songs.length}</div>
-                    <div class="rating-board ${ratingClass}">${avgRating}</div>
-                    <div class="status-display ${flightStatus.class}">${flightStatus.status}</div>
-                    
-                    <div class="expanded-details" id="details-${albumIndex}">
-                        <div class="details-header">
-                            <div class="gate-info">Flight ${flightNumber} - Gate ${String.fromCharCode(65 + (albumIndex % 26))}${Math.floor(albumIndex / 26) + 1}</div>
-                            <div class="gate-info">Passenger Manifest: ${album.songs.length} tracks</div>
-                        </div>
-                        <div class="songs-manifest">
-                            ${songsHtml}
-                        </div>
-                        ${album.comment ? `<div class="album-notes">${album.comment}</div>` : ''}
-                    </div>
-                `;
-
-                albumList.appendChild(albumRow);
-            });
-        }
-
-        function toggleFlightDetails(index) {
-            const details = document.getElementById(`details-${index}`);
-            const isVisible = details.classList.contains('show');
-            
-            // Close all other expanded details
-            document.querySelectorAll('.expanded-details.show').forEach(el => {
-                el.classList.remove('show');
+            viewData.forEach((item, index) => {
+                const className = index === selectedIndex ? 'menu-item selected' : 'menu-item';
+                html += `<div class="${className}">${item.text}</div>`;
             });
             
-            // Toggle current details
-            if (!isVisible) {
-                details.classList.add('show');
-            }
+            html += '</div>';
+            contentArea.innerHTML = html;
         }
 
-        function searchAlbums() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            currentAlbums = albums.filter(album => 
-                album.album.toLowerCase().includes(searchTerm) ||
-                album.artist.toLowerCase().includes(searchTerm) ||
-                album.songs.some(song => song.name.toLowerCase().includes(searchTerm))
-            );
-            currentPage = 1;
-            displayAlbums();
-            updatePagination();
-            updateStatus();
-        }
-
-        function sortAlbums() {
-            const sortValue = document.getElementById('sortSelect').value;
-            const [criteria, order] = sortValue.split('-');
+        function renderAlbums() {
+            const contentArea = document.getElementById('contentArea');
+            let html = '<div style="margin-top: 10px;">';
             
-            currentAlbums.sort((a, b) => {
-                let comparison = 0;
+            const startIndex = Math.max(0, selectedIndex - 6);
+            const endIndex = Math.min(viewData.length, startIndex + 13);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const item = viewData[i];
+                const className = i === selectedIndex ? 'album-item selected' : 'album-item';
+                html += `<div class="${className}">
+                    ${item.text}
+                    <span class="album-rating">${item.rating}</span>
+                </div>`;
+            }
+            
+            html += '</div>';
+            contentArea.innerHTML = html;
+        }
+
+        function renderSongs() {
+            const contentArea = document.getElementById('contentArea');
+            let html = `<div style="margin-top: 10px;">
+                <div style="font-size: 10px; margin-bottom: 8px; border-bottom: 1px solid #00ff41; padding-bottom: 3px;">
+                    ${currentAlbum.artist} - ${currentAlbum.album}
+                </div>`;
+            
+            const startIndex = Math.max(0, selectedIndex - 5);
+            const endIndex = Math.min(viewData.length, startIndex + 12);
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const item = viewData[i];
+                let className = i === selectedIndex ? 'song-item selected' : 'song-item';
+                if (item.interlude) className += ' song-interlude';
+                if (item.favorite) className += ' song-favorite';
                 
-                switch(criteria) {
-                    case 'artist':
-                        comparison = a.artist.localeCompare(b.artist);
-                        break;
-                    case 'album':
-                        comparison = a.album.localeCompare(b.album);
-                        break;
-                    case 'year':
-                        comparison = a.year - b.year;
-                        break;
-                    case 'rating':
-                        const avgA = parseFloat(calculateAverageRating(a.songs));
-                        const avgB = parseFloat(calculateAverageRating(b.songs));
-                        comparison = avgA - avgB;
-                        break;
-                }
-                
-                return order === 'desc' ? -comparison : comparison;
+                html += `<div class="${className}">
+                    ${item.favorite ? '★ ' : ''}${item.text}
+                    <span class="song-rating">${item.rating}</span>
+                </div>`;
+            }
+            
+            html += '</div>';
+            contentArea.innerHTML = html;
+        }
+
+        function renderStats() {
+            const contentArea = document.getElementById('contentArea');
+            let html = '<div style="margin-top: 20px;">';
+            
+            viewData.forEach((item, index) => {
+                html += `<div class="menu-item" style="text-align: center;">${item.text}</div>`;
             });
             
-            currentPage = 1;
-            displayAlbums();
-            updatePagination();
+            html += '</div>';
+            contentArea.innerHTML = html;
         }
 
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('sortSelect').value = 'rating-desc';
-            currentAlbums = [...albums];
-            currentPage = 1;
-            sortAlbums();
-            updateStatus();
-        }
-
-        function updatePagination() {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            const pagination = document.getElementById('pagination');
-            
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-            
-            let html = '';
-            
-            html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>`;
-            
-            const maxVisiblePages = 7;
-            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
-            if (endPage - startPage < maxVisiblePages - 1) {
-                startPage = Math.max(1, endPage - maxVisiblePages + 1);
-            }
-            
-            if (startPage > 1) {
-                html += `<button onclick="changePage(1)">1</button>`;
-                if (startPage > 2) {
-                    html += '<span style="padding: 0 10px; color: #999;">...</span>';
-                }
-            }
-            
-            for (let i = startPage; i <= endPage; i++) {
-                html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
-            }
-            
-            if (endPage < totalPages) {
-                if (endPage < totalPages - 1) {
-                    html += '<span style="padding: 0 10px; color: #999;">...</span>';
-                }
-                html += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
-            }
-            
-            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>›</button>`;
-            
-            pagination.innerHTML = html;
-        }
-
-        function changePage(page) {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            
-            document.querySelectorAll('.expanded-details.show').forEach(el => {
-                el.classList.remove('show');
-            });
-            
-            displayAlbums();
-            updatePagination();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function updateStatus() {
-            document.getElementById('albumCount').textContent = currentAlbums.length;
-            document.getElementById('totalAlbums').textContent = albums.length;
-            
-            const now = new Date();
-            document.getElementById('lastUpdate').textContent = now.toLocaleDateString('de-DE');
-        }
-
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            loadAlbums();
-            updateTime();
-            setInterval(updateTime, 1000);
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.ctrlKey || e.metaKey) return;
-                
-                switch(e.key) {
-                    case 'ArrowLeft':
-                        if (currentPage > 1) {
-                            changePage(currentPage - 1);
-                        }
-                        break;
-                    case 'ArrowRight':
-                        const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-                        if (currentPage < totalPages) {
-                            changePage(currentPage + 1);
-                        }
-                        break;
-                    case '/':
-                        e.preventDefault();
-                        document.getElementById('searchInput').focus();
-                        break;
-                    case 'Escape':
-                        document.getElementById('searchInput').blur();
-                        document.querySelectorAll('.expanded-details.show').forEach(el => {
-                            el.classList.remove('show');
-                        });
-                        break;
-                }
-            });
+        // Button handlers
+        document.getElementById('upBtn').addEventListener('click', () => {
+            if (viewData.length === 0) return;
+            selectedIndex = Math.max(0, selectedIndex - 1);
+            updateDisplay();
         });
+
+        document.getElementById('downBtn').addEventListener('click', () => {
+            if (viewData.length === 0) return;
+            selectedIndex = Math.min(viewData.length - 1, selectedIndex + 1);
+            updateDisplay();
+        });
+
+        document.getElementById('selectBtn').addEventListener('click', () => {
+            handleSelect();
+        });
+
+        function updateDisplay() {
+            if (currentView === 'main') renderMenu();
+            else if (currentView === 'albums') renderAlbums();
+            else if (currentView === 'songs') renderSongs();
+            else if (currentView === 'stats') renderStats();
+        }
+
+        function handleSelect() {
+            if (currentView === 'main') {
+                const selected = viewData[selectedIndex];
+                if (selected.action === 'albums') {
+                    showAlbums();
+                } else if (selected.action === 'toprated') {
+                    showAlbums('toprated');
+                } else if (selected.action === 'byartist') {
+                    showAlbums('byartist');
+                } else if (selected.action === 'byyear') {
+                    showAlbums('byyear');
+                } else if (selected.action === 'stats') {
+                    showStats();
+                }
+            } else if (currentView === 'albums') {
+                const selected = viewData[selectedIndex];
+                showSongs(selected.album);
+            } else if (currentView === 'songs' || currentView === 'stats') {
+                showMainMenu();
+            }
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    document.getElementById('upBtn').click();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    document.getElementById('downBtn').click();
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    document.getElementById('selectBtn').click();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    if (currentView !== 'main') {
+                        showMainMenu();
+                    }
+                    break;
+            }
+        });
+
+        // Initialize
+        setInterval(updateTime, 1000);
+        updateTime();
+        loadAlbums();
     </script>
 </body>
 </html>
