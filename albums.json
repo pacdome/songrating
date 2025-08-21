@@ -172,9 +172,15 @@
             {"name": "I'm so Bored with the USA", "rating": 7, "favorite": false, "interlude": false},
             {"name": "White Riot", "rating": 8, "favorite": false, "interlude": false},
             {"name": "Hate & War", "rating": 6.5, "favorite": false, "interlude": false},
-            {"name": "What's My Name", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "What's My Name", "rating": 6, "favorite": false, "interlude": false},
             {"name": "Deny", "rating": 6, "favorite": false, "interlude": false},
-            {"name": "Londons Burning", "rating": 6, "favorite": false, "interlude": false}
+            {"name": "Londons Burning", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Career Opportunities", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Cheat", "rating": 8, "favorite": true, "interlude": false},
+            {"name": "Protex Blue", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Police & Thieves", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "48 Hours", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Garageland", "rating": 5.5, "favorite": false, "interlude": false}
  
         ]
     }
