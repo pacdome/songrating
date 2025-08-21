@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TECHNICS MD-3000 PRO</title>
+    <title>YAMAHA DX-7000 MUSIC ARCHIVE</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
         
         * { 
             box-sizing: border-box; 
@@ -16,265 +15,248 @@
         
         body {
             background: 
-                radial-gradient(circle at 25% 25%, #1a1a1a 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, #2a2a2a 0%, transparent 50%),
-                linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
-            font-family: 'Share Tech Mono', monospace;
+                radial-gradient(ellipse at top, #1a1a1a 0%, #0a0a0a 100%),
+                linear-gradient(45deg, #111 25%, transparent 25%),
+                linear-gradient(-45deg, #111 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #111 75%),
+                linear-gradient(-45deg, transparent 75%, #111 75%);
+            background-size: 100% 100%, 20px 20px, 20px 20px, 20px 20px, 20px 20px;
+            background-position: 0 0, 0 0, 0 10px, 10px -10px, -10px 0px;
+            font-family: 'JetBrains Mono', monospace;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            overflow: hidden;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .machine {
+            width: 900px;
+            height: 650px;
             background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 2px,
-                    rgba(0, 255, 0, 0.01) 2px,
-                    rgba(0, 255, 0, 0.01) 4px
-                );
-            pointer-events: none;
-            z-index: 1;
-        }
-        
-        .device {
-            width: 800px;
-            height: 600px;
-            background: 
-                linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 20%, #2a2a2a 40%, #1a1a1a 60%, #2a2a2a 100%);
-            border-radius: 25px;
-            padding: 40px;
+                linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 30px;
             box-shadow: 
-                0 0 100px rgba(0, 0, 0, 0.9),
-                0 20px 60px rgba(0, 0, 0, 0.8),
+                0 0 80px rgba(0, 0, 0, 0.9),
+                0 25px 50px rgba(0, 0, 0, 0.7),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
-                inset 2px 2px 10px rgba(255, 255, 255, 0.05),
-                inset -2px -2px 10px rgba(0, 0, 0, 0.3);
+                inset 0 -1px 0 rgba(0, 0, 0, 0.8),
+                inset 3px 3px 15px rgba(255, 255, 255, 0.03),
+                inset -3px -3px 15px rgba(0, 0, 0, 0.4);
             position: relative;
-            z-index: 2;
-            border: 3px solid #333;
+            border: 3px solid #444;
         }
         
-        .device::before {
+        .machine::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 22px;
+            border-radius: 17px;
             background: 
                 repeating-linear-gradient(
-                    45deg,
-                    transparent,
-                    transparent 1px,
-                    rgba(255, 255, 255, 0.02) 1px,
-                    rgba(255, 255, 255, 0.02) 2px
+                    90deg,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(255, 255, 255, 0.02) 2px,
+                    rgba(255, 255, 255, 0.02) 4px
                 );
             pointer-events: none;
         }
         
-        .top-panel {
-            height: 20px;
-            background: linear-gradient(90deg, #333, #444, #333);
-            border-radius: 10px;
+        .top-strip {
+            height: 15px;
+            background: linear-gradient(90deg, #333 0%, #555 50%, #333 100%);
+            border-radius: 8px;
             margin-bottom: 20px;
-            position: relative;
             box-shadow: 
-                inset 0 2px 4px rgba(0, 0, 0, 0.5),
+                inset 0 2px 4px rgba(0, 0, 0, 0.6),
                 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
         }
         
-        .top-panel::after {
+        .top-strip::after {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #555, transparent);
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #777, transparent);
         }
         
-        .brand-section {
+        .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
+            align-items: flex-start;
+            margin-bottom: 20px;
         }
         
-        .brand {
-            color: #888;
-            font-size: 18px;
+        .brand-info {
+            color: #999;
+            font-size: 20px;
             font-weight: 700;
-            letter-spacing: 4px;
-            font-family: 'Orbitron', monospace;
+            letter-spacing: 3px;
             text-shadow: 
-                1px 1px 0 rgba(0,0,0,0.8),
-                0 0 10px rgba(136, 136, 136, 0.3);
+                1px 1px 0 rgba(0,0,0,1),
+                0 0 15px rgba(153, 153, 153, 0.4);
+            line-height: 1.2;
         }
         
-        .model {
+        .model-info {
             color: #666;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 400;
-            letter-spacing: 2px;
-            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+            margin-top: 3px;
         }
         
-        .power-indicator {
+        .status-lights {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+        
+        .status-light {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-        
-        .power-led {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: 
-                radial-gradient(circle at 30% 30%, #ff6666, #ff0000);
-            box-shadow: 
-                0 0 15px rgba(255, 0, 0, 0.8),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite;
-            border: 1px solid #660000;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { 
-                opacity: 1; 
-                box-shadow: 
-                    0 0 15px rgba(255, 0, 0, 0.8),
-                    inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            }
-            50% { 
-                opacity: 0.4; 
-                box-shadow: 
-                    0 0 8px rgba(255, 0, 0, 0.4),
-                    inset 0 1px 2px rgba(255, 255, 255, 0.1);
-            }
-        }
-        
-        .power-text {
+            gap: 8px;
+            font-size: 9px;
             color: #666;
-            font-size: 10px;
             letter-spacing: 1px;
-            font-family: 'Orbitron', monospace;
         }
         
-        .lcd-container {
-            background: 
-                linear-gradient(145deg, #1a1a1a, #0d0d0d);
-            border: 4px solid #2a2a2a;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 
-                inset 0 4px 15px rgba(0, 0, 0, 0.8),
-                inset 0 0 0 2px rgba(0, 100, 0, 0.1),
-                0 2px 0 rgba(255, 255, 255, 0.05);
+        .led {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.8);
             position: relative;
-            height: 200px;
         }
         
-        .lcd-container::before {
+        .led.red {
+            background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
+            box-shadow: 
+                0 0 12px rgba(255, 0, 0, 0.8),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            animation: pulse-red 2s infinite;
+        }
+        
+        .led.green {
+            background: radial-gradient(circle at 30% 30%, #66ff66, #00cc00);
+            box-shadow: 
+                0 0 12px rgba(0, 255, 0, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+        }
+        
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .display-unit {
+            background: 
+                linear-gradient(145deg, #0a0a0a, #1a1a1a);
+            border: 5px solid #333;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 
+                inset 0 5px 20px rgba(0, 0, 0, 0.9),
+                inset 0 0 0 2px rgba(0, 150, 0, 0.1),
+                0 3px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            height: 180px;
+        }
+        
+        .display-unit::before {
             content: '';
             position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
-            bottom: 8px;
-            border-radius: 8px;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border-radius: 7px;
             background: 
                 repeating-linear-gradient(
                     0deg,
                     transparent 0px,
                     transparent 1px,
-                    rgba(0, 255, 0, 0.02) 1px,
-                    rgba(0, 255, 0, 0.02) 2px
+                    rgba(0, 200, 0, 0.03) 1px,
+                    rgba(0, 200, 0, 0.03) 2px
                 );
             pointer-events: none;
         }
         
-        .lcd-bezel {
+        .display-frame {
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            border-radius: 17px;
-            background: linear-gradient(45deg, #333, #444, #333);
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, #222, #444, #222);
             z-index: -1;
         }
         
-        .lcd-screen {
+        .screen {
             background: 
-                radial-gradient(circle at center, #0a2d0a 0%, #051505 70%, #000 100%);
-            border-radius: 8px;
-            padding: 20px;
+                radial-gradient(ellipse at center, #001a00 0%, #000a00 50%, #000000 100%);
+            border-radius: 6px;
             height: 100%;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
+            padding: 15px 20px;
             position: relative;
-            box-shadow: 
-                inset 0 0 20px rgba(0, 0, 0, 0.9);
+            overflow: hidden;
         }
         
-        .lcd-screen::after {
+        .screen::after {
             content: '';
             position: absolute;
-            top: 10px;
-            left: 10px;
-            right: 10px;
-            height: 30%;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            height: 25%;
             background: 
                 linear-gradient(
                     to bottom,
-                    rgba(255, 255, 255, 0.02) 0%,
+                    rgba(255, 255, 255, 0.03) 0%,
                     transparent 100%
                 );
-            border-radius: 4px;
+            border-radius: 3px;
             pointer-events: none;
         }
         
-        .display-text {
-            color: #00ff41;
-            font-size: 20px;
+        .display-content {
+            color: #00ff00;
+            font-size: 16px;
             font-weight: 400;
             letter-spacing: 1px;
             text-shadow: 
-                0 0 10px rgba(0, 255, 65, 0.8),
-                0 0 20px rgba(0, 255, 65, 0.4),
-                0 0 30px rgba(0, 255, 65, 0.2);
+                0 0 8px rgba(0, 255, 0, 0.9),
+                0 0 16px rgba(0, 255, 0, 0.5),
+                0 0 24px rgba(0, 255, 0, 0.3);
             width: 100%;
-            text-align: left;
-            font-family: 'Share Tech Mono', monospace;
-            line-height: 1.3;
-            filter: blur(0.3px);
+            line-height: 1.4;
+            font-family: 'JetBrains Mono', monospace;
+            white-space: pre-line;
         }
         
         .cursor {
             display: inline-block;
             width: 8px;
-            height: 20px;
-            background: 
-                linear-gradient(to bottom, #00ff41, #00cc33);
-            margin-left: 2px;
+            height: 16px;
+            background: #00ff00;
+            margin-left: 3px;
             animation: blink 1s infinite;
-            box-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+            box-shadow: 0 0 6px rgba(0, 255, 0, 0.7);
         }
         
         @keyframes blink {
@@ -282,281 +264,286 @@
             51%, 100% { opacity: 0; }
         }
         
-        .controls-section {
+        .button-panel {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
+            gap: 25px;
+            margin-bottom: 25px;
         }
         
-        .btn {
+        .button {
             background: 
-                linear-gradient(145deg, #4a4a4a 0%, #3a3a3a 50%, #2a2a2a 100%);
+                linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 30%, #1a1a1a 70%, #2a2a2a 100%);
             border: none;
-            border-radius: 12px;
-            color: #ddd;
-            font-family: 'Orbitron', monospace;
-            font-size: 16px;
+            border-radius: 10px;
+            color: #ccc;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
             font-weight: 700;
-            letter-spacing: 2px;
-            padding: 20px 15px;
+            letter-spacing: 1px;
+            padding: 18px 12px;
             cursor: pointer;
             box-shadow: 
-                0 8px 15px rgba(0, 0, 0, 0.4),
+                0 6px 12px rgba(0, 0, 0, 0.5),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.6),
                 inset 1px 0 0 rgba(255, 255, 255, 0.05),
-                inset -1px 0 0 rgba(0, 0, 0, 0.3);
-            transition: all 0.15s ease;
+                inset -1px 0 0 rgba(0, 0, 0, 0.4);
+            transition: all 0.12s ease;
             text-transform: uppercase;
             position: relative;
-            height: 80px;
-            border: 2px solid #555;
+            height: 65px;
+            border: 2px solid #444;
+            overflow: hidden;
         }
         
-        .btn::before {
+        .button::before {
             content: '';
             position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            bottom: 50%;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            height: 45%;
             background: 
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
-            border-radius: 8px 8px 0 0;
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
+            border-radius: 7px 7px 0 0;
             pointer-events: none;
         }
         
-        .btn:hover {
+        .button:hover {
             background: 
-                linear-gradient(145deg, #5a5a5a 0%, #4a4a4a 50%, #3a3a3a 100%);
-            transform: translateY(-2px);
+                linear-gradient(145deg, #4a4a4a 0%, #3a3a3a 30%, #2a2a2a 70%, #3a3a3a 100%);
+            transform: translateY(-1px);
             box-shadow: 
-                0 12px 20px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+                0 8px 16px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
             color: #fff;
         }
         
-        .btn:active {
-            transform: translateY(4px);
+        .button:active {
+            transform: translateY(3px);
             box-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.6),
-                inset 0 2px 8px rgba(0, 0, 0, 0.4);
+                0 3px 6px rgba(0, 0, 0, 0.7),
+                inset 0 2px 6px rgba(0, 0, 0, 0.5);
         }
         
-        .btn-primary {
+        .button.primary {
             background: 
-                linear-gradient(145deg, #006600 0%, #004d00 50%, #003300 100%);
-            color: #00ff41;
-            border-color: #008800;
+                linear-gradient(145deg, #004d00 0%, #003300 30%, #001a00 70%, #003300 100%);
+            color: #00ff00;
+            border-color: #006600;
         }
         
-        .btn-primary::before {
+        .button.primary::before {
             background: 
-                linear-gradient(to bottom, rgba(0, 255, 65, 0.2), transparent);
+                linear-gradient(to bottom, rgba(0, 255, 0, 0.2), transparent);
         }
         
-        .btn-primary:hover {
+        .button.primary:hover {
             background: 
-                linear-gradient(145deg, #008800 0%, #006600 50%, #004400 100%);
-            color: #44ff77;
+                linear-gradient(145deg, #006600 0%, #004d00 30%, #003300 70%, #004d00 100%);
+            color: #44ff44;
             box-shadow: 
-                0 12px 20px rgba(0, 0, 0, 0.5),
-                0 0 20px rgba(0, 255, 65, 0.3);
+                0 8px 16px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(0, 255, 0, 0.4);
         }
         
-        .status-panel {
+        .info-panel {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr auto 1fr;
             gap: 20px;
             align-items: center;
-            padding: 15px 20px;
+            padding: 12px 18px;
             background: 
-                linear-gradient(90deg, #1a1a1a, #2a2a2a, #1a1a1a);
-            border-radius: 10px;
+                linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
+            border-radius: 8px;
             border: 2px solid #333;
             box-shadow: 
-                inset 0 2px 5px rgba(0, 0, 0, 0.5);
+                inset 0 2px 6px rgba(0, 0, 0, 0.6);
         }
         
-        .battery-section {
+        .power-status {
             display: flex;
             align-items: center;
             gap: 8px;
         }
         
-        .battery {
-            width: 40px;
-            height: 20px;
-            border: 2px solid #666;
-            border-radius: 3px;
+        .power-meter {
+            width: 35px;
+            height: 16px;
+            border: 1px solid #555;
+            border-radius: 2px;
             position: relative;
             background: #000;
         }
         
-        .battery::after {
+        .power-meter::after {
             content: '';
             position: absolute;
-            right: -5px;
-            top: 6px;
-            bottom: 6px;
-            width: 3px;
-            background: #666;
-            border-radius: 0 2px 2px 0;
+            right: -3px;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: #555;
+            border-radius: 0 1px 1px 0;
         }
         
-        .battery-fill {
+        .power-fill {
             height: 100%;
             background: 
-                linear-gradient(90deg, #00ff41, #00cc33);
+                linear-gradient(90deg, #00ff00, #44ff44);
             border-radius: 1px;
-            width: 85%;
+            width: 88%;
             box-shadow: 
-                0 0 5px rgba(0, 255, 65, 0.5),
+                0 0 4px rgba(0, 255, 0, 0.6),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
-        .battery-text {
-            color: #888;
-            font-size: 12px;
+        .power-text {
+            color: #777;
+            font-size: 10px;
             font-weight: 700;
-            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
         }
         
-        .counter-section {
+        .main-counter {
             text-align: center;
         }
         
-        .counter {
-            color: #00ff41;
-            font-size: 18px;
+        .counter-display {
+            color: #00ff00;
+            font-size: 20px;
             font-weight: 700;
-            font-family: 'Share Tech Mono', monospace;
-            text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+            margin-bottom: 2px;
         }
         
         .counter-label {
-            color: #666;
-            font-size: 10px;
-            margin-top: 2px;
-            font-family: 'Orbitron', monospace;
+            color: #555;
+            font-size: 9px;
             letter-spacing: 1px;
+            text-transform: uppercase;
         }
         
-        .system-info {
+        .sys-info {
             text-align: right;
-            color: #666;
-            font-size: 10px;
-            font-family: 'Orbitron', monospace;
+            color: #555;
+            font-size: 9px;
             letter-spacing: 1px;
+            line-height: 1.3;
         }
         
         .loading {
-            text-align: center;
             animation: glow 2s ease-in-out infinite alternate;
         }
         
         @keyframes glow {
             from { 
                 text-shadow: 
-                    0 0 10px rgba(0, 255, 65, 0.8),
-                    0 0 20px rgba(0, 255, 65, 0.4);
+                    0 0 8px rgba(0, 255, 0, 0.9),
+                    0 0 16px rgba(0, 255, 0, 0.5);
             }
             to { 
                 text-shadow: 
-                    0 0 20px rgba(0, 255, 65, 1),
-                    0 0 30px rgba(0, 255, 65, 0.6),
-                    0 0 40px rgba(0, 255, 65, 0.4);
+                    0 0 16px rgba(0, 255, 0, 1),
+                    0 0 24px rgba(0, 255, 0, 0.7),
+                    0 0 32px rgba(0, 255, 0, 0.5);
             }
         }
         
         .loading::after {
             content: '';
-            animation: dots 1.5s infinite;
+            animation: loading-dots 1.5s infinite;
         }
         
-        @keyframes dots {
+        @keyframes loading-dots {
             0%, 20% { content: '.'; }
             40% { content: '..'; }
             60% { content: '...'; }
             80%, 100% { content: ''; }
         }
         
-        .error-text {
+        .error {
             color: #ff4444;
             text-shadow: 
-                0 0 10px rgba(255, 68, 68, 0.8),
-                0 0 20px rgba(255, 68, 68, 0.4);
+                0 0 8px rgba(255, 68, 68, 0.9),
+                0 0 16px rgba(255, 68, 68, 0.5);
         }
         
-        @media (max-width: 900px) {
-            .device {
-                width: 90vw;
-                height: 80vh;
-                padding: 30px;
+        @media (max-width: 1000px) {
+            .machine {
+                width: 95vw;
+                height: auto;
+                min-height: 600px;
+                padding: 25px;
             }
             
-            .display-text {
-                font-size: 16px;
-            }
-            
-            .btn {
+            .display-content {
                 font-size: 14px;
-                padding: 15px 10px;
-                height: 70px;
             }
             
-            .controls-section {
+            .button {
+                font-size: 11px;
+                padding: 15px 10px;
+                height: 60px;
+            }
+            
+            .button-panel {
                 gap: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="device">
-        <div class="top-panel"></div>
+    <div class="machine">
+        <div class="top-strip"></div>
         
-        <div class="brand-section">
+        <div class="header">
             <div>
-                <div class="brand">TECHNICS</div>
-                <div class="model">MD-3000 PRO ARCHIVE UNIT</div>
+                <div class="brand-info">YAMAHA</div>
+                <div class="model-info">DX-7000 MUSIC ARCHIVE</div>
             </div>
-            <div class="power-indicator">
-                <div class="power-led"></div>
-                <div class="power-text">POWER</div>
-            </div>
-        </div>
-        
-        <div class="lcd-container">
-            <div class="lcd-bezel"></div>
-            <div class="lcd-screen">
-                <div class="display-text" id="display">
-                    <div class="loading">SYSTEM INITIALIZING</div>
+            <div class="status-lights">
+                <div class="status-light">
+                    <div class="led red"></div>
+                    <span>POWER</span>
+                </div>
+                <div class="status-light">
+                    <div class="led green" id="dataLed"></div>
+                    <span>DATA</span>
                 </div>
             </div>
         </div>
         
-        <div class="controls-section">
-            <button class="btn" onclick="navigate('prev')" id="btnPrev">◀ PREV</button>
-            <button class="btn btn-primary" onclick="navigate('select')" id="btnSelect">SELECT</button>
-            <button class="btn" onclick="navigate('next')" id="btnNext">NEXT ▶</button>
+        <div class="display-unit">
+            <div class="display-frame"></div>
+            <div class="screen">
+                <div class="display-content" id="display">
+                    <div class="loading">YAMAHA DX-7000 INIT</div>
+                </div>
+            </div>
         </div>
         
-        <div class="status-panel">
-            <div class="battery-section">
-                <div class="battery">
-                    <div class="battery-fill"></div>
+        <div class="button-panel">
+            <button class="button" onclick="navigate('prev')" id="btnLeft">◀ PREV</button>
+            <button class="button primary" onclick="navigate('select')" id="btnCenter">SELECT</button>
+            <button class="button" onclick="navigate('next')" id="btnRight">NEXT ▶</button>
+        </div>
+        
+        <div class="info-panel">
+            <div class="power-status">
+                <div class="power-meter">
+                    <div class="power-fill"></div>
                 </div>
-                <div class="battery-text">85%</div>
+                <div class="power-text">88%</div>
             </div>
-            <div class="counter-section">
-                <div class="counter" id="counter">00/00</div>
-                <div class="counter-label" id="counterLabel">INITIALIZING</div>
+            <div class="main-counter">
+                <div class="counter-display" id="counter">--</div>
+                <div class="counter-label" id="counterLabel">LOADING</div>
             </div>
-            <div class="system-info">
-                <div id="memoryInfo">MEMORY: 0MB</div>
-                <div id="statusInfo">STATUS: BOOT</div>
+            <div class="sys-info">
+                <div id="memInfo">MEM: 0.0MB</div>
+                <div id="statInfo">STATUS: INIT</div>
             </div>
         </div>
     </div>
@@ -564,30 +551,29 @@
     <script>
         let albums = [];
         let currentIndex = 0;
-        let currentView = 'startup'; // 'startup', 'menu', 'browse', 'album', 'stats', 'favorites'
+        let currentView = 'boot';
         let currentAlbumIndex = 0;
         let currentSongIndex = 0;
         let currentMenuIndex = 0;
-        let statsData = {};
+        let stats = {};
         
-        const menuItems = [
-            { name: 'BROWSE ALBUMS', mode: 'browse' },
-            { name: 'STATISTICS', mode: 'stats' },
-            { name: 'TOP FAVORITES', mode: 'favorites' },
-            { name: 'RANDOM ALBUM', mode: 'random' },
-            { name: 'SYSTEM INFO', mode: 'info' }
+        const menu = [
+            'BROWSE',
+            'STATS', 
+            'FAVS',
+            'RANDOM',
+            'INFO'
         ];
 
-        async function loadAlbums() {
+        async function init() {
             try {
                 const response = await fetch('./albums.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
+                if (!response.ok) throw new Error(`${response.status}`);
+                
                 const data = await response.json();
                 
-                // Bereinige Duplikate (basierend auf Artist + Album)
-                const uniqueAlbums = [];
+                // Clean duplicates
+                const unique = [];
                 const seen = new Set();
                 
                 data.forEach(album => {
@@ -595,210 +581,220 @@
                     if (!seen.has(key)) {
                         seen.add(key);
                         
-                        // Berechne Average Rating
-                        const nonInterludeSongs = album.songs.filter(song => !song.interlude);
-                        if (nonInterludeSongs.length > 0) {
-                            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
-                            album.avgRating = (sum / nonInterludeSongs.length).toFixed(1);
+                        // Calculate average
+                        const tracks = album.songs.filter(s => !s.interlude);
+                        if (tracks.length > 0) {
+                            const sum = tracks.reduce((a, s) => a + s.rating, 0);
+                            album.avg = (sum / tracks.length).toFixed(1);
                         } else {
-                            album.avgRating = 0;
+                            album.avg = 0;
                         }
-                        
-                        uniqueAlbums.push(album);
+                        unique.push(album);
                     }
                 });
                 
-                albums = uniqueAlbums;
-                calculateStats();
-                showStartupScreen();
+                albums = unique;
+                calcStats();
+                showWelcome();
                 
             } catch (error) {
-                console.error('Fehler beim Laden der albums.json:', error);
-                showError(`LOAD ERROR: ${error.message}`);
+                showError(`ERR: ${error.message}`);
             }
         }
 
-        function calculateStats() {
-            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
-            const totalNonInterludes = albums.reduce((sum, album) => 
-                sum + album.songs.filter(song => !song.interlude).length, 0);
-            const totalFavorites = albums.reduce((sum, album) => 
-                sum + album.songs.filter(song => song.favorite).length, 0);
+        function calcStats() {
+            const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
+            const totalReal = albums.reduce((s, a) => s + a.songs.filter(t => !t.interlude).length, 0);
+            const totalFavs = albums.reduce((s, a) => s + a.songs.filter(t => t.favorite).length, 0);
             
             const allRatings = [];
-            albums.forEach(album => {
-                album.songs.forEach(song => {
-                    if (!song.interlude) {
-                        allRatings.push(song.rating);
-                    }
+            albums.forEach(a => {
+                a.songs.forEach(s => {
+                    if (!s.interlude) allRatings.push(s.rating);
                 });
             });
             
-            const avgRating = allRatings.length > 0 
-                ? (allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length).toFixed(1)
+            const avgAll = allRatings.length > 0 
+                ? (allRatings.reduce((s, r) => s + r, 0) / allRatings.length).toFixed(1) 
                 : 0;
             
-            const topAlbum = albums.reduce((best, album) => 
-                parseFloat(album.avgRating) > parseFloat(best.avgRating) ? album : best, albums[0]);
+            const topAlbum = albums.reduce((best, a) => 
+                parseFloat(a.avg) > parseFloat(best.avg) ? a : best, albums[0]);
             
-            statsData = {
-                totalAlbums: albums.length,
-                totalSongs,
-                totalNonInterludes,
-                totalFavorites,
-                avgRating,
-                topAlbum,
-                memoryUsage: ((JSON.stringify(albums).length / 1024) / 1024).toFixed(1)
+            stats = {
+                albums: albums.length,
+                tracks: totalReal,
+                favs: totalFavs,
+                avg: avgAll,
+                top: topAlbum,
+                mem: ((JSON.stringify(albums).length / 1024) / 1024).toFixed(1)
             };
         }
 
-        function showStartupScreen() {
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            const memoryInfo = document.getElementById('memoryInfo');
-            const statusInfo = document.getElementById('statusInfo');
-            
-            display.innerHTML = `DOME'S MUSIC ARCHIVE<br>MD-3000 PRO READY<br><br>LOADED: ${albums.length} ALBUMS<br>SONGS: ${statsData.totalSongs}<br><br>PRESS SELECT TO START<span class="cursor"></span>`;
-            counter.textContent = 'OK';
-            counterLabel.textContent = 'SYSTEM READY';
-            memoryInfo.textContent = `MEMORY: ${statsData.memoryUsage}MB`;
-            statusInfo.textContent = 'STATUS: READY';
-            
-            currentView = 'startup';
+        function showWelcome() {
+            update(`DOME'S ARCHIVE
+${albums.length} ALBUMS LOADED
+${stats.tracks} TRACKS
+
+PRESS SELECT`, 'OK', 'READY');
+            currentView = 'welcome';
         }
 
         function showMenu() {
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            const item = menuItems[currentMenuIndex];
-            
-            display.innerHTML = `MAIN MENU<br><br>>${item.name}<br><br>PREV/NEXT: NAVIGATE<br>SELECT: ENTER MODE<span class="cursor"></span>`;
-            counter.textContent = `${(currentMenuIndex + 1).toString().padStart(2, '0')}/${menuItems.length.toString().padStart(2, '0')}`;
-            counterLabel.textContent = 'MENU SELECT';
-            
+            const item = menu[currentMenuIndex];
+            update(`MAIN MENU
+
+> ${item}
+
+UP/DOWN: NAVIGATE
+SELECT: ENTER`, 
+                `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
             currentView = 'menu';
         }
 
         function showBrowse() {
             if (albums.length === 0) return;
-            
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            const album = albums[currentIndex];
-            
-            display.innerHTML = `ALBUM ${(currentIndex + 1).toString().padStart(2, '0')}<br>${album.artist}<br>${album.album} (${album.year})<br><br>RATING: ${album.avgRating}/10<br>TRACKS: ${album.songs.length}<span class="cursor"></span>`;
-            counter.textContent = `${(currentIndex + 1).toString().padStart(2, '0')}/${albums.length.toString().padStart(2, '0')}`;
-            counterLabel.textContent = 'BROWSE MODE';
-            
+            const a = albums[currentIndex];
+            update(`${currentIndex + 1}. ${a.artist}
+${a.album} (${a.year})
+
+★ ${a.avg}/10
+♪ ${a.songs.length} TRACKS`, 
+                `${currentIndex + 1}/${albums.length}`, 'BROWSE');
             currentView = 'browse';
         }
 
         function showAlbum() {
-            const album = albums[currentAlbumIndex];
-            const song = album.songs[currentSongIndex];
-            
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            display.innerHTML = `${album.artist}<br>${album.album}<br><br>TRACK ${(currentSongIndex + 1).toString().padStart(2, '0')}: ${song.name}<br>RATING: ${song.rating}/10<br>${song.favorite ? '★ FAVORITE' : ''}${song.interlude ? ' [INTERLUDE]' : ''}<span class="cursor"></span>`;
-            counter.textContent = `T${(currentSongIndex + 1).toString().padStart(2, '0')}/${album.songs.length.toString().padStart(2, '0')}`;
-            counterLabel.textContent = 'ALBUM VIEW';
-            
+            const a = albums[currentAlbumIndex];
+            const s = a.songs[currentSongIndex];
+            update(`${a.artist}
+${a.album}
+
+${currentSongIndex + 1}. ${s.name}
+★ ${s.rating}/10 ${s.favorite ? '♥' : ''}${s.interlude ? ' [i]' : ''}`, 
+                `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
             currentView = 'album';
         }
 
         function showStats() {
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            display.innerHTML = `STATISTICS<br><br>ALBUMS: ${statsData.totalAlbums}<br>SONGS: ${statsData.totalNonInterludes}<br>FAVORITES: ${statsData.totalFavorites}<br>AVG RATING: ${statsData.avgRating}/10<span class="cursor"></span>`;
-            counter.textContent = statsData.totalAlbums.toString().padStart(2, '0');
-            counterLabel.textContent = 'STATS MODE';
-            
+            update(`STATISTICS
+
+ALBUMS: ${stats.albums}
+TRACKS: ${stats.tracks}
+FAVORITES: ${stats.favs}
+AVG RATING: ${stats.avg}/10`, 
+                stats.albums, 'STATS');
             currentView = 'stats';
         }
 
-        function showFavorites() {
-            const favorites = [];
-            albums.forEach((album, albumIndex) => {
-                album.songs.forEach((song, songIndex) => {
-                    if (song.favorite) {
-                        favorites.push({
-                            artist: album.artist,
-                            album: album.album,
-                            song: song.name,
-                            rating: song.rating,
-                            albumIndex,
-                            songIndex
+        function showFavs() {
+            const favs = [];
+            albums.forEach(a => {
+                a.songs.forEach(s => {
+                    if (s.favorite) {
+                        favs.push({
+                            artist: a.artist,
+                            name: s.name,
+                            rating: s.rating,
+                            album: a.album
                         });
                     }
                 });
             });
             
-            favorites.sort((a, b) => b.rating - a.rating);
+            favs.sort((a, b) => b.rating - a.rating);
             
-            if (favorites.length === 0) {
-                const display = document.getElementById('display');
-                display.innerHTML = `FAVORITES<br><br>NO FAVORITES FOUND<span class="cursor"></span>`;
+            if (favs.length === 0) {
+                update('NO FAVORITES FOUND', '0', 'FAVS');
                 return;
             }
             
-            if (currentIndex >= favorites.length) currentIndex = 0;
+            if (currentIndex >= favs.length) currentIndex = 0;
+            const f = favs[currentIndex];
             
-            const fav = favorites[currentIndex];
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            display.innerHTML = `FAVORITE ${(currentIndex + 1).toString().padStart(2, '0')}<br>${fav.artist}<br>${fav.song}<br><br>RATING: ${fav.rating}/10<br>FROM: ${fav.album}<span class="cursor"></span>`;
-            counter.textContent = `${(currentIndex + 1).toString().padStart(2, '0')}/${favorites.length.toString().padStart(2, '0')}`;
-            counterLabel.textContent = 'FAVORITES';
-            
-            currentView = 'favorites';
+            update(`FAVORITE ${currentIndex + 1}
+${f.artist}
+${f.name}
+
+★ ${f.rating}/10
+FROM: ${f.album}`, 
+                `${currentIndex + 1}/${favs.length}`, 'FAVS');
+            currentView = 'favs';
         }
 
         function showRandom() {
-            const randomIndex = Math.floor(Math.random() * albums.length);
-            currentIndex = randomIndex;
-            currentAlbumIndex = randomIndex;
+            const rand = Math.floor(Math.random() * albums.length);
+            currentIndex = rand;
+            currentAlbumIndex = rand;
+            currentSongIndex = 0;
             showAlbum();
         }
 
         function showInfo() {
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            
-            display.innerHTML = `SYSTEM INFO<br><br>TECHNICS MD-3000 PRO<br>FIRMWARE: V2.1.0<br>MEMORY: ${statsData.memoryUsage}MB<br>STATUS: OPERATIONAL<span class="cursor"></span>`;
-            counter.textContent = 'SYS';
-            counterLabel.textContent = 'SYSTEM INFO';
-            
+            update(`YAMAHA DX-7000
+FIRMWARE: 2.1.0
+MEMORY: ${stats.mem}MB
+
+DOME'S COLLECTION
+EST. 2024`, 
+                'SYS', 'INFO');
             currentView = 'info';
         }
 
-        function showError(message) {
-            const display = document.getElementById('display');
-            const counter = document.getElementById('counter');
-            const counterLabel = document.getElementById('counterLabel');
-            const statusInfo = document.getElementById('statusInfo');
-            
-            display.innerHTML = `<div class="error-text">ERROR<br><br>${message}<br><br>CHECK albums.json<br>IN SAME DIRECTORY</div><span class="cursor"></span>`;
-            counter.textContent = 'ERR';
-            counterLabel.textContent = 'ERROR STATE';
-            statusInfo.textContent = 'STATUS: ERROR';
-            
+        function showError(msg) {
+            update(`<div class="error">ERROR
+
+${msg}
+
+CHECK albums.json
+IN SAME DIRECTORY</div>`, 'ERR', 'ERROR');
             currentView = 'error';
         }
 
-        function navigate(direction) {
-            switch(direction) {
+        function update(content, counter, label) {
+            document.getElementById('display').innerHTML = content + '<span class="cursor"></span>';
+            document.getElementById('counter').textContent = counter;
+            document.getElementById('counterLabel').textContent = label;
+            document.getElementById('memInfo').textContent = `MEM: ${stats.mem || 0}MB`;
+            document.getElementById('statInfo').textContent = `STATUS: ${label}`;
+            updateButtons();
+        }
+
+        function updateButtons() {
+            const left = document.getElementById('btnLeft');
+            const center = document.getElementById('btnCenter');
+            const right = document.getElementById('btnRight');
+            
+            switch(currentView) {
+                case 'welcome':
+                    left.textContent = '◀ PREV';
+                    center.textContent = 'START';
+                    right.textContent = 'NEXT ▶';
+                    break;
+                case 'menu':
+                    left.textContent = '◀ UP';
+                    center.textContent = 'ENTER';
+                    right.textContent = 'DOWN ▶';
+                    break;
+                case 'browse':
+                    left.textContent = '◀ PREV';
+                    center.textContent = 'OPEN';
+                    right.textContent = 'NEXT ▶';
+                    break;
+                case 'album':
+                    left.textContent = '◀ TRACK';
+                    center.textContent = 'BACK';
+                    right.textContent = 'TRACK ▶';
+                    break;
+                default:
+                    left.textContent = '◀ PREV';
+                    center.textContent = 'MENU';
+                    right.textContent = 'NEXT ▶';
+            }
+        }
+
+        function navigate(dir) {
+            switch(dir) {
                 case 'prev':
                     handlePrev();
                     break;
@@ -809,13 +805,12 @@
                     handleSelect();
                     break;
             }
-            updateButtonLabels();
         }
 
         function handlePrev() {
             switch(currentView) {
                 case 'menu':
-                    currentMenuIndex = (currentMenuIndex - 1 + menuItems.length) % menuItems.length;
+                    currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
                     showMenu();
                     break;
                 case 'browse':
@@ -823,15 +818,15 @@
                     showBrowse();
                     break;
                 case 'album':
-                    const album = albums[currentAlbumIndex];
-                    currentSongIndex = (currentSongIndex - 1 + album.songs.length) % album.songs.length;
+                    const a = albums[currentAlbumIndex];
+                    currentSongIndex = (currentSongIndex - 1 + a.songs.length) % a.songs.length;
                     showAlbum();
                     break;
-                case 'favorites':
-                    const favorites = getAllFavorites();
-                    if (favorites.length > 0) {
-                        currentIndex = (currentIndex - 1 + favorites.length) % favorites.length;
-                        showFavorites();
+                case 'favs':
+                    const favs = getAllFavs();
+                    if (favs.length > 0) {
+                        currentIndex = (currentIndex - 1 + favs.length) % favs.length;
+                        showFavs();
                     }
                     break;
             }
@@ -840,7 +835,7 @@
         function handleNext() {
             switch(currentView) {
                 case 'menu':
-                    currentMenuIndex = (currentMenuIndex + 1) % menuItems.length;
+                    currentMenuIndex = (currentMenuIndex + 1) % menu.length;
                     showMenu();
                     break;
                 case 'browse':
@@ -848,15 +843,15 @@
                     showBrowse();
                     break;
                 case 'album':
-                    const album = albums[currentAlbumIndex];
-                    currentSongIndex = (currentSongIndex + 1) % album.songs.length;
+                    const a = albums[currentAlbumIndex];
+                    currentSongIndex = (currentSongIndex + 1) % a.songs.length;
                     showAlbum();
                     break;
-                case 'favorites':
-                    const favorites = getAllFavorites();
-                    if (favorites.length > 0) {
-                        currentIndex = (currentIndex + 1) % favorites.length;
-                        showFavorites();
+                case 'favs':
+                    const favs = getAllFavs();
+                    if (favs.length > 0) {
+                        currentIndex = (currentIndex + 1) % favs.length;
+                        showFavs();
                     }
                     break;
             }
@@ -864,28 +859,28 @@
 
         function handleSelect() {
             switch(currentView) {
-                case 'startup':
+                case 'welcome':
                     currentMenuIndex = 0;
                     showMenu();
                     break;
                 case 'menu':
-                    const selectedItem = menuItems[currentMenuIndex];
-                    switch(selectedItem.mode) {
-                        case 'browse':
+                    const mode = menu[currentMenuIndex];
+                    switch(mode) {
+                        case 'BROWSE':
                             currentIndex = 0;
                             showBrowse();
                             break;
-                        case 'stats':
+                        case 'STATS':
                             showStats();
                             break;
-                        case 'favorites':
+                        case 'FAVS':
                             currentIndex = 0;
-                            showFavorites();
+                            showFavs();
                             break;
-                        case 'random':
+                        case 'RANDOM':
                             showRandom();
                             break;
-                        case 'info':
+                        case 'INFO':
                             showInfo();
                             break;
                     }
@@ -898,83 +893,33 @@
                 case 'album':
                     showBrowse();
                     break;
-                case 'stats':
-                case 'favorites':
-                case 'info':
-                    showMenu();
-                    break;
                 case 'error':
-                    // Retry loading
-                    loadAlbums();
+                    init();
+                    break;
+                default:
+                    showMenu();
                     break;
             }
         }
 
-        function getAllFavorites() {
-            const favorites = [];
-            albums.forEach((album, albumIndex) => {
-                album.songs.forEach((song, songIndex) => {
-                    if (song.favorite) {
-                        favorites.push({
-                            artist: album.artist,
-                            album: album.album,
-                            song: song.name,
-                            rating: song.rating,
-                            albumIndex,
-                            songIndex
+        function getAllFavs() {
+            const favs = [];
+            albums.forEach(a => {
+                a.songs.forEach(s => {
+                    if (s.favorite) {
+                        favs.push({
+                            artist: a.artist,
+                            name: s.name,
+                            rating: s.rating,
+                            album: a.album
                         });
                     }
                 });
             });
-            return favorites.sort((a, b) => b.rating - a.rating);
+            return favs.sort((a, b) => b.rating - a.rating);
         }
 
-        function updateButtonLabels() {
-            const btnPrev = document.getElementById('btnPrev');
-            const btnSelect = document.getElementById('btnSelect');
-            const btnNext = document.getElementById('btnNext');
-            
-            switch(currentView) {
-                case 'startup':
-                    btnPrev.textContent = '◀ PREV';
-                    btnSelect.textContent = 'START';
-                    btnNext.textContent = 'NEXT ▶';
-                    break;
-                case 'menu':
-                    btnPrev.textContent = '◀ UP';
-                    btnSelect.textContent = 'ENTER';
-                    btnNext.textContent = 'DOWN ▶';
-                    break;
-                case 'browse':
-                    btnPrev.textContent = '◀ PREV';
-                    btnSelect.textContent = 'OPEN';
-                    btnNext.textContent = 'NEXT ▶';
-                    break;
-                case 'album':
-                    btnPrev.textContent = '◀ TRACK';
-                    btnSelect.textContent = 'BACK';
-                    btnNext.textContent = 'TRACK ▶';
-                    break;
-                case 'stats':
-                case 'favorites':
-                case 'info':
-                    btnPrev.textContent = '◀ PREV';
-                    btnSelect.textContent = 'MENU';
-                    btnNext.textContent = 'NEXT ▶';
-                    break;
-                case 'error':
-                    btnPrev.textContent = '◀ PREV';
-                    btnSelect.textContent = 'RETRY';
-                    btnNext.textContent = 'NEXT ▶';
-                    break;
-                default:
-                    btnPrev.textContent = '◀ PREV';
-                    btnSelect.textContent = 'SELECT';
-                    btnNext.textContent = 'NEXT ▶';
-            }
-        }
-
-        // Keyboard navigation
+        // Keyboard controls
         document.addEventListener('keydown', (e) => {
             switch(e.key) {
                 case 'ArrowLeft':
@@ -988,17 +933,17 @@
                     navigate('select');
                     break;
                 case 'Escape':
-                    if (currentView !== 'startup' && currentView !== 'menu') {
+                    if (currentView !== 'welcome' && currentView !== 'menu') {
                         showMenu();
                     }
                     break;
             }
         });
 
-        // Initialisierung
+        // Start the machine
         setTimeout(() => {
-            loadAlbums();
-        }, 2000);
+            init();
+        }, 1500);
     </script>
 </body>
 </html>
