@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+.comment-box {
+            background: linear-gradient(135deg, #fff8dc 0%, #ffdd44 100%);
+            border: 3px dashed #ff4444;
+            padding: 12px;
+            margin-top: 12px;
+            font-style: italic;
+            font-size: 11px;
+            color: #cc0000;
+            border-radius: 8px;
+        }
+        
+        .comment-box::before {
+            content: "💬 MEIN KOMMENTAR<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +28,15 @@
             padding: 0;
             font-family: 'MS Sans Serif', 'Tahoma', sans-serif;
             font-size: 11px;
-            background: linear-gradient(135deg, #c0c0c0 25%, #e0e0e0 50%, #c0c0c0 75%);
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    #ff4444 0px,
+                    #ff4444 20px,
+                    #ffffff 20px,
+                    #ffffff 40px
+                ),
+                linear-gradient(180deg, #ffffff 0%, #f0f0f0 100%);
             color: #000;
             min-height: 100vh;
         }
@@ -27,22 +47,24 @@
         }
         
         .main-container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: #c0c0c0;
-            border: 3px outset #c0c0c0;
-            box-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            background: #ffffff;
+            border: 3px solid #ff4444;
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+            border-radius: 8px;
         }
         
         .title-bar {
-            background: linear-gradient(90deg, #000080 0%, #0000ff 100%);
+            background: linear-gradient(90deg, #ff4444 0%, #cc0000 100%);
             color: white;
-            padding: 4px 8px;
+            padding: 8px 12px;
             font-weight: bold;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #000040;
+            border-bottom: 2px solid #aa0000;
+            border-radius: 5px 5px 0 0;
         }
         
         .title-text {
@@ -53,14 +75,15 @@
         }
         
         .title-icon {
-            width: 16px;
-            height: 16px;
-            background: #ffff00;
-            border: 1px solid #000;
+            width: 20px;
+            height: 20px;
+            background: #ffdd44;
+            border: 2px solid #000;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8px;
+            font-size: 10px;
             font-weight: bold;
             color: #000;
         }
@@ -71,46 +94,56 @@
         }
         
         .control-btn {
-            width: 18px;
-            height: 16px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            font-size: 8px;
+            width: 22px;
+            height: 20px;
+            background: #ffdd44;
+            border: 2px solid #cc9900;
+            font-size: 10px;
             color: #000;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 3px;
         }
         
         .control-btn:active {
-            border: 1px inset #c0c0c0;
+            background: #cc9900;
         }
         
         .header-zone {
-            background: linear-gradient(45deg, #ff99cc, #99ccff);
-            border: 2px inset #c0c0c0;
-            margin: 8px;
-            padding: 15px;
+            background: 
+                radial-gradient(ellipse at center, #ffdd44 0%, #ff4444 70%),
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.1) 10px, rgba(255,255,255,0.1) 20px);
+            border: 3px solid #cc0000;
+            margin: 12px;
+            padding: 20px;
             text-align: center;
+            border-radius: 15px;
+            box-shadow: inset 0 0 20px rgba(255,221,68,0.5);
         }
         
         .main-title {
             font-family: 'Orbitron', monospace;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 900;
-            color: #000;
-            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
-            margin: 0 0 8px 0;
-            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow: 
+                2px 2px 0px #cc0000,
+                -1px -1px 0px #cc0000,
+                1px -1px 0px #cc0000,
+                -1px 1px 0px #cc0000,
+                3px 3px 6px rgba(0,0,0,0.5);
+            margin: 0 0 10px 0;
+            letter-spacing: 3px;
         }
         
         .subtitle {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
-            color: #800080;
-            margin: 5px 0;
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            color: #ffffff;
+            margin: 8px 0;
+            text-shadow: 2px 2px 4px rgba(204,0,0,0.8);
         }
         
         .loading-banner {
@@ -119,8 +152,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000080;
-            color: #ffff00;
+            background: #ff4444;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -130,23 +163,26 @@
         }
         
         .loading-text {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
         
         .loading-progress {
             width: 400px;
             height: 20px;
-            border: 2px solid #ffff00;
-            background: #000;
+            border: 3px solid #ffffff;
+            background: #cc0000;
             overflow: hidden;
+            border-radius: 10px;
         }
         
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ff00ff, #00ffff);
+            background: linear-gradient(90deg, #ffdd44, #ffffff);
             width: 0%;
             animation: progressLoad 3s ease-out forwards;
+            border-radius: 7px;
         }
         
         @keyframes progressLoad {
@@ -154,13 +190,14 @@
         }
         
         .status-display {
-            background: #000;
-            color: #00ff00;
+            background: #000000;
+            color: #ffdd44;
             font-family: 'Courier New', monospace;
-            font-size: 10px;
-            padding: 6px;
-            margin: 8px;
-            border: 2px inset #c0c0c0;
+            font-size: 11px;
+            padding: 8px;
+            margin: 12px;
+            border: 2px solid #ff4444;
+            border-radius: 5px;
         }
         
         .status-cursor {
@@ -173,43 +210,56 @@
         }
         
         .toolbar-area {
-            background: #e0e0e0;
-            border: 2px inset #c0c0c0;
-            padding: 8px;
-            margin: 8px;
+            background: 
+                linear-gradient(90deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,68,68,0.1) 2px, rgba(255,68,68,0.1) 4px);
+            border: 2px solid #ff4444;
+            padding: 10px;
+            margin: 12px;
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 6px;
+            border-radius: 8px;
         }
         
         .tool-btn {
-            background: linear-gradient(135deg, #c0c0c0 0%, #f0f0f0 50%, #c0c0c0 100%);
-            border: 2px outset #c0c0c0;
-            padding: 6px 10px;
-            font-size: 10px;
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            border: 2px solid #aa0000;
+            padding: 8px 12px;
+            font-size: 11px;
             font-weight: bold;
-            color: #000;
+            color: #ffffff;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 4px;
-            transition: all 0.1s;
+            gap: 6px;
+            transition: all 0.2s;
+            border-radius: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         
         .tool-btn:hover {
-            background: linear-gradient(135deg, #d0d0d0 0%, #ffffff 50%, #d0d0d0 100%);
+            background: linear-gradient(135deg, #ffdd44 0%, #ff4444 100%);
+            color: #000000;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+            transform: translateY(-1px);
         }
         
         .tool-btn:active, .tool-btn.active {
-            border: 2px inset #c0c0c0;
-            background: #a0a0a0;
+            background: linear-gradient(135deg, #cc0000 0%, #aa0000 100%);
+            color: #ffffff;
+            transform: translateY(1px);
+            box-shadow: inset 2px 2px 4px rgba(0,0,0,0.3);
         }
         
         .search-panel {
-            background: #f0f0f0;
-            border: 2px inset #c0c0c0;
-            margin: 8px;
-            padding: 10px;
+            background: 
+                linear-gradient(135deg, #ffffff 0%, #ffdd44 100%),
+                repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,68,68,0.05) 20px, rgba(255,68,68,0.05) 40px);
+            border: 2px solid #ff4444;
+            margin: 12px;
+            padding: 12px;
+            border-radius: 8px;
         }
         
         .search-group {
@@ -222,32 +272,36 @@
         
         .search-label {
             font-weight: bold;
-            min-width: 70px;
-            color: #000080;
+            min-width: 80px;
+            color: #cc0000;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
         
         .retro-input, .retro-select {
-            border: 2px inset #c0c0c0;
-            padding: 3px 6px;
+            border: 2px solid #ff4444;
+            padding: 4px 8px;
             font-size: 11px;
             background: white;
             color: #000;
             font-family: inherit;
+            border-radius: 4px;
         }
         
         .retro-input:focus, .retro-select:focus {
             outline: none;
-            border: 2px inset #0000ff;
-            background: #f0f8ff;
+            border: 2px solid #cc0000;
+            background: #fff8dc;
+            box-shadow: 0 0 5px rgba(255,68,68,0.5);
         }
         
         .content-display {
-            background: white;
-            border: 3px inset #c0c0c0;
-            margin: 8px;
-            min-height: 400px;
-            max-height: 600px;
+            background: #ffffff;
+            border: 3px solid #ff4444;
+            margin: 12px;
+            min-height: 500px;
+            max-height: 700px;
             overflow-y: auto;
+            border-radius: 8px;
         }
         
         .album-entry {
@@ -258,18 +312,18 @@
         }
         
         .album-entry:hover {
-            background: #f0f8ff;
+            background: linear-gradient(90deg, #fff8dc 0%, #ffdd44 20%, #fff8dc 100%);
         }
         
         .album-entry.open {
-            background: #ffffcc;
+            background: linear-gradient(90deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%);
         }
         
         .album-header {
-            padding: 10px;
+            padding: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
         }
         
         .album-disc {
@@ -303,33 +357,38 @@
         
         .album-name {
             font-weight: bold;
-            font-size: 12px;
-            color: #000080;
-            margin-bottom: 2px;
+            font-size: 14px;
+            color: #cc0000;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
         
         .album-info {
-            font-size: 10px;
+            font-size: 11px;
             color: #666;
         }
         
         .album-score {
-            background: linear-gradient(45deg, #ff9999, #ffcc99);
-            border: 2px outset #c0c0c0;
-            padding: 8px 12px;
+            background: 
+                linear-gradient(45deg, #ffdd44 0%, #ffffff 50%, #ffdd44 100%),
+                repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(255,68,68,0.1) 3px, rgba(255,68,68,0.1) 6px);
+            border: 3px solid #ff4444;
+            padding: 12px 16px;
             font-weight: bold;
-            font-size: 14px;
-            color: #000;
+            font-size: 16px;
+            color: #cc0000;
             text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
-            min-width: 50px;
+            min-width: 60px;
             text-align: center;
+            border-radius: 15px;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.2);
         }
         
         .album-expanded {
             display: none;
-            background: #f8f8f8;
-            border-top: 1px solid #ccc;
-            padding: 12px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff8dc 100%);
+            border-top: 2px solid #ffdd44;
+            padding: 15px;
         }
         
         .album-expanded.show {
@@ -339,31 +398,34 @@
         .tracklist-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #808080;
+            font-size: 11px;
+            margin-bottom: 12px;
+            border: 2px solid #ff4444;
+            border-radius: 5px;
+            overflow: hidden;
         }
         
         .tracklist-table th {
-            background: linear-gradient(135deg, #c0c0c0 0%, #e0e0e0 100%);
-            border: 1px outset #c0c0c0;
-            padding: 4px 6px;
+            background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+            border: 1px solid #aa0000;
+            padding: 6px 8px;
             font-weight: bold;
-            color: #000080;
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         
         .tracklist-table td {
-            border: 1px solid #ccc;
-            padding: 3px 6px;
+            border: 1px solid #ffdd44;
+            padding: 4px 8px;
             background: white;
         }
         
         .tracklist-table tr:nth-child(even) td {
-            background: #f8f8f8;
+            background: #fff8dc;
         }
         
         .tracklist-table tr:hover td {
-            background: #e0f0ff;
+            background: #ffdd44;
         }
         
         .track-rating {
@@ -371,14 +433,41 @@
             font-weight: bold;
         }
         
-        .rating-10, .rating-9 { color: #ff0000; background: #ffcccc; }
-        .rating-8, .rating-7 { color: #ff8800; background: #ffe0cc; }
-        .rating-6, .rating-5 { color: #00aa00; background: #ccffcc; }
-        .rating-low { color: #666; background: #f0f0f0; }
+        .rating-10, .rating-9 { 
+            color: #ffffff; 
+            background: linear-gradient(45deg, #ff4444, #cc0000);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        .rating-8, .rating-7 { 
+            color: #ffffff; 
+            background: linear-gradient(45deg, #ffdd44, #cc9900);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        .rating-6, .rating-5 { 
+            color: #000000; 
+            background: linear-gradient(45deg, #ffffff, #ffdd44);
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
+        .rating-low { 
+            color: #666; 
+            background: #f0f0f0;
+            border-radius: 4px;
+            padding: 2px 4px;
+        }
         
         .fav-star {
-            color: #ff0000;
+            color: #ff4444;
             font-weight: bold;
+            font-size: 14px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
         
         .interlude-text {
