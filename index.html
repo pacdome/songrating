@@ -166,9 +166,22 @@
                 inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
         
+        .led.yellow {
+            background: radial-gradient(circle at 30% 30%, #ffff66, #cccc00);
+            box-shadow: 
+                0 0 15px rgba(255, 255, 0, 0.6),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            animation: pulse-yellow 1s infinite;
+        }
+        
         @keyframes pulse-red {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
+        }
+        
+        @keyframes pulse-yellow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
         }
         
         .display-unit {
@@ -282,25 +295,52 @@
             min-height: 100%;
         }
         
-        .scroll-indicator {
+        .scroll-indicators {
             position: absolute;
             right: 8px;
             top: 50%;
             transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            z-index: 3;
+        }
+        
+        .scroll-indicator {
             color: #004400;
             font-size: clamp(8px, 1vw, 10px);
-            z-index: 3;
-            display: none;
+            opacity: 0.3;
+            transition: opacity 0.3s;
         }
         
-        .scroll-indicator.show {
-            display: block;
-            animation: scroll-hint 2s infinite;
+        .scroll-indicator.active {
+            color: #008800;
+            opacity: 1;
+            animation: scroll-pulse 1s infinite;
         }
         
-        @keyframes scroll-hint {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+        .scroll-lock-indicator {
+            color: #cccc00;
+            font-size: clamp(6px, 0.8vw, 8px);
+            margin-top: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .scroll-lock-indicator.active {
+            opacity: 1;
+            animation: lock-pulse 2s infinite;
+        }
+        
+        @keyframes scroll-pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        
+        @keyframes lock-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
         
         .cursor {
@@ -402,6 +442,19 @@
             box-shadow: 
                 0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
                 0 0 25px rgba(0, 255, 0, 0.4);
+        }
+        
+        .button.scroll-mode {
+            background: 
+                linear-gradient(145deg, #4d4d00 0%, #333300 30%, #1a1a00 70%, #333300 100%);
+            color: #ffff00;
+            border-color: #666600;
+            animation: scroll-button-pulse 2s infinite;
+        }
+        
+        @keyframes scroll-button-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 0, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 0, 0.6); }
         }
         
         .info-panel {
@@ -592,6 +645,10 @@
                     <div class="led green" id="dataLed"></div>
                     <span>DATA</span>
                 </div>
+                <div class="status-light">
+                    <div class="led yellow" id="scrollLed" style="display: none;"></div>
+                    <span id="scrollLedLabel" style="display: none;">SCROLL</span>
+                </div>
             </div>
         </div>
         
@@ -604,7 +661,11 @@
                             <div class="loading">YAMAHA DX-7000 INIT</div>
                         </div>
                     </div>
-                    <div class="scroll-indicator" id="scrollIndicator">▲▼</div>
+                    <div class="scroll-indicators" id="scrollIndicators">
+                        <div class="scroll-indicator" id="scrollUp">▲</div>
+                        <div class="scroll-indicator" id="scrollDown">▼</div>
+                        <div class="scroll-lock-indicator" id="scrollLock">🔒</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -642,6 +703,8 @@
         let currentMenuIndex = 0;
         let scrollPosition = 0;
         let maxScroll = 0;
+        let scrollLocked = false;
+        let isScrollableContent = false;
         let stats = {};
         
         const menu = [
@@ -651,6 +714,9 @@
             'RANDOM',
             'INFO'
         ];
+
+        // Views that should be scrollable (long content)
+        const scrollableViews = ['album', 'stats', 'info', 'favs'];
 
         async function init() {
             try {
@@ -691,6 +757,8 @@
 
         function calcStats() {
             const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
+        function calcStats() {
+            const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
             const totalReal = albums.reduce((s, a) => s + a.songs.filter(t => !t.interlude).length, 0);
             const totalFavs = albums.reduce((s, a) => s + a.songs.filter(t => t.favorite).length, 0);
             
@@ -729,13 +797,9 @@ ${stats.tracks} total tracks
 ${stats.favs} favorites found
 Average rating: ${stats.avg}/10
 
-Memory usage: ${stats.mem}MB
-Data integrity: OK
-Archive status: ONLINE
-
 Press SELECT to continue`;
             
-            update(content, 'OK', 'READY');
+            update(content, 'OK', 'READY', false);
             currentView = 'welcome';
         }
 
@@ -744,21 +808,14 @@ Press SELECT to continue`;
             const content = `MAIN MENU
 ═══════════════════════════════════════
 
-Select operating mode:
+Select mode:
 
 > ${item}
-
-Available modes:
-- BROWSE: Navigate album collection
-- STATS: View collection statistics  
-- FAVS: Show favorite tracks
-- RANDOM: Jump to random album
-- INFO: System information
 
 Use PREV/NEXT to navigate
 Press SELECT to enter mode`;
             
-            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
+            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU', false);
             currentView = 'menu';
         }
 
@@ -775,15 +832,14 @@ ${currentIndex + 1}. ${a.artist}
 ★ Rating: ${a.avg}/10
 ♪ Tracks: ${a.songs.length}`;
 
-            if (a.comment) {
-                content += `\n\nComment:\n${a.comment}`;
+            if (a.comment && a.comment.length > 0) {
+                content += `\n\nComment:\n${a.comment.substring(0, 120)}${a.comment.length > 120 ? '...' : ''}`;
             }
             
             content += `\n\nPress SELECT to view tracks
-Use PREV/NEXT to scroll content
 Use ◀/▶ to change albums`;
             
-            update(content, `${currentIndex + 1}/${albums.length}`, 'BROWSE');
+            update(content, `${currentIndex + 1}/${albums.length}`, 'BROWSE', false);
             currentView = 'browse';
         }
 
@@ -799,16 +855,16 @@ ${a.album} (${a.year})
 Album rating: ${a.avg}/10
 
 ───────────────────────────────────────
-TRACK ${currentSongIndex + 1}/${a.songs.length}
+CURRENT TRACK
 
-${s.name}
-Rating: ${s.rating}/10`;
+► ${s.name}
+  Rating: ${s.rating}/10`;
 
             if (s.favorite) content += ' ♥ FAVORITE';
             if (s.interlude) content += ' [INTERLUDE]';
             
             content += `\n\n───────────────────────────────────────
-ALL TRACKS:
+ALL TRACKS
 
 `;
 
@@ -819,11 +875,14 @@ ALL TRACKS:
                 content += `${marker}${i + 1}. ${track.name} (${track.rating}/10)${fav}${inter}\n`;
             });
             
-            content += `\nUse PREV/NEXT to scroll
-Use ◀/▶ to change tracks
-Press SELECT to go back`;
+            content += `\n───────────────────────────────────────
+CONTROLS
+
+◀/▶ = Change track
+SCROLL LOCK = Toggle scroll mode
+SELECT = Back to browse`;
             
-            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
+            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM', true);
             currentView = 'album';
         }
 
@@ -831,18 +890,18 @@ Press SELECT to go back`;
             let content = `STATISTICS
 ═══════════════════════════════════════
 
-COLLECTION OVERVIEW:
-- Total albums: ${stats.albums}
-- Total tracks: ${stats.tracks} 
-- Favorite tracks: ${stats.favs}
-- Average rating: ${stats.avg}/10
+COLLECTION OVERVIEW
+Total albums: ${stats.albums}
+Total tracks: ${stats.tracks} 
+Favorite tracks: ${stats.favs}
+Average rating: ${stats.avg}/10
 
-TOP RATED ALBUM:
+TOP RATED ALBUM
 ${stats.top.artist}
 ${stats.top.album}
 Rating: ${stats.top.avg}/10
 
-RATING DISTRIBUTION:`;
+RATING DISTRIBUTION`;
 
             // Calculate rating distribution
             const distribution = {};
@@ -865,15 +924,21 @@ RATING DISTRIBUTION:`;
                 }
             }
             
-            content += `\n\nSYSTEM INFO:
+            content += `\n\nTOP 5 ALBUMS BY RATING`;
+            const sortedAlbums = [...albums].sort((a, b) => parseFloat(b.avg) - parseFloat(a.avg));
+            sortedAlbums.slice(0, 5).forEach((album, i) => {
+                content += `\n${i + 1}. ${album.artist} - ${album.album} (${album.avg}/10)`;
+            });
+            
+            content += `\n\nSYSTEM INFO
 Memory usage: ${stats.mem}MB
 Data integrity: Verified
 Last updated: ${new Date().toLocaleDateString()}
 
-Use PREV/NEXT to scroll
-Press SELECT for main menu`;
+SCROLL LOCK = Toggle scroll mode
+SELECT = Main menu`;
             
-            update(content, stats.albums, 'STATS');
+            update(content, stats.albums, 'STATS', true);
             currentView = 'stats';
         }
 
@@ -903,7 +968,7 @@ No favorites found
 Mark songs as favorites
 to see them here
 
-Press SELECT for main menu`, '0', 'FAVS');
+SELECT = Main menu`, '0', 'FAVS', false);
                 return;
             }
             
@@ -913,7 +978,7 @@ Press SELECT for main menu`, '0', 'FAVS');
             let content = `FAVORITES
 ═══════════════════════════════════════
 
-CURRENT FAVORITE:
+CURRENT FAVORITE
 ${f.name}
 by ${f.artist}
 
@@ -921,7 +986,7 @@ Rating: ${f.rating}/10 ♥
 From album: ${f.album}
 
 ───────────────────────────────────────
-ALL FAVORITES (sorted by rating):
+ALL FAVORITES (sorted by rating)
 
 `;
 
@@ -930,11 +995,14 @@ ALL FAVORITES (sorted by rating):
                 content += `${marker}${fav.rating}/10 - ${fav.name}\n     by ${fav.artist}\n`;
             });
             
-            content += `\nUse PREV/NEXT to scroll
-Use ◀/▶ to change favorites
-Press SELECT for main menu`;
+            content += `\n───────────────────────────────────────
+CONTROLS
+
+◀/▶ = Change favorite
+SCROLL LOCK = Toggle scroll mode  
+SELECT = Main menu`;
             
-            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS');
+            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS', true);
             currentView = 'favs';
         }
 
@@ -950,38 +1018,52 @@ Press SELECT for main menu`;
             const content = `SYSTEM INFORMATION
 ═══════════════════════════════════════
 
-DEVICE SPECIFICATIONS:
+DEVICE SPECIFICATIONS
 Model: YAMAHA DX-7000 PRO
 Firmware: v2.1.0
 Architecture: Retro Digital Audio
-Display: Monochrome LCD Matrix
+Display: Scrollable LCD Matrix
 Memory: ${stats.mem}MB allocated
 
-ARCHIVE DETAILS:
+ARCHIVE DETAILS
 Owner: DOME
-Collection name: Personal Music Archive
+Collection: Personal Music Archive
 Established: 2024
 Total entries: ${stats.albums} albums
 Quality: High-fidelity ratings
 
-SYSTEM STATUS:
+SYSTEM STATUS
 Power: 88% battery
 Temperature: Normal
 Data integrity: 100%
 Network: Offline mode
 Status: Fully operational
 
-TECHNICAL NOTES:
-- Scrollable display interface
-- Touch/keyboard navigation
+SCROLL SYSTEM
+Smart scroll detection: Enabled
+Auto-lock for navigation: Active
+Content-aware scrolling: On
+Touch/wheel support: Available
+
+TECHNICAL FEATURES
+- Intelligent scroll lock system
+- Context-sensitive controls
 - Mobile responsive design
 - Real-time data processing
 - Authentic retro aesthetics
+- Multi-input navigation
 
-Use PREV/NEXT to scroll
-Press SELECT for main menu`;
+CONTROLS REFERENCE
+◀/▶ = Navigate items
+PREV/NEXT = Scroll when locked
+SCROLL LOCK = Toggle scroll mode
+SELECT = Context action
+ESC = Quick menu
+
+SCROLL LOCK = Toggle scroll mode
+SELECT = Main menu`;
             
-            update(content, 'SYS', 'INFO');
+            update(content, 'SYS', 'INFO', true);
             currentView = 'info';
         }
 
@@ -991,11 +1073,11 @@ Press SELECT for main menu`;
 
 ${msg}
 
-Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
+SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
             currentView = 'error';
         }
 
-        function update(content, counter, label) {
+        function update(content, counter, label, allowScroll) {
             const displayElement = document.getElementById('display');
             displayElement.innerHTML = content + '<span class="cursor"></span>';
             
@@ -1004,11 +1086,18 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
             document.getElementById('memInfo').textContent = `MEM: ${stats.mem || '0.0'}MB`;
             document.getElementById('statInfo').textContent = `STATUS: ${label}`;
             
-            // Reset scroll
+            // Set scrollable state
+            isScrollableContent = allowScroll;
+            scrollLocked = false;
             scrollPosition = 0;
-            updateScroll();
-            updateButtons();
-            checkScrollable();
+            
+            // Update display
+            setTimeout(() => {
+                updateScroll();
+                updateScrollIndicators();
+                updateButtons();
+                updateScrollLED();
+            }, 50);
         }
 
         function updateScroll() {
@@ -1021,22 +1110,65 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
             maxScroll = Math.max(0, contentHeight - viewportHeight);
             
             // Apply scroll transform
-            const scrollPercent = maxScroll > 0 ? scrollPosition / maxScroll : 0;
             const translateY = -scrollPosition;
             displayElement.style.transform = `translateY(${translateY}px)`;
         }
 
-        function checkScrollable() {
-            const indicator = document.getElementById('scrollIndicator');
-            if (maxScroll > 0) {
-                indicator.classList.add('show');
+        function updateScrollIndicators() {
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const scrollLockEl = document.getElementById('scrollLock');
+            
+            if (isScrollableContent && maxScroll > 0) {
+                // Show scroll indicators
+                scrollUp.style.opacity = scrollPosition > 0 ? '1' : '0.3';
+                scrollDown.style.opacity = scrollPosition < maxScroll ? '1' : '0.3';
+                
+                if (scrollPosition > 0) scrollUp.classList.add('active');
+                else scrollUp.classList.remove('active');
+                
+                if (scrollPosition < maxScroll) scrollDown.classList.add('active');
+                else scrollDown.classList.remove('active');
+                
+                // Show lock indicator when locked
+                if (scrollLocked) {
+                    scrollLockEl.classList.add('active');
+                } else {
+                    scrollLockEl.classList.remove('active');
+                }
             } else {
-                indicator.classList.remove('show');
+                // Hide all indicators
+                scrollUp.style.opacity = '0';
+                scrollDown.style.opacity = '0';
+                scrollUp.classList.remove('active');
+                scrollDown.classList.remove('active');
+                scrollLockEl.classList.remove('active');
+            }
+        }
+
+        function updateScrollLED() {
+            const scrollLed = document.getElementById('scrollLed');
+            const scrollLedLabel = document.getElementById('scrollLedLabel');
+            
+            if (isScrollableContent && maxScroll > 0) {
+                scrollLed.style.display = 'block';
+                scrollLedLabel.style.display = 'block';
+                
+                if (scrollLocked) {
+                    scrollLed.classList.add('yellow');
+                } else {
+                    scrollLed.classList.remove('yellow');
+                }
+            } else {
+                scrollLed.style.display = 'none';
+                scrollLedLabel.style.display = 'none';
             }
         }
 
         function scroll(direction) {
-            const scrollStep = 20;
+            if (!isScrollableContent || maxScroll === 0) return;
+            
+            const scrollStep = 25;
             
             if (direction === 'up') {
                 scrollPosition = Math.max(0, scrollPosition - scrollStep);
@@ -1045,6 +1177,24 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
             }
             
             updateScroll();
+            updateScrollIndicators();
+        }
+
+        function toggleScrollLock() {
+            if (!isScrollableContent || maxScroll === 0) return;
+            
+            scrollLocked = !scrollLocked;
+            updateScrollIndicators();
+            updateScrollLED();
+            updateButtons();
+            
+            // Visual feedback
+            const centerBtn = document.getElementById('btnCenter');
+            if (scrollLocked) {
+                centerBtn.classList.add('scroll-mode');
+            } else {
+                centerBtn.classList.remove('scroll-mode');
+            }
         }
 
         function updateButtons() {
@@ -1052,36 +1202,60 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
             const center = document.getElementById('btnCenter');
             const right = document.getElementById('btnRight');
             
-            switch(currentView) {
-                case 'welcome':
-                    left.textContent = '◀ UP';
-                    center.textContent = 'START';
-                    right.textContent = 'DOWN ▶';
-                    break;
-                case 'menu':
-                    left.textContent = '◀ UP';
-                    center.textContent = 'ENTER';
-                    right.textContent = 'DOWN ▶';
-                    break;
-                case 'browse':
-                    left.textContent = '◀ ALBUM';
-                    center.textContent = 'OPEN';
-                    right.textContent = 'ALBUM ▶';
-                    break;
-                case 'album':
-                    left.textContent = '◀ TRACK';
-                    center.textContent = 'BACK';
-                    right.textContent = 'TRACK ▶';
-                    break;
-                case 'favs':
-                    left.textContent = '◀ FAV';
-                    center.textContent = 'MENU';
-                    right.textContent = 'FAV ▶';
-                    break;
-                default:
-                    left.textContent = '◀ UP';
-                    center.textContent = 'MENU';
-                    right.textContent = 'DOWN ▶';
+            // Remove scroll mode class first
+            left.classList.remove('scroll-mode');
+            center.classList.remove('scroll-mode');
+            right.classList.remove('scroll-mode');
+            
+            if (scrollLocked && isScrollableContent && maxScroll > 0) {
+                // Scroll mode active
+                left.textContent = '◀ UP';
+                center.textContent = 'UNLOCK';
+                right.textContent = 'DOWN ▶';
+                
+                left.classList.add('scroll-mode');
+                center.classList.add('scroll-mode');
+                right.classList.add('scroll-mode');
+                
+            } else {
+                // Normal navigation mode
+                switch(currentView) {
+                    case 'welcome':
+                        left.textContent = '◀ PREV';
+                        center.textContent = 'START';
+                        right.textContent = 'NEXT ▶';
+                        break;
+                    case 'menu':
+                        left.textContent = '◀ UP';
+                        center.textContent = 'ENTER';
+                        right.textContent = 'DOWN ▶';
+                        break;
+                    case 'browse':
+                        left.textContent = '◀ ALBUM';
+                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'OPEN';
+                        right.textContent = 'ALBUM ▶';
+                        break;
+                    case 'album':
+                        left.textContent = '◀ TRACK';
+                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'BACK';
+                        right.textContent = 'TRACK ▶';
+                        break;
+                    case 'favs':
+                        left.textContent = '◀ FAV';
+                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'MENU';
+                        right.textContent = 'FAV ▶';
+                        break;
+                    case 'stats':
+                    case 'info':
+                        left.textContent = '◀ PREV';
+                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'MENU';
+                        right.textContent = 'NEXT ▶';
+                        break;
+                    default:
+                        left.textContent = '◀ PREV';
+                        center.textContent = 'MENU';
+                        right.textContent = 'NEXT ▶';
+                }
             }
         }
 
@@ -1100,16 +1274,12 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
         }
 
         function handlePrev() {
-            // Check if we can scroll first
-            if (scrollPosition > 0) {
+            if (scrollLocked && isScrollableContent) {
                 scroll('up');
                 return;
             }
             
             switch(currentView) {
-                case 'welcome':
-                    scroll('up');
-                    break;
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
                     showMenu();
@@ -1130,23 +1300,16 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
                         showFavs();
                     }
                     break;
-                default:
-                    scroll('up');
-                    break;
             }
         }
 
         function handleNext() {
-            // Check if we can scroll first
-            if (scrollPosition < maxScroll) {
+            if (scrollLocked && isScrollableContent) {
                 scroll('down');
                 return;
             }
             
             switch(currentView) {
-                case 'welcome':
-                    scroll('down');
-                    break;
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex + 1) % menu.length;
                     showMenu();
@@ -1167,13 +1330,23 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
                         showFavs();
                     }
                     break;
-                default:
-                    scroll('down');
-                    break;
             }
         }
 
         function handleSelect() {
+            // Handle scroll lock toggle
+            if (isScrollableContent && maxScroll > 0 && !scrollLocked) {
+                if (currentView === 'album' || currentView === 'stats' || currentView === 'info' || currentView === 'favs') {
+                    toggleScrollLock();
+                    return;
+                }
+            }
+            
+            if (scrollLocked) {
+                toggleScrollLock();
+                return;
+            }
+            
             switch(currentView) {
                 case 'welcome':
                     currentMenuIndex = 0;
@@ -1245,10 +1418,10 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
                     navigate('next');
                     break;
                 case 'ArrowUp':
-                    scroll('up');
+                    if (isScrollableContent) scroll('up');
                     break;
                 case 'ArrowDown':
-                    scroll('down');
+                    if (isScrollableContent) scroll('down');
                     break;
                 case 'Enter':
                 case ' ':
@@ -1259,6 +1432,10 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
                         showMenu();
                     }
                     break;
+                case 'ScrollLock':
+                    e.preventDefault();
+                    toggleScrollLock();
+                    break;
             }
         });
 
@@ -1267,10 +1444,12 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
         const viewport = document.querySelector('.display-viewport');
 
         viewport.addEventListener('touchstart', (e) => {
+            if (!isScrollableContent) return;
             startY = e.touches[0].clientY;
         });
 
         viewport.addEventListener('touchmove', (e) => {
+            if (!isScrollableContent) return;
             e.preventDefault();
             const currentY = e.touches[0].clientY;
             const diff = startY - currentY;
@@ -1286,6 +1465,7 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
         });
 
         viewport.addEventListener('wheel', (e) => {
+            if (!isScrollableContent) return;
             e.preventDefault();
             if (e.deltaY > 0) {
                 scroll('down');
@@ -1298,7 +1478,8 @@ Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
         window.addEventListener('resize', () => {
             setTimeout(() => {
                 updateScroll();
-                checkScrollable();
+                updateScrollIndicators();
+                updateScrollLED();
             }, 100);
         });
 
