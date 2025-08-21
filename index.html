@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PAGER-900 MUSIC DB</title>
+    <title>PAGER-9000 MUSIC DB</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
@@ -38,23 +38,22 @@
             position: relative;
         }
         
-        /* Desktop: Größerer Parallelogram Pager */
+        /* Desktop: Bigger Parallelogram shape */
         @media (min-width: 769px) {
             .pager-device {
                 width: 900px;
-                height: 400px;
+                height: 420px;
                 transform: skewX(-8deg);
                 border-radius: 20px 35px 20px 35px;
                 display: flex;
                 align-items: stretch;
-                gap: 25px;
+                gap: 30px;
             }
             
             .device-left {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
-                min-width: 0;
             }
             
             .device-right {
@@ -64,16 +63,15 @@
                 justify-content: center;
                 align-items: center;
                 gap: 12px;
-                padding: 20px 0;
             }
         }
         
-        /* Mobile: Optimierte Größe */
+        /* Mobile: Traditional pager shape */
         @media (max-width: 768px) {
             .pager-device {
-                width: 390px;
-                height: 650px;
-                border-radius: 30px;
+                width: 380px;
+                height: 640px;
+                border-radius: 25px;
                 flex-direction: column;
             }
             
@@ -84,25 +82,33 @@
             }
             
             .device-right {
-                height: 110px;
+                height: 100px;
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
-                margin-top: 25px;
-                padding: 0 20px;
+                margin-top: 20px;
             }
         }
         
         .device-top {
             height: 45px;
             background: linear-gradient(90deg, #333, #444, #333);
-            border-radius: 23px;
-            margin-bottom: 18px;
+            border-radius: 22px;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
             box-shadow: inset 0 3px 8px rgba(0,0,0,0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .device-top {
+                height: 35px;
+                border-radius: 18px;
+                margin-bottom: 12px;
+                padding: 0 15px;
+            }
         }
         
         .antenna {
@@ -113,7 +119,7 @@
             position: relative;
             box-shadow: 
                 0 0 4px rgba(0,0,0,0.5),
-                inset 2px 0 2px rgba(255,255,255,0.3);
+                inset 1px 0 2px rgba(255,255,255,0.3);
         }
         
         .antenna::before {
@@ -125,13 +131,13 @@
             height: 9px;
             background: radial-gradient(circle, #aaa, #666);
             border-radius: 50%;
-            box-shadow: 0 2px 3px rgba(0,0,0,0.8);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.8);
         }
         
         .antenna::after {
             content: '';
             position: absolute;
-            top: -18px;
+            top: -16px;
             left: 1px;
             width: 3px;
             height: 12px;
@@ -140,11 +146,24 @@
             box-shadow: 0 0 3px rgba(0,0,0,0.5);
         }
         
+        @media (max-width: 768px) {
+            .antenna {
+                width: 4px;
+                height: 20px;
+            }
+        }
+        
         .brand {
             font-size: 9px;
             color: #666;
             letter-spacing: 1px;
             font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .brand {
+                font-size: 7px;
+            }
         }
         
         .signal-bars {
@@ -160,10 +179,24 @@
             box-shadow: 0 0 3px rgba(0,255,65,0.5);
         }
         
-        .signal-bar:nth-child(1) { height: 5px; }
-        .signal-bar:nth-child(2) { height: 8px; }
-        .signal-bar:nth-child(3) { height: 11px; }
-        .signal-bar:nth-child(4) { height: 14px; opacity: 0.3; }
+        @media (max-width: 768px) {
+            .signal-bar {
+                width: 3px;
+                border-radius: 1px;
+            }
+        }
+        
+        .signal-bar:nth-child(1) { height: 6px; }
+        .signal-bar:nth-child(2) { height: 9px; }
+        .signal-bar:nth-child(3) { height: 12px; }
+        .signal-bar:nth-child(4) { height: 15px; opacity: 0.3; }
+        
+        @media (max-width: 768px) {
+            .signal-bar:nth-child(1) { height: 4px; }
+            .signal-bar:nth-child(2) { height: 6px; }
+            .signal-bar:nth-child(3) { height: 8px; }
+            .signal-bar:nth-child(4) { height: 10px; }
+        }
         
         .display {
             flex: 1;
@@ -172,8 +205,8 @@
             position: relative;
             overflow: hidden;
             box-shadow: 
-                inset 0 0 25px rgba(0,0,0,0.8),
-                inset 0 0 50px rgba(0,255,65,0.1);
+                inset 0 0 30px rgba(0,0,0,0.8),
+                inset 0 0 60px rgba(0,255,65,0.1);
             display: flex;
             flex-direction: column;
         }
@@ -182,16 +215,15 @@
             .display {
                 border-radius: 12px;
                 padding: 18px;
-                font-size: 12px;
             }
         }
         
         @media (max-width: 768px) {
             .display {
-                border-radius: 12px;
-                padding: 18px;
-                min-height: 420px;
-                font-size: 13px;
+                border-radius: 8px;
+                padding: 15px;
+                min-height: 360px;
+                border: 3px solid #444;
             }
         }
         
@@ -206,9 +238,9 @@
                 repeating-linear-gradient(
                     0deg,
                     transparent,
-                    transparent 2px,
-                    rgba(0,255,65,0.03) 2px,
-                    rgba(0,255,65,0.03) 4px
+                    transparent 3px,
+                    rgba(0,255,65,0.03) 3px,
+                    rgba(0,255,65,0.03) 6px
                 );
             pointer-events: none;
         }
@@ -216,19 +248,25 @@
         .status-line {
             display: flex;
             justify-content: space-between;
-            font-size: 11px;
-            margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #00ff41;
-            opacity: 0.8;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #00ff41;
+            opacity: 0.9;
             flex-shrink: 0;
+        }
+        
+        @media (min-width: 769px) {
+            .status-line {
+                font-size: 12px;
+            }
         }
         
         @media (max-width: 768px) {
             .status-line {
-                font-size: 12px;
-                margin-bottom: 10px;
-                padding-bottom: 5px;
+                font-size: 9px;
+                margin-bottom: 6px;
+                padding-bottom: 3px;
+                border-bottom: 1px solid #00ff41;
             }
         }
         
@@ -239,11 +277,20 @@
         }
         
         .battery-icon {
-            width: 15px;
+            width: 16px;
             height: 9px;
-            border: 1px solid #00ff41;
+            border: 2px solid #00ff41;
             border-radius: 2px;
             position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .battery-icon {
+                width: 12px;
+                height: 7px;
+                border: 1px solid #00ff41;
+                border-radius: 1px;
+            }
         }
         
         .battery-icon::after {
@@ -252,9 +299,19 @@
             right: -4px;
             top: 2px;
             width: 3px;
-            height: 4px;
+            height: 3px;
             background: #00ff41;
             border-radius: 0 2px 2px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .battery-icon::after {
+                right: -3px;
+                top: 1px;
+                width: 2px;
+                height: 3px;
+                border-radius: 0 1px 1px 0;
+            }
         }
         
         .battery-fill {
@@ -278,10 +335,18 @@
         }
         
         .back-option {
-            border-top: 1px solid #00ff41;
+            border-top: 2px solid #00ff41;
             padding-top: 6px;
             margin-top: 6px;
             flex-shrink: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .back-option {
+                border-top: 1px solid #00ff41;
+                padding-top: 4px;
+                margin-top: 4px;
+            }
         }
         
         .menu-item, .album-item, .song-item, .back-item {
@@ -293,11 +358,18 @@
             text-overflow: ellipsis;
         }
         
+        @media (min-width: 769px) {
+            .menu-item, .album-item, .song-item, .back-item {
+                font-size: 13px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .menu-item, .album-item, .song-item, .back-item {
-                line-height: 20px;
-                margin-bottom: 3px;
-                padding: 3px 0;
+                font-size: 11px;
+                line-height: 16px;
+                margin-bottom: 2px;
+                padding: 2px 0;
             }
         }
         
@@ -310,13 +382,6 @@
             border-radius: 2px;
         }
         
-        @media (max-width: 768px) {
-            .menu-item.selected, .album-item.selected, .song-item.selected, .back-item.selected {
-                padding: 3px 6px;
-                margin: 0 -6px 3px -6px;
-            }
-        }
-        
         .album-rating {
             float: right;
             font-weight: bold;
@@ -324,12 +389,17 @@
         
         .song-rating {
             float: right;
-            font-size: 10px;
+        }
+        
+        @media (min-width: 769px) {
+            .song-rating {
+                font-size: 11px;
+            }
         }
         
         @media (max-width: 768px) {
             .song-rating {
-                font-size: 11px;
+                font-size: 9px;
             }
         }
         
@@ -345,7 +415,7 @@
         .controls {
             display: flex;
             justify-content: space-around;
-            gap: 18px;
+            gap: 15px;
         }
         
         @media (min-width: 769px) {
@@ -379,9 +449,10 @@
         
         @media (max-width: 768px) {
             .control-btn {
-                width: 65px;
-                height: 65px;
-                font-size: 20px;
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+                border: 2px solid #555;
             }
         }
         
@@ -410,6 +481,13 @@
             font-size: 14px;
         }
         
+        @media (max-width: 768px) {
+            .loading {
+                margin-top: 40px;
+                font-size: 11px;
+            }
+        }
+        
         .loading::after {
             content: '...';
             animation: dots 1.5s infinite;
@@ -426,12 +504,13 @@
             opacity: 0.7;
             margin-top: 12px;
             text-align: center;
+            font-weight: bold;
         }
         
         @media (max-width: 768px) {
             .info-text {
-                font-size: 11px;
-                margin-top: 15px;
+                font-size: 9px;
+                margin-top: 10px;
             }
         }
         
@@ -456,13 +535,23 @@
             padding-bottom: 2px;
         }
         
-        .scroll-indicator {
-            position: absolute;
-            right: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 8px;
-            opacity: 0.5;
+        .error-message {
+            color: #ff3333;
+            text-align: center;
+            margin-top: 60px;
+            font-size: 14px;
+            background: rgba(255, 51, 51, 0.1);
+            border: 2px solid #ff3333;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .error-message {
+                margin-top: 40px;
+                font-size: 12px;
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -497,10 +586,6 @@
                         <div class="loading">LOADING MUSIC DB</div>
                     </div>
                 </div>
-                
-                <div class="scroll-indicator" id="scrollIndicator" style="display: none;">
-                    ↑↓
-                </div>
             </div>
             
             <div class="info-text">
@@ -521,7 +606,6 @@
         let selectedIndex = 0;
         let currentAlbum = null;
         let viewData = [];
-        let scrollOffset = 0;
 
         async function loadAlbums() {
             try {
@@ -560,7 +644,7 @@
 
         function showError(message) {
             const contentArea = document.getElementById('contentArea');
-            contentArea.innerHTML = `<div class="content-scroll"><div style="text-align: center; margin-top: 60px; color: #ff3333;">${message}</div></div>`;
+            contentArea.innerHTML = `<div class="content-scroll"><div class="error-message">${message}<br><br>Bitte stellen Sie sicher, dass die Datei 'albums.json' im selben Verzeichnis liegt.</div></div>`;
         }
 
         function updateTime() {
@@ -576,14 +660,9 @@
             document.getElementById('messageCount').textContent = albums.length;
         }
 
-        function getVisibleItemCount() {
-            return window.innerWidth <= 768 ? 15 : 12;
-        }
-
         function showMainMenu() {
             currentView = 'main';
             selectedIndex = 0;
-            scrollOffset = 0;
             viewData = [
                 { text: '1. BROWSE ALBUMS', action: 'albums' },
                 { text: '2. TOP RATED', action: 'toprated' },
@@ -594,13 +673,12 @@
                 { text: '7. FAVORITES', action: 'favorites' },
                 { text: '8. STATISTICS', action: 'stats' }
             ];
-            renderMenu();
+            renderContent();
         }
 
         function showAlbums(sortBy = null) {
             currentView = 'albums';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             let sortedAlbums = [...albums];
             
@@ -620,14 +698,12 @@
             }));
             
             viewData.push({ text: '← ZURÜCK', action: 'back' });
-            
-            renderAlbums(sortBy);
+            renderContent(sortBy);
         }
 
         function showSongs(album) {
             currentView = 'songs';
             selectedIndex = 0;
-            scrollOffset = 0;
             currentAlbum = album;
             
             viewData = album.songs.map(song => ({
@@ -639,14 +715,12 @@
             }));
             
             viewData.push({ text: '← ZURÜCK', action: 'back' });
-            
-            renderSongs();
+            renderContent();
         }
 
         function showFavorites() {
             currentView = 'favorites';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             viewData = [];
             albums.forEach(album => {
@@ -664,8 +738,7 @@
             
             viewData.sort((a, b) => b.rating - a.rating);
             viewData.push({ text: '← ZURÜCK', action: 'back' });
-            
-            renderFavorites();
+            renderContent();
         }
 
         function showRandomSong() {
@@ -683,7 +756,6 @@
             
             currentView = 'random';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             viewData = [
                 { text: '🎲 RANDOM SONG:', special: true },
@@ -696,13 +768,12 @@
                 { text: '← ZURÜCK', action: 'back' }
             ];
             
-            renderRandom();
+            renderContent();
         }
 
         function searchArtist() {
             currentView = 'search';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             const artists = [...new Set(albums.map(album => album.artist))].sort();
             
@@ -713,14 +784,12 @@
             }));
             
             viewData.push({ text: '← ZURÜCK', action: 'back' });
-            
-            renderSearch();
+            renderContent();
         }
 
         function showArtistAlbums(artistName) {
             currentView = 'artist_albums';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             const artistAlbums = albums.filter(album => album.artist === artistName);
             artistAlbums.sort((a, b) => a.year - b.year);
@@ -732,14 +801,12 @@
             }));
             
             viewData.push({ text: '← ZURÜCK', action: 'back' });
-            
-            renderArtistAlbums(artistName);
+            renderContent();
         }
 
         function showStats() {
             currentView = 'stats';
             selectedIndex = 0;
-            scrollOffset = 0;
             
             const totalAlbums = albums.length;
             const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
@@ -757,10 +824,14 @@
                 decades[decade] = (decades[decade] || 0) + 1;
             });
             
+            const perfectSongs = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => song.rating === 10).length, 0);
+            
             viewData = [
                 { text: `TOTAL ALBUMS: ${totalAlbums}` },
                 { text: `TOTAL SONGS: ${totalSongs}` },
                 { text: `FAVORITES: ${favoriteCount}` },
+                { text: `PERFECT 10s: ${perfectSongs}` },
                 { text: `AVG RATING: ${avgRating}/10` },
                 { text: '' },
                 { text: 'TOP ALBUM:' },
@@ -769,13 +840,13 @@
                 { text: `(${calculateAverageRating(topAlbum.songs)}/10)` },
                 { text: '' },
                 { text: 'BY DECADE:' },
-                ...Object.entries(decades).map(([decade, count]) => 
+                ...Object.entries(decades).sort().map(([decade, count]) => 
                     ({ text: `${decade}s: ${count} albums` })),
                 { text: '' },
                 { text: '← ZURÜCK', action: 'back' }
             ];
             
-            renderStats();
+            renderContent();
         }
 
         function calculateAverageRating(songs) {
@@ -785,103 +856,236 @@
             return parseFloat((sum / nonInterludeSongs.length).toFixed(1));
         }
 
-        function calculateScrollWindow() {
-            const visibleCount = getVisibleItemCount();
-            const totalItems = viewData.length;
-            
-            if (totalItems <= visibleCount) {
-                return { startIndex: 0, endIndex: totalItems };
-            }
-            
-            // Center the selected item in the visible window
-            let startIndex = Math.max(0, selectedIndex - Math.floor(visibleCount / 2));
-            let endIndex = Math.min(totalItems, startIndex + visibleCount);
-            
-            // Adjust if we're near the end
-            if (endIndex === totalItems) {
-                startIndex = Math.max(0, totalItems - visibleCount);
-            }
-            
-            return { startIndex, endIndex };
-        }
-
-        function updateScrollIndicator() {
-            const indicator = document.getElementById('scrollIndicator');
-            const visibleCount = getVisibleItemCount();
-            
-            if (viewData.length > visibleCount) {
-                indicator.style.display = 'block';
-            } else {
-                indicator.style.display = 'none';
-            }
-        }
-
-        function renderMenu() {
+        function renderContent(sortBy = null) {
             const contentArea = document.getElementById('contentArea');
-            const { startIndex, endIndex } = calculateScrollWindow();
             
-            let html = '<div class="content-scroll"><div style="margin-top: 15px;">';
+            // Calculate how many items can fit on screen
+            const isMobile = window.innerWidth <= 768;
+            const maxVisibleItems = isMobile ? 15 : 20;
             
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = viewData[i];
-                const className = i === selectedIndex ? 'menu-item selected' : 'menu-item';
-                html += `<div class="${className}">${item.text}</div>`;
-            }
+            // Separate content items from back item
+            const contentItems = viewData.filter(item => !item.action || item.action !== 'back');
+            const backItem = viewData.find(item => item.action === 'back');
             
-            html += '</div></div>';
-            contentArea.innerHTML = html;
-            updateScrollIndicator();
-        }
-
-        function renderAlbums(sortBy) {
-            const contentArea = document.getElementById('contentArea');
-            const { startIndex, endIndex } = calculateScrollWindow();
+            // Calculate visible range with proper scrolling
+            let startIndex = 0;
+            let endIndex = contentItems.length;
             
-            let html = '<div class="content-scroll"><div style="margin-top: 12px;">';
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = viewData[i];
-                if (item.action === 'back') {
-                    const className = i === selectedIndex ? 'back-item selected' : 'back-item';
-                    html += `</div><div class="back-option"><div class="${className}">${item.text}</div></div>`;
+            if (contentItems.length > maxVisibleItems) {
+                const halfScreen = Math.floor(maxVisibleItems / 2);
+                
+                if (selectedIndex < halfScreen) {
+                    startIndex = 0;
+                    endIndex = maxVisibleItems;
+                } else if (selectedIndex >= contentItems.length - halfScreen) {
+                    startIndex = contentItems.length - maxVisibleItems;
+                    endIndex = contentItems.length;
                 } else {
-                    const className = i === selectedIndex ? 'album-item selected' : 'album-item';
+                    startIndex = selectedIndex - halfScreen;
+                    endIndex = selectedIndex + halfScreen + 1;
+                }
+            }
+            
+            let html = '<div class="content-scroll">';
+            
+            // Add header for specific views
+            if (currentView === 'songs' && currentAlbum) {
+                html += `<div style="font-size: ${isMobile ? '10px' : '12px'}; margin-bottom: 8px; border-bottom: ${isMobile ? '1px' : '2px'} solid #00ff41; padding-bottom: 3px; color: #ffff00;">
+                    ${currentAlbum.artist} - ${currentAlbum.album}
+                </div>`;
+            } else if (currentView === 'artist_albums' && contentItems.length > 0) {
+                const artistName = contentItems[0].album.artist;
+                html += `<div style="font-size: ${isMobile ? '10px' : '12px'}; margin-bottom: 8px; border-bottom: ${isMobile ? '1px' : '2px'} solid #00ff41; padding-bottom: 3px; color: #ffff00;">
+                    ${artistName}
+                </div>`;
+            }
+            
+            html += '<div style="margin-top: 8px;">';
+            
+            // Render visible content items
+            for (let i = startIndex; i < endIndex; i++) {
+                const item = contentItems[i];
+                const isSelected = i === selectedIndex;
+                
+                if (currentView === 'main') {
+                    const className = isSelected ? 'menu-item selected' : 'menu-item';
+                    html += `<div class="${className}">${item.text}</div>`;
+                    
+                } else if (currentView === 'albums') {
+                    const className = isSelected ? 'album-item selected' : 'album-item';
+                    
+                    // Add decade header for decade view
                     if (sortBy === 'bydecade' && item.year) {
                         const decade = Math.floor(item.year / 10) * 10;
-                        const prevItem = i > 0 ? viewData[i-1] : null;
+                        const prevItem = i > 0 ? contentItems[i-1] : null;
                         const prevDecade = prevItem && prevItem.year ? Math.floor(prevItem.year / 10) * 10 : null;
+                        
                         if (decade !== prevDecade) {
                             html += `<div class="decade-header">${decade}s:</div>`;
                         }
                     }
+                    
                     html += `<div class="${className}">
                         ${item.text}
                         <span class="album-rating">${item.rating}</span>
                     </div>`;
+                    
+                } else if (currentView === 'songs') {
+                    let className = isSelected ? 'song-item selected' : 'song-item';
+                    if (item.interlude) className += ' song-interlude';
+                    if (item.favorite) className += ' song-favorite';
+                    
+                    html += `<div class="${className}">
+                        ${item.favorite ? '★ ' : ''}${item.text}
+                        <span class="song-rating">${item.rating}</span>
+                    </div>`;
+                    
+                } else if (currentView === 'favorites') {
+                    const className = isSelected ? 'song-item selected song-favorite' : 'song-item song-favorite';
+                    html += `<div class="${className}">
+                        ★ ${item.text}
+                        <span class="song-rating">${item.rating}</span>
+                    </div>`;
+                    
+                } else if (currentView === 'random') {
+                    let className = 'menu-item';
+                    if (item.random) className += ' random-song';
+                    if (item.favorite) className += ' song-favorite';
+                    
+                    html += `<div class="${className}" style="text-align: center;">
+                        ${item.text}
+                        ${item.rating ? `<span class="song-rating">${item.rating}/10</span>` : ''}
+                    </div>`;
+                    
+                } else if (currentView === 'search') {
+                    const className = isSelected ? 'menu-item selected' : 'menu-item';
+                    html += `<div class="${className}">${item.text}</div>`;
+                    
+                } else if (currentView === 'artist_albums') {
+                    const className = isSelected ? 'album-item selected' : 'album-item';
+                    html += `<div class="${className}">
+                        ${item.text}
+                        <span class="album-rating">${item.rating}</span>
+                    </div>`;
+                    
+                } else if (currentView === 'stats') {
+                    html += `<div class="menu-item" style="text-align: center;">${item.text}</div>`;
                 }
             }
             
-            if (!html.includes('back-option')) {
-                html += '</div>';
+            html += '</div>';
+            
+            // Add back option if exists
+            if (backItem) {
+                const isBackSelected = selectedIndex >= contentItems.length;
+                const className = isBackSelected ? 'back-item selected' : 'back-item';
+                html += `<div class="back-option">
+                    <div class="${className}">${backItem.text}</div>
+                </div>`;
             }
+            
+            html += '</div>';
             contentArea.innerHTML = html;
-            updateScrollIndicator();
         }
 
-        function renderSongs() {
-            const contentArea = document.getElementById('contentArea');
-            const { startIndex, endIndex } = calculateScrollWindow();
+        // Button handlers
+        document.getElementById('upBtn').addEventListener('click', () => {
+            if (viewData.length === 0) return;
+            selectedIndex = Math.max(0, selectedIndex - 1);
+            renderContent();
+        });
+
+        document.getElementById('downBtn').addEventListener('click', () => {
+            if (viewData.length === 0) return;
+            selectedIndex = Math.min(viewData.length - 1, selectedIndex + 1);
+            renderContent();
+        });
+
+        document.getElementById('selectBtn').addEventListener('click', () => {
+            handleSelect();
+        });
+
+        function handleSelect() {
+            const selected = viewData[selectedIndex];
             
-            let html = `<div class="content-scroll"><div style="margin-top: 12px;">
-                <div style="font-size: 11px; margin-bottom: 8px; border-bottom: 1px solid #00ff41; padding-bottom: 3px;">
-                    ${currentAlbum.artist} - ${currentAlbum.album}
-                </div>`;
+            if (selected.action === 'back') {
+                if (currentView === 'artist_albums') {
+                    searchArtist();
+                } else {
+                    showMainMenu();
+                }
+                return;
+            }
             
-            const contentItems = viewData.filter(item => !item.action);
-            const backItem = viewData.find(item => item.action === 'back');
-            
-            for (let i = startIndex; i < endIndex; i++) {
-                const item = viewData[i];
-                
-                if (item.action === 'back') {
-                    const className = i === selectedIndex ? 'back-item selected'
+            if (currentView === 'main') {
+                switch (selected.action) {
+                    case 'albums':
+                        showAlbums();
+                        break;
+                    case 'toprated':
+                        showAlbums('toprated');
+                        break;
+                    case 'byartist':
+                        showAlbums('byartist');
+                        break;
+                    case 'bydecade':
+                        showAlbums('bydecade');
+                        break;
+                    case 'random':
+                        showRandomSong();
+                        break;
+                    case 'search':
+                        searchArtist();
+                        break;
+                    case 'favorites':
+                        showFavorites();
+                        break;
+                    case 'stats':
+                        showStats();
+                        break;
+                }
+            } else if (currentView === 'albums' && selected.album) {
+                showSongs(selected.album);
+            } else if (currentView === 'search' && selected.action === 'artist') {
+                showArtistAlbums(selected.artist);
+            } else if (currentView === 'artist_albums' && selected.album) {
+                showSongs(selected.album);
+            }
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    document.getElementById('upBtn').click();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    document.getElementById('downBtn').click();
+                    break;
+                case 'Enter':
+                case ' ':
+                    e.preventDefault();
+                    document.getElementById('selectBtn').click();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    if (currentView !== 'main') {
+                        if (currentView === 'artist_albums') {
+                            searchArtist();
+                        } else {
+                            showMainMenu();
+                        }
+                    }
+                    break;
+            }
+        });
+
+        // Initialize
+        setInterval(updateTime, 1000);
+        updateTime();
+        loadAlbums();
+    </script>
+</body>
+</html>
