@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOME'S MUSIC DEPARTURES</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
         
         * {
             margin: 0;
@@ -14,121 +14,92 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #00ff41;
-            font-family: 'Orbitron', monospace;
+            background: #1a1a1a;
+            color: #f0f0f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            line-height: 1.4;
             overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
         }
         
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(0, 255, 255, 0.05) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .scanlines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 65, 0.03) 2px,
-                rgba(0, 255, 65, 0.03) 4px
-            );
-            pointer-events: none;
-            z-index: 1000;
-            animation: scanlines 0.1s linear infinite;
-        }
-        
-        @keyframes scanlines {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(4px); }
-        }
-        
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
-            border-bottom: 2px solid #00ff41;
-            box-shadow: 0 2px 20px rgba(0, 255, 65, 0.3);
-            position: relative;
-        }
-        
-        .header::before {
-            content: '█ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █ █';
-            display: block;
-            font-size: 8px;
-            opacity: 0.3;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            animation: pulse 2s infinite;
-        }
-        
-        .main-title {
-            font-size: clamp(24px, 5vw, 48px);
-            font-weight: 900;
-            letter-spacing: 4px;
-            text-shadow: 
-                0 0 10px #00ff41,
-                0 0 20px #00ff41,
-                0 0 30px #00ff41;
-            animation: flicker 3s infinite alternate;
-            margin: 10px 0;
-        }
-        
-        .subtitle {
-            font-size: 14px;
-            color: #ffa500;
-            letter-spacing: 2px;
-            font-weight: 400;
-            opacity: 0.8;
-        }
-        
-        .status-bar {
+        .airport-header {
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+            border-bottom: 3px solid #444;
+            padding: 20px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background: rgba(0, 0, 0, 0.7);
-            border-bottom: 1px solid #333;
-            font-size: 12px;
-            flex-wrap: wrap;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .airport-info {
+            display: flex;
+            align-items: center;
             gap: 20px;
         }
         
-        .status-item {
+        .airport-code {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        
+        .airport-name {
+            font-size: 14px;
+            color: #bbb;
+            font-weight: 400;
+        }
+        
+        .time-info {
+            text-align: right;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .current-time {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+        
+        .nav-bar {
+            background: #333;
+            border-bottom: 1px solid #555;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .nav-section {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 20px;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #00ff41;
-            animation: pulse 2s infinite;
+            background: #4CAF50;
         }
         
-        .controls {
-            padding: 20px 30px;
-            background: rgba(0, 20, 40, 0.8);
-            border-bottom: 1px solid #333;
+        .controls-section {
+            background: #f5f5f5;
+            color: #333;
+            padding: 15px 30px;
+            border-bottom: 2px solid #ddd;
             display: grid;
             grid-template-columns: 2fr 1fr 1fr;
             gap: 20px;
@@ -141,417 +112,396 @@
         
         .search-input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            color: #00ff41;
-            padding: 12px 40px 12px 15px;
-            font-family: inherit;
-            font-size: 14px;
+            padding: 10px 15px;
+            border: 2px solid #ccc;
             border-radius: 4px;
-            transition: all 0.3s;
+            background: #fff;
+            color: #333;
+            font-family: inherit;
+            font-size: 13px;
         }
         
         .search-input:focus {
             outline: none;
-            border-color: #00ff41;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
-            background: rgba(0, 255, 65, 0.05);
-        }
-        
-        .search-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            color: #ffa500;
+            border-color: #666;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
         }
         
         select, button {
-            background: rgba(0, 0, 0, 0.8);
-            color: #00ff41;
-            border: 2px solid #333;
-            padding: 12px 15px;
+            padding: 10px 15px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background: #fff;
+            color: #333;
             font-family: inherit;
             font-size: 12px;
-            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
         
-        select:hover, button:hover {
-            border-color: #ffa500;
-            background: rgba(255, 165, 0, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(255, 165, 0, 0.2);
+        button:hover {
+            background: #f0f0f0;
+            border-color: #999;
         }
         
         .departure-board {
-            margin: 20px 30px;
-            background: rgba(0, 0, 0, 0.9);
-            border: 2px solid #333;
-            border-radius: 8px;
+            background: #000;
+            color: #ffcc00;
+            margin: 0;
+            font-family: 'JetBrains Mono', monospace;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .board-header {
-            background: linear-gradient(90deg, #1a1a2e, #16213e);
-            padding: 15px 20px;
+            background: #1a1a1a;
             border-bottom: 2px solid #333;
+            padding: 12px 20px;
             display: grid;
-            grid-template-columns: 3fr 1fr 1fr 1fr 80px;
-            gap: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 1px;
+            grid-template-columns: 50px 3fr 120px 80px 100px 80px;
+            gap: 15px;
+            font-size: 11px;
+            font-weight: 600;
             text-transform: uppercase;
-        }
-        
-        .board-header div {
-            color: #ffa500;
-            text-shadow: 0 0 10px #ffa500;
+            letter-spacing: 1px;
+            color: #ffcc00;
         }
         
         .album-row {
             display: grid;
-            grid-template-columns: 3fr 1fr 1fr 1fr 80px;
-            gap: 20px;
-            padding: 15px 20px;
+            grid-template-columns: 50px 3fr 120px 80px 100px 80px;
+            gap: 15px;
+            padding: 12px 20px;
             border-bottom: 1px solid #222;
             align-items: center;
-            transition: all 0.3s;
             cursor: pointer;
-            position: relative;
+            transition: background-color 0.2s;
+            min-height: 45px;
         }
         
         .album-row:hover {
-            background: rgba(0, 255, 65, 0.05);
-            border-left: 4px solid #00ff41;
-            padding-left: 16px;
-            transform: scale(1.02);
+            background: #1a1a1a;
         }
         
-        .album-row::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #00ff41, transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
+        .album-row:nth-child(even) {
+            background: #0a0a0a;
         }
         
-        .album-row:hover::before {
-            opacity: 1;
+        .album-row:nth-child(even):hover {
+            background: #1a1a1a;
         }
         
-        .album-info {
+        .row-number {
+            color: #666;
+            font-size: 11px;
+            text-align: center;
+        }
+        
+        .album-destination {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 2px;
         }
         
         .album-title {
             font-weight: 700;
-            font-size: 16px;
-            color: #ffffff;
-            text-shadow: 0 0 5px #ffffff;
+            font-size: 14px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .artist-name {
-            font-size: 12px;
-            color: #00ff41;
+            font-size: 11px;
+            color: #ffcc00;
             opacity: 0.8;
         }
         
-        .year {
-            color: #ffa500;
+        .departure-time {
             font-weight: 700;
+            color: #fff;
+            text-align: center;
         }
         
         .track-count {
-            color: #00ffff;
-            font-size: 14px;
-        }
-        
-        .rating-display {
-            background: linear-gradient(135deg, #000, #333);
-            border: 2px solid;
-            border-radius: 6px;
-            padding: 8px 12px;
-            font-weight: 900;
-            font-size: 16px;
+            color: #ffcc00;
             text-align: center;
-            text-shadow: 0 0 10px currentColor;
-            min-width: 60px;
-            position: relative;
-            overflow: hidden;
+            font-size: 12px;
         }
         
-        .rating-display::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: sweep 3s infinite;
+        .rating-board {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 8px 4px;
+            border-radius: 3px;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid #555;
         }
         
-        @keyframes sweep {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .status-display {
+            text-align: center;
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .status-indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
+        .status-on-time {
+            color: #4CAF50;
         }
         
-        .status-active {
-            background: #00ff41;
-            box-shadow: 0 0 10px #00ff41;
+        .status-delayed {
+            color: #FF9800;
         }
         
-        .status-standby {
-            background: #ffa500;
-            box-shadow: 0 0 10px #ffa500;
+        .status-boarding {
+            color: #2196F3;
         }
         
-        .expanded-content {
+        .status-cancelled {
+            color: #f44336;
+        }
+        
+        .expanded-details {
             grid-column: 1 / -1;
-            background: rgba(0, 20, 40, 0.9);
+            background: #1a1a1a;
             border-top: 1px solid #333;
+            border-bottom: 2px solid #333;
             padding: 20px;
-            margin-top: 10px;
-            border-radius: 4px;
             display: none;
-            animation: slideDown 0.3s ease-out;
+            color: #f0f0f0;
         }
         
-        .expanded-content.show {
+        .expanded-details.show {
             display: block;
         }
         
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .songs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .song-item {
+        .details-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
-            background: rgba(0, 0, 0, 0.5);
-            border-left: 3px solid #333;
-            border-radius: 3px;
-            transition: all 0.3s;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
         }
         
-        .song-item:hover {
-            border-left-color: #00ff41;
-            background: rgba(0, 255, 65, 0.1);
+        .gate-info {
+            font-size: 11px;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .songs-manifest {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .song-entry {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 10px;
+            background: #262626;
+            border-left: 3px solid #444;
+            font-size: 11px;
+        }
+        
+        .song-entry:hover {
+            background: #333;
         }
         
         .song-name {
-            font-size: 12px;
             flex-grow: 1;
         }
         
         .song-rating {
-            font-weight: 700;
+            font-weight: 600;
             margin-left: 10px;
-            min-width: 40px;
+            min-width: 35px;
             text-align: right;
         }
         
-        .song-icons {
-            margin-left: 10px;
-            min-width: 20px;
+        .song-status {
+            margin-left: 8px;
+            font-size: 10px;
         }
         
         .favorite {
-            color: #ffff00;
-            text-shadow: 0 0 5px #ffff00;
+            color: #FFD700;
         }
         
         .interlude {
-            opacity: 0.5;
+            opacity: 0.6;
             font-style: italic;
         }
         
-        .album-comment {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px dashed #333;
+        .album-notes {
+            background: #262626;
+            border: 1px solid #444;
             border-radius: 4px;
-            padding: 15px;
+            padding: 12px;
             margin-top: 15px;
-            font-style: italic;
             font-size: 11px;
-            line-height: 1.6;
+            line-height: 1.5;
             color: #ccc;
         }
         
-        .album-comment::before {
-            content: '// KOMMENTAR: ';
-            color: #ffa500;
-            font-weight: 700;
-            font-style: normal;
+        .album-notes::before {
+            content: 'FLIGHT NOTES: ';
+            font-weight: 600;
+            color: #ffcc00;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         
         .pagination {
+            background: #f5f5f5;
+            color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
-            padding: 30px;
-            margin-top: 20px;
+            padding: 20px;
         }
         
         .pagination button {
-            min-width: 40px;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #333;
-            color: #00ff41;
-            border-radius: 4px;
+            min-width: 35px;
+            height: 35px;
+            background: #fff;
+            border: 1px solid #ccc;
+            color: #333;
+            border-radius: 3px;
             font-family: inherit;
-            font-weight: 700;
+            font-size: 11px;
             cursor: pointer;
-            transition: all 0.3s;
         }
         
         .pagination button:hover:not(:disabled) {
-            border-color: #00ff41;
-            background: rgba(0, 255, 65, 0.1);
-            transform: scale(1.1);
+            background: #e0e0e0;
         }
         
         .pagination button.active {
-            background: #00ff41;
-            color: #000;
-            border-color: #00ff41;
-            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            background: #333;
+            color: #fff;
+            border-color: #333;
         }
         
         .pagination button:disabled {
-            opacity: 0.3;
+            opacity: 0.4;
             cursor: not-allowed;
         }
         
-        .footer {
+        .footer-info {
+            background: #2c2c2c;
+            color: #999;
             text-align: center;
-            padding: 20px;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
-            border-top: 2px solid #333;
-            margin-top: 40px;
-            font-size: 11px;
+            padding: 15px;
+            font-size: 10px;
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
         
-        /* Rating Colors */
+        /* Rating Colors - more subtle */
         .rating-10 { 
-            color: #ffffff; 
-            border-color: #ffffff;
-            text-shadow: 0 0 15px #ffffff;
+            background: #2E7D32; 
+            color: #fff;
+            border-color: #4CAF50;
         }
         .rating-9-10 { 
-            color: #00ff41; 
-            border-color: #00ff41;
+            background: #388E3C; 
+            color: #fff;
         }
         .rating-8-9 { 
-            color: #88ff00; 
-            border-color: #88ff00;
+            background: #689F38; 
+            color: #fff;
         }
         .rating-7-8 { 
-            color: #ffff00; 
-            border-color: #ffff00;
+            background: #F57C00; 
+            color: #fff;
         }
         .rating-6-7 { 
-            color: #ffa500; 
-            border-color: #ffa500;
+            background: #FF6F00; 
+            color: #fff;
         }
         .rating-5-6 { 
-            color: #ff6600; 
-            border-color: #ff6600;
+            background: #E65100; 
+            color: #fff;
         }
         .rating-4-5 { 
-            color: #ff3300; 
-            border-color: #ff3300;
+            background: #D84315; 
+            color: #fff;
         }
-        .rating-3-4 { 
-            color: #ff0066; 
-            border-color: #ff0066;
-        }
-        .rating-2-3 { 
-            color: #ff0099; 
-            border-color: #ff0099;
-        }
-        .rating-1-2 { 
-            color: #ff00cc; 
-            border-color: #ff00cc;
-        }
-        .rating-0-1 { 
-            color: #cc00ff; 
-            border-color: #cc00ff;
+        .rating-below-4 { 
+            background: #C62828; 
+            color: #fff;
         }
         
-        /* Animations */
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 14px;
+            color: #ffcc00;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-        
-        @keyframes flip {
-            0% { transform: rotateX(0); }
-            50% { transform: rotateX(-90deg); }
-            100% { transform: rotateX(0); }
-        }
-        
-        .flip-animation {
-            animation: flip 0.6s ease-in-out;
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+            margin: 20px;
         }
         
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .controls {
+            .controls-section {
                 grid-template-columns: 1fr;
-                gap: 15px;
+                gap: 10px;
             }
             
             .board-header,
             .album-row {
-                grid-template-columns: 2fr 1fr 80px;
-                gap: 15px;
+                grid-template-columns: 40px 2fr 80px 70px;
+                gap: 10px;
+            }
+            
+            .board-header div:nth-child(5),
+            .board-header div:nth-child(6),
+            .album-row > div:nth-child(5),
+            .album-row > div:nth-child(6) {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .airport-header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .nav-bar {
+                padding: 10px 20px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .controls-section {
+                padding: 15px 20px;
+            }
+            
+            .board-header,
+            .album-row {
+                grid-template-columns: 1fr 60px;
+                gap: 10px;
+                padding: 10px 15px;
             }
             
             .board-header div:nth-child(3),
@@ -560,146 +510,85 @@
             .album-row > div:nth-child(4) {
                 display: none;
             }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                font-size: 12px;
-            }
             
-            .departure-board {
-                margin: 20px 15px;
-            }
-            
-            .board-header,
-            .album-row {
-                grid-template-columns: 1fr 80px;
-                gap: 10px;
-                padding: 12px 15px;
-            }
-            
-            .board-header div:nth-child(2),
-            .album-row > div:nth-child(2) {
-                display: none;
-            }
-            
-            .songs-grid {
+            .songs-manifest {
                 grid-template-columns: 1fr;
             }
-            
-            .controls {
-                padding: 15px 20px;
-            }
-            
-            .status-bar {
-                padding: 10px 20px;
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-        
-        .loading {
-            text-align: center;
-            padding: 50px;
-            font-size: 18px;
-            color: #ffa500;
-        }
-        
-        .loading::after {
-            content: '';
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ffa500;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .error {
-            text-align: center;
-            padding: 50px;
-            color: #ff3333;
-            background: rgba(255, 51, 51, 0.1);
-            border: 2px solid #ff3333;
-            border-radius: 8px;
-            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="scanlines"></div>
-    
-    <header class="header">
-        <h1 class="main-title">DOME'S MUSIC DEPARTURES</h1>
-        <p class="subtitle">ALBUM DATABASE SYSTEM v2.4.1</p>
+    <header class="airport-header">
+        <div class="airport-info">
+            <div class="airport-code">DMZ</div>
+            <div class="airport-name">
+                <div>DOME'S MUSIC ZONE</div>
+                <div>Personal Album Database</div>
+            </div>
+        </div>
+        <div class="time-info">
+            <div class="current-time" id="currentTime">--:--</div>
+            <div>Local Time</div>
+        </div>
     </header>
     
-    <div class="status-bar">
-        <div class="status-item">
-            <div class="status-dot"></div>
-            <span>SYSTEM ONLINE</span>
+    <nav class="nav-bar">
+        <div class="nav-section">
+            <span>DEPARTURES</span>
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>SYSTEM OPERATIONAL</span>
+            </div>
         </div>
-        <div class="status-item">
-            <span>ALBUMS LOADED: <span id="albumCount">0</span></span>
+        <div class="nav-section">
+            <span>ALBUMS: <span id="albumCount">0</span></span>
+            <span>TERMINAL: A1</span>
         </div>
-        <div class="status-item">
-            <span>CURRENT TIME: <span id="currentTime"></span></span>
-        </div>
-        <div class="status-item">
-            <span>STATUS: <span class="status-ready">READY</span></span>
-        </div>
-    </div>
+    </nav>
     
-    <div class="controls">
+    <div class="controls-section">
         <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Search albums, artists..." onkeyup="searchAlbums()">
-            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search destinations, airlines, flight numbers..." onkeyup="searchAlbums()">
         </div>
         <select id="sortSelect" onchange="sortAlbums()">
-            <option value="rating-desc">RATING ↓</option>
-            <option value="rating-asc">RATING ↑</option>
-            <option value="artist-asc">ARTIST A→Z</option>
-            <option value="artist-desc">ARTIST Z→A</option>
-            <option value="album-asc">ALBUM A→Z</option>
-            <option value="album-desc">ALBUM Z→A</option>
-            <option value="year-asc">YEAR ↑</option>
-            <option value="year-desc">YEAR ↓</option>
+            <option value="rating-desc">Sort by Rating ↓</option>
+            <option value="rating-asc">Sort by Rating ↑</option>
+            <option value="artist-asc">Sort by Airline A-Z</option>
+            <option value="artist-desc">Sort by Airline Z-A</option>
+            <option value="album-asc">Sort by Destination A-Z</option>
+            <option value="album-desc">Sort by Destination Z-A</option>
+            <option value="year-asc">Sort by Year ↑</option>
+            <option value="year-desc">Sort by Year ↓</option>
         </select>
-        <button onclick="resetFilters()">RESET FILTERS</button>
+        <button onclick="resetFilters()">Reset Filters</button>
     </div>
     
     <div class="departure-board">
         <div class="board-header">
-            <div>ALBUM / ARTIST</div>
-            <div>YEAR</div>
-            <div>TRACKS</div>
-            <div>AVG RATING</div>
+            <div>FLT</div>
+            <div>DESTINATION / AIRLINE</div>
+            <div>DEPARTURE</div>
+            <div>GATE</div>
+            <div>RATING</div>
             <div>STATUS</div>
         </div>
         <div id="albumList" class="loading">
-            Loading database...
+            Loading flight information...
         </div>
     </div>
     
     <div class="pagination" id="pagination"></div>
     
-    <footer class="footer">
-        <p>DATABASE TERMINAL © 2025 | TOTAL ALBUMS: <span id="totalAlbums">0</span> | LAST UPDATE: <span id="lastUpdate"></span></p>
+    <footer class="footer-info">
+        <p>Terminal Information System © 2025 | Total Flights: <span id="totalAlbums">0</span> | Last Updated: <span id="lastUpdate"></span></p>
     </footer>
 
     <script>
         let albums = [];
         let currentAlbums = [];
         let currentPage = 1;
-        const albumsPerPage = 10;
+        const albumsPerPage = 15;
 
-        // Load albums from JSON
         async function loadAlbums() {
             try {
                 const response = await fetch('albums.json');
@@ -709,7 +598,7 @@
                 
                 const data = await response.json();
                 
-                // Remove duplicates based on artist and album
+                // Remove duplicates
                 const uniqueAlbums = data.filter((album, index, self) => 
                     index === self.findIndex(a => 
                         a.artist.toLowerCase().trim() === album.artist.toLowerCase().trim() && 
@@ -727,7 +616,7 @@
                 
             } catch (error) {
                 console.error('Error loading albums:', error);
-                showError(`DATABASE CONNECTION FAILED: ${error.message}`);
+                showError(`SYSTEM ERROR: Unable to load flight data - ${error.message}`);
             }
         }
 
@@ -751,17 +640,26 @@
             if (r >= 6) return 'rating-6-7';
             if (r >= 5) return 'rating-5-6';
             if (r >= 4) return 'rating-4-5';
-            if (r >= 3) return 'rating-3-4';
-            if (r >= 2) return 'rating-2-3';
-            if (r >= 1) return 'rating-1-2';
-            return 'rating-0-1';
+            return 'rating-below-4';
+        }
+
+        function getFlightStatus(rating) {
+            const r = parseFloat(rating);
+            if (r >= 9) return { status: 'ON TIME', class: 'status-on-time' };
+            if (r >= 7) return { status: 'BOARDING', class: 'status-boarding' };
+            if (r >= 5) return { status: 'DELAYED', class: 'status-delayed' };
+            return { status: 'CANCELLED', class: 'status-cancelled' };
+        }
+
+        function formatFlightNumber(index) {
+            return `DM${String(index + 1).padStart(3, '0')}`;
         }
 
         function displayAlbums() {
             const albumList = document.getElementById('albumList');
             
             if (currentAlbums.length === 0) {
-                albumList.innerHTML = '<div class="error">NO ALBUMS FOUND</div>';
+                albumList.innerHTML = '<div class="error">NO FLIGHTS SCHEDULED</div>';
                 return;
             }
 
@@ -774,38 +672,45 @@
             pageAlbums.forEach((album, index) => {
                 const avgRating = calculateAverageRating(album.songs);
                 const ratingClass = getRatingClass(avgRating);
+                const flightStatus = getFlightStatus(avgRating);
                 const albumIndex = startIndex + index;
+                const flightNumber = formatFlightNumber(albumIndex);
 
                 const albumRow = document.createElement('div');
                 albumRow.className = 'album-row';
-                albumRow.onclick = () => toggleAlbumDetails(albumIndex);
+                albumRow.onclick = () => toggleFlightDetails(albumIndex);
 
                 const songsHtml = album.songs.map(song => `
-                    <div class="song-item ${song.interlude ? 'interlude' : ''}">
+                    <div class="song-entry ${song.interlude ? 'interlude' : ''}">
                         <span class="song-name">${song.name}</span>
-                        <span class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
-                        <span class="song-icons">
-                            ${song.favorite ? '<span class="favorite">★</span>' : ''}
-                            ${song.interlude ? '<span style="opacity:0.5;">♪</span>' : ''}
+                        <span class="song-rating">${song.rating}/10</span>
+                        <span class="song-status">
+                            ${song.favorite ? '<span class="favorite">VIP</span>' : ''}
+                            ${song.interlude ? '<span style="opacity:0.6;">INT</span>' : ''}
                         </span>
                     </div>
                 `).join('');
 
                 albumRow.innerHTML = `
-                    <div class="album-info">
+                    <div class="row-number">${flightNumber}</div>
+                    <div class="album-destination">
                         <div class="album-title">${album.album}</div>
                         <div class="artist-name">${album.artist}</div>
                     </div>
-                    <div class="year">${album.year}</div>
-                    <div class="track-count">${album.songs.length} TRACKS</div>
-                    <div class="rating-display ${ratingClass}">${avgRating}</div>
-                    <div class="status-indicator ${parseFloat(avgRating) >= 8 ? 'status-active' : 'status-standby'}"></div>
+                    <div class="departure-time">${album.year}</div>
+                    <div class="track-count">${album.songs.length}</div>
+                    <div class="rating-board ${ratingClass}">${avgRating}</div>
+                    <div class="status-display ${flightStatus.class}">${flightStatus.status}</div>
                     
-                    <div class="expanded-content" id="details-${albumIndex}">
-                        <div class="songs-grid">
+                    <div class="expanded-details" id="details-${albumIndex}">
+                        <div class="details-header">
+                            <div class="gate-info">Flight ${flightNumber} - Gate ${String.fromCharCode(65 + (albumIndex % 26))}${Math.floor(albumIndex / 26) + 1}</div>
+                            <div class="gate-info">Passenger Manifest: ${album.songs.length} tracks</div>
+                        </div>
+                        <div class="songs-manifest">
                             ${songsHtml}
                         </div>
-                        ${album.comment ? `<div class="album-comment">${album.comment}</div>` : ''}
+                        ${album.comment ? `<div class="album-notes">${album.comment}</div>` : ''}
                     </div>
                 `;
 
@@ -813,23 +718,18 @@
             });
         }
 
-        function toggleAlbumDetails(index) {
+        function toggleFlightDetails(index) {
             const details = document.getElementById(`details-${index}`);
             const isVisible = details.classList.contains('show');
             
             // Close all other expanded details
-            document.querySelectorAll('.expanded-content.show').forEach(el => {
+            document.querySelectorAll('.expanded-details.show').forEach(el => {
                 el.classList.remove('show');
             });
             
             // Toggle current details
             if (!isVisible) {
                 details.classList.add('show');
-                // Add flip animation to rating
-                const row = details.parentElement;
-                const rating = row.querySelector('.rating-display');
-                rating.classList.add('flip-animation');
-                setTimeout(() => rating.classList.remove('flip-animation'), 600);
             }
         }
 
@@ -898,42 +798,35 @@
             
             let html = '';
             
-            // Previous button
-            html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>&lt;&lt;</button>`;
+            html += `<button onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'disabled' : ''}>‹</button>`;
             
-            // Page numbers
             const maxVisiblePages = 7;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
             
-            // Adjust start page if we're near the end
             if (endPage - startPage < maxVisiblePages - 1) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
             
-            // First page and ellipsis
             if (startPage > 1) {
                 html += `<button onclick="changePage(1)">1</button>`;
                 if (startPage > 2) {
-                    html += '<span style="color: #666; padding: 0 10px;">...</span>';
+                    html += '<span style="padding: 0 10px; color: #999;">...</span>';
                 }
             }
             
-            // Page numbers
             for (let i = startPage; i <= endPage; i++) {
                 html += `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
             }
             
-            // Last page and ellipsis
             if (endPage < totalPages) {
                 if (endPage < totalPages - 1) {
-                    html += '<span style="color: #666; padding: 0 10px;">...</span>';
+                    html += '<span style="padding: 0 10px; color: #999;">...</span>';
                 }
                 html += `<button onclick="changePage(${totalPages})">${totalPages}</button>`;
             }
             
-            // Next button
-            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>&gt;&gt;</button>`;
+            html += `<button onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'disabled' : ''}>›</button>`;
             
             pagination.innerHTML = html;
         }
@@ -944,15 +837,12 @@
             
             currentPage = page;
             
-            // Close all expanded details when changing page
-            document.querySelectorAll('.expanded-content.show').forEach(el => {
+            document.querySelectorAll('.expanded-details.show').forEach(el => {
                 el.classList.remove('show');
             });
             
             displayAlbums();
             updatePagination();
-            
-            // Smooth scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -961,23 +851,22 @@
             document.getElementById('totalAlbums').textContent = albums.length;
             
             const now = new Date();
-            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE');
             document.getElementById('lastUpdate').textContent = now.toLocaleDateString('de-DE');
         }
 
         function updateTime() {
             const now = new Date();
-            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE');
+            document.getElementById('currentTime').textContent = now.toLocaleTimeString('de-DE', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
         }
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadAlbums();
-            
-            // Update time every second
+            updateTime();
             setInterval(updateTime, 1000);
             
-            // Add keyboard shortcuts
             document.addEventListener('keydown', (e) => {
                 if (e.ctrlKey || e.metaKey) return;
                 
@@ -999,55 +888,13 @@
                         break;
                     case 'Escape':
                         document.getElementById('searchInput').blur();
-                        document.querySelectorAll('.expanded-content.show').forEach(el => {
+                        document.querySelectorAll('.expanded-details.show').forEach(el => {
                             el.classList.remove('show');
                         });
                         break;
                 }
             });
-            
-            // Add search input auto-focus on '/' key
-            document.getElementById('searchInput').addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    e.target.blur();
-                }
-            });
         });
-
-        // Add some random flickering effects for authenticity
-        setInterval(() => {
-            const statusDots = document.querySelectorAll('.status-dot');
-            statusDots.forEach(dot => {
-                if (Math.random() < 0.1) {
-                    dot.style.opacity = '0.3';
-                    setTimeout(() => dot.style.opacity = '1', 100);
-                }
-            });
-        }, 2000);
-
-        // Add terminal-like loading simulation
-        function simulateTerminalLoading() {
-            const loadingText = document.querySelector('.loading');
-            if (!loadingText) return;
-            
-            const messages = [
-                'Initializing database connection...',
-                'Loading album data...',
-                'Processing ratings...',
-                'Calculating averages...',
-                'Database ready.'
-            ];
-            
-            let messageIndex = 0;
-            const interval = setInterval(() => {
-                if (messageIndex < messages.length) {
-                    loadingText.textContent = messages[messageIndex];
-                    messageIndex++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 500);
-        }
     </script>
 </body>
 </html>
