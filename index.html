@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -9,9 +8,9 @@
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
         
         :root {
-            --device-width: min(1200px, 95vw);
-            --device-height: min(800px, 90vh);
-            --display-height: min(280px, 35vh);
+            --device-width: min(1300px, 95vw);
+            --device-height: min(900px, 90vh);
+            --display-height: min(380px, 42vh);
             --button-height: min(80px, 8vh);
             --font-size: clamp(11px, 1.2vw, 14px);
             --padding: clamp(20px, 3vw, 40px);
@@ -177,14 +176,6 @@
                 inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
         
-        .led.orange {
-            background: radial-gradient(circle at 30% 30%, #ffaa44, #cc6600);
-            box-shadow: 
-                0 0 15px rgba(255, 150, 0, 0.7),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            animation: pulse-orange 1.5s infinite;
-        }
-        
         .led.blue {
             background: radial-gradient(circle at 30% 30%, #4488cc, #2266aa);
             box-shadow: 
@@ -195,11 +186,6 @@
         @keyframes pulse-red {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
-        }
-        
-        @keyframes pulse-orange {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
         }
         
         .display-unit {
@@ -216,7 +202,7 @@
             position: relative;
             height: var(--display-height);
             flex-grow: 1;
-            min-height: 200px;
+            min-height: 280px;
         }
         
         .display-unit::before {
@@ -268,6 +254,27 @@
             border: 2px solid #2a2a2a;
         }
         
+        /* Plexiglas-Effekt */
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1) 0%,
+                    rgba(255, 255, 255, 0.05) 25%,
+                    transparent 30%,
+                    transparent 70%,
+                    rgba(255, 255, 255, 0.03) 75%,
+                    rgba(255, 255, 255, 0.08) 100%);
+            border-radius: clamp(3px, 0.5vw, 6px);
+            pointer-events: none;
+            z-index: 3;
+        }
+        
         .screen::after {
             content: '';
             position: absolute;
@@ -278,18 +285,22 @@
             background: 
                 linear-gradient(
                     to bottom,
-                    rgba(255, 255, 255, 0.04) 0%,
+                    rgba(255, 255, 255, 0.06) 0%,
+                    rgba(255, 255, 255, 0.02) 50%,
                     transparent 100%
                 );
             border-radius: 4px;
             pointer-events: none;
-            z-index: 2;
+            z-index: 4;
         }
         
         .display-viewport {
             height: 100%;
-            overflow: hidden;
             position: relative;
+            padding: clamp(15px, 2.5vw, 25px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
         }
         
         .display-content {
@@ -302,14 +313,10 @@
                 0 0 8px rgba(204, 204, 204, 0.2);
             font-family: 'JetBrains Mono', monospace;
             white-space: pre-line;
-            padding: clamp(15px, 2.5vw, 25px);
-            line-height: 1.4;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            transition: transform 0.3s ease;
-            min-height: 100%;
+            line-height: 1.3;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         /* E-Ink Display Colors */
@@ -317,21 +324,32 @@
         .eink-secondary { color: var(--eink-light); }
         .eink-muted { color: var(--eink-medium); }
         .eink-dim { color: var(--eink-dark); }
-        .eink-accent { color: var(--eink-yellow); }
-        .eink-highlight { color: var(--eink-red); }
-        .eink-info { color: var(--eink-blue); }
+        .eink-accent { 
+            color: var(--eink-yellow); 
+            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
+        }
+        .eink-highlight { 
+            color: var(--eink-red); 
+            text-shadow: 0 0 4px rgba(204, 68, 68, 0.3);
+        }
+        .eink-info { 
+            color: var(--eink-blue); 
+            text-shadow: 0 0 4px rgba(68, 136, 204, 0.3);
+        }
         
         .breadcrumb {
             color: var(--eink-medium);
             font-size: clamp(9px, 1vw, 11px);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            flex-shrink: 0;
         }
         
         .section-header {
             color: var(--eink-yellow);
             font-weight: 700;
-            margin: 8px 0 4px 0;
+            margin: 6px 0 3px 0;
             text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
+            flex-shrink: 0;
         }
         
         .highlight-item {
@@ -356,6 +374,8 @@
             border-radius: 3px;
             font-size: clamp(8px, 0.9vw, 10px);
             border: 1px solid var(--eink-blue);
+            display: inline-block;
+            margin: 2px;
         }
         
         .navigation-tree {
@@ -368,41 +388,17 @@
             font-weight: 700;
         }
         
-        .scroll-indicator {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--eink-medium);
-            font-size: clamp(8px, 1vw, 10px);
-            z-index: 3;
-            display: none;
+        .content-grid {
+            display: grid;
+            gap: 8px;
+            flex-grow: 1;
         }
         
-        .scroll-indicator.show {
-            display: block;
-            animation: scroll-hint 2s infinite;
-        }
-        
-        .scroll-mode-indicator {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            color: var(--eink-yellow);
-            font-size: clamp(8px, 1vw, 10px);
-            z-index: 3;
-            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
-            display: none;
-        }
-        
-        .scroll-mode-indicator.show {
-            display: block;
-            animation: pulse-orange 1.5s infinite;
-        }
-        
-        @keyframes scroll-hint {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+        .content-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 0;
         }
         
         .cursor {
@@ -525,27 +521,6 @@
             box-shadow: 
                 0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
                 0 0 25px rgba(68, 136, 204, 0.4);
-        }
-        
-        .button.danger {
-            background: 
-                linear-gradient(145deg, #4d0000 0%, #330000 30%, #1a0000 70%, #330000 100%);
-            color: var(--eink-red);
-            border-color: #660000;
-        }
-        
-        .button.danger::before {
-            background: 
-                linear-gradient(to bottom, rgba(204, 68, 68, 0.2), transparent);
-        }
-        
-        .button.danger:hover {
-            background: 
-                linear-gradient(145deg, #660000 0%, #4d0000 30%, #330000 70%, #4d0000 100%);
-            color: #ff4444;
-            box-shadow: 
-                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(204, 68, 68, 0.4);
         }
         
         .info-panel {
@@ -677,7 +652,7 @@
             :root {
                 --device-width: 95vw;
                 --device-height: 95vh;
-                --display-height: 40vh;
+                --display-height: 45vh;
                 --button-height: 12vw;
                 --font-size: 12px;
                 --padding: 15px;
@@ -737,10 +712,6 @@
                     <span>DATA</span>
                 </div>
                 <div class="status-light">
-                    <div class="led orange" id="scrollLed" style="display: none;"></div>
-                    <span id="scrollLedLabel" style="display: none;">SCROLL</span>
-                </div>
-                <div class="status-light">
                     <div class="led blue" id="filterLed" style="display: none;"></div>
                     <span id="filterLedLabel" style="display: none;">FILTER</span>
                 </div>
@@ -756,8 +727,6 @@
                             <div class="loading">YAMAHA DX-7000 INIT</div>
                         </div>
                     </div>
-                    <div class="scroll-indicator" id="scrollIndicator">▲▼</div>
-                    <div class="scroll-mode-indicator" id="scrollModeIndicator">SCROLL</div>
                 </div>
             </div>
         </div>
@@ -796,10 +765,6 @@
         let currentMenuIndex = 0;
         let currentCategoryIndex = 0;
         let currentFilterIndex = 0;
-        let scrollPosition = 0;
-        let maxScroll = 0;
-        let scrollMode = false;
-        let screenType = 'nav';
         let stats = {};
         let navigationStack = [];
         let activeFilters = {
@@ -829,23 +794,6 @@
             { id: 'favorites', name: 'Has Favorites', filter: a => a.songs.some(s => s.favorite) },
             { id: 'long', name: 'Long Albums (15+ tracks)', filter: a => a.songs.length >= 15 }
         ];
-
-        // Screen type definitions
-        const screenTypes = {
-            'boot': 'nav',
-            'welcome': 'nav',
-            'menu': 'nav',
-            'categories': 'nav',
-            'search': 'content',
-            'browse': 'content',
-            'album': 'content',
-            'song': 'content',
-            'stats': 'content',
-            'favs': 'content',
-            'random': 'content',
-            'settings': 'content',
-            'error': 'nav'
-        };
 
         async function init() {
             try {
@@ -913,44 +861,10 @@
             };
         }
 
-        function setScreenType(view) {
-            screenType = screenTypes[view] || 'nav';
-            scrollMode = false;
-            scrollPosition = 0;
-            updateScrollUI();
-        }
-
-        function updateScrollUI() {
-            const scrollLed = document.getElementById('scrollLed');
-            const scrollLedLabel = document.getElementById('scrollLedLabel');
+        function updateFilterUI() {
             const filterLed = document.getElementById('filterLed');
             const filterLedLabel = document.getElementById('filterLedLabel');
-            const scrollIndicator = document.getElementById('scrollIndicator');
-            const scrollModeIndicator = document.getElementById('scrollModeIndicator');
             
-            if (screenType === 'content') {
-                scrollLed.style.display = 'block';
-                scrollLedLabel.style.display = 'block';
-                
-                if (maxScroll > 0) {
-                    scrollIndicator.classList.add('show');
-                } else {
-                    scrollIndicator.classList.remove('show');
-                }
-                
-                if (scrollMode) {
-                    scrollModeIndicator.classList.add('show');
-                } else {
-                    scrollModeIndicator.classList.remove('show');
-                }
-            } else {
-                scrollLed.style.display = 'none';
-                scrollLedLabel.style.display = 'none';
-                scrollIndicator.classList.remove('show');
-                scrollModeIndicator.classList.remove('show');
-            }
-
-            // Filter LED
             const hasActiveFilters = activeFilters.category !== 'all' || 
                                   activeFilters.rating !== 'all' ||
                                   activeFilters.year !== 'all' ||
@@ -966,7 +880,10 @@
         }
 
         function pushNavigation(view, data = {}) {
-            navigationStack.push({ view: currentView, data: { currentIndex, currentAlbumIndex, currentSongIndex, currentMenuIndex, currentCategoryIndex, currentFilterIndex } });
+            navigationStack.push({ 
+                view: currentView, 
+                data: { currentIndex, currentAlbumIndex, currentSongIndex, currentMenuIndex, currentCategoryIndex, currentFilterIndex } 
+            });
             if (navigationStack.length > 10) navigationStack.shift();
         }
 
@@ -1019,7 +936,7 @@
             });
             
             currentIndex = 0;
-            updateScrollUI();
+            updateFilterUI();
         }
 
         function getRatingColor(rating) {
@@ -1030,60 +947,84 @@
             return 'rating-poor';
         }
 
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
         function showWelcome() {
             const content = `<span class="eink-accent">DOME'S MUSIC ARCHIVE</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
 <span class="section-header">SYSTEM READY</span>
 
-<span class="eink-info">${albums.length}</span> albums loaded
-<span class="eink-info">${stats.tracks}</span> total tracks  
-<span class="eink-highlight">${stats.favs}</span> favorites found
-Average rating: <span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Albums loaded:</span>
+<span class="eink-info">${albums.length}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Total tracks:</span>
+<span class="eink-info">${stats.tracks}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Favorites:</span>
+<span class="eink-highlight">${stats.favs}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Average rating:</span>
+<span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+</div>
+</div>
 
-Memory usage: <span class="eink-secondary">${stats.mem}MB</span>
-Data integrity: <span class="eink-accent">OK</span>
-Archive status: <span class="eink-accent">ONLINE</span>
+<span class="section-header">System Status</span>
+<div class="content-row">
+<span class="eink-secondary">Memory usage:</span>
+<span class="eink-info">${stats.mem}MB</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Data integrity:</span>
+<span class="eink-accent">OK</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Archive status:</span>
+<span class="eink-accent">ONLINE</span>
+</div>
 
 <span class="eink-muted">Press SELECT to continue</span>`;
             
             update(content, 'OK', 'READY');
             currentView = 'welcome';
-            setScreenType('welcome');
         }
 
         function showMenu() {
-            const item = menu[currentMenuIndex];
-            
             let content = `<span class="eink-accent">MAIN MENU</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
-<span class="section-header">Select operating mode:</span>
+<span class="section-header">Select Mode:</span>
 
-`;
+<div class="content-grid">`;
 
             menu.forEach((menuItem, i) => {
                 const marker = i === currentMenuIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
                 const color = i === currentMenuIndex ? 'eink-accent' : 'eink-secondary';
-                content += `${marker}<span class="${color}">${menuItem}</span>\n`;
+                content += `<div>${marker}<span class="${color}">${menuItem}</span></div>`;
             });
             
-            content += `
-<span class="eink-muted">───────────────────────────────────────</span>
-Available modes:
-<span class="eink-secondary">- BROWSE: Navigate album collection</span>
-<span class="eink-secondary">- CATEGORIES: Filter by categories</span>
-<span class="eink-secondary">- SEARCH: Find specific content</span>
-<span class="eink-secondary">- FAVORITES: Show favorite tracks</span>
-<span class="eink-secondary">- STATISTICS: View collection data</span>
-<span class="eink-secondary">- RANDOM: Jump to random album</span>
-<span class="eink-secondary">- SETTINGS: System configuration</span>
+            content += `</div>
 
-<span class="eink-muted">Use ◀/▶ to navigate | SELECT to enter</span>`;
+<span class="section-header">Available Modes:</span>
+<span class="eink-muted">BROWSE: Navigate collection</span>
+<span class="eink-muted">CATEGORIES: Filter by type</span>
+<span class="eink-muted">SEARCH: Quick filters</span>
+<span class="eink-muted">FAVORITES: Show loved tracks</span>
+<span class="eink-muted">STATISTICS: Collection data</span>
+<span class="eink-muted">RANDOM: Jump to random</span>
+<span class="eink-muted">SETTINGS: System config</span>
+
+<span class="eink-muted">◀/▶ Navigate | SELECT Enter</span>`;
             
             update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
             currentView = 'menu';
-            setScreenType('menu');
         }
 
         function showCategories() {
@@ -1094,24 +1035,26 @@ Available modes:
 <span class="eink-accent">CATEGORY BROWSER</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
-<span class="section-header">Current Category:</span>
-<span class="highlight-item">${category.name}</span>
+<span class="section-header">Current: ${category.name}</span>
 <span class="eink-info">${count} albums match this category</span>
 
 <span class="section-header">All Categories:</span>
-`;
+<div class="content-grid">`;
 
             categories.forEach((cat, i) => {
                 const catCount = albums.filter(cat.filter).length;
                 const marker = i === currentCategoryIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
                 const color = i === currentCategoryIndex ? 'eink-accent' : 'eink-secondary';
-                content += `${marker}<span class="${color}">${cat.name}</span> <span class="eink-muted">(${catCount})</span>\n`;
+                content += `<div class="content-row">${marker}<span class="${color}">${cat.name}</span><span class="eink-muted">(${catCount})</span></div>`;
             });
             
+            content += `</div>`;
+            
             if (activeFilters.category !== 'all') {
+                const activeCategory = categories.find(c => c.id === activeFilters.category);
                 content += `
-<span class="eink-muted">───────────────────────────────────────</span>
-<span class="filter-indicator">FILTER ACTIVE: ${categories.find(c => c.id === activeFilters.category)?.name}</span>`;
+
+<span class="filter-indicator">ACTIVE: ${activeCategory?.name}</span>`;
             }
             
             content += `
@@ -1120,7 +1063,6 @@ Available modes:
             
             update(content, `${currentCategoryIndex + 1}/${categories.length}`, 'CATEGORY');
             currentView = 'categories';
-            setScreenType('categories');
         }
 
         function showBrowse() {
@@ -1131,11 +1073,11 @@ Available modes:
 
 <span class="error">No albums match current filters</span>
 
-<span class="eink-muted">Change filters or reset to view albums</span>`;
+<span class="eink-muted">Change filters or reset to view albums</span>
+<span class="eink-muted">Press ESC to clear filters</span>`;
                 
                 update(content, '0/0', 'BROWSE');
                 currentView = 'browse';
-                setScreenType('browse');
                 return;
             }
             
@@ -1147,42 +1089,54 @@ Available modes:
 <span class="eink-muted">═══════════════════════════════════════</span>
 
 <span class="section-header">Album ${currentIndex + 1}/${filteredAlbums.length}</span>
-<span class="info-item">${a.artist}</span>
-<span class="eink-primary">${a.album}</span> <span class="eink-muted">(${a.year})</span>
+<span class="info-item">${truncateText(a.artist, 35)}</span>
+<span class="eink-primary">${truncateText(a.album, 35)}</span> <span class="eink-muted">(${a.year})</span>
 
 <span class="section-header">Details:</span>
-★ Rating: <span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
-♪ Tracks: <span class="eink-info">${a.songs.length}</span>
-♥ Favorites: <span class="eink-highlight">${a.songs.filter(s => s.favorite).length}</span>`;
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">★ Rating:</span>
+<span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">♪ Tracks:</span>
+<span class="eink-info">${a.songs.length}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">♥ Favorites:</span>
+<span class="eink-highlight">${a.songs.filter(s => s.favorite).length}</span>
+</div>
+</div>`;
 
             if (a.comment) {
                 content += `
 
 <span class="section-header">Comment:</span>
-<span class="eink-secondary">${a.comment}</span>`;
+<span class="eink-secondary">${truncateText(a.comment, 120)}</span>`;
             }
 
-            // Show navigation context
+            // Navigation context
             const prevAlbum = filteredAlbums[currentIndex - 1] || filteredAlbums[filteredAlbums.length - 1];
             const nextAlbum = filteredAlbums[currentIndex + 1] || filteredAlbums[0];
             
             content += `
 
 <span class="eink-muted">───────────────────────────────────────</span>
-<span class="navigation-tree">◀ ${prevAlbum.artist.substring(0, 20)}${prevAlbum.artist.length > 20 ? '...' : ''}</span>
-<span class="navigation-tree">▶ ${nextAlbum.artist.substring(0, 20)}${nextAlbum.artist.length > 20 ? '...' : ''}</span>
-
-<span class="eink-muted">◀/▶ Browse | SELECT Open | ESC Back</span>`;
+<span class="navigation-tree">◀ ${truncateText(prevAlbum.artist, 25)}</span>
+<span class="navigation-tree">▶ ${truncateText(nextAlbum.artist, 25)}</span>`;
             
-            if (activeFilters.category !== 'all' || Object.values(activeFilters).some(f => f !== 'all')) {
+            if (Object.values(activeFilters).some(f => f !== 'all')) {
                 content += `
 
 <span class="filter-indicator">FILTERS ACTIVE</span>`;
             }
             
+            content += `
+
+<span class="eink-muted">◀/▶ Browse | SELECT Open | ESC Back</span>`;
+            
             update(content, `${currentIndex + 1}/${filteredAlbums.length}`, 'BROWSE');
             currentView = 'browse';
-            setScreenType('browse');
         }
 
         function showAlbum() {
@@ -1195,14 +1149,14 @@ Available modes:
 <span class="eink-accent">ALBUM DETAILS</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
-<span class="info-item">${a.artist}</span>
-<span class="eink-primary">${a.album}</span> <span class="eink-muted">(${a.year})</span>
+<span class="info-item">${truncateText(a.artist, 35)}</span>
+<span class="eink-primary">${truncateText(a.album, 35)}</span> <span class="eink-muted">(${a.year})</span>
 Album rating: <span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
 
 <span class="eink-muted">───────────────────────────────────────</span>
 <span class="section-header">TRACK ${currentSongIndex + 1}/${a.songs.length}</span>
 
-<span class="eink-primary">${s.name}</span>
+<span class="eink-primary">${truncateText(s.name, 40)}</span>
 Rating: <span class="${getRatingColor(s.rating)}">${s.rating}/10</span>`;
 
             if (s.favorite) content += ' <span class="eink-highlight">♥ FAVORITE</span>';
@@ -1210,27 +1164,42 @@ Rating: <span class="${getRatingColor(s.rating)}">${s.rating}/10</span>`;
             
             content += `
 
-<span class="eink-muted">───────────────────────────────────────</span>
-<span class="section-header">ALL TRACKS:</span>
+<span class="section-header">Track List (${Math.min(a.songs.length, 8)} shown):</span>
+<div class="content-grid">`;
 
-`;
+            // Show max 8 tracks, centered around current
+            const maxTracks = 8;
+            let startIndex = Math.max(0, currentSongIndex - Math.floor(maxTracks / 2));
+            let endIndex = Math.min(a.songs.length, startIndex + maxTracks);
+            
+            if (endIndex - startIndex < maxTracks) {
+                startIndex = Math.max(0, endIndex - maxTracks);
+            }
 
-            a.songs.forEach((track, i) => {
+            for (let i = startIndex; i < endIndex; i++) {
+                const track = a.songs[i];
                 const marker = i === currentSongIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
                 const nameColor = i === currentSongIndex ? 'tree-selected' : 'eink-secondary';
                 const ratingColor = getRatingColor(track.rating);
                 const fav = track.favorite ? ' <span class="eink-highlight">♥</span>' : '';
                 const inter = track.interlude ? ' <span class="eink-muted">[i]</span>' : '';
-                content += `${marker}<span class="${nameColor}">${i + 1}. ${track.name}</span> <span class="${ratingColor}">(${track.rating})</span>${fav}${inter}\n`;
-            });
+                const trackName = truncateText(track.name, 25);
+                content += `<div>${marker}<span class="${nameColor}">${i + 1}. ${trackName}</span> <span class="${ratingColor}">(${track.rating})</span>${fav}${inter}</div>`;
+            }
+            
+            content += `</div>`;
+            
+            if (a.songs.length > maxTracks) {
+                content += `
+<span class="eink-muted">... ${a.songs.length - maxTracks} more tracks</span>`;
+            }
             
             content += `
-<span class="eink-muted">◀/▶ Change tracks | SELECT twice for scroll
-SELECT Back | ESC Menu</span>`;
+
+<span class="eink-muted">◀/▶ Change tracks | SELECT Back | ESC Menu</span>`;
             
             update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
             currentView = 'album';
-            setScreenType('album');
         }
 
         function showFavorites() {
@@ -1263,7 +1232,6 @@ SELECT Back | ESC Menu</span>`;
                 
                 update(content, '0', 'FAVS');
                 currentView = 'favs';
-                setScreenType('favs');
                 return;
             }
             
@@ -1275,37 +1243,42 @@ SELECT Back | ESC Menu</span>`;
 <span class="eink-muted">═══════════════════════════════════════</span>
 
 <span class="section-header">Current Favorite:</span>
-<span class="eink-primary">${f.name}</span>
-<span class="eink-secondary">by ${f.artist}</span>
+<span class="eink-primary">${truncateText(f.name, 40)}</span>
+<span class="eink-secondary">by ${truncateText(f.artist, 35)}</span>
 
 Rating: <span class="${getRatingColor(f.rating)}">${f.rating}/10</span> <span class="eink-highlight">♥</span>
-From album: <span class="eink-info">${f.album}</span>
+From: <span class="eink-info">${truncateText(f.album, 35)}</span>
 
-<span class="eink-muted">───────────────────────────────────────</span>
-<span class="section-header">ALL FAVORITES (by rating):</span>
+<span class="section-header">Top Favorites (by rating):</span>
+<div class="content-grid">`;
 
-`;
-
-            const showCount = Math.min(favs.length, 12);
+            const showCount = Math.min(favs.length, 10);
             for (let i = 0; i < showCount; i++) {
                 const fav = favs[i];
                 const marker = i === currentIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
                 const nameColor = i === currentIndex ? 'tree-selected' : 'eink-secondary';
                 const ratingColor = getRatingColor(fav.rating);
-                content += `${marker}<span class="${ratingColor}">${fav.rating}</span> - <span class="${nameColor}">${fav.name}</span>\n<span class="eink-dim">     by ${fav.artist}</span>\n`;
+                const favName = truncateText(fav.name, 25);
+                const favArtist = truncateText(fav.artist, 20);
+                content += `<div>${marker}<span class="${ratingColor}">${fav.rating}</span> - <span class="${nameColor}">${favName}</span></div>`;
+                if (i === currentIndex) {
+                    content += `<div class="eink-dim">     by ${favArtist}</div>`;
+                }
             }
             
+            content += `</div>`;
+            
             if (favs.length > showCount) {
-                content += `<span class="eink-muted">... and ${favs.length - showCount} more</span>\n`;
+                content += `
+<span class="eink-muted">... and ${favs.length - showCount} more favorites</span>`;
             }
             
             content += `
-<span class="eink-muted">◀/▶ Navigate | SELECT twice for scroll
-SELECT Back</span>`;
+
+<span class="eink-muted">◀/▶ Navigate | SELECT Back</span>`;
             
             update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS');
             currentView = 'favs';
-            setScreenType('favs');
         }
 
         function showStatistics() {
@@ -1313,18 +1286,32 @@ SELECT Back</span>`;
 <span class="eink-accent">COLLECTION STATISTICS</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
-<span class="section-header">COLLECTION OVERVIEW:</span>
-- Total albums: <span class="eink-info">${stats.albums}</span>
-- Total tracks: <span class="eink-info">${stats.tracks}</span>
-- Favorite tracks: <span class="eink-highlight">${stats.favs}</span>
-- Average rating: <span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+<span class="section-header">Collection Overview:</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Total albums:</span>
+<span class="eink-info">${stats.albums}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Total tracks:</span>
+<span class="eink-info">${stats.tracks}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Favorite tracks:</span>
+<span class="eink-highlight">${stats.favs}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Average rating:</span>
+<span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+</div>
+</div>
 
-<span class="section-header">TOP RATED ALBUM:</span>
-<span class="info-item">${stats.top.artist}</span>
-<span class="eink-primary">${stats.top.album}</span>
+<span class="section-header">Top Rated Album:</span>
+<span class="info-item">${truncateText(stats.top.artist, 35)}</span>
+<span class="eink-primary">${truncateText(stats.top.album, 35)}</span>
 Rating: <span class="rating-excellent">${stats.top.avg}/10</span>
 
-<span class="section-header">RATING DISTRIBUTION:</span>`;
+<span class="section-header">Rating Distribution:</span>`;
 
             // Calculate rating distribution
             const distribution = {};
@@ -1341,16 +1328,18 @@ Rating: <span class="rating-excellent">${stats.top.avg}/10</span>
                 });
             });
             
-            for (let i = 10; i >= 1; i--) {
+            content += `<div class="content-grid">`;
+            for (let i = 10; i >= 7; i--) {
                 if (distribution[i] > 0) {
                     const color = getRatingColor(i);
-                    content += `\n<span class="${color}">${i}/10: ${distribution[i]} tracks</span>`;
+                    content += `<div class="content-row"><span class="eink-secondary">${i}/10:</span><span class="${color}">${distribution[i]} tracks</span></div>`;
                 }
             }
+            content += `</div>`;
             
             content += `
 
-<span class="section-header">ARTIST OVERVIEW:</span>`;
+<span class="section-header">Top Artists:</span>`;
 
             // Top artists by number of albums
             const artistCounts = {};
@@ -1360,24 +1349,20 @@ Rating: <span class="rating-excellent">${stats.top.avg}/10</span>
             
             const topArtists = Object.entries(artistCounts)
                 .sort((a, b) => b[1] - a[1])
-                .slice(0, 8);
+                .slice(0, 6);
                 
+            content += `<div class="content-grid">`;
             topArtists.forEach(([artist, count]) => {
-                content += `\n<span class="eink-info">${count}</span> album${count > 1 ? 's' : ''}: <span class="eink-secondary">${artist}</span>`;
+                content += `<div class="content-row"><span class="eink-info">${count}</span><span class="eink-secondary">${truncateText(artist, 30)}</span></div>`;
             });
+            content += `</div>`;
             
             content += `
 
-<span class="section-header">SYSTEM INFO:</span>
-Memory usage: <span class="eink-info">${stats.mem}MB</span>
-Data integrity: <span class="eink-accent">Verified</span>
-Last updated: <span class="eink-secondary">${new Date().toLocaleDateString()}</span>
-
-<span class="eink-muted">SELECT twice for scroll | SELECT Back</span>`;
+<span class="eink-muted">SELECT Back to menu</span>`;
             
             update(content, stats.albums, 'STATS');
             currentView = 'stats';
-            setScreenType('stats');
         }
 
         function showRandom() {
@@ -1389,112 +1374,71 @@ Last updated: <span class="eink-secondary">${new Date().toLocaleDateString()}</s
             showAlbum();
         }
 
-        function showSettings() {
-            let content = `<span class="breadcrumb">MAIN MENU > SETTINGS</span>
-<span class="eink-accent">SYSTEM SETTINGS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">DEVICE SPECIFICATIONS:</span>
-Model: <span class="eink-info">YAMAHA DX-7000 PRO</span>
-Firmware: <span class="eink-secondary">v2.1.0</span>
-Architecture: <span class="eink-secondary">Retro Digital Audio</span>
-Display: <span class="eink-secondary">4-Color E-Ink Matrix</span>
-Memory: <span class="eink-info">${stats.mem}MB</span> allocated
-
-<span class="section-header">ARCHIVE DETAILS:</span>
-Owner: <span class="eink-accent">DOME</span>
-Collection name: <span class="eink-secondary">Personal Music Archive</span>
-Established: <span class="eink-secondary">2024</span>
-Total entries: <span class="eink-info">${stats.albums}</span> albums
-Quality: <span class="eink-accent">High-fidelity ratings</span>
-
-<span class="section-header">SYSTEM STATUS:</span>
-Power: <span class="eink-accent">88%</span> battery
-Temperature: <span class="eink-accent">Normal</span>
-Data integrity: <span class="eink-accent">100%</span>
-Network: <span class="eink-secondary">Offline mode</span>
-Status: <span class="eink-accent">Fully operational</span>
-
-<span class="section-header">NAVIGATION MODES:</span>
-- Navigation screens: <span class="eink-secondary">Direct button control</span>
-- Content screens: <span class="eink-secondary">Scroll mode available</span>
-- Smart filtering: <span class="eink-info">Category-based organization</span>
-- Hierarchical browse: <span class="eink-info">Drill-down navigation</span>
-
-<span class="section-header">DISPLAY TECHNOLOGY:</span>
-- 4-Color E-Ink display system
-- <span class="eink-primary">Primary:</span> Main content
-- <span class="eink-accent">Accent:</span> Headers & highlights  
-- <span class="eink-info">Info:</span> Data & numbers
-- <span class="eink-highlight">Alert:</span> Important items
-
-<span class="section-header">ACTIVE FILTERS:</span>
-Category: <span class="eink-info">${activeFilters.category}</span>
-Rating: <span class="eink-info">${activeFilters.rating}</span>
-Year: <span class="eink-info">${activeFilters.year}</span>
-Artist: <span class="eink-info">${activeFilters.artist}</span>
-
-<span class="eink-muted">SELECT twice for scroll | SELECT Back</span>`;
-            
-            update(content, 'SYS', 'SETTINGS');
-            currentView = 'settings';
-            setScreenType('settings');
-        }
-
         function showSearch() {
             let content = `<span class="breadcrumb">MAIN MENU > SEARCH</span>
 <span class="eink-accent">SMART SEARCH & FILTERS</span>
 <span class="eink-muted">═══════════════════════════════════════</span>
 
-<span class="section-header">QUICK FILTERS:</span>`;
+<span class="section-header">Quick Filters:</span>`;
 
             const quickFilters = [
-                { name: 'Top Rated (9+)', action: () => { activeFilters.rating = '9.0'; applyFilters(); showBrowse(); } },
-                { name: 'Recent (2020+)', action: () => { activeFilters.year = 'recent'; applyFilters(); showBrowse(); } },
-                { name: 'Has Favorites', action: () => { activeFilters.category = 'favorites'; applyFilters(); showBrowse(); } },
-                { name: 'Classic (< 2000)', action: () => { activeFilters.year = 'classic'; applyFilters(); showBrowse(); } }
+                { name: 'Top Rated (9+)', id: 'top' },
+                { name: 'Recent (2020+)', id: 'recent' },
+                { name: 'Has Favorites', id: 'favorites' },
+                { name: 'Classic (< 2000)', id: 'classic' }
             ];
 
+            content += `<div class="content-grid">`;
             quickFilters.forEach((filter, i) => {
                 const marker = i === currentFilterIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
                 const color = i === currentFilterIndex ? 'eink-accent' : 'eink-secondary';
-                content += `\n${marker}<span class="${color}">${filter.name}</span>`;
+                content += `<div>${marker}<span class="${color}">${filter.name}</span></div>`;
             });
+            content += `</div>`;
 
             content += `
 
-<span class="section-header">CURRENT FILTERS:</span>`;
+<span class="section-header">Current Filters:</span>`;
             
             if (Object.values(activeFilters).every(f => f === 'all')) {
-                content += `\n<span class="eink-muted">No filters active - showing all albums</span>`;
+                content += `
+<span class="eink-muted">No filters active - showing all albums</span>`;
             } else {
                 if (activeFilters.category !== 'all') {
                     const cat = categories.find(c => c.id === activeFilters.category);
-                    content += `\n<span class="filter-indicator">Category: ${cat?.name}</span>`;
+                    content += `
+<span class="filter-indicator">Category: ${cat?.name}</span>`;
                 }
                 if (activeFilters.rating !== 'all') {
-                    content += `\n<span class="filter-indicator">Rating: ${activeFilters.rating}+</span>`;
+                    content += `
+<span class="filter-indicator">Rating: ${activeFilters.rating}+</span>`;
                 }
                 if (activeFilters.year !== 'all') {
-                    content += `\n<span class="filter-indicator">Year: ${activeFilters.year}</span>`;
+                    content += `
+<span class="filter-indicator">Year: ${activeFilters.year}</span>`;
                 }
             }
 
             content += `
 
-<span class="section-header">SEARCH RESULTS:</span>
+<span class="section-header">Search Results:</span>
 <span class="eink-info">${filteredAlbums.length}</span> albums match current filters
 
-<span class="section-header">TOP MATCHES:</span>`;
+<span class="section-header">Top Matches:</span>`;
 
-            const topMatches = filteredAlbums.slice(0, 6);
+            const topMatches = filteredAlbums.slice(0, 5);
+            content += `<div class="content-grid">`;
             topMatches.forEach((album, i) => {
-                content += `\n<span class="eink-secondary">${album.artist}</span> - <span class="eink-primary">${album.album}</span>
-<span class="eink-muted">  Rating: <span class="${getRatingColor(album.avg)}">${album.avg}/10</span> | Year: ${album.year}</span>`;
+                const artistName = truncateText(album.artist, 20);
+                const albumName = truncateText(album.album, 25);
+                content += `<div><span class="eink-secondary">${artistName}</span> - <span class="eink-primary">${albumName}</span></div>`;
+                content += `<div class="eink-muted">  Rating: <span class="${getRatingColor(album.avg)}">${album.avg}/10</span> | Year: ${album.year}</div>`;
             });
+            content += `</div>`;
 
-            if (filteredAlbums.length > 6) {
-                content += `\n<span class="eink-muted">... and ${filteredAlbums.length - 6} more</span>`;
+            if (filteredAlbums.length > 5) {
+                content += `
+<span class="eink-muted">... and ${filteredAlbums.length - 5} more albums</span>`;
             }
 
             content += `
@@ -1504,7 +1448,93 @@ ESC Clear filters | BACK Menu</span>`;
             
             update(content, filteredAlbums.length, 'SEARCH');
             currentView = 'search';
-            setScreenType('search');
+        }
+
+        function showSettings() {
+            let content = `<span class="breadcrumb">MAIN MENU > SETTINGS</span>
+<span class="eink-accent">SYSTEM SETTINGS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">Device Specifications:</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Model:</span>
+<span class="eink-info">YAMAHA DX-7000 PRO</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Firmware:</span>
+<span class="eink-secondary">v2.1.0</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Display:</span>
+<span class="eink-secondary">4-Color E-Ink Matrix</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Memory:</span>
+<span class="eink-info">${stats.mem}MB</span>
+</div>
+</div>
+
+<span class="section-header">Archive Details:</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Owner:</span>
+<span class="eink-accent">DOME</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Collection:</span>
+<span class="eink-secondary">Personal Archive</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Established:</span>
+<span class="eink-secondary">2024</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Total entries:</span>
+<span class="eink-info">${stats.albums} albums</span>
+</div>
+</div>
+
+<span class="section-header">System Status:</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Power:</span>
+<span class="eink-accent">88% battery</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Temperature:</span>
+<span class="eink-accent">Normal</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Data integrity:</span>
+<span class="eink-accent">100%</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Status:</span>
+<span class="eink-accent">Operational</span>
+</div>
+</div>
+
+<span class="section-header">Active Filters:</span>
+<div class="content-grid">
+<div class="content-row">
+<span class="eink-secondary">Category:</span>
+<span class="eink-info">${activeFilters.category}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Rating:</span>
+<span class="eink-info">${activeFilters.rating}</span>
+</div>
+<div class="content-row">
+<span class="eink-secondary">Year:</span>
+<span class="eink-info">${activeFilters.year}</span>
+</div>
+</div>
+
+<span class="eink-muted">SELECT Back to menu</span>`;
+            
+            update(content, 'SYS', 'SETTINGS');
+            currentView = 'settings';
         }
 
         function showError(msg) {
@@ -1515,7 +1545,6 @@ ${msg}
 
 <span class="eink-muted">Press SELECT to retry loading</span></div>`, 'ERR', 'ERROR');
             currentView = 'error';
-            setScreenType('error');
         }
 
         function update(content, counter, label) {
@@ -1527,49 +1556,8 @@ ${msg}
             document.getElementById('memInfo').textContent = `MEM: ${stats.mem || '0.0'}MB`;
             document.getElementById('statInfo').textContent = `STATUS: ${label}`;
             
-            // Reset scroll
-            scrollPosition = 0;
-            scrollMode = false;
-            updateScroll();
             updateButtons();
-            checkScrollable();
-        }
-
-        function updateScroll() {
-            const displayElement = document.getElementById('display');
-            const viewport = displayElement.parentElement;
-            
-            // Calculate max scroll
-            const contentHeight = displayElement.scrollHeight;
-            const viewportHeight = viewport.clientHeight;
-            maxScroll = Math.max(0, contentHeight - viewportHeight);
-            
-            // Apply scroll transform
-            const scrollPercent = maxScroll > 0 ? scrollPosition / maxScroll : 0;
-            const translateY = -scrollPosition;
-            displayElement.style.transform = `translateY(${translateY}px)`;
-            
-            updateScrollUI();
-        }
-
-        function checkScrollable() {
-            setTimeout(() => {
-                updateScroll();
-            }, 100);
-        }
-
-        function scroll(direction) {
-            if (screenType !== 'content' || !scrollMode) return;
-            
-            const scrollStep = 20;
-            
-            if (direction === 'up') {
-                scrollPosition = Math.max(0, scrollPosition - scrollStep);
-            } else if (direction === 'down') {
-                scrollPosition = Math.min(maxScroll, scrollPosition + scrollStep);
-            }
-            
-            updateScroll();
+            updateFilterUI();
         }
 
         function updateButtons() {
@@ -1578,19 +1566,9 @@ ${msg}
             const right = document.getElementById('btnRight');
             
             // Reset classes
-            left.classList.remove('primary', 'secondary', 'danger');
-            center.classList.remove('primary', 'secondary', 'danger');
-            right.classList.remove('primary', 'secondary', 'danger');
-            
-            if (screenType === 'content' && scrollMode) {
-                left.textContent = '◀ UP';
-                left.classList.add('secondary');
-                center.textContent = 'EXIT SCROLL';
-                center.classList.add('primary');
-                right.textContent = 'DOWN ▶';
-                right.classList.add('secondary');
-                return;
-            }
+            left.classList.remove('primary', 'secondary');
+            center.classList.remove('primary', 'secondary');
+            right.classList.remove('primary', 'secondary');
             
             switch(currentView) {
                 case 'welcome':
@@ -1613,58 +1591,33 @@ ${msg}
                     break;
                 case 'search':
                     left.textContent = '◀ FILTER';
-                    if (screenType === 'content' && maxScroll > 0) {
-                        center.textContent = 'SCROLL';
-                        center.classList.add('secondary');
-                    } else {
-                        center.textContent = 'APPLY';
-                        center.classList.add('primary');
-                    }
+                    center.textContent = 'APPLY';
+                    center.classList.add('primary');
                     right.textContent = 'FILTER ▶';
                     break;
                 case 'browse':
                     left.textContent = '◀ ALBUM';
-                    if (screenType === 'content' && maxScroll > 0) {
-                        center.textContent = 'SCROLL';
-                        center.classList.add('secondary');
-                    } else {
-                        center.textContent = 'OPEN';
-                        center.classList.add('primary');
-                    }
+                    center.textContent = 'OPEN';
+                    center.classList.add('primary');
                     right.textContent = 'ALBUM ▶';
                     break;
                 case 'album':
                     left.textContent = '◀ TRACK';
-                    if (screenType === 'content' && maxScroll > 0) {
-                        center.textContent = 'SCROLL';
-                        center.classList.add('secondary');
-                    } else {
-                        center.textContent = 'BACK';
-                        center.classList.add('primary');
-                    }
+                    center.textContent = 'BACK';
+                    center.classList.add('primary');
                     right.textContent = 'TRACK ▶';
                     break;
                 case 'favs':
                     left.textContent = '◀ FAV';
-                    if (screenType === 'content' && maxScroll > 0) {
-                        center.textContent = 'SCROLL';
-                        center.classList.add('secondary');
-                    } else {
-                        center.textContent = 'MENU';
-                        center.classList.add('primary');
-                    }
+                    center.textContent = 'MENU';
+                    center.classList.add('primary');
                     right.textContent = 'FAV ▶';
                     break;
                 case 'stats':
                 case 'settings':
                     left.textContent = '◀ --';
-                    if (screenType === 'content' && maxScroll > 0) {
-                        center.textContent = 'SCROLL';
-                        center.classList.add('secondary');
-                    } else {
-                        center.textContent = 'MENU';
-                        center.classList.add('primary');
-                    }
+                    center.textContent = 'MENU';
+                    center.classList.add('primary');
                     right.textContent = '-- ▶';
                     break;
                 default:
@@ -1690,11 +1643,6 @@ ${msg}
         }
 
         function handlePrev() {
-            if (screenType === 'content' && scrollMode) {
-                scroll('up');
-                return;
-            }
-            
             switch(currentView) {
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
@@ -1705,8 +1653,7 @@ ${msg}
                     showCategories();
                     break;
                 case 'search':
-                    const filters = ['9.0', 'recent', 'favorites', 'classic'];
-                    currentFilterIndex = (currentFilterIndex - 1 + filters.length) % filters.length;
+                    currentFilterIndex = (currentFilterIndex - 1 + 4) % 4;
                     showSearch();
                     break;
                 case 'browse':
@@ -1729,11 +1676,6 @@ ${msg}
         }
 
         function handleNext() {
-            if (screenType === 'content' && scrollMode) {
-                scroll('down');
-                return;
-            }
-            
             switch(currentView) {
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex + 1) % menu.length;
@@ -1744,8 +1686,7 @@ ${msg}
                     showCategories();
                     break;
                 case 'search':
-                    const filters = ['9.0', 'recent', 'favorites', 'classic'];
-                    currentFilterIndex = (currentFilterIndex + 1) % filters.length;
+                    currentFilterIndex = (currentFilterIndex + 1) % 4;
                     showSearch();
                     break;
                 case 'browse':
@@ -1768,20 +1709,6 @@ ${msg}
         }
 
         function handleSelect() {
-            if (screenType === 'content' && scrollMode) {
-                scrollMode = false;
-                updateButtons();
-                updateScrollUI();
-                return;
-            }
-            
-            if (screenType === 'content' && maxScroll > 0 && !scrollMode) {
-                scrollMode = true;
-                updateButtons();
-                updateScrollUI();
-                return;
-            }
-            
             switch(currentView) {
                 case 'welcome':
                     currentMenuIndex = 0;
@@ -1828,7 +1755,7 @@ ${msg}
                     break;
                 case 'search':
                     const filterActions = [
-                        () => { activeFilters.rating = '9.0'; },
+                        () => { activeFilters.category = 'top'; },
                         () => { activeFilters.year = 'recent'; },
                         () => { activeFilters.category = 'favorites'; },
                         () => { activeFilters.year = 'classic'; }
@@ -1888,26 +1815,12 @@ ${msg}
                 case 'ArrowRight':
                     navigate('next');
                     break;
-                case 'ArrowUp':
-                    if (screenType === 'content' && scrollMode) {
-                        scroll('up');
-                    }
-                    break;
-                case 'ArrowDown':
-                    if (screenType === 'content' && scrollMode) {
-                        scroll('down');
-                    }
-                    break;
                 case 'Enter':
                 case ' ':
                     navigate('select');
                     break;
                 case 'Escape':
-                    if (scrollMode) {
-                        scrollMode = false;
-                        updateButtons();
-                        updateScrollUI();
-                    } else if (Object.values(activeFilters).some(f => f !== 'all')) {
+                    if (Object.values(activeFilters).some(f => f !== 'all')) {
                         // Clear filters
                         activeFilters = { category: 'all', rating: 'all', year: 'all', artist: 'all' };
                         applyFilters();
@@ -1929,70 +1842,49 @@ ${msg}
                     pushNavigation(currentView);
                     showFavorites();
                     break;
+                case 'm':
+                case 'M':
+                    // Quick menu
+                    showMenu();
+                    break;
             }
         });
 
-        // Touch/wheel scrolling for content screens only
-        let startY = 0;
+        // Touch controls
+        let startX = 0;
         const viewport = document.querySelector('.display-viewport');
 
         viewport.addEventListener('touchstart', (e) => {
-            if (screenType === 'content') {
-                startY = e.touches[0].clientY;
-            }
+            startX = e.touches[0].clientX;
         });
 
         viewport.addEventListener('touchmove', (e) => {
-            if (screenType !== 'content') return;
-            
             e.preventDefault();
-            const currentY = e.touches[0].clientY;
-            const diff = startY - currentY;
-            
-            if (Math.abs(diff) > 5) {
-                if (!scrollMode && maxScroll > 0) {
-                    scrollMode = true;
-                    updateButtons();
-                    updateScrollUI();
-                }
-                
-                if (scrollMode) {
-                    if (diff > 0) {
-                        scroll('down');
-                    } else {
-                        scroll('up');
-                    }
-                }
-                startY = currentY;
-            }
         });
 
-        viewport.addEventListener('wheel', (e) => {
-            if (screenType !== 'content') return;
+        viewport.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
             
-            e.preventDefault();
-            
-            if (!scrollMode && maxScroll > 0) {
-                scrollMode = true;
-                updateButtons();
-                updateScrollUI();
-            }
-            
-            if (scrollMode) {
-                if (e.deltaY > 0) {
-                    scroll('down');
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    navigate('next');
                 } else {
-                    scroll('up');
+                    navigate('prev');
                 }
             }
         });
 
-        // Resize handler
-        window.addEventListener('resize', () => {
-            setTimeout(() => {
-                updateScroll();
-                checkScrollable();
-            }, 100);
+        // Double tap for select
+        let lastTap = 0;
+        viewport.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTap;
+            if (tapLength < 500 && tapLength > 0) {
+                navigate('select');
+                e.preventDefault();
+            }
+            lastTap = currentTime;
         });
 
         // Start the machine
