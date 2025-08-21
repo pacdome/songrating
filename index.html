@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YAMAHA DX-700 MUSIC ARCHIVE</title>
+    <title>YAMAHA DX-7000 MUSIC ARCHIVE</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
         
@@ -14,6 +15,16 @@
             --button-height: min(80px, 8vh);
             --font-size: clamp(11px, 1.2vw, 14px);
             --padding: clamp(20px, 3vw, 40px);
+            
+            /* E-Ink Color Palette */
+            --eink-black: #000000;
+            --eink-dark: #333333;
+            --eink-medium: #666666;
+            --eink-light: #999999;
+            --eink-white: #cccccc;
+            --eink-red: #cc4444;
+            --eink-yellow: #ccaa44;
+            --eink-blue: #4488cc;
         }
         
         * { 
@@ -166,12 +177,19 @@
                 inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
         
-        .led.yellow {
-            background: radial-gradient(circle at 30% 30%, #ffff66, #cccc00);
+        .led.orange {
+            background: radial-gradient(circle at 30% 30%, #ffaa44, #cc6600);
             box-shadow: 
-                0 0 15px rgba(255, 255, 0, 0.6),
+                0 0 15px rgba(255, 150, 0, 0.7),
                 inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            animation: pulse-yellow 1s infinite;
+            animation: pulse-orange 1.5s infinite;
+        }
+        
+        .led.blue {
+            background: radial-gradient(circle at 30% 30%, #4488cc, #2266aa);
+            box-shadow: 
+                0 0 15px rgba(68, 136, 204, 0.7),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
         
         @keyframes pulse-red {
@@ -179,7 +197,7 @@
             50% { opacity: 0.3; }
         }
         
-        @keyframes pulse-yellow {
+        @keyframes pulse-orange {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.4; }
         }
@@ -193,7 +211,7 @@
             margin-bottom: clamp(20px, 3vw, 40px);
             box-shadow: 
                 inset 0 6px 25px rgba(0, 0, 0, 0.9),
-                inset 0 0 0 3px rgba(0, 150, 0, 0.1),
+                inset 0 0 0 3px rgba(100, 100, 100, 0.1),
                 0 4px 0 rgba(255, 255, 255, 0.05);
             position: relative;
             height: var(--display-height);
@@ -214,8 +232,8 @@
                     0deg,
                     transparent 0px,
                     transparent 1px,
-                    rgba(0, 200, 0, 0.04) 1px,
-                    rgba(0, 200, 0, 0.04) 2px
+                    rgba(150, 150, 150, 0.04) 1px,
+                    rgba(150, 150, 150, 0.04) 2px
                 );
             pointer-events: none;
         }
@@ -242,12 +260,12 @@
         
         .screen {
             background: 
-                radial-gradient(ellipse at center, #001a00 0%, #000a00 60%, #000000 100%);
+                radial-gradient(ellipse at center, #1a1a1a 0%, #0f0f0f 60%, #050505 100%);
             border-radius: clamp(3px, 0.5vw, 6px);
             height: 100%;
             position: relative;
             overflow: hidden;
-            border: 2px solid #0a2a0a;
+            border: 2px solid #2a2a2a;
         }
         
         .screen::after {
@@ -275,14 +293,13 @@
         }
         
         .display-content {
-            color: #00ff00;
+            color: var(--eink-white);
             font-size: var(--font-size);
             font-weight: 400;
             letter-spacing: 0.5px;
             text-shadow: 
-                0 0 8px rgba(0, 255, 0, 0.9),
-                0 0 16px rgba(0, 255, 0, 0.5),
-                0 0 24px rgba(0, 255, 0, 0.3);
+                0 0 4px rgba(204, 204, 204, 0.3),
+                0 0 8px rgba(204, 204, 204, 0.2);
             font-family: 'JetBrains Mono', monospace;
             white-space: pre-line;
             padding: clamp(15px, 2.5vw, 25px);
@@ -295,62 +312,107 @@
             min-height: 100%;
         }
         
-        .scroll-indicators {
+        /* E-Ink Display Colors */
+        .eink-primary { color: var(--eink-white); }
+        .eink-secondary { color: var(--eink-light); }
+        .eink-muted { color: var(--eink-medium); }
+        .eink-dim { color: var(--eink-dark); }
+        .eink-accent { color: var(--eink-yellow); }
+        .eink-highlight { color: var(--eink-red); }
+        .eink-info { color: var(--eink-blue); }
+        
+        .breadcrumb {
+            color: var(--eink-medium);
+            font-size: clamp(9px, 1vw, 11px);
+            margin-bottom: 8px;
+        }
+        
+        .section-header {
+            color: var(--eink-yellow);
+            font-weight: 700;
+            margin: 8px 0 4px 0;
+            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
+        }
+        
+        .highlight-item {
+            color: var(--eink-red);
+            text-shadow: 0 0 4px rgba(204, 68, 68, 0.3);
+        }
+        
+        .info-item {
+            color: var(--eink-blue);
+            text-shadow: 0 0 4px rgba(68, 136, 204, 0.3);
+        }
+        
+        .rating-excellent { color: var(--eink-red); }
+        .rating-good { color: var(--eink-yellow); }
+        .rating-average { color: var(--eink-white); }
+        .rating-poor { color: var(--eink-medium); }
+        
+        .filter-indicator {
+            color: var(--eink-blue);
+            background: rgba(68, 136, 204, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: clamp(8px, 0.9vw, 10px);
+            border: 1px solid var(--eink-blue);
+        }
+        
+        .navigation-tree {
+            color: var(--eink-medium);
+            font-size: clamp(10px, 1.1vw, 12px);
+        }
+        
+        .tree-selected {
+            color: var(--eink-yellow);
+            font-weight: 700;
+        }
+        
+        .scroll-indicator {
             position: absolute;
             right: 8px;
             top: 50%;
             transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            z-index: 3;
-        }
-        
-        .scroll-indicator {
-            color: #004400;
+            color: var(--eink-medium);
             font-size: clamp(8px, 1vw, 10px);
-            opacity: 0.3;
-            transition: opacity 0.3s;
+            z-index: 3;
+            display: none;
         }
         
-        .scroll-indicator.active {
-            color: #008800;
-            opacity: 1;
-            animation: scroll-pulse 1s infinite;
+        .scroll-indicator.show {
+            display: block;
+            animation: scroll-hint 2s infinite;
         }
         
-        .scroll-lock-indicator {
-            color: #cccc00;
-            font-size: clamp(6px, 0.8vw, 8px);
-            margin-top: 5px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        .scroll-mode-indicator {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            color: var(--eink-yellow);
+            font-size: clamp(8px, 1vw, 10px);
+            z-index: 3;
+            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
+            display: none;
         }
         
-        .scroll-lock-indicator.active {
-            opacity: 1;
-            animation: lock-pulse 2s infinite;
+        .scroll-mode-indicator.show {
+            display: block;
+            animation: pulse-orange 1.5s infinite;
         }
         
-        @keyframes scroll-pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes lock-pulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        @keyframes scroll-hint {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
         
         .cursor {
             display: inline-block;
             width: clamp(6px, 0.8vw, 8px);
             height: var(--font-size);
-            background: #00ff00;
+            background: var(--eink-white);
             margin-left: 2px;
             animation: blink 1s infinite;
-            box-shadow: 0 0 6px rgba(0, 255, 0, 0.7);
+            box-shadow: 0 0 4px rgba(204, 204, 204, 0.3);
         }
         
         @keyframes blink {
@@ -425,36 +487,65 @@
         
         .button.primary {
             background: 
-                linear-gradient(145deg, #004d00 0%, #003300 30%, #001a00 70%, #003300 100%);
-            color: #00ff00;
-            border-color: #006600;
+                linear-gradient(145deg, #4d4d00 0%, #333300 30%, #1a1a00 70%, #333300 100%);
+            color: var(--eink-yellow);
+            border-color: #666600;
         }
         
         .button.primary::before {
             background: 
-                linear-gradient(to bottom, rgba(0, 255, 0, 0.2), transparent);
+                linear-gradient(to bottom, rgba(204, 170, 68, 0.2), transparent);
         }
         
         .button.primary:hover {
             background: 
-                linear-gradient(145deg, #006600 0%, #004d00 30%, #003300 70%, #004d00 100%);
-            color: #44ff44;
+                linear-gradient(145deg, #666600 0%, #4d4d00 30%, #333300 70%, #4d4d00 100%);
+            color: #ffcc44;
             box-shadow: 
                 0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(0, 255, 0, 0.4);
+                0 0 25px rgba(204, 170, 68, 0.4);
         }
         
-        .button.scroll-mode {
+        .button.secondary {
             background: 
-                linear-gradient(145deg, #4d4d00 0%, #333300 30%, #1a1a00 70%, #333300 100%);
-            color: #ffff00;
-            border-color: #666600;
-            animation: scroll-button-pulse 2s infinite;
+                linear-gradient(145deg, #003d4d 0%, #002633 30%, #00131a 70%, #002633 100%);
+            color: var(--eink-blue);
+            border-color: #004466;
         }
         
-        @keyframes scroll-button-pulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(255, 255, 0, 0.3); }
-            50% { box-shadow: 0 0 20px rgba(255, 255, 0, 0.6); }
+        .button.secondary::before {
+            background: 
+                linear-gradient(to bottom, rgba(68, 136, 204, 0.2), transparent);
+        }
+        
+        .button.secondary:hover {
+            background: 
+                linear-gradient(145deg, #004466 0%, #003d4d 30%, #002633 70%, #003d4d 100%);
+            color: #44aacc;
+            box-shadow: 
+                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
+                0 0 25px rgba(68, 136, 204, 0.4);
+        }
+        
+        .button.danger {
+            background: 
+                linear-gradient(145deg, #4d0000 0%, #330000 30%, #1a0000 70%, #330000 100%);
+            color: var(--eink-red);
+            border-color: #660000;
+        }
+        
+        .button.danger::before {
+            background: 
+                linear-gradient(to bottom, rgba(204, 68, 68, 0.2), transparent);
+        }
+        
+        .button.danger:hover {
+            background: 
+                linear-gradient(145deg, #660000 0%, #4d0000 30%, #330000 70%, #4d0000 100%);
+            color: #ff4444;
+            box-shadow: 
+                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
+                0 0 25px rgba(204, 68, 68, 0.4);
         }
         
         .info-panel {
@@ -502,11 +593,11 @@
         .power-fill {
             height: 100%;
             background: 
-                linear-gradient(90deg, #00ff00, #44ff44);
+                linear-gradient(90deg, var(--eink-yellow), #ffcc44);
             border-radius: 1px;
             width: 88%;
             box-shadow: 
-                0 0 6px rgba(0, 255, 0, 0.6),
+                0 0 6px rgba(204, 170, 68, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
         }
         
@@ -522,10 +613,10 @@
         }
         
         .counter-display {
-            color: #00ff00;
+            color: var(--eink-white);
             font-size: clamp(16px, 2.5vw, 24px);
             font-weight: 700;
-            text-shadow: 0 0 12px rgba(0, 255, 0, 0.7);
+            text-shadow: 0 0 8px rgba(204, 204, 204, 0.3);
             margin-bottom: 3px;
         }
         
@@ -551,14 +642,14 @@
         @keyframes glow {
             from { 
                 text-shadow: 
-                    0 0 8px rgba(0, 255, 0, 0.9),
-                    0 0 16px rgba(0, 255, 0, 0.5);
+                    0 0 4px rgba(204, 204, 204, 0.6),
+                    0 0 8px rgba(204, 204, 204, 0.4);
             }
             to { 
                 text-shadow: 
-                    0 0 16px rgba(0, 255, 0, 1),
-                    0 0 24px rgba(0, 255, 0, 0.7),
-                    0 0 32px rgba(0, 255, 0, 0.5);
+                    0 0 8px rgba(204, 204, 204, 0.8),
+                    0 0 16px rgba(204, 204, 204, 0.6),
+                    0 0 24px rgba(204, 204, 204, 0.4);
             }
         }
         
@@ -575,10 +666,10 @@
         }
         
         .error {
-            color: #ff4444;
+            color: var(--eink-red);
             text-shadow: 
-                0 0 8px rgba(255, 68, 68, 0.9),
-                0 0 16px rgba(255, 68, 68, 0.5);
+                0 0 4px rgba(204, 68, 68, 0.6),
+                0 0 8px rgba(204, 68, 68, 0.4);
         }
         
         /* Mobile optimizations */
@@ -646,8 +737,12 @@
                     <span>DATA</span>
                 </div>
                 <div class="status-light">
-                    <div class="led yellow" id="scrollLed" style="display: none;"></div>
+                    <div class="led orange" id="scrollLed" style="display: none;"></div>
                     <span id="scrollLedLabel" style="display: none;">SCROLL</span>
+                </div>
+                <div class="status-light">
+                    <div class="led blue" id="filterLed" style="display: none;"></div>
+                    <span id="filterLedLabel" style="display: none;">FILTER</span>
                 </div>
             </div>
         </div>
@@ -661,11 +756,8 @@
                             <div class="loading">YAMAHA DX-7000 INIT</div>
                         </div>
                     </div>
-                    <div class="scroll-indicators" id="scrollIndicators">
-                        <div class="scroll-indicator" id="scrollUp">▲</div>
-                        <div class="scroll-indicator" id="scrollDown">▼</div>
-                        <div class="scroll-lock-indicator" id="scrollLock">🔒</div>
-                    </div>
+                    <div class="scroll-indicator" id="scrollIndicator">▲▼</div>
+                    <div class="scroll-mode-indicator" id="scrollModeIndicator">SCROLL</div>
                 </div>
             </div>
         </div>
@@ -696,27 +788,64 @@
 
     <script>
         let albums = [];
+        let filteredAlbums = [];
         let currentIndex = 0;
         let currentView = 'boot';
         let currentAlbumIndex = 0;
         let currentSongIndex = 0;
         let currentMenuIndex = 0;
+        let currentCategoryIndex = 0;
+        let currentFilterIndex = 0;
         let scrollPosition = 0;
         let maxScroll = 0;
-        let scrollLocked = false;
-        let isScrollableContent = false;
+        let scrollMode = false;
+        let screenType = 'nav';
         let stats = {};
+        let navigationStack = [];
+        let activeFilters = {
+            category: 'all',
+            rating: 'all',
+            year: 'all',
+            artist: 'all'
+        };
         
         const menu = [
             'BROWSE',
-            'STATS', 
-            'FAVS',
+            'CATEGORIES',
+            'SEARCH',
+            'FAVORITES',
+            'STATISTICS',
             'RANDOM',
-            'INFO'
+            'SETTINGS'
         ];
 
-        // Views that should be scrollable (long content)
-        const scrollableViews = ['album', 'stats', 'info', 'favs'];
+        const categories = [
+            { id: 'all', name: 'All Albums', filter: () => true },
+            { id: 'top', name: 'Top Rated (9+)', filter: a => parseFloat(a.avg) >= 9.0 },
+            { id: 'excellent', name: 'Excellent (8+)', filter: a => parseFloat(a.avg) >= 8.0 },
+            { id: 'good', name: 'Good (7+)', filter: a => parseFloat(a.avg) >= 7.0 },
+            { id: 'recent', name: 'Recent (2020+)', filter: a => a.year >= 2020 },
+            { id: 'classic', name: 'Classic (< 2000)', filter: a => a.year < 2000 },
+            { id: 'favorites', name: 'Has Favorites', filter: a => a.songs.some(s => s.favorite) },
+            { id: 'long', name: 'Long Albums (15+ tracks)', filter: a => a.songs.length >= 15 }
+        ];
+
+        // Screen type definitions
+        const screenTypes = {
+            'boot': 'nav',
+            'welcome': 'nav',
+            'menu': 'nav',
+            'categories': 'nav',
+            'search': 'content',
+            'browse': 'content',
+            'album': 'content',
+            'song': 'content',
+            'stats': 'content',
+            'favs': 'content',
+            'random': 'content',
+            'settings': 'content',
+            'error': 'nav'
+        };
 
         async function init() {
             try {
@@ -725,7 +854,7 @@
                 
                 const data = await response.json();
                 
-                // Clean duplicates
+                // Clean duplicates and calculate averages
                 const unique = [];
                 const seen = new Set();
                 
@@ -734,7 +863,6 @@
                     if (!seen.has(key)) {
                         seen.add(key);
                         
-                        // Calculate average
                         const tracks = album.songs.filter(s => !s.interlude);
                         if (tracks.length > 0) {
                             const sum = tracks.reduce((a, s) => a + s.rating, 0);
@@ -746,7 +874,8 @@
                     }
                 });
                 
-                albums = unique;
+                albums = unique.sort((a, b) => a.artist.localeCompare(b.artist));
+                filteredAlbums = [...albums];
                 calcStats();
                 showWelcome();
                 
@@ -755,8 +884,6 @@
             }
         }
 
-        function calcStats() {
-            const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
         function calcStats() {
             const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
             const totalReal = albums.reduce((s, a) => s + a.songs.filter(t => !t.interlude).length, 0);
@@ -786,122 +913,418 @@
             };
         }
 
-        function showWelcome() {
-            const content = `DOME'S MUSIC ARCHIVE
-═══════════════════════════════════════
+        function setScreenType(view) {
+            screenType = screenTypes[view] || 'nav';
+            scrollMode = false;
+            scrollPosition = 0;
+            updateScrollUI();
+        }
 
-SYSTEM READY
-
-${albums.length} albums loaded
-${stats.tracks} total tracks  
-${stats.favs} favorites found
-Average rating: ${stats.avg}/10
-
-Press SELECT to continue`;
+        function updateScrollUI() {
+            const scrollLed = document.getElementById('scrollLed');
+            const scrollLedLabel = document.getElementById('scrollLedLabel');
+            const filterLed = document.getElementById('filterLed');
+            const filterLedLabel = document.getElementById('filterLedLabel');
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollModeIndicator = document.getElementById('scrollModeIndicator');
             
-            update(content, 'OK', 'READY', false);
+            if (screenType === 'content') {
+                scrollLed.style.display = 'block';
+                scrollLedLabel.style.display = 'block';
+                
+                if (maxScroll > 0) {
+                    scrollIndicator.classList.add('show');
+                } else {
+                    scrollIndicator.classList.remove('show');
+                }
+                
+                if (scrollMode) {
+                    scrollModeIndicator.classList.add('show');
+                } else {
+                    scrollModeIndicator.classList.remove('show');
+                }
+            } else {
+                scrollLed.style.display = 'none';
+                scrollLedLabel.style.display = 'none';
+                scrollIndicator.classList.remove('show');
+                scrollModeIndicator.classList.remove('show');
+            }
+
+            // Filter LED
+            const hasActiveFilters = activeFilters.category !== 'all' || 
+                                  activeFilters.rating !== 'all' ||
+                                  activeFilters.year !== 'all' ||
+                                  activeFilters.artist !== 'all';
+            
+            if (hasActiveFilters) {
+                filterLed.style.display = 'block';
+                filterLedLabel.style.display = 'block';
+            } else {
+                filterLed.style.display = 'none';
+                filterLedLabel.style.display = 'none';
+            }
+        }
+
+        function pushNavigation(view, data = {}) {
+            navigationStack.push({ view: currentView, data: { currentIndex, currentAlbumIndex, currentSongIndex, currentMenuIndex, currentCategoryIndex, currentFilterIndex } });
+            if (navigationStack.length > 10) navigationStack.shift();
+        }
+
+        function popNavigation() {
+            if (navigationStack.length > 0) {
+                const prev = navigationStack.pop();
+                const { view, data } = prev;
+                currentIndex = data.currentIndex;
+                currentAlbumIndex = data.currentAlbumIndex;
+                currentSongIndex = data.currentSongIndex;
+                currentMenuIndex = data.currentMenuIndex;
+                currentCategoryIndex = data.currentCategoryIndex;
+                currentFilterIndex = data.currentFilterIndex;
+                
+                switch(view) {
+                    case 'menu': showMenu(); break;
+                    case 'categories': showCategories(); break;
+                    case 'browse': showBrowse(); break;
+                    case 'album': showAlbum(); break;
+                    default: showMenu(); break;
+                }
+                return true;
+            }
+            return false;
+        }
+
+        function applyFilters() {
+            filteredAlbums = albums.filter(album => {
+                if (activeFilters.category !== 'all') {
+                    const category = categories.find(c => c.id === activeFilters.category);
+                    if (category && !category.filter(album)) return false;
+                }
+                
+                if (activeFilters.rating !== 'all') {
+                    const minRating = parseFloat(activeFilters.rating);
+                    if (parseFloat(album.avg) < minRating) return false;
+                }
+                
+                if (activeFilters.year !== 'all') {
+                    const yearFilter = activeFilters.year;
+                    if (yearFilter === 'recent' && album.year < 2020) return false;
+                    if (yearFilter === 'classic' && album.year >= 2000) return false;
+                }
+                
+                if (activeFilters.artist !== 'all') {
+                    if (album.artist.toLowerCase().indexOf(activeFilters.artist.toLowerCase()) === -1) return false;
+                }
+                
+                return true;
+            });
+            
+            currentIndex = 0;
+            updateScrollUI();
+        }
+
+        function getRatingColor(rating) {
+            const r = parseFloat(rating);
+            if (r >= 9.0) return 'rating-excellent';
+            if (r >= 7.5) return 'rating-good';
+            if (r >= 6.0) return 'rating-average';
+            return 'rating-poor';
+        }
+
+        function showWelcome() {
+            const content = `<span class="eink-accent">DOME'S MUSIC ARCHIVE</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">SYSTEM READY</span>
+
+<span class="eink-info">${albums.length}</span> albums loaded
+<span class="eink-info">${stats.tracks}</span> total tracks  
+<span class="eink-highlight">${stats.favs}</span> favorites found
+Average rating: <span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+
+Memory usage: <span class="eink-secondary">${stats.mem}MB</span>
+Data integrity: <span class="eink-accent">OK</span>
+Archive status: <span class="eink-accent">ONLINE</span>
+
+<span class="eink-muted">Press SELECT to continue</span>`;
+            
+            update(content, 'OK', 'READY');
             currentView = 'welcome';
+            setScreenType('welcome');
         }
 
         function showMenu() {
             const item = menu[currentMenuIndex];
-            const content = `MAIN MENU
-═══════════════════════════════════════
-
-Select mode:
-
-> ${item}
-
-Use PREV/NEXT to navigate
-Press SELECT to enter mode`;
             
-            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU', false);
+            let content = `<span class="eink-accent">MAIN MENU</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">Select operating mode:</span>
+
+`;
+
+            menu.forEach((menuItem, i) => {
+                const marker = i === currentMenuIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
+                const color = i === currentMenuIndex ? 'eink-accent' : 'eink-secondary';
+                content += `${marker}<span class="${color}">${menuItem}</span>\n`;
+            });
+            
+            content += `
+<span class="eink-muted">───────────────────────────────────────</span>
+Available modes:
+<span class="eink-secondary">- BROWSE: Navigate album collection</span>
+<span class="eink-secondary">- CATEGORIES: Filter by categories</span>
+<span class="eink-secondary">- SEARCH: Find specific content</span>
+<span class="eink-secondary">- FAVORITES: Show favorite tracks</span>
+<span class="eink-secondary">- STATISTICS: View collection data</span>
+<span class="eink-secondary">- RANDOM: Jump to random album</span>
+<span class="eink-secondary">- SETTINGS: System configuration</span>
+
+<span class="eink-muted">Use ◀/▶ to navigate | SELECT to enter</span>`;
+            
+            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
             currentView = 'menu';
+            setScreenType('menu');
+        }
+
+        function showCategories() {
+            const category = categories[currentCategoryIndex];
+            const count = albums.filter(category.filter).length;
+            
+            let content = `<span class="breadcrumb">MAIN MENU > CATEGORIES</span>
+<span class="eink-accent">CATEGORY BROWSER</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">Current Category:</span>
+<span class="highlight-item">${category.name}</span>
+<span class="eink-info">${count} albums match this category</span>
+
+<span class="section-header">All Categories:</span>
+`;
+
+            categories.forEach((cat, i) => {
+                const catCount = albums.filter(cat.filter).length;
+                const marker = i === currentCategoryIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
+                const color = i === currentCategoryIndex ? 'eink-accent' : 'eink-secondary';
+                content += `${marker}<span class="${color}">${cat.name}</span> <span class="eink-muted">(${catCount})</span>\n`;
+            });
+            
+            if (activeFilters.category !== 'all') {
+                content += `
+<span class="eink-muted">───────────────────────────────────────</span>
+<span class="filter-indicator">FILTER ACTIVE: ${categories.find(c => c.id === activeFilters.category)?.name}</span>`;
+            }
+            
+            content += `
+
+<span class="eink-muted">◀/▶ Navigate | SELECT Apply | ESC Back</span>`;
+            
+            update(content, `${currentCategoryIndex + 1}/${categories.length}`, 'CATEGORY');
+            currentView = 'categories';
+            setScreenType('categories');
         }
 
         function showBrowse() {
-            if (albums.length === 0) return;
-            const a = albums[currentIndex];
-            
-            let content = `BROWSE ALBUMS
-═══════════════════════════════════════
+            if (filteredAlbums.length === 0) {
+                let content = `<span class="breadcrumb">MAIN MENU > BROWSE</span>
+<span class="eink-accent">ALBUM BROWSER</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
 
-${currentIndex + 1}. ${a.artist}
-    ${a.album} (${a.year})
+<span class="error">No albums match current filters</span>
 
-★ Rating: ${a.avg}/10
-♪ Tracks: ${a.songs.length}`;
-
-            if (a.comment && a.comment.length > 0) {
-                content += `\n\nComment:\n${a.comment.substring(0, 120)}${a.comment.length > 120 ? '...' : ''}`;
+<span class="eink-muted">Change filters or reset to view albums</span>`;
+                
+                update(content, '0/0', 'BROWSE');
+                currentView = 'browse';
+                setScreenType('browse');
+                return;
             }
             
-            content += `\n\nPress SELECT to view tracks
-Use ◀/▶ to change albums`;
+            if (currentIndex >= filteredAlbums.length) currentIndex = 0;
+            const a = filteredAlbums[currentIndex];
             
-            update(content, `${currentIndex + 1}/${albums.length}`, 'BROWSE', false);
+            let content = `<span class="breadcrumb">MAIN MENU > BROWSE</span>
+<span class="eink-accent">ALBUM BROWSER</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">Album ${currentIndex + 1}/${filteredAlbums.length}</span>
+<span class="info-item">${a.artist}</span>
+<span class="eink-primary">${a.album}</span> <span class="eink-muted">(${a.year})</span>
+
+<span class="section-header">Details:</span>
+★ Rating: <span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
+♪ Tracks: <span class="eink-info">${a.songs.length}</span>
+♥ Favorites: <span class="eink-highlight">${a.songs.filter(s => s.favorite).length}</span>`;
+
+            if (a.comment) {
+                content += `
+
+<span class="section-header">Comment:</span>
+<span class="eink-secondary">${a.comment}</span>`;
+            }
+
+            // Show navigation context
+            const prevAlbum = filteredAlbums[currentIndex - 1] || filteredAlbums[filteredAlbums.length - 1];
+            const nextAlbum = filteredAlbums[currentIndex + 1] || filteredAlbums[0];
+            
+            content += `
+
+<span class="eink-muted">───────────────────────────────────────</span>
+<span class="navigation-tree">◀ ${prevAlbum.artist.substring(0, 20)}${prevAlbum.artist.length > 20 ? '...' : ''}</span>
+<span class="navigation-tree">▶ ${nextAlbum.artist.substring(0, 20)}${nextAlbum.artist.length > 20 ? '...' : ''}</span>
+
+<span class="eink-muted">◀/▶ Browse | SELECT Open | ESC Back</span>`;
+            
+            if (activeFilters.category !== 'all' || Object.values(activeFilters).some(f => f !== 'all')) {
+                content += `
+
+<span class="filter-indicator">FILTERS ACTIVE</span>`;
+            }
+            
+            update(content, `${currentIndex + 1}/${filteredAlbums.length}`, 'BROWSE');
             currentView = 'browse';
+            setScreenType('browse');
         }
 
         function showAlbum() {
-            const a = albums[currentAlbumIndex];
+            const a = filteredAlbums[currentAlbumIndex];
+            if (!a) return showBrowse();
+            
             const s = a.songs[currentSongIndex];
             
-            let content = `ALBUM VIEW
-═══════════════════════════════════════
+            let content = `<span class="breadcrumb">BROWSE > ALBUM</span>
+<span class="eink-accent">ALBUM DETAILS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
 
-${a.artist}
-${a.album} (${a.year})
-Album rating: ${a.avg}/10
+<span class="info-item">${a.artist}</span>
+<span class="eink-primary">${a.album}</span> <span class="eink-muted">(${a.year})</span>
+Album rating: <span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
 
-───────────────────────────────────────
-CURRENT TRACK
+<span class="eink-muted">───────────────────────────────────────</span>
+<span class="section-header">TRACK ${currentSongIndex + 1}/${a.songs.length}</span>
 
-► ${s.name}
-  Rating: ${s.rating}/10`;
+<span class="eink-primary">${s.name}</span>
+Rating: <span class="${getRatingColor(s.rating)}">${s.rating}/10</span>`;
 
-            if (s.favorite) content += ' ♥ FAVORITE';
-            if (s.interlude) content += ' [INTERLUDE]';
+            if (s.favorite) content += ' <span class="eink-highlight">♥ FAVORITE</span>';
+            if (s.interlude) content += ' <span class="eink-muted">[INTERLUDE]</span>';
             
-            content += `\n\n───────────────────────────────────────
-ALL TRACKS
+            content += `
+
+<span class="eink-muted">───────────────────────────────────────</span>
+<span class="section-header">ALL TRACKS:</span>
 
 `;
 
             a.songs.forEach((track, i) => {
-                const marker = i === currentSongIndex ? '► ' : '  ';
-                const fav = track.favorite ? ' ♥' : '';
-                const inter = track.interlude ? ' [i]' : '';
-                content += `${marker}${i + 1}. ${track.name} (${track.rating}/10)${fav}${inter}\n`;
+                const marker = i === currentSongIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
+                const nameColor = i === currentSongIndex ? 'tree-selected' : 'eink-secondary';
+                const ratingColor = getRatingColor(track.rating);
+                const fav = track.favorite ? ' <span class="eink-highlight">♥</span>' : '';
+                const inter = track.interlude ? ' <span class="eink-muted">[i]</span>' : '';
+                content += `${marker}<span class="${nameColor}">${i + 1}. ${track.name}</span> <span class="${ratingColor}">(${track.rating})</span>${fav}${inter}\n`;
             });
             
-            content += `\n───────────────────────────────────────
-CONTROLS
-
-◀/▶ = Change track
-SCROLL LOCK = Toggle scroll mode
-SELECT = Back to browse`;
+            content += `
+<span class="eink-muted">◀/▶ Change tracks | SELECT twice for scroll
+SELECT Back | ESC Menu</span>`;
             
-            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM', true);
+            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
             currentView = 'album';
+            setScreenType('album');
         }
 
-        function showStats() {
-            let content = `STATISTICS
-═══════════════════════════════════════
+        function showFavorites() {
+            const favs = [];
+            albums.forEach(a => {
+                a.songs.forEach(s => {
+                    if (s.favorite) {
+                        favs.push({
+                            artist: a.artist,
+                            name: s.name,
+                            rating: s.rating,
+                            album: a.album
+                        });
+                    }
+                });
+            });
+            
+            favs.sort((a, b) => b.rating - a.rating);
+            
+            if (favs.length === 0) {
+                let content = `<span class="breadcrumb">MAIN MENU > FAVORITES</span>
+<span class="eink-accent">FAVORITE TRACKS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
 
-COLLECTION OVERVIEW
-Total albums: ${stats.albums}
-Total tracks: ${stats.tracks} 
-Favorite tracks: ${stats.favs}
-Average rating: ${stats.avg}/10
+<span class="eink-secondary">No favorites found</span>
 
-TOP RATED ALBUM
-${stats.top.artist}
-${stats.top.album}
-Rating: ${stats.top.avg}/10
+<span class="eink-muted">Mark songs as favorites to see them here</span>
 
-RATING DISTRIBUTION`;
+<span class="eink-muted">SELECT Back to menu</span>`;
+                
+                update(content, '0', 'FAVS');
+                currentView = 'favs';
+                setScreenType('favs');
+                return;
+            }
+            
+            if (currentIndex >= favs.length) currentIndex = 0;
+            const f = favs[currentIndex];
+            
+            let content = `<span class="breadcrumb">MAIN MENU > FAVORITES</span>
+<span class="eink-accent">FAVORITE TRACKS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">Current Favorite:</span>
+<span class="eink-primary">${f.name}</span>
+<span class="eink-secondary">by ${f.artist}</span>
+
+Rating: <span class="${getRatingColor(f.rating)}">${f.rating}/10</span> <span class="eink-highlight">♥</span>
+From album: <span class="eink-info">${f.album}</span>
+
+<span class="eink-muted">───────────────────────────────────────</span>
+<span class="section-header">ALL FAVORITES (by rating):</span>
+
+`;
+
+            const showCount = Math.min(favs.length, 12);
+            for (let i = 0; i < showCount; i++) {
+                const fav = favs[i];
+                const marker = i === currentIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
+                const nameColor = i === currentIndex ? 'tree-selected' : 'eink-secondary';
+                const ratingColor = getRatingColor(fav.rating);
+                content += `${marker}<span class="${ratingColor}">${fav.rating}</span> - <span class="${nameColor}">${fav.name}</span>\n<span class="eink-dim">     by ${fav.artist}</span>\n`;
+            }
+            
+            if (favs.length > showCount) {
+                content += `<span class="eink-muted">... and ${favs.length - showCount} more</span>\n`;
+            }
+            
+            content += `
+<span class="eink-muted">◀/▶ Navigate | SELECT twice for scroll
+SELECT Back</span>`;
+            
+            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS');
+            currentView = 'favs';
+            setScreenType('favs');
+        }
+
+        function showStatistics() {
+            let content = `<span class="breadcrumb">MAIN MENU > STATISTICS</span>
+<span class="eink-accent">COLLECTION STATISTICS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">COLLECTION OVERVIEW:</span>
+- Total albums: <span class="eink-info">${stats.albums}</span>
+- Total tracks: <span class="eink-info">${stats.tracks}</span>
+- Favorite tracks: <span class="eink-highlight">${stats.favs}</span>
+- Average rating: <span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
+
+<span class="section-header">TOP RATED ALBUM:</span>
+<span class="info-item">${stats.top.artist}</span>
+<span class="eink-primary">${stats.top.album}</span>
+Rating: <span class="rating-excellent">${stats.top.avg}/10</span>
+
+<span class="section-header">RATING DISTRIBUTION:</span>`;
 
             // Calculate rating distribution
             const distribution = {};
@@ -920,164 +1343,182 @@ RATING DISTRIBUTION`;
             
             for (let i = 10; i >= 1; i--) {
                 if (distribution[i] > 0) {
-                    content += `\n${i}/10: ${distribution[i]} tracks`;
+                    const color = getRatingColor(i);
+                    content += `\n<span class="${color}">${i}/10: ${distribution[i]} tracks</span>`;
                 }
             }
             
-            content += `\n\nTOP 5 ALBUMS BY RATING`;
-            const sortedAlbums = [...albums].sort((a, b) => parseFloat(b.avg) - parseFloat(a.avg));
-            sortedAlbums.slice(0, 5).forEach((album, i) => {
-                content += `\n${i + 1}. ${album.artist} - ${album.album} (${album.avg}/10)`;
-            });
-            
-            content += `\n\nSYSTEM INFO
-Memory usage: ${stats.mem}MB
-Data integrity: Verified
-Last updated: ${new Date().toLocaleDateString()}
+            content += `
 
-SCROLL LOCK = Toggle scroll mode
-SELECT = Main menu`;
-            
-            update(content, stats.albums, 'STATS', true);
-            currentView = 'stats';
-        }
+<span class="section-header">ARTIST OVERVIEW:</span>`;
 
-        function showFavs() {
-            const favs = [];
+            // Top artists by number of albums
+            const artistCounts = {};
             albums.forEach(a => {
-                a.songs.forEach(s => {
-                    if (s.favorite) {
-                        favs.push({
-                            artist: a.artist,
-                            name: s.name,
-                            rating: s.rating,
-                            album: a.album
-                        });
-                    }
-                });
+                artistCounts[a.artist] = (artistCounts[a.artist] || 0) + 1;
             });
             
-            favs.sort((a, b) => b.rating - a.rating);
-            
-            if (favs.length === 0) {
-                update(`FAVORITES
-═══════════════════════════════════════
-
-No favorites found
-
-Mark songs as favorites
-to see them here
-
-SELECT = Main menu`, '0', 'FAVS', false);
-                return;
-            }
-            
-            if (currentIndex >= favs.length) currentIndex = 0;
-            const f = favs[currentIndex];
-            
-            let content = `FAVORITES
-═══════════════════════════════════════
-
-CURRENT FAVORITE
-${f.name}
-by ${f.artist}
-
-Rating: ${f.rating}/10 ♥
-From album: ${f.album}
-
-───────────────────────────────────────
-ALL FAVORITES (sorted by rating)
-
-`;
-
-            favs.forEach((fav, i) => {
-                const marker = i === currentIndex ? '► ' : '  ';
-                content += `${marker}${fav.rating}/10 - ${fav.name}\n     by ${fav.artist}\n`;
+            const topArtists = Object.entries(artistCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 8);
+                
+            topArtists.forEach(([artist, count]) => {
+                content += `\n<span class="eink-info">${count}</span> album${count > 1 ? 's' : ''}: <span class="eink-secondary">${artist}</span>`;
             });
             
-            content += `\n───────────────────────────────────────
-CONTROLS
+            content += `
 
-◀/▶ = Change favorite
-SCROLL LOCK = Toggle scroll mode  
-SELECT = Main menu`;
+<span class="section-header">SYSTEM INFO:</span>
+Memory usage: <span class="eink-info">${stats.mem}MB</span>
+Data integrity: <span class="eink-accent">Verified</span>
+Last updated: <span class="eink-secondary">${new Date().toLocaleDateString()}</span>
+
+<span class="eink-muted">SELECT twice for scroll | SELECT Back</span>`;
             
-            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS', true);
-            currentView = 'favs';
+            update(content, stats.albums, 'STATS');
+            currentView = 'stats';
+            setScreenType('stats');
         }
 
         function showRandom() {
-            const rand = Math.floor(Math.random() * albums.length);
+            const rand = Math.floor(Math.random() * filteredAlbums.length);
             currentIndex = rand;
             currentAlbumIndex = rand;
             currentSongIndex = 0;
+            pushNavigation('random');
             showAlbum();
         }
 
-        function showInfo() {
-            const content = `SYSTEM INFORMATION
-═══════════════════════════════════════
+        function showSettings() {
+            let content = `<span class="breadcrumb">MAIN MENU > SETTINGS</span>
+<span class="eink-accent">SYSTEM SETTINGS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
 
-DEVICE SPECIFICATIONS
-Model: YAMAHA DX-7000 PRO
-Firmware: v2.1.0
-Architecture: Retro Digital Audio
-Display: Scrollable LCD Matrix
-Memory: ${stats.mem}MB allocated
+<span class="section-header">DEVICE SPECIFICATIONS:</span>
+Model: <span class="eink-info">YAMAHA DX-7000 PRO</span>
+Firmware: <span class="eink-secondary">v2.1.0</span>
+Architecture: <span class="eink-secondary">Retro Digital Audio</span>
+Display: <span class="eink-secondary">4-Color E-Ink Matrix</span>
+Memory: <span class="eink-info">${stats.mem}MB</span> allocated
 
-ARCHIVE DETAILS
-Owner: DOME
-Collection: Personal Music Archive
-Established: 2024
-Total entries: ${stats.albums} albums
-Quality: High-fidelity ratings
+<span class="section-header">ARCHIVE DETAILS:</span>
+Owner: <span class="eink-accent">DOME</span>
+Collection name: <span class="eink-secondary">Personal Music Archive</span>
+Established: <span class="eink-secondary">2024</span>
+Total entries: <span class="eink-info">${stats.albums}</span> albums
+Quality: <span class="eink-accent">High-fidelity ratings</span>
 
-SYSTEM STATUS
-Power: 88% battery
-Temperature: Normal
-Data integrity: 100%
-Network: Offline mode
-Status: Fully operational
+<span class="section-header">SYSTEM STATUS:</span>
+Power: <span class="eink-accent">88%</span> battery
+Temperature: <span class="eink-accent">Normal</span>
+Data integrity: <span class="eink-accent">100%</span>
+Network: <span class="eink-secondary">Offline mode</span>
+Status: <span class="eink-accent">Fully operational</span>
 
-SCROLL SYSTEM
-Smart scroll detection: Enabled
-Auto-lock for navigation: Active
-Content-aware scrolling: On
-Touch/wheel support: Available
+<span class="section-header">NAVIGATION MODES:</span>
+- Navigation screens: <span class="eink-secondary">Direct button control</span>
+- Content screens: <span class="eink-secondary">Scroll mode available</span>
+- Smart filtering: <span class="eink-info">Category-based organization</span>
+- Hierarchical browse: <span class="eink-info">Drill-down navigation</span>
 
-TECHNICAL FEATURES
-- Intelligent scroll lock system
-- Context-sensitive controls
-- Mobile responsive design
-- Real-time data processing
-- Authentic retro aesthetics
-- Multi-input navigation
+<span class="section-header">DISPLAY TECHNOLOGY:</span>
+- 4-Color E-Ink display system
+- <span class="eink-primary">Primary:</span> Main content
+- <span class="eink-accent">Accent:</span> Headers & highlights  
+- <span class="eink-info">Info:</span> Data & numbers
+- <span class="eink-highlight">Alert:</span> Important items
 
-CONTROLS REFERENCE
-◀/▶ = Navigate items
-PREV/NEXT = Scroll when locked
-SCROLL LOCK = Toggle scroll mode
-SELECT = Context action
-ESC = Quick menu
+<span class="section-header">ACTIVE FILTERS:</span>
+Category: <span class="eink-info">${activeFilters.category}</span>
+Rating: <span class="eink-info">${activeFilters.rating}</span>
+Year: <span class="eink-info">${activeFilters.year}</span>
+Artist: <span class="eink-info">${activeFilters.artist}</span>
 
-SCROLL LOCK = Toggle scroll mode
-SELECT = Main menu`;
+<span class="eink-muted">SELECT twice for scroll | SELECT Back</span>`;
             
-            update(content, 'SYS', 'INFO', true);
-            currentView = 'info';
+            update(content, 'SYS', 'SETTINGS');
+            currentView = 'settings';
+            setScreenType('settings');
+        }
+
+        function showSearch() {
+            let content = `<span class="breadcrumb">MAIN MENU > SEARCH</span>
+<span class="eink-accent">SMART SEARCH & FILTERS</span>
+<span class="eink-muted">═══════════════════════════════════════</span>
+
+<span class="section-header">QUICK FILTERS:</span>`;
+
+            const quickFilters = [
+                { name: 'Top Rated (9+)', action: () => { activeFilters.rating = '9.0'; applyFilters(); showBrowse(); } },
+                { name: 'Recent (2020+)', action: () => { activeFilters.year = 'recent'; applyFilters(); showBrowse(); } },
+                { name: 'Has Favorites', action: () => { activeFilters.category = 'favorites'; applyFilters(); showBrowse(); } },
+                { name: 'Classic (< 2000)', action: () => { activeFilters.year = 'classic'; applyFilters(); showBrowse(); } }
+            ];
+
+            quickFilters.forEach((filter, i) => {
+                const marker = i === currentFilterIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
+                const color = i === currentFilterIndex ? 'eink-accent' : 'eink-secondary';
+                content += `\n${marker}<span class="${color}">${filter.name}</span>`;
+            });
+
+            content += `
+
+<span class="section-header">CURRENT FILTERS:</span>`;
+            
+            if (Object.values(activeFilters).every(f => f === 'all')) {
+                content += `\n<span class="eink-muted">No filters active - showing all albums</span>`;
+            } else {
+                if (activeFilters.category !== 'all') {
+                    const cat = categories.find(c => c.id === activeFilters.category);
+                    content += `\n<span class="filter-indicator">Category: ${cat?.name}</span>`;
+                }
+                if (activeFilters.rating !== 'all') {
+                    content += `\n<span class="filter-indicator">Rating: ${activeFilters.rating}+</span>`;
+                }
+                if (activeFilters.year !== 'all') {
+                    content += `\n<span class="filter-indicator">Year: ${activeFilters.year}</span>`;
+                }
+            }
+
+            content += `
+
+<span class="section-header">SEARCH RESULTS:</span>
+<span class="eink-info">${filteredAlbums.length}</span> albums match current filters
+
+<span class="section-header">TOP MATCHES:</span>`;
+
+            const topMatches = filteredAlbums.slice(0, 6);
+            topMatches.forEach((album, i) => {
+                content += `\n<span class="eink-secondary">${album.artist}</span> - <span class="eink-primary">${album.album}</span>
+<span class="eink-muted">  Rating: <span class="${getRatingColor(album.avg)}">${album.avg}/10</span> | Year: ${album.year}</span>`;
+            });
+
+            if (filteredAlbums.length > 6) {
+                content += `\n<span class="eink-muted">... and ${filteredAlbums.length - 6} more</span>`;
+            }
+
+            content += `
+
+<span class="eink-muted">◀/▶ Select filter | SELECT Apply
+ESC Clear filters | BACK Menu</span>`;
+            
+            update(content, filteredAlbums.length, 'SEARCH');
+            currentView = 'search';
+            setScreenType('search');
         }
 
         function showError(msg) {
             update(`<div class="error">SYSTEM ERROR
-═══════════════════════════════════════
+<span class="eink-muted">═══════════════════════════════════════</span>
 
 ${msg}
 
-SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
+<span class="eink-muted">Press SELECT to retry loading</span></div>`, 'ERR', 'ERROR');
             currentView = 'error';
+            setScreenType('error');
         }
 
-        function update(content, counter, label, allowScroll) {
+        function update(content, counter, label) {
             const displayElement = document.getElementById('display');
             displayElement.innerHTML = content + '<span class="cursor"></span>';
             
@@ -1086,18 +1527,12 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
             document.getElementById('memInfo').textContent = `MEM: ${stats.mem || '0.0'}MB`;
             document.getElementById('statInfo').textContent = `STATUS: ${label}`;
             
-            // Set scrollable state
-            isScrollableContent = allowScroll;
-            scrollLocked = false;
+            // Reset scroll
             scrollPosition = 0;
-            
-            // Update display
-            setTimeout(() => {
-                updateScroll();
-                updateScrollIndicators();
-                updateButtons();
-                updateScrollLED();
-            }, 50);
+            scrollMode = false;
+            updateScroll();
+            updateButtons();
+            checkScrollable();
         }
 
         function updateScroll() {
@@ -1110,65 +1545,23 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
             maxScroll = Math.max(0, contentHeight - viewportHeight);
             
             // Apply scroll transform
+            const scrollPercent = maxScroll > 0 ? scrollPosition / maxScroll : 0;
             const translateY = -scrollPosition;
             displayElement.style.transform = `translateY(${translateY}px)`;
+            
+            updateScrollUI();
         }
 
-        function updateScrollIndicators() {
-            const scrollUp = document.getElementById('scrollUp');
-            const scrollDown = document.getElementById('scrollDown');
-            const scrollLockEl = document.getElementById('scrollLock');
-            
-            if (isScrollableContent && maxScroll > 0) {
-                // Show scroll indicators
-                scrollUp.style.opacity = scrollPosition > 0 ? '1' : '0.3';
-                scrollDown.style.opacity = scrollPosition < maxScroll ? '1' : '0.3';
-                
-                if (scrollPosition > 0) scrollUp.classList.add('active');
-                else scrollUp.classList.remove('active');
-                
-                if (scrollPosition < maxScroll) scrollDown.classList.add('active');
-                else scrollDown.classList.remove('active');
-                
-                // Show lock indicator when locked
-                if (scrollLocked) {
-                    scrollLockEl.classList.add('active');
-                } else {
-                    scrollLockEl.classList.remove('active');
-                }
-            } else {
-                // Hide all indicators
-                scrollUp.style.opacity = '0';
-                scrollDown.style.opacity = '0';
-                scrollUp.classList.remove('active');
-                scrollDown.classList.remove('active');
-                scrollLockEl.classList.remove('active');
-            }
-        }
-
-        function updateScrollLED() {
-            const scrollLed = document.getElementById('scrollLed');
-            const scrollLedLabel = document.getElementById('scrollLedLabel');
-            
-            if (isScrollableContent && maxScroll > 0) {
-                scrollLed.style.display = 'block';
-                scrollLedLabel.style.display = 'block';
-                
-                if (scrollLocked) {
-                    scrollLed.classList.add('yellow');
-                } else {
-                    scrollLed.classList.remove('yellow');
-                }
-            } else {
-                scrollLed.style.display = 'none';
-                scrollLedLabel.style.display = 'none';
-            }
+        function checkScrollable() {
+            setTimeout(() => {
+                updateScroll();
+            }, 100);
         }
 
         function scroll(direction) {
-            if (!isScrollableContent || maxScroll === 0) return;
+            if (screenType !== 'content' || !scrollMode) return;
             
-            const scrollStep = 25;
+            const scrollStep = 20;
             
             if (direction === 'up') {
                 scrollPosition = Math.max(0, scrollPosition - scrollStep);
@@ -1177,24 +1570,6 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
             }
             
             updateScroll();
-            updateScrollIndicators();
-        }
-
-        function toggleScrollLock() {
-            if (!isScrollableContent || maxScroll === 0) return;
-            
-            scrollLocked = !scrollLocked;
-            updateScrollIndicators();
-            updateScrollLED();
-            updateButtons();
-            
-            // Visual feedback
-            const centerBtn = document.getElementById('btnCenter');
-            if (scrollLocked) {
-                centerBtn.classList.add('scroll-mode');
-            } else {
-                centerBtn.classList.remove('scroll-mode');
-            }
         }
 
         function updateButtons() {
@@ -1202,60 +1577,101 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
             const center = document.getElementById('btnCenter');
             const right = document.getElementById('btnRight');
             
-            // Remove scroll mode class first
-            left.classList.remove('scroll-mode');
-            center.classList.remove('scroll-mode');
-            right.classList.remove('scroll-mode');
+            // Reset classes
+            left.classList.remove('primary', 'secondary', 'danger');
+            center.classList.remove('primary', 'secondary', 'danger');
+            right.classList.remove('primary', 'secondary', 'danger');
             
-            if (scrollLocked && isScrollableContent && maxScroll > 0) {
-                // Scroll mode active
+            if (screenType === 'content' && scrollMode) {
                 left.textContent = '◀ UP';
-                center.textContent = 'UNLOCK';
+                left.classList.add('secondary');
+                center.textContent = 'EXIT SCROLL';
+                center.classList.add('primary');
                 right.textContent = 'DOWN ▶';
-                
-                left.classList.add('scroll-mode');
-                center.classList.add('scroll-mode');
-                right.classList.add('scroll-mode');
-                
-            } else {
-                // Normal navigation mode
-                switch(currentView) {
-                    case 'welcome':
-                        left.textContent = '◀ PREV';
-                        center.textContent = 'START';
-                        right.textContent = 'NEXT ▶';
-                        break;
-                    case 'menu':
-                        left.textContent = '◀ UP';
-                        center.textContent = 'ENTER';
-                        right.textContent = 'DOWN ▶';
-                        break;
-                    case 'browse':
-                        left.textContent = '◀ ALBUM';
-                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'OPEN';
-                        right.textContent = 'ALBUM ▶';
-                        break;
-                    case 'album':
-                        left.textContent = '◀ TRACK';
-                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'BACK';
-                        right.textContent = 'TRACK ▶';
-                        break;
-                    case 'favs':
-                        left.textContent = '◀ FAV';
-                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'MENU';
-                        right.textContent = 'FAV ▶';
-                        break;
-                    case 'stats':
-                    case 'info':
-                        left.textContent = '◀ PREV';
-                        center.textContent = isScrollableContent && maxScroll > 0 ? 'SCROLL' : 'MENU';
-                        right.textContent = 'NEXT ▶';
-                        break;
-                    default:
-                        left.textContent = '◀ PREV';
+                right.classList.add('secondary');
+                return;
+            }
+            
+            switch(currentView) {
+                case 'welcome':
+                    left.textContent = '◀ --';
+                    center.textContent = 'START';
+                    center.classList.add('primary');
+                    right.textContent = '-- ▶';
+                    break;
+                case 'menu':
+                    left.textContent = '◀ PREV';
+                    center.textContent = 'ENTER';
+                    center.classList.add('primary');
+                    right.textContent = 'NEXT ▶';
+                    break;
+                case 'categories':
+                    left.textContent = '◀ PREV';
+                    center.textContent = 'APPLY';
+                    center.classList.add('primary');
+                    right.textContent = 'NEXT ▶';
+                    break;
+                case 'search':
+                    left.textContent = '◀ FILTER';
+                    if (screenType === 'content' && maxScroll > 0) {
+                        center.textContent = 'SCROLL';
+                        center.classList.add('secondary');
+                    } else {
+                        center.textContent = 'APPLY';
+                        center.classList.add('primary');
+                    }
+                    right.textContent = 'FILTER ▶';
+                    break;
+                case 'browse':
+                    left.textContent = '◀ ALBUM';
+                    if (screenType === 'content' && maxScroll > 0) {
+                        center.textContent = 'SCROLL';
+                        center.classList.add('secondary');
+                    } else {
+                        center.textContent = 'OPEN';
+                        center.classList.add('primary');
+                    }
+                    right.textContent = 'ALBUM ▶';
+                    break;
+                case 'album':
+                    left.textContent = '◀ TRACK';
+                    if (screenType === 'content' && maxScroll > 0) {
+                        center.textContent = 'SCROLL';
+                        center.classList.add('secondary');
+                    } else {
+                        center.textContent = 'BACK';
+                        center.classList.add('primary');
+                    }
+                    right.textContent = 'TRACK ▶';
+                    break;
+                case 'favs':
+                    left.textContent = '◀ FAV';
+                    if (screenType === 'content' && maxScroll > 0) {
+                        center.textContent = 'SCROLL';
+                        center.classList.add('secondary');
+                    } else {
                         center.textContent = 'MENU';
-                        right.textContent = 'NEXT ▶';
-                }
+                        center.classList.add('primary');
+                    }
+                    right.textContent = 'FAV ▶';
+                    break;
+                case 'stats':
+                case 'settings':
+                    left.textContent = '◀ --';
+                    if (screenType === 'content' && maxScroll > 0) {
+                        center.textContent = 'SCROLL';
+                        center.classList.add('secondary');
+                    } else {
+                        center.textContent = 'MENU';
+                        center.classList.add('primary');
+                    }
+                    right.textContent = '-- ▶';
+                    break;
+                default:
+                    left.textContent = '◀ --';
+                    center.textContent = 'MENU';
+                    center.classList.add('primary');
+                    right.textContent = '-- ▶';
             }
         }
 
@@ -1274,7 +1690,7 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
         }
 
         function handlePrev() {
-            if (scrollLocked && isScrollableContent) {
+            if (screenType === 'content' && scrollMode) {
                 scroll('up');
                 return;
             }
@@ -1284,12 +1700,21 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
                     showMenu();
                     break;
+                case 'categories':
+                    currentCategoryIndex = (currentCategoryIndex - 1 + categories.length) % categories.length;
+                    showCategories();
+                    break;
+                case 'search':
+                    const filters = ['9.0', 'recent', 'favorites', 'classic'];
+                    currentFilterIndex = (currentFilterIndex - 1 + filters.length) % filters.length;
+                    showSearch();
+                    break;
                 case 'browse':
-                    currentIndex = (currentIndex - 1 + albums.length) % albums.length;
+                    currentIndex = (currentIndex - 1 + filteredAlbums.length) % filteredAlbums.length;
                     showBrowse();
                     break;
                 case 'album':
-                    const a = albums[currentAlbumIndex];
+                    const a = filteredAlbums[currentAlbumIndex];
                     currentSongIndex = (currentSongIndex - 1 + a.songs.length) % a.songs.length;
                     showAlbum();
                     break;
@@ -1297,14 +1722,14 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     const favs = getAllFavs();
                     if (favs.length > 0) {
                         currentIndex = (currentIndex - 1 + favs.length) % favs.length;
-                        showFavs();
+                        showFavorites();
                     }
                     break;
             }
         }
 
         function handleNext() {
-            if (scrollLocked && isScrollableContent) {
+            if (screenType === 'content' && scrollMode) {
                 scroll('down');
                 return;
             }
@@ -1314,12 +1739,21 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     currentMenuIndex = (currentMenuIndex + 1) % menu.length;
                     showMenu();
                     break;
+                case 'categories':
+                    currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
+                    showCategories();
+                    break;
+                case 'search':
+                    const filters = ['9.0', 'recent', 'favorites', 'classic'];
+                    currentFilterIndex = (currentFilterIndex + 1) % filters.length;
+                    showSearch();
+                    break;
                 case 'browse':
-                    currentIndex = (currentIndex + 1) % albums.length;
+                    currentIndex = (currentIndex + 1) % filteredAlbums.length;
                     showBrowse();
                     break;
                 case 'album':
-                    const a = albums[currentAlbumIndex];
+                    const a = filteredAlbums[currentAlbumIndex];
                     currentSongIndex = (currentSongIndex + 1) % a.songs.length;
                     showAlbum();
                     break;
@@ -1327,23 +1761,24 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     const favs = getAllFavs();
                     if (favs.length > 0) {
                         currentIndex = (currentIndex + 1) % favs.length;
-                        showFavs();
+                        showFavorites();
                     }
                     break;
             }
         }
 
         function handleSelect() {
-            // Handle scroll lock toggle
-            if (isScrollableContent && maxScroll > 0 && !scrollLocked) {
-                if (currentView === 'album' || currentView === 'stats' || currentView === 'info' || currentView === 'favs') {
-                    toggleScrollLock();
-                    return;
-                }
+            if (screenType === 'content' && scrollMode) {
+                scrollMode = false;
+                updateButtons();
+                updateScrollUI();
+                return;
             }
             
-            if (scrollLocked) {
-                toggleScrollLock();
+            if (screenType === 'content' && maxScroll > 0 && !scrollMode) {
+                scrollMode = true;
+                updateButtons();
+                updateScrollUI();
                 return;
             }
             
@@ -1354,39 +1789,75 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     break;
                 case 'menu':
                     const mode = menu[currentMenuIndex];
+                    pushNavigation('menu');
                     switch(mode) {
                         case 'BROWSE':
                             currentIndex = 0;
+                            applyFilters();
                             showBrowse();
                             break;
-                        case 'STATS':
-                            showStats();
+                        case 'CATEGORIES':
+                            currentCategoryIndex = 0;
+                            showCategories();
                             break;
-                        case 'FAVS':
+                        case 'SEARCH':
+                            currentFilterIndex = 0;
+                            showSearch();
+                            break;
+                        case 'FAVORITES':
                             currentIndex = 0;
-                            showFavs();
+                            showFavorites();
+                            break;
+                        case 'STATISTICS':
+                            showStatistics();
                             break;
                         case 'RANDOM':
                             showRandom();
                             break;
-                        case 'INFO':
-                            showInfo();
+                        case 'SETTINGS':
+                            showSettings();
                             break;
                     }
                     break;
+                case 'categories':
+                    const category = categories[currentCategoryIndex];
+                    activeFilters.category = category.id;
+                    applyFilters();
+                    pushNavigation('categories');
+                    showBrowse();
+                    break;
+                case 'search':
+                    const filterActions = [
+                        () => { activeFilters.rating = '9.0'; },
+                        () => { activeFilters.year = 'recent'; },
+                        () => { activeFilters.category = 'favorites'; },
+                        () => { activeFilters.year = 'classic'; }
+                    ];
+                    filterActions[currentFilterIndex]();
+                    applyFilters();
+                    pushNavigation('search');
+                    showBrowse();
+                    break;
                 case 'browse':
-                    currentAlbumIndex = currentIndex;
-                    currentSongIndex = 0;
-                    showAlbum();
+                    if (filteredAlbums.length > 0) {
+                        currentAlbumIndex = currentIndex;
+                        currentSongIndex = 0;
+                        pushNavigation('browse');
+                        showAlbum();
+                    }
                     break;
                 case 'album':
-                    showBrowse();
+                    if (!popNavigation()) {
+                        showBrowse();
+                    }
                     break;
                 case 'error':
                     init();
                     break;
                 default:
-                    showMenu();
+                    if (!popNavigation()) {
+                        showMenu();
+                    }
                     break;
             }
         }
@@ -1418,59 +1889,101 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
                     navigate('next');
                     break;
                 case 'ArrowUp':
-                    if (isScrollableContent) scroll('up');
+                    if (screenType === 'content' && scrollMode) {
+                        scroll('up');
+                    }
                     break;
                 case 'ArrowDown':
-                    if (isScrollableContent) scroll('down');
+                    if (screenType === 'content' && scrollMode) {
+                        scroll('down');
+                    }
                     break;
                 case 'Enter':
                 case ' ':
                     navigate('select');
                     break;
                 case 'Escape':
-                    if (currentView !== 'welcome' && currentView !== 'menu') {
+                    if (scrollMode) {
+                        scrollMode = false;
+                        updateButtons();
+                        updateScrollUI();
+                    } else if (Object.values(activeFilters).some(f => f !== 'all')) {
+                        // Clear filters
+                        activeFilters = { category: 'all', rating: 'all', year: 'all', artist: 'all' };
+                        applyFilters();
+                        if (currentView === 'browse' || currentView === 'search') {
+                            currentView === 'browse' ? showBrowse() : showSearch();
+                        }
+                    } else if (!popNavigation()) {
                         showMenu();
                     }
                     break;
-                case 'ScrollLock':
-                    e.preventDefault();
-                    toggleScrollLock();
+                case 'r':
+                case 'R':
+                    // Quick random
+                    showRandom();
+                    break;
+                case 'f':
+                case 'F':
+                    // Quick favorites
+                    pushNavigation(currentView);
+                    showFavorites();
                     break;
             }
         });
 
-        // Touch/wheel scrolling
+        // Touch/wheel scrolling for content screens only
         let startY = 0;
         const viewport = document.querySelector('.display-viewport');
 
         viewport.addEventListener('touchstart', (e) => {
-            if (!isScrollableContent) return;
-            startY = e.touches[0].clientY;
+            if (screenType === 'content') {
+                startY = e.touches[0].clientY;
+            }
         });
 
         viewport.addEventListener('touchmove', (e) => {
-            if (!isScrollableContent) return;
+            if (screenType !== 'content') return;
+            
             e.preventDefault();
             const currentY = e.touches[0].clientY;
             const diff = startY - currentY;
             
             if (Math.abs(diff) > 5) {
-                if (diff > 0) {
-                    scroll('down');
-                } else {
-                    scroll('up');
+                if (!scrollMode && maxScroll > 0) {
+                    scrollMode = true;
+                    updateButtons();
+                    updateScrollUI();
+                }
+                
+                if (scrollMode) {
+                    if (diff > 0) {
+                        scroll('down');
+                    } else {
+                        scroll('up');
+                    }
                 }
                 startY = currentY;
             }
         });
 
         viewport.addEventListener('wheel', (e) => {
-            if (!isScrollableContent) return;
+            if (screenType !== 'content') return;
+            
             e.preventDefault();
-            if (e.deltaY > 0) {
-                scroll('down');
-            } else {
-                scroll('up');
+            
+            if (!scrollMode && maxScroll > 0) {
+                scrollMode = true;
+                updateButtons();
+                updateScrollUI();
+            }
+            
+            if (scrollMode) {
+                if (e.deltaY > 0) {
+                    scroll('down');
+                } else {
+                    scroll('up');
+                }
             }
         });
 
@@ -1478,8 +1991,7 @@ SELECT = Retry loading</div>`, 'ERR', 'ERROR', false);
         window.addEventListener('resize', () => {
             setTimeout(() => {
                 updateScroll();
-                updateScrollIndicators();
-                updateScrollLED();
+                checkScrollable();
             }, 100);
         });
 
