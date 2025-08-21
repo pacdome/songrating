@@ -7,6 +7,15 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
         
+        :root {
+            --device-width: min(1200px, 95vw);
+            --device-height: min(800px, 90vh);
+            --display-height: min(280px, 35vh);
+            --button-height: min(80px, 8vh);
+            --font-size: clamp(11px, 1.2vw, 14px);
+            --padding: clamp(20px, 3vw, 40px);
+        }
+        
         * { 
             box-sizing: border-box; 
             margin: 0; 
@@ -21,31 +30,32 @@
                 linear-gradient(45deg, transparent 75%, #111 75%),
                 linear-gradient(-45deg, transparent 75%, #111 75%);
             background-size: 100% 100%, 25px 25px, 25px 25px, 25px 25px, 25px 25px;
-            background-position: 0 0, 0 0, 0 12px, 12px -12px, -12px 0px;
             font-family: 'JetBrains Mono', monospace;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: clamp(10px, 2vw, 20px);
         }
         
         .machine {
-            width: 1100px;
-            height: 750px;
+            width: var(--device-width);
+            height: var(--device-height);
             background: 
                 linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #2d2d2d 100%);
-            border-radius: 25px;
-            padding: 40px;
+            border-radius: clamp(15px, 2vw, 25px);
+            padding: var(--padding);
             box-shadow: 
-                0 0 120px rgba(0, 0, 0, 0.9),
-                0 30px 70px rgba(0, 0, 0, 0.8),
+                0 0 clamp(60px, 8vw, 120px) rgba(0, 0, 0, 0.9),
+                0 clamp(15px, 3vw, 30px) clamp(35px, 5vw, 70px) rgba(0, 0, 0, 0.8),
                 inset 0 2px 0 rgba(255, 255, 255, 0.12),
                 inset 0 -2px 0 rgba(0, 0, 0, 0.8),
                 inset 4px 4px 20px rgba(255, 255, 255, 0.04),
                 inset -4px -4px 20px rgba(0, 0, 0, 0.5);
             position: relative;
-            border: 4px solid #444;
+            border: clamp(2px, 0.3vw, 4px) solid #444;
+            display: flex;
+            flex-direction: column;
         }
         
         .machine::before {
@@ -55,7 +65,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            border-radius: 21px;
+            border-radius: clamp(12px, 2vw, 21px);
             background: 
                 repeating-linear-gradient(
                     90deg,
@@ -68,14 +78,15 @@
         }
         
         .top-strip {
-            height: 18px;
+            height: clamp(12px, 1.5vw, 18px);
             background: linear-gradient(90deg, #333 0%, #555 50%, #333 100%);
-            border-radius: 10px;
-            margin-bottom: 25px;
+            border-radius: clamp(6px, 1vw, 10px);
+            margin-bottom: clamp(15px, 2vw, 25px);
             box-shadow: 
                 inset 0 3px 6px rgba(0, 0, 0, 0.6),
                 0 1px 0 rgba(255, 255, 255, 0.1);
             position: relative;
+            flex-shrink: 0;
         }
         
         .top-strip::after {
@@ -84,7 +95,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
+            width: clamp(60px, 10vw, 120px);
             height: 2px;
             background: linear-gradient(90deg, transparent, #777, transparent);
         }
@@ -93,14 +104,15 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 30px;
+            margin-bottom: clamp(15px, 2vw, 30px);
+            flex-shrink: 0;
         }
         
         .brand-info {
             color: #aaa;
-            font-size: 24px;
+            font-size: clamp(16px, 2.5vw, 24px);
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: clamp(2px, 0.4vw, 4px);
             text-shadow: 
                 2px 2px 0 rgba(0,0,0,1),
                 0 0 20px rgba(170, 170, 170, 0.5);
@@ -109,34 +121,34 @@
         
         .model-info {
             color: #777;
-            font-size: 13px;
+            font-size: clamp(9px, 1.2vw, 13px);
             font-weight: 400;
-            letter-spacing: 2px;
+            letter-spacing: clamp(1px, 0.2vw, 2px);
             margin-top: 4px;
         }
         
         .status-lights {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: clamp(8px, 1vw, 12px);
             align-items: flex-end;
         }
         
         .status-light {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 11px;
+            gap: clamp(6px, 1vw, 10px);
+            font-size: clamp(8px, 1vw, 11px);
             color: #777;
             letter-spacing: 1px;
         }
         
         .led {
-            width: 10px;
-            height: 10px;
+            width: clamp(8px, 1vw, 10px);
+            height: clamp(8px, 1vw, 10px);
             border-radius: 50%;
             border: 1px solid rgba(0, 0, 0, 0.8);
-            position: relative;
+            flex-shrink: 0;
         }
         
         .led.red {
@@ -162,16 +174,18 @@
         .display-unit {
             background: 
                 linear-gradient(145deg, #0a0a0a, #1a1a1a);
-            border: 6px solid #333;
-            border-radius: 15px;
+            border: clamp(3px, 0.5vw, 6px) solid #333;
+            border-radius: clamp(8px, 1.2vw, 15px);
             padding: 0;
-            margin-bottom: 40px;
+            margin-bottom: clamp(20px, 3vw, 40px);
             box-shadow: 
                 inset 0 6px 25px rgba(0, 0, 0, 0.9),
                 inset 0 0 0 3px rgba(0, 150, 0, 0.1),
                 0 4px 0 rgba(255, 255, 255, 0.05);
             position: relative;
-            height: 240px;
+            height: var(--display-height);
+            flex-grow: 1;
+            min-height: 200px;
         }
         
         .display-unit::before {
@@ -181,7 +195,7 @@
             left: 6px;
             right: 6px;
             bottom: 6px;
-            border-radius: 9px;
+            border-radius: clamp(5px, 0.8vw, 9px);
             background: 
                 repeating-linear-gradient(
                     0deg,
@@ -199,16 +213,16 @@
             left: -4px;
             right: -4px;
             bottom: -4px;
-            border-radius: 19px;
+            border-radius: clamp(12px, 1.5vw, 19px);
             background: linear-gradient(45deg, #222, #444, #222);
             z-index: -1;
         }
         
         .display-bezel {
             background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border-radius: 9px;
+            border-radius: clamp(5px, 0.8vw, 9px);
             height: 100%;
-            padding: 20px;
+            padding: clamp(12px, 2vw, 20px);
             box-shadow: 
                 inset 0 2px 8px rgba(0, 0, 0, 0.8);
         }
@@ -216,12 +230,8 @@
         .screen {
             background: 
                 radial-gradient(ellipse at center, #001a00 0%, #000a00 60%, #000000 100%);
-            border-radius: 6px;
+            border-radius: clamp(3px, 0.5vw, 6px);
             height: 100%;
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            padding: 0;
             position: relative;
             overflow: hidden;
             border: 2px solid #0a2a0a;
@@ -242,36 +252,61 @@
                 );
             border-radius: 4px;
             pointer-events: none;
+            z-index: 2;
         }
         
-        .safe-area {
-            margin: 25px;
-            width: calc(100% - 50px);
-            height: calc(100% - 50px);
-            display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
+        .display-viewport {
+            height: 100%;
+            overflow: hidden;
+            position: relative;
         }
         
         .display-content {
             color: #00ff00;
-            font-size: 13px;
+            font-size: var(--font-size);
             font-weight: 400;
             letter-spacing: 0.5px;
             text-shadow: 
                 0 0 8px rgba(0, 255, 0, 0.9),
                 0 0 16px rgba(0, 255, 0, 0.5),
                 0 0 24px rgba(0, 255, 0, 0.3);
-            width: 100%;
-            line-height: 1.3;
             font-family: 'JetBrains Mono', monospace;
             white-space: pre-line;
+            padding: clamp(15px, 2.5vw, 25px);
+            line-height: 1.4;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transition: transform 0.3s ease;
+            min-height: 100%;
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #004400;
+            font-size: clamp(8px, 1vw, 10px);
+            z-index: 3;
+            display: none;
+        }
+        
+        .scroll-indicator.show {
+            display: block;
+            animation: scroll-hint 2s infinite;
+        }
+        
+        @keyframes scroll-hint {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
         }
         
         .cursor {
             display: inline-block;
-            width: 7px;
-            height: 13px;
+            width: clamp(6px, 0.8vw, 8px);
+            height: var(--font-size);
             background: #00ff00;
             margin-left: 2px;
             animation: blink 1s infinite;
@@ -286,24 +321,25 @@
         .button-panel {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            gap: 35px;
-            margin-bottom: 35px;
+            gap: clamp(20px, 3vw, 35px);
+            margin-bottom: clamp(20px, 3vw, 35px);
+            flex-shrink: 0;
         }
         
         .button {
             background: 
                 linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 30%, #1a1a1a 70%, #2a2a2a 100%);
             border: none;
-            border-radius: 12px;
+            border-radius: clamp(8px, 1vw, 12px);
             color: #ddd;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
+            font-size: clamp(10px, 1.3vw, 14px);
             font-weight: 700;
             letter-spacing: 1px;
-            padding: 22px 15px;
+            padding: clamp(15px, 2vw, 22px) clamp(10px, 1.5vw, 15px);
             cursor: pointer;
             box-shadow: 
-                0 8px 16px rgba(0, 0, 0, 0.5),
+                0 clamp(4px, 1vw, 8px) clamp(8px, 1.5vw, 16px) rgba(0, 0, 0, 0.5),
                 inset 0 2px 0 rgba(255, 255, 255, 0.1),
                 inset 0 -2px 0 rgba(0, 0, 0, 0.6),
                 inset 2px 0 0 rgba(255, 255, 255, 0.05),
@@ -311,9 +347,10 @@
             transition: all 0.12s ease;
             text-transform: uppercase;
             position: relative;
-            height: 75px;
-            border: 3px solid #555;
+            height: var(--button-height);
+            border: clamp(2px, 0.3vw, 3px) solid #555;
             overflow: hidden;
+            min-height: 50px;
         }
         
         .button::before {
@@ -325,24 +362,24 @@
             height: 45%;
             background: 
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
-            border-radius: 8px 8px 0 0;
+            border-radius: clamp(5px, 0.8vw, 8px) clamp(5px, 0.8vw, 8px) 0 0;
             pointer-events: none;
         }
         
         .button:hover {
             background: 
                 linear-gradient(145deg, #4a4a4a 0%, #3a3a3a 30%, #2a2a2a 70%, #3a3a3a 100%);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
             box-shadow: 
-                0 12px 20px rgba(0, 0, 0, 0.6),
+                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
                 inset 0 2px 0 rgba(255, 255, 255, 0.15);
             color: #fff;
         }
         
         .button:active {
-            transform: translateY(4px);
+            transform: translateY(2px);
             box-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.7),
+                0 2px 4px rgba(0, 0, 0, 0.7),
                 inset 0 3px 8px rgba(0, 0, 0, 0.5);
         }
         
@@ -363,45 +400,47 @@
                 linear-gradient(145deg, #006600 0%, #004d00 30%, #003300 70%, #004d00 100%);
             color: #44ff44;
             box-shadow: 
-                0 12px 20px rgba(0, 0, 0, 0.6),
+                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
                 0 0 25px rgba(0, 255, 0, 0.4);
         }
         
         .info-panel {
             display: grid;
             grid-template-columns: 1fr auto 1fr;
-            gap: 25px;
+            gap: clamp(15px, 2.5vw, 25px);
             align-items: center;
-            padding: 18px 25px;
+            padding: clamp(12px, 2vw, 18px) clamp(15px, 2.5vw, 25px);
             background: 
                 linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
-            border-radius: 10px;
-            border: 3px solid #333;
+            border-radius: clamp(6px, 1vw, 10px);
+            border: clamp(2px, 0.3vw, 3px) solid #333;
             box-shadow: 
                 inset 0 3px 8px rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
         }
         
         .power-status {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: clamp(6px, 1vw, 10px);
         }
         
         .power-meter {
-            width: 40px;
-            height: 18px;
+            width: clamp(30px, 4vw, 40px);
+            height: clamp(14px, 2vw, 18px);
             border: 2px solid #666;
             border-radius: 3px;
             position: relative;
             background: #000;
+            flex-shrink: 0;
         }
         
         .power-meter::after {
             content: '';
             position: absolute;
             right: -4px;
-            top: 5px;
-            bottom: 5px;
+            top: 20%;
+            bottom: 20%;
             width: 3px;
             background: #666;
             border-radius: 0 2px 2px 0;
@@ -420,7 +459,7 @@
         
         .power-text {
             color: #888;
-            font-size: 12px;
+            font-size: clamp(9px, 1.2vw, 12px);
             font-weight: 700;
             letter-spacing: 1px;
         }
@@ -431,7 +470,7 @@
         
         .counter-display {
             color: #00ff00;
-            font-size: 24px;
+            font-size: clamp(16px, 2.5vw, 24px);
             font-weight: 700;
             text-shadow: 0 0 12px rgba(0, 255, 0, 0.7);
             margin-bottom: 3px;
@@ -439,7 +478,7 @@
         
         .counter-label {
             color: #666;
-            font-size: 10px;
+            font-size: clamp(8px, 1vw, 10px);
             letter-spacing: 1px;
             text-transform: uppercase;
         }
@@ -447,7 +486,7 @@
         .sys-info {
             text-align: right;
             color: #666;
-            font-size: 10px;
+            font-size: clamp(8px, 1vw, 10px);
             letter-spacing: 1px;
             line-height: 1.4;
         }
@@ -489,26 +528,48 @@
                 0 0 16px rgba(255, 68, 68, 0.5);
         }
         
-        @media (max-width: 1200px) {
-            .machine {
-                width: 95vw;
-                height: auto;
-                min-height: 700px;
-                padding: 30px;
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            :root {
+                --device-width: 95vw;
+                --device-height: 95vh;
+                --display-height: 40vh;
+                --button-height: 12vw;
+                --font-size: 12px;
+                --padding: 15px;
             }
             
-            .display-content {
-                font-size: 12px;
+            .header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 10px;
             }
             
-            .button {
-                font-size: 12px;
-                padding: 18px 12px;
-                height: 70px;
+            .status-lights {
+                flex-direction: row;
+                justify-content: center;
+            }
+            
+            .info-panel {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .sys-info {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            :root {
+                --button-height: 15vw;
+                --font-size: 11px;
             }
             
             .button-panel {
-                gap: 25px;
+                gap: 15px;
             }
         }
     </style>
@@ -538,11 +599,12 @@
             <div class="display-frame"></div>
             <div class="display-bezel">
                 <div class="screen">
-                    <div class="safe-area">
+                    <div class="display-viewport">
                         <div class="display-content" id="display">
                             <div class="loading">YAMAHA DX-7000 INIT</div>
                         </div>
                     </div>
+                    <div class="scroll-indicator" id="scrollIndicator">▲▼</div>
                 </div>
             </div>
         </div>
@@ -578,6 +640,8 @@
         let currentAlbumIndex = 0;
         let currentSongIndex = 0;
         let currentMenuIndex = 0;
+        let scrollPosition = 0;
+        let maxScroll = 0;
         let stats = {};
         
         const menu = [
@@ -621,10 +685,7 @@
                 showWelcome();
                 
             } catch (error) {
-                showError(`LOAD ERROR: ${error.message}
-
-Check albums.json file
-in same directory`);
+                showError(`LOAD ERROR: ${error.message}\n\nCheck albums.json file\nin same directory`);
             }
         }
 
@@ -658,78 +719,161 @@ in same directory`);
         }
 
         function showWelcome() {
-            update(`DOME'S MUSIC ARCHIVE
+            const content = `DOME'S MUSIC ARCHIVE
 ═══════════════════════════════════════
 
 SYSTEM READY
-${albums.length} albums loaded
-${stats.tracks} total tracks
-${stats.favs} favorites found
 
-Press SELECT to continue`, 'OK', 'READY');
+${albums.length} albums loaded
+${stats.tracks} total tracks  
+${stats.favs} favorites found
+Average rating: ${stats.avg}/10
+
+Memory usage: ${stats.mem}MB
+Data integrity: OK
+Archive status: ONLINE
+
+Press SELECT to continue`;
+            
+            update(content, 'OK', 'READY');
             currentView = 'welcome';
         }
 
         function showMenu() {
             const item = menu[currentMenuIndex];
-            update(`MAIN MENU
+            const content = `MAIN MENU
 ═══════════════════════════════════════
 
-Select mode:
+Select operating mode:
 
 > ${item}
 
+Available modes:
+- BROWSE: Navigate album collection
+- STATS: View collection statistics  
+- FAVS: Show favorite tracks
+- RANDOM: Jump to random album
+- INFO: System information
+
 Use PREV/NEXT to navigate
-Press SELECT to enter mode`, 
-                `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
+Press SELECT to enter mode`;
+            
+            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
             currentView = 'menu';
         }
 
         function showBrowse() {
             if (albums.length === 0) return;
             const a = albums[currentIndex];
-            update(`BROWSE ALBUMS
+            
+            let content = `BROWSE ALBUMS
 ═══════════════════════════════════════
 
 ${currentIndex + 1}. ${a.artist}
     ${a.album} (${a.year})
 
-Rating: ${a.avg}/10
-Tracks: ${a.songs.length}
-${a.comment ? `\nComment: ${a.comment.substring(0, 50)}${a.comment.length > 50 ? '...' : ''}` : ''}`, 
-                `${currentIndex + 1}/${albums.length}`, 'BROWSE');
+★ Rating: ${a.avg}/10
+♪ Tracks: ${a.songs.length}`;
+
+            if (a.comment) {
+                content += `\n\nComment:\n${a.comment}`;
+            }
+            
+            content += `\n\nPress SELECT to view tracks
+Use PREV/NEXT to scroll content
+Use ◀/▶ to change albums`;
+            
+            update(content, `${currentIndex + 1}/${albums.length}`, 'BROWSE');
             currentView = 'browse';
         }
 
         function showAlbum() {
             const a = albums[currentAlbumIndex];
             const s = a.songs[currentSongIndex];
-            update(`ALBUM VIEW
+            
+            let content = `ALBUM VIEW
 ═══════════════════════════════════════
 
 ${a.artist}
 ${a.album} (${a.year})
+Album rating: ${a.avg}/10
 
-Track ${currentSongIndex + 1}: ${s.name}
-Rating: ${s.rating}/10${s.favorite ? ' ♥ FAVORITE' : ''}${s.interlude ? ' [INTERLUDE]' : ''}
+───────────────────────────────────────
+TRACK ${currentSongIndex + 1}/${a.songs.length}
 
-Album avg: ${a.avg}/10`, 
-                `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
+${s.name}
+Rating: ${s.rating}/10`;
+
+            if (s.favorite) content += ' ♥ FAVORITE';
+            if (s.interlude) content += ' [INTERLUDE]';
+            
+            content += `\n\n───────────────────────────────────────
+ALL TRACKS:
+
+`;
+
+            a.songs.forEach((track, i) => {
+                const marker = i === currentSongIndex ? '► ' : '  ';
+                const fav = track.favorite ? ' ♥' : '';
+                const inter = track.interlude ? ' [i]' : '';
+                content += `${marker}${i + 1}. ${track.name} (${track.rating}/10)${fav}${inter}\n`;
+            });
+            
+            content += `\nUse PREV/NEXT to scroll
+Use ◀/▶ to change tracks
+Press SELECT to go back`;
+            
+            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
             currentView = 'album';
         }
 
         function showStats() {
-            update(`STATISTICS
+            let content = `STATISTICS
 ═══════════════════════════════════════
 
-Total albums: ${stats.albums}
-Total tracks: ${stats.tracks}
-Favorites: ${stats.favs}
-Average rating: ${stats.avg}/10
+COLLECTION OVERVIEW:
+- Total albums: ${stats.albums}
+- Total tracks: ${stats.tracks} 
+- Favorite tracks: ${stats.favs}
+- Average rating: ${stats.avg}/10
 
-Top album: ${stats.top.artist}
-           ${stats.top.album} (${stats.top.avg}/10)`, 
-                stats.albums, 'STATS');
+TOP RATED ALBUM:
+${stats.top.artist}
+${stats.top.album}
+Rating: ${stats.top.avg}/10
+
+RATING DISTRIBUTION:`;
+
+            // Calculate rating distribution
+            const distribution = {};
+            for (let i = 1; i <= 10; i++) {
+                distribution[i] = 0;
+            }
+            
+            albums.forEach(a => {
+                a.songs.forEach(s => {
+                    if (!s.interlude) {
+                        const rating = Math.floor(s.rating);
+                        distribution[rating] = (distribution[rating] || 0) + 1;
+                    }
+                });
+            });
+            
+            for (let i = 10; i >= 1; i--) {
+                if (distribution[i] > 0) {
+                    content += `\n${i}/10: ${distribution[i]} tracks`;
+                }
+            }
+            
+            content += `\n\nSYSTEM INFO:
+Memory usage: ${stats.mem}MB
+Data integrity: Verified
+Last updated: ${new Date().toLocaleDateString()}
+
+Use PREV/NEXT to scroll
+Press SELECT for main menu`;
+            
+            update(content, stats.albums, 'STATS');
             currentView = 'stats';
         }
 
@@ -757,22 +901,40 @@ Top album: ${stats.top.artist}
 No favorites found
 
 Mark songs as favorites
-to see them here`, '0', 'FAVS');
+to see them here
+
+Press SELECT for main menu`, '0', 'FAVS');
                 return;
             }
             
             if (currentIndex >= favs.length) currentIndex = 0;
             const f = favs[currentIndex];
             
-            update(`FAVORITES
+            let content = `FAVORITES
 ═══════════════════════════════════════
 
-${currentIndex + 1}. ${f.name}
-    by ${f.artist}
+CURRENT FAVORITE:
+${f.name}
+by ${f.artist}
 
 Rating: ${f.rating}/10 ♥
-From album: ${f.album}`, 
-                `${currentIndex + 1}/${favs.length}`, 'FAVS');
+From album: ${f.album}
+
+───────────────────────────────────────
+ALL FAVORITES (sorted by rating):
+
+`;
+
+            favs.forEach((fav, i) => {
+                const marker = i === currentIndex ? '► ' : '  ';
+                content += `${marker}${fav.rating}/10 - ${fav.name}\n     by ${fav.artist}\n`;
+            });
+            
+            content += `\nUse PREV/NEXT to scroll
+Use ◀/▶ to change favorites
+Press SELECT for main menu`;
+            
+            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS');
             currentView = 'favs';
         }
 
@@ -785,17 +947,41 @@ From album: ${f.album}`,
         }
 
         function showInfo() {
-            update(`SYSTEM INFORMATION
+            const content = `SYSTEM INFORMATION
 ═══════════════════════════════════════
 
-YAMAHA DX-7000 PRO
+DEVICE SPECIFICATIONS:
+Model: YAMAHA DX-7000 PRO
 Firmware: v2.1.0
-Memory usage: ${stats.mem}MB
+Architecture: Retro Digital Audio
+Display: Monochrome LCD Matrix
+Memory: ${stats.mem}MB allocated
 
-DOME'S MUSIC COLLECTION
+ARCHIVE DETAILS:
+Owner: DOME
+Collection name: Personal Music Archive
 Established: 2024
-Status: Operational`, 
-                'SYS', 'INFO');
+Total entries: ${stats.albums} albums
+Quality: High-fidelity ratings
+
+SYSTEM STATUS:
+Power: 88% battery
+Temperature: Normal
+Data integrity: 100%
+Network: Offline mode
+Status: Fully operational
+
+TECHNICAL NOTES:
+- Scrollable display interface
+- Touch/keyboard navigation
+- Mobile responsive design
+- Real-time data processing
+- Authentic retro aesthetics
+
+Use PREV/NEXT to scroll
+Press SELECT for main menu`;
+            
+            update(content, 'SYS', 'INFO');
             currentView = 'info';
         }
 
@@ -805,17 +991,60 @@ Status: Operational`,
 
 ${msg}
 
-Press SELECT to retry</div>`, 'ERR', 'ERROR');
+Press SELECT to retry loading</div>`, 'ERR', 'ERROR');
             currentView = 'error';
         }
 
         function update(content, counter, label) {
-            document.getElementById('display').innerHTML = content + '<span class="cursor"></span>';
+            const displayElement = document.getElementById('display');
+            displayElement.innerHTML = content + '<span class="cursor"></span>';
+            
             document.getElementById('counter').textContent = counter;
             document.getElementById('counterLabel').textContent = label;
             document.getElementById('memInfo').textContent = `MEM: ${stats.mem || '0.0'}MB`;
             document.getElementById('statInfo').textContent = `STATUS: ${label}`;
+            
+            // Reset scroll
+            scrollPosition = 0;
+            updateScroll();
             updateButtons();
+            checkScrollable();
+        }
+
+        function updateScroll() {
+            const displayElement = document.getElementById('display');
+            const viewport = displayElement.parentElement;
+            
+            // Calculate max scroll
+            const contentHeight = displayElement.scrollHeight;
+            const viewportHeight = viewport.clientHeight;
+            maxScroll = Math.max(0, contentHeight - viewportHeight);
+            
+            // Apply scroll transform
+            const scrollPercent = maxScroll > 0 ? scrollPosition / maxScroll : 0;
+            const translateY = -scrollPosition;
+            displayElement.style.transform = `translateY(${translateY}px)`;
+        }
+
+        function checkScrollable() {
+            const indicator = document.getElementById('scrollIndicator');
+            if (maxScroll > 0) {
+                indicator.classList.add('show');
+            } else {
+                indicator.classList.remove('show');
+            }
+        }
+
+        function scroll(direction) {
+            const scrollStep = 20;
+            
+            if (direction === 'up') {
+                scrollPosition = Math.max(0, scrollPosition - scrollStep);
+            } else if (direction === 'down') {
+                scrollPosition = Math.min(maxScroll, scrollPosition + scrollStep);
+            }
+            
+            updateScroll();
         }
 
         function updateButtons() {
@@ -825,9 +1054,9 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
             
             switch(currentView) {
                 case 'welcome':
-                    left.textContent = '◀ PREV';
+                    left.textContent = '◀ UP';
                     center.textContent = 'START';
-                    right.textContent = 'NEXT ▶';
+                    right.textContent = 'DOWN ▶';
                     break;
                 case 'menu':
                     left.textContent = '◀ UP';
@@ -835,19 +1064,24 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
                     right.textContent = 'DOWN ▶';
                     break;
                 case 'browse':
-                    left.textContent = '◀ PREV';
+                    left.textContent = '◀ ALBUM';
                     center.textContent = 'OPEN';
-                    right.textContent = 'NEXT ▶';
+                    right.textContent = 'ALBUM ▶';
                     break;
                 case 'album':
                     left.textContent = '◀ TRACK';
                     center.textContent = 'BACK';
                     right.textContent = 'TRACK ▶';
                     break;
-                default:
-                    left.textContent = '◀ PREV';
+                case 'favs':
+                    left.textContent = '◀ FAV';
                     center.textContent = 'MENU';
-                    right.textContent = 'NEXT ▶';
+                    right.textContent = 'FAV ▶';
+                    break;
+                default:
+                    left.textContent = '◀ UP';
+                    center.textContent = 'MENU';
+                    right.textContent = 'DOWN ▶';
             }
         }
 
@@ -866,7 +1100,16 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
         }
 
         function handlePrev() {
+            // Check if we can scroll first
+            if (scrollPosition > 0) {
+                scroll('up');
+                return;
+            }
+            
             switch(currentView) {
+                case 'welcome':
+                    scroll('up');
+                    break;
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
                     showMenu();
@@ -887,11 +1130,23 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
                         showFavs();
                     }
                     break;
+                default:
+                    scroll('up');
+                    break;
             }
         }
 
         function handleNext() {
+            // Check if we can scroll first
+            if (scrollPosition < maxScroll) {
+                scroll('down');
+                return;
+            }
+            
             switch(currentView) {
+                case 'welcome':
+                    scroll('down');
+                    break;
                 case 'menu':
                     currentMenuIndex = (currentMenuIndex + 1) % menu.length;
                     showMenu();
@@ -911,6 +1166,9 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
                         currentIndex = (currentIndex + 1) % favs.length;
                         showFavs();
                     }
+                    break;
+                default:
+                    scroll('down');
                     break;
             }
         }
@@ -986,6 +1244,12 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
                 case 'ArrowRight':
                     navigate('next');
                     break;
+                case 'ArrowUp':
+                    scroll('up');
+                    break;
+                case 'ArrowDown':
+                    scroll('down');
+                    break;
                 case 'Enter':
                 case ' ':
                     navigate('select');
@@ -996,6 +1260,46 @@ Press SELECT to retry</div>`, 'ERR', 'ERROR');
                     }
                     break;
             }
+        });
+
+        // Touch/wheel scrolling
+        let startY = 0;
+        const viewport = document.querySelector('.display-viewport');
+
+        viewport.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        });
+
+        viewport.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const currentY = e.touches[0].clientY;
+            const diff = startY - currentY;
+            
+            if (Math.abs(diff) > 5) {
+                if (diff > 0) {
+                    scroll('down');
+                } else {
+                    scroll('up');
+                }
+                startY = currentY;
+            }
+        });
+
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY > 0) {
+                scroll('down');
+            } else {
+                scroll('up');
+            }
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                updateScroll();
+                checkScrollable();
+            }, 100);
         });
 
         // Start the machine
