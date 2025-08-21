@@ -154,8 +154,29 @@
             {"name": "Heartbreaker", "rating": 8.5, "favorite": false, "interlude": false},
             {"name": "Living Loving Maid", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Ramble On", "rating": 7.5, "favorite": false, "interlude": false},
-            {"name": "Moby Dick", "rating": 7, "favorite": false, "interlude": false},
-            {"name": "Bring It Home", "rating": 7.5, "favorite": false, "interlude": false}
+            {"name": "Moby Dick", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Bring It Home", "rating": 6, "favorite": false, "interlude": false}
+            
+            
+        
+        ]
+    },
+    {
+        "artist": "The Clash",
+        "album": "The Clash",
+        "year": 1977,
+        "comment": "",
+        "songs": [
+            {"name": "Janie Jones", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "Remote Control", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "I'm so Bored with the USA", "rating": , "favorite": false, "interlude": false},
+            {"name": "White Riot", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Hate & War", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "What's My Name", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Deny", "rating": 6.5, "favorite": false, "interlude": false}
+ 
+            
+   
             
             
         
