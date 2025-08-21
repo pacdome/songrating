@@ -169,17 +169,13 @@
         "songs": [
             {"name": "Janie Jones", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Remote Control", "rating": 6.5, "favorite": false, "interlude": false},
-            {"name": "I'm so Bored with the USA", "rating": , "favorite": false, "interlude": false},
+            {"name": "I'm so Bored with the USA", "rating": 7, "favorite": false, "interlude": false},
             {"name": "White Riot", "rating": 8, "favorite": false, "interlude": false},
             {"name": "Hate & War", "rating": 6.5, "favorite": false, "interlude": false},
             {"name": "What's My Name", "rating": 6.5, "favorite": false, "interlude": false},
-            {"name": "Deny", "rating": 6.5, "favorite": false, "interlude": false}
+            {"name": "Deny", "rating": 6, "favorite": false, "interlude": false},
+            {"name": "Londons Burning", "rating": 6, "favorite": false, "interlude": false}
  
-            
-   
-            
-            
-        
         ]
     }
 ]
