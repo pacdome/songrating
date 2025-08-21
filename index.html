@@ -3,367 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musikarchiv.exe - Notepad</title>
+    <title>TECHNICS MD-3000 PRO</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Perfect+DOS+VGA+437&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono:wght@400&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
         
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
         }
         
         body {
-            background: #008080;
-            font-family: 'Perfect DOS VGA 437', 'MS Sans Serif', sans-serif;
-            font-size: 11px;
+            background: 
+                radial-gradient(circle at 25% 25%, #1a1a1a 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #2a2a2a 0%, transparent 50%),
+                linear-gradient(135deg, #0d0d0d 0%, #1a1a1a 50%, #0d0d0d 100%);
+            font-family: 'Share Tech Mono', monospace;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
             overflow: hidden;
-            height: 100vh;
         }
         
-        .desktop {
-            position: relative;
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 100vh;
-            background: #008080;
-            background-image: 
-                radial-gradient(circle at 25% 25%, #008b8b 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, #006666 0%, transparent 50%);
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 0, 0.01) 2px,
+                    rgba(0, 255, 0, 0.01) 4px
+                );
+            pointer-events: none;
+            z-index: 1;
         }
         
-        .window {
-            position: absolute;
-            top: 50px;
-            left: 50px;
-            right: 50px;
-            bottom: 90px;
-            background: #c0c0c0;
-            border: 2px outset #c0c0c0;
-            box-shadow: 2px 2px 0 #000;
-        }
-        
-        .title-bar {
-            height: 18px;
-            background: linear-gradient(90deg, #000080 0%, #0000ff 100%);
-            display: flex;
-            align-items: center;
-            padding: 2px;
-            color: white;
-            font-size: 11px;
+        .device {
+            width: 800px;
+            height: 600px;
+            background: 
+                linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 20%, #2a2a2a 40%, #1a1a1a 60%, #2a2a2a 100%);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 
+                0 0 100px rgba(0, 0, 0, 0.9),
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                inset 2px 2px 10px rgba(255, 255, 255, 0.05),
+                inset -2px -2px 10px rgba(0, 0, 0, 0.3);
             position: relative;
+            z-index: 2;
+            border: 3px solid #333;
         }
         
-        .title-icon {
-            width: 14px;
-            height: 14px;
-            background: #ffff00;
-            margin-right: 4px;
-            border: 1px solid #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            color: #000;
-        }
-        
-        .title-text {
-            flex-grow: 1;
-            font-weight: bold;
-        }
-        
-        .window-controls {
-            display: flex;
-            gap: 2px;
-        }
-        
-        .window-btn {
-            width: 16px;
-            height: 14px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            cursor: pointer;
-            color: #000;
-        }
-        
-        .window-btn:active {
-            border: 1px inset #c0c0c0;
-        }
-        
-        .menu-bar {
-            height: 20px;
-            background: #c0c0c0;
-            border-bottom: 1px solid #808080;
-            display: flex;
-            align-items: center;
-            padding: 0 4px;
-        }
-        
-        .menu-item {
-            padding: 4px 8px;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-        
-        .menu-item:hover {
-            background: #316ac5;
-            color: white;
-            border: 1px solid #000080;
-        }
-        
-        .content-area {
-            flex: 1;
-            background: white;
-            margin: 2px;
-            border: 1px inset #c0c0c0;
-            display: flex;
-            overflow: hidden;
-        }
-        
-        .text-area {
-            flex: 1;
-            background: white;
-            padding: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 10px;
-            line-height: 1.2;
-            overflow-y: auto;
-            position: relative;
-        }
-        
-        .scrollbar {
-            width: 16px;
-            background: #c0c0c0;
-            border-left: 1px solid #808080;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .scroll-btn {
-            height: 16px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 8px;
-        }
-        
-        .scroll-btn:active {
-            border: 1px inset #c0c0c0;
-        }
-        
-        .scroll-track {
-            flex: 1;
-            background: #c0c0c0;
-            position: relative;
-        }
-        
-        .scroll-thumb {
-            width: 14px;
-            height: 30px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            cursor: pointer;
+        .device::before {
+            content: '';
             position: absolute;
             top: 0;
-        }
-        
-        .taskbar {
-            position: fixed;
-            bottom: 0;
             left: 0;
             right: 0;
-            height: 30px;
-            background: #c0c0c0;
-            border-top: 1px solid #808080;
-            display: flex;
-            align-items: center;
-            padding: 2px;
-            z-index: 1000;
+            bottom: 0;
+            border-radius: 22px;
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 1px,
+                    rgba(255, 255, 255, 0.02) 1px,
+                    rgba(255, 255, 255, 0.02) 2px
+                );
+            pointer-events: none;
         }
         
-        .start-btn {
-            height: 26px;
-            padding: 0 20px 0 6px;
-            background: #c0c0c0;
-            border: 1px outset #c0c0c0;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-weight: bold;
+        .top-panel {
+            height: 20px;
+            background: linear-gradient(90deg, #333, #444, #333);
+            border-radius: 10px;
+            margin-bottom: 20px;
             position: relative;
+            box-shadow: 
+                inset 0 2px 4px rgba(0, 0, 0, 0.5),
+                0 1px 0 rgba(255, 255, 255, 0.1);
         }
         
-        .start-btn:active {
-            border: 1px inset #c0c0c0;
+        .top-panel::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #555, transparent);
         }
         
-        .start-btn::before {
-            content: "⊞";
-            margin-right: 4px;
-            color: #000080;
-            font-size: 14px;
-        }
-        
-        .taskbar-app {
-            height: 26px;
-            padding: 0 8px;
-            background: #c0c0c0;
-            border: 1px inset #c0c0c0;
-            display: flex;
-            align-items: center;
-            margin-left: 4px;
-            font-size: 10px;
-        }
-        
-        .taskbar-app::before {
-            content: "📄";
-            margin-right: 4px;
-        }
-        
-        .system-tray {
-            margin-left: auto;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 0 4px;
-        }
-        
-        .tray-icon {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-        }
-        
-        .clock {
-            padding: 0 4px;
-            border: 1px inset #c0c0c0;
-            font-size: 10px;
-        }
-        
-        .album-entry {
-            margin-bottom: 16px;
-            font-family: 'Courier New', monospace;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 8px;
-        }
-        
-        .album-header {
-            font-weight: bold;
-            margin-bottom: 4px;
-            cursor: pointer;
-            background: #e0e0e0;
-            padding: 2px 4px;
-            border: 1px solid #808080;
-        }
-        
-        .album-header:hover {
-            background: #d0d0d0;
-        }
-        
-        .album-details {
-            margin-left: 8px;
-            display: none;
-            font-size: 9px;
-            line-height: 1.3;
-        }
-        
-        .album-details.expanded {
-            display: block;
-        }
-        
-        .song-list {
-            margin: 4px 0;
-        }
-        
-        .song-item {
+        .brand-section {
             display: flex;
             justify-content: space-between;
-            padding: 1px 0;
-        }
-        
-        .song-rating {
-            min-width: 40px;
-            text-align: right;
-        }
-        
-        .rating-10 { color: #ff0000; font-weight: bold; }
-        .rating-9 { color: #ff6600; font-weight: bold; }
-        .rating-8 { color: #ff9900; }
-        .rating-7 { color: #ffcc00; }
-        .rating-6 { color: #009900; }
-        .rating-5 { color: #0066cc; }
-        .rating-4 { color: #6666cc; }
-        .rating-3 { color: #9966cc; }
-        .rating-2 { color: #cc6699; }
-        .rating-1 { color: #cc3333; }
-        
-        .favorite::after {
-            content: " ★";
-            color: #ff0000;
-        }
-        
-        .interlude {
-            opacity: 0.6;
-            font-style: italic;
-        }
-        
-        .controls {
-            background: #f0f0f0;
-            padding: 4px;
-            border-bottom: 1px solid #808080;
-            display: flex;
-            gap: 8px;
             align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .brand {
+            color: #888;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 
+                1px 1px 0 rgba(0,0,0,0.8),
+                0 0 10px rgba(136, 136, 136, 0.3);
+        }
+        
+        .model {
+            color: #666;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .power-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .power-led {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: 
+                radial-gradient(circle at 30% 30%, #ff6666, #ff0000);
+            box-shadow: 
+                0 0 15px rgba(255, 0, 0, 0.8),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.3);
+            animation: pulse 2s infinite;
+            border: 1px solid #660000;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                opacity: 1; 
+                box-shadow: 
+                    0 0 15px rgba(255, 0, 0, 0.8),
+                    inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                opacity: 0.4; 
+                box-shadow: 
+                    0 0 8px rgba(255, 0, 0, 0.4),
+                    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            }
+        }
+        
+        .power-text {
+            color: #666;
             font-size: 10px;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', monospace;
         }
         
-        .control-input {
-            padding: 2px 4px;
-            border: 1px inset #c0c0c0;
-            background: white;
-            font-family: inherit;
-            font-size: 10px;
+        .lcd-container {
+            background: 
+                linear-gradient(145deg, #1a1a1a, #0d0d0d);
+            border: 4px solid #2a2a2a;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 
+                inset 0 4px 15px rgba(0, 0, 0, 0.8),
+                inset 0 0 0 2px rgba(0, 100, 0, 0.1),
+                0 2px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            height: 200px;
         }
         
-        .control-button {
-            padding: 2px 8px;
-            border: 1px outset #c0c0c0;
-            background: #c0c0c0;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 10px;
-        }
-        
-        .control-button:active {
-            border: 1px inset #c0c0c0;
-        }
-        
-        .status-line {
+        .lcd-container::before {
+            content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 16px;
-            height: 16px;
-            background: #c0c0c0;
-            border-top: 1px solid #808080;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border-radius: 8px;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent 0px,
+                    transparent 1px,
+                    rgba(0, 255, 0, 0.02) 1px,
+                    rgba(0, 255, 0, 0.02) 2px
+                );
+            pointer-events: none;
+        }
+        
+        .lcd-bezel {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 17px;
+            background: linear-gradient(45deg, #333, #444, #333);
+            z-index: -1;
+        }
+        
+        .lcd-screen {
+            background: 
+                radial-gradient(circle at center, #0a2d0a 0%, #051505 70%, #000 100%);
+            border-radius: 8px;
+            padding: 20px;
+            height: 100%;
             display: flex;
             align-items: center;
-            padding: 0 4px;
-            font-size: 9px;
+            position: relative;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.9);
+        }
+        
+        .lcd-screen::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            height: 30%;
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(255, 255, 255, 0.02) 0%,
+                    transparent 100%
+                );
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        
+        .display-text {
+            color: #00ff41;
+            font-size: 20px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            text-shadow: 
+                0 0 10px rgba(0, 255, 65, 0.8),
+                0 0 20px rgba(0, 255, 65, 0.4),
+                0 0 30px rgba(0, 255, 65, 0.2);
+            width: 100%;
+            text-align: left;
+            font-family: 'Share Tech Mono', monospace;
+            line-height: 1.3;
+            filter: blur(0.3px);
         }
         
         .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 20px;
+            background: 
+                linear-gradient(to bottom, #00ff41, #00cc33);
+            margin-left: 2px;
             animation: blink 1s infinite;
-            color: #000;
+            box-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
         }
         
         @keyframes blink {
@@ -371,319 +282,723 @@
             51%, 100% { opacity: 0; }
         }
         
-        .window-content {
+        .controls-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: 
+                linear-gradient(145deg, #4a4a4a 0%, #3a3a3a 50%, #2a2a2a 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ddd;
+            font-family: 'Orbitron', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 20px 15px;
+            cursor: pointer;
+            box-shadow: 
+                0 8px 15px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5),
+                inset 1px 0 0 rgba(255, 255, 255, 0.05),
+                inset -1px 0 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.15s ease;
+            text-transform: uppercase;
+            position: relative;
+            height: 80px;
+            border: 2px solid #555;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 50%;
+            background: 
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.1), transparent);
+            border-radius: 8px 8px 0 0;
+            pointer-events: none;
+        }
+        
+        .btn:hover {
+            background: 
+                linear-gradient(145deg, #5a5a5a 0%, #4a4a4a 50%, #3a3a3a 100%);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 20px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+        
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.6),
+                inset 0 2px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-primary {
+            background: 
+                linear-gradient(145deg, #006600 0%, #004d00 50%, #003300 100%);
+            color: #00ff41;
+            border-color: #008800;
+        }
+        
+        .btn-primary::before {
+            background: 
+                linear-gradient(to bottom, rgba(0, 255, 65, 0.2), transparent);
+        }
+        
+        .btn-primary:hover {
+            background: 
+                linear-gradient(145deg, #008800 0%, #006600 50%, #004400 100%);
+            color: #44ff77;
+            box-shadow: 
+                0 12px 20px rgba(0, 0, 0, 0.5),
+                0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .status-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 15px 20px;
+            background: 
+                linear-gradient(90deg, #1a1a1a, #2a2a2a, #1a1a1a);
+            border-radius: 10px;
+            border: 2px solid #333;
+            box-shadow: 
+                inset 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .battery-section {
             display: flex;
-            flex-direction: column;
-            height: calc(100% - 18px);
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .battery {
+            width: 40px;
+            height: 20px;
+            border: 2px solid #666;
+            border-radius: 3px;
+            position: relative;
+            background: #000;
+        }
+        
+        .battery::after {
+            content: '';
+            position: absolute;
+            right: -5px;
+            top: 6px;
+            bottom: 6px;
+            width: 3px;
+            background: #666;
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .battery-fill {
+            height: 100%;
+            background: 
+                linear-gradient(90deg, #00ff41, #00cc33);
+            border-radius: 1px;
+            width: 85%;
+            box-shadow: 
+                0 0 5px rgba(0, 255, 65, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+        
+        .battery-text {
+            color: #888;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .counter-section {
+            text-align: center;
+        }
+        
+        .counter {
+            color: #00ff41;
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Share Tech Mono', monospace;
+            text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+        }
+        
+        .counter-label {
+            color: #666;
+            font-size: 10px;
+            margin-top: 2px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+        
+        .system-info {
+            text-align: right;
+            color: #666;
+            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 1px;
+        }
+        
+        .loading {
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { 
+                text-shadow: 
+                    0 0 10px rgba(0, 255, 65, 0.8),
+                    0 0 20px rgba(0, 255, 65, 0.4);
+            }
+            to { 
+                text-shadow: 
+                    0 0 20px rgba(0, 255, 65, 1),
+                    0 0 30px rgba(0, 255, 65, 0.6),
+                    0 0 40px rgba(0, 255, 65, 0.4);
+            }
+        }
+        
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+        
+        .error-text {
+            color: #ff4444;
+            text-shadow: 
+                0 0 10px rgba(255, 68, 68, 0.8),
+                0 0 20px rgba(255, 68, 68, 0.4);
+        }
+        
+        @media (max-width: 900px) {
+            .device {
+                width: 90vw;
+                height: 80vh;
+                padding: 30px;
+            }
+            
+            .display-text {
+                font-size: 16px;
+            }
+            
+            .btn {
+                font-size: 14px;
+                padding: 15px 10px;
+                height: 70px;
+            }
+            
+            .controls-section {
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="desktop">
-        <div class="window">
-            <div class="title-bar">
-                <div class="title-icon">♪</div>
-                <div class="title-text">Musikarchiv.txt - Notepad</div>
-                <div class="window-controls">
-                    <div class="window-btn">_</div>
-                    <div class="window-btn">□</div>
-                    <div class="window-btn">×</div>
-                </div>
+    <div class="device">
+        <div class="top-panel"></div>
+        
+        <div class="brand-section">
+            <div>
+                <div class="brand">TECHNICS</div>
+                <div class="model">MD-3000 PRO ARCHIVE UNIT</div>
             </div>
-            
-            <div class="window-content">
-                <div class="menu-bar">
-                    <div class="menu-item">Datei</div>
-                    <div class="menu-item">Bearbeiten</div>
-                    <div class="menu-item">Suchen</div>
-                    <div class="menu-item">Hilfe</div>
-                </div>
-                
-                <div class="controls">
-                    <label>Suchen:</label>
-                    <input type="text" class="control-input" id="searchInput" placeholder="Album oder Künstler..." onkeyup="searchAlbums()">
-                    
-                    <label>Sortierung:</label>
-                    <select class="control-input" id="sortSelect" onchange="sortAlbums()">
-                        <option value="rating-desc">Bewertung (hoch-niedrig)</option>
-                        <option value="rating-asc">Bewertung (niedrig-hoch)</option>
-                        <option value="artist-asc">Künstler (A-Z)</option>
-                        <option value="year-desc">Jahr (neu-alt)</option>
-                        <option value="year-asc">Jahr (alt-neu)</option>
-                    </select>
-                    
-                    <button class="control-button" onclick="toggleAllAlbums()">Alle aufklappen</button>
-                    <button class="control-button" onclick="resetFilters()">Zurücksetzen</button>
-                </div>
-                
-                <div class="content-area">
-                    <div class="text-area" id="albumList">
-                        Lade Musikarchiv...<span class="cursor">|</span>
-                    </div>
-                    <div class="scrollbar">
-                        <div class="scroll-btn">▲</div>
-                        <div class="scroll-track">
-                            <div class="scroll-thumb"></div>
-                        </div>
-                        <div class="scroll-btn">▼</div>
-                    </div>
-                </div>
-                
-                <div class="status-line">
-                    <span id="statusText">Zeile 1, Spalte 1</span>
-                    <span style="margin-left: auto;" id="albumCount">0 Alben geladen</span>
+            <div class="power-indicator">
+                <div class="power-led"></div>
+                <div class="power-text">POWER</div>
+            </div>
+        </div>
+        
+        <div class="lcd-container">
+            <div class="lcd-bezel"></div>
+            <div class="lcd-screen">
+                <div class="display-text" id="display">
+                    <div class="loading">SYSTEM INITIALIZING</div>
                 </div>
             </div>
         </div>
         
-        <div class="taskbar">
-            <div class="start-btn">Start</div>
-            <div class="taskbar-app">Musikarchiv.txt - Notepad</div>
-            <div class="system-tray">
-                <div class="tray-icon">🔊</div>
-                <div class="tray-icon">📧</div>
-                <div class="clock" id="clock">12:34</div>
+        <div class="controls-section">
+            <button class="btn" onclick="navigate('prev')" id="btnPrev">◀ PREV</button>
+            <button class="btn btn-primary" onclick="navigate('select')" id="btnSelect">SELECT</button>
+            <button class="btn" onclick="navigate('next')" id="btnNext">NEXT ▶</button>
+        </div>
+        
+        <div class="status-panel">
+            <div class="battery-section">
+                <div class="battery">
+                    <div class="battery-fill"></div>
+                </div>
+                <div class="battery-text">85%</div>
+            </div>
+            <div class="counter-section">
+                <div class="counter" id="counter">00/00</div>
+                <div class="counter-label" id="counterLabel">INITIALIZING</div>
+            </div>
+            <div class="system-info">
+                <div id="memoryInfo">MEMORY: 0MB</div>
+                <div id="statusInfo">STATUS: BOOT</div>
             </div>
         </div>
     </div>
 
     <script>
         let albums = [];
-        let currentAlbums = [];
-        let allExpanded = false;
+        let currentIndex = 0;
+        let currentView = 'startup'; // 'startup', 'menu', 'browse', 'album', 'stats', 'favorites'
+        let currentAlbumIndex = 0;
+        let currentSongIndex = 0;
+        let currentMenuIndex = 0;
+        let statsData = {};
+        
+        const menuItems = [
+            { name: 'BROWSE ALBUMS', mode: 'browse' },
+            { name: 'STATISTICS', mode: 'stats' },
+            { name: 'TOP FAVORITES', mode: 'favorites' },
+            { name: 'RANDOM ALBUM', mode: 'random' },
+            { name: 'SYSTEM INFO', mode: 'info' }
+        ];
 
         async function loadAlbums() {
             try {
-                const response = await fetch('albums.json');
+                const response = await fetch('./albums.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
-                albums = await response.json();
+                const data = await response.json();
                 
-                // Entferne Duplikate basierend auf Artist und Album
+                // Bereinige Duplikate (basierend auf Artist + Album)
                 const uniqueAlbums = [];
                 const seen = new Set();
                 
-                for (const album of albums) {
+                data.forEach(album => {
                     const key = `${album.artist}-${album.album}`;
                     if (!seen.has(key)) {
                         seen.add(key);
+                        
+                        // Berechne Average Rating
+                        const nonInterludeSongs = album.songs.filter(song => !song.interlude);
+                        if (nonInterludeSongs.length > 0) {
+                            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
+                            album.avgRating = (sum / nonInterludeSongs.length).toFixed(1);
+                        } else {
+                            album.avgRating = 0;
+                        }
+                        
                         uniqueAlbums.push(album);
                     }
-                }
+                });
                 
                 albums = uniqueAlbums;
-                currentAlbums = [...albums];
-                sortAlbums();
-                displayAlbums();
-                updateStatus();
+                calculateStats();
+                showStartupScreen();
+                
             } catch (error) {
-                console.error('Fehler beim Laden:', error);
-                document.getElementById('albumList').innerHTML = 
-                    `FEHLER: Kann albums.json nicht laden.\n\n` +
-                    `Datei nicht gefunden oder Zugriff verweigert.\n` +
-                    `Bitte überprüfen Sie den Dateipfad.<span class="cursor">|</span>`;
+                console.error('Fehler beim Laden der albums.json:', error);
+                showError(`LOAD ERROR: ${error.message}`);
             }
         }
 
-        function calculateAverageRating(songs) {
-            const nonInterludeSongs = songs.filter(song => !song.interlude);
-            if (nonInterludeSongs.length === 0) return 0;
-            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
-            return (sum / nonInterludeSongs.length).toFixed(1);
-        }
-
-        function getRatingClass(rating) {
-            return `rating-${Math.floor(rating)}`;
-        }
-
-        function displayAlbums() {
-            const albumList = document.getElementById('albumList');
-            let content = '';
+        function calculateStats() {
+            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
+            const totalNonInterludes = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => !song.interlude).length, 0);
+            const totalFavorites = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => song.favorite).length, 0);
             
-            content += `═══════════════════════════════════════════════════════════════════════════════\n`;
-            content += `                            DOMES MUSIK ARCHIV v1.0                             \n`;
-            content += `═══════════════════════════════════════════════════════════════════════════════\n\n`;
-            
-            if (currentAlbums.length === 0) {
-                content += `Keine Alben gefunden.\n\n`;
-            } else {
-                currentAlbums.forEach((album, index) => {
-                    const avgRating = calculateAverageRating(album.songs);
-                    const favoriteCount = album.songs.filter(song => song.favorite).length;
-                    
-                    content += `[${String(index + 1).padStart(2, '0')}] `;
-                    content += `${album.artist} - ${album.album} (${album.year})\n`;
-                    content += `     Rating: ${avgRating}/10 | Songs: ${album.songs.length} | Favoriten: ${favoriteCount}\n`;
-                    content += `     ────────────────────────────────────────────────────────────────────────\n`;
-                    
-                    if (document.querySelector(`[data-album="${index}"]`)?.classList.contains('expanded')) {
-                        album.songs.forEach((song, songIndex) => {
-                            const songNum = String(songIndex + 1).padStart(2, '0');
-                            const rating = song.rating.toString().padStart(4, ' ');
-                            const favorite = song.favorite ? ' ★' : '  ';
-                            const interlude = song.interlude ? ' [i]' : '    ';
-                            
-                            content += `     ${songNum}. ${song.name.padEnd(35, '.')} ${rating}/10${favorite}${interlude}\n`;
-                        });
-                        
-                        if (album.comment) {
-                            content += `\n     KOMMENTAR:\n`;
-                            content += `     ${album.comment}\n`;
-                        }
-                        content += `\n`;
+            const allRatings = [];
+            albums.forEach(album => {
+                album.songs.forEach(song => {
+                    if (!song.interlude) {
+                        allRatings.push(song.rating);
                     }
-                    
-                    content += `\n`;
                 });
+            });
+            
+            const avgRating = allRatings.length > 0 
+                ? (allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length).toFixed(1)
+                : 0;
+            
+            const topAlbum = albums.reduce((best, album) => 
+                parseFloat(album.avgRating) > parseFloat(best.avgRating) ? album : best, albums[0]);
+            
+            statsData = {
+                totalAlbums: albums.length,
+                totalSongs,
+                totalNonInterludes,
+                totalFavorites,
+                avgRating,
+                topAlbum,
+                memoryUsage: ((JSON.stringify(albums).length / 1024) / 1024).toFixed(1)
+            };
+        }
+
+        function showStartupScreen() {
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            const memoryInfo = document.getElementById('memoryInfo');
+            const statusInfo = document.getElementById('statusInfo');
+            
+            display.innerHTML = `DOME'S MUSIC ARCHIVE<br>MD-3000 PRO READY<br><br>LOADED: ${albums.length} ALBUMS<br>SONGS: ${statsData.totalSongs}<br><br>PRESS SELECT TO START<span class="cursor"></span>`;
+            counter.textContent = 'OK';
+            counterLabel.textContent = 'SYSTEM READY';
+            memoryInfo.textContent = `MEMORY: ${statsData.memoryUsage}MB`;
+            statusInfo.textContent = 'STATUS: READY';
+            
+            currentView = 'startup';
+        }
+
+        function showMenu() {
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            
+            const item = menuItems[currentMenuIndex];
+            
+            display.innerHTML = `MAIN MENU<br><br>>${item.name}<br><br>PREV/NEXT: NAVIGATE<br>SELECT: ENTER MODE<span class="cursor"></span>`;
+            counter.textContent = `${(currentMenuIndex + 1).toString().padStart(2, '0')}/${menuItems.length.toString().padStart(2, '0')}`;
+            counterLabel.textContent = 'MENU SELECT';
+            
+            currentView = 'menu';
+        }
+
+        function showBrowse() {
+            if (albums.length === 0) return;
+            
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            
+            const album = albums[currentIndex];
+            
+            display.innerHTML = `ALBUM ${(currentIndex + 1).toString().padStart(2, '0')}<br>${album.artist}<br>${album.album} (${album.year})<br><br>RATING: ${album.avgRating}/10<br>TRACKS: ${album.songs.length}<span class="cursor"></span>`;
+            counter.textContent = `${(currentIndex + 1).toString().padStart(2, '0')}/${albums.length.toString().padStart(2, '0')}`;
+            counterLabel.textContent = 'BROWSE MODE';
+            
+            currentView = 'browse';
+        }
+
+        function showAlbum() {
+            const album = albums[currentAlbumIndex];
+            const song = album.songs[currentSongIndex];
+            
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            
+            display.innerHTML = `${album.artist}<br>${album.album}<br><br>TRACK ${(currentSongIndex + 1).toString().padStart(2, '0')}: ${song.name}<br>RATING: ${song.rating}/10<br>${song.favorite ? '★ FAVORITE' : ''}${song.interlude ? ' [INTERLUDE]' : ''}<span class="cursor"></span>`;
+            counter.textContent = `T${(currentSongIndex + 1).toString().padStart(2, '0')}/${album.songs.length.toString().padStart(2, '0')}`;
+            counterLabel.textContent = 'ALBUM VIEW';
+            
+            currentView = 'album';
+        }
+
+        function showStats() {
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            
+            display.innerHTML = `STATISTICS<br><br>ALBUMS: ${statsData.totalAlbums}<br>SONGS: ${statsData.totalNonInterludes}<br>FAVORITES: ${statsData.totalFavorites}<br>AVG RATING: ${statsData.avgRating}/10<span class="cursor"></span>`;
+            counter.textContent = statsData.totalAlbums.toString().padStart(2, '0');
+            counterLabel.textContent = 'STATS MODE';
+            
+            currentView = 'stats';
+        }
+
+        function showFavorites() {
+            const favorites = [];
+            albums.forEach((album, albumIndex) => {
+                album.songs.forEach((song, songIndex) => {
+                    if (song.favorite) {
+                        favorites.push({
+                            artist: album.artist,
+                            album: album.album,
+                            song: song.name,
+                            rating: song.rating,
+                            albumIndex,
+                            songIndex
+                        });
+                    }
+                });
+            });
+            
+            favorites.sort((a, b) => b.rating - a.rating);
+            
+            if (favorites.length === 0) {
+                const display = document.getElementById('display');
+                display.innerHTML = `FAVORITES<br><br>NO FAVORITES FOUND<span class="cursor"></span>`;
+                return;
             }
             
-            content += `\n<span class="cursor">|</span>`;
+            if (currentIndex >= favorites.length) currentIndex = 0;
             
-            albumList.innerHTML = content;
+            const fav = favorites[currentIndex];
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
             
-            // Add click handlers for album headers
-            addAlbumClickHandlers();
+            display.innerHTML = `FAVORITE ${(currentIndex + 1).toString().padStart(2, '0')}<br>${fav.artist}<br>${fav.song}<br><br>RATING: ${fav.rating}/10<br>FROM: ${fav.album}<span class="cursor"></span>`;
+            counter.textContent = `${(currentIndex + 1).toString().padStart(2, '0')}/${favorites.length.toString().padStart(2, '0')}`;
+            counterLabel.textContent = 'FAVORITES';
+            
+            currentView = 'favorites';
         }
 
-        function addAlbumClickHandlers() {
-            const albumList = document.getElementById('albumList');
-            const lines = albumList.innerHTML.split('\n');
-            let newContent = '';
+        function showRandom() {
+            const randomIndex = Math.floor(Math.random() * albums.length);
+            currentIndex = randomIndex;
+            currentAlbumIndex = randomIndex;
+            showAlbum();
+        }
+
+        function showInfo() {
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
             
-            lines.forEach((line, lineIndex) => {
-                if (line.match(/^\[[\d]{2}\]/)) {
-                    const albumIndex = parseInt(line.match(/^\[(\d{2})\]/)[1]) - 1;
-                    newContent += `<span class="album-header" data-album="${albumIndex}" onclick="toggleAlbum(${albumIndex})">${line}</span>\n`;
-                } else {
-                    newContent += line + '\n';
-                }
+            display.innerHTML = `SYSTEM INFO<br><br>TECHNICS MD-3000 PRO<br>FIRMWARE: V2.1.0<br>MEMORY: ${statsData.memoryUsage}MB<br>STATUS: OPERATIONAL<span class="cursor"></span>`;
+            counter.textContent = 'SYS';
+            counterLabel.textContent = 'SYSTEM INFO';
+            
+            currentView = 'info';
+        }
+
+        function showError(message) {
+            const display = document.getElementById('display');
+            const counter = document.getElementById('counter');
+            const counterLabel = document.getElementById('counterLabel');
+            const statusInfo = document.getElementById('statusInfo');
+            
+            display.innerHTML = `<div class="error-text">ERROR<br><br>${message}<br><br>CHECK albums.json<br>IN SAME DIRECTORY</div><span class="cursor"></span>`;
+            counter.textContent = 'ERR';
+            counterLabel.textContent = 'ERROR STATE';
+            statusInfo.textContent = 'STATUS: ERROR';
+            
+            currentView = 'error';
+        }
+
+        function navigate(direction) {
+            switch(direction) {
+                case 'prev':
+                    handlePrev();
+                    break;
+                case 'next':
+                    handleNext();
+                    break;
+                case 'select':
+                    handleSelect();
+                    break;
+            }
+            updateButtonLabels();
+        }
+
+        function handlePrev() {
+            switch(currentView) {
+                case 'menu':
+                    currentMenuIndex = (currentMenuIndex - 1 + menuItems.length) % menuItems.length;
+                    showMenu();
+                    break;
+                case 'browse':
+                    currentIndex = (currentIndex - 1 + albums.length) % albums.length;
+                    showBrowse();
+                    break;
+                case 'album':
+                    const album = albums[currentAlbumIndex];
+                    currentSongIndex = (currentSongIndex - 1 + album.songs.length) % album.songs.length;
+                    showAlbum();
+                    break;
+                case 'favorites':
+                    const favorites = getAllFavorites();
+                    if (favorites.length > 0) {
+                        currentIndex = (currentIndex - 1 + favorites.length) % favorites.length;
+                        showFavorites();
+                    }
+                    break;
+            }
+        }
+
+        function handleNext() {
+            switch(currentView) {
+                case 'menu':
+                    currentMenuIndex = (currentMenuIndex + 1) % menuItems.length;
+                    showMenu();
+                    break;
+                case 'browse':
+                    currentIndex = (currentIndex + 1) % albums.length;
+                    showBrowse();
+                    break;
+                case 'album':
+                    const album = albums[currentAlbumIndex];
+                    currentSongIndex = (currentSongIndex + 1) % album.songs.length;
+                    showAlbum();
+                    break;
+                case 'favorites':
+                    const favorites = getAllFavorites();
+                    if (favorites.length > 0) {
+                        currentIndex = (currentIndex + 1) % favorites.length;
+                        showFavorites();
+                    }
+                    break;
+            }
+        }
+
+        function handleSelect() {
+            switch(currentView) {
+                case 'startup':
+                    currentMenuIndex = 0;
+                    showMenu();
+                    break;
+                case 'menu':
+                    const selectedItem = menuItems[currentMenuIndex];
+                    switch(selectedItem.mode) {
+                        case 'browse':
+                            currentIndex = 0;
+                            showBrowse();
+                            break;
+                        case 'stats':
+                            showStats();
+                            break;
+                        case 'favorites':
+                            currentIndex = 0;
+                            showFavorites();
+                            break;
+                        case 'random':
+                            showRandom();
+                            break;
+                        case 'info':
+                            showInfo();
+                            break;
+                    }
+                    break;
+                case 'browse':
+                    currentAlbumIndex = currentIndex;
+                    currentSongIndex = 0;
+                    showAlbum();
+                    break;
+                case 'album':
+                    showBrowse();
+                    break;
+                case 'stats':
+                case 'favorites':
+                case 'info':
+                    showMenu();
+                    break;
+                case 'error':
+                    // Retry loading
+                    loadAlbums();
+                    break;
+            }
+        }
+
+        function getAllFavorites() {
+            const favorites = [];
+            albums.forEach((album, albumIndex) => {
+                album.songs.forEach((song, songIndex) => {
+                    if (song.favorite) {
+                        favorites.push({
+                            artist: album.artist,
+                            album: album.album,
+                            song: song.name,
+                            rating: song.rating,
+                            albumIndex,
+                            songIndex
+                        });
+                    }
+                });
             });
-            
-            albumList.innerHTML = newContent;
+            return favorites.sort((a, b) => b.rating - a.rating);
         }
 
-        function toggleAlbum(index) {
-            const header = document.querySelector(`[data-album="${index}"]`);
-            header.classList.toggle('expanded');
-            displayAlbums();
+        function updateButtonLabels() {
+            const btnPrev = document.getElementById('btnPrev');
+            const btnSelect = document.getElementById('btnSelect');
+            const btnNext = document.getElementById('btnNext');
+            
+            switch(currentView) {
+                case 'startup':
+                    btnPrev.textContent = '◀ PREV';
+                    btnSelect.textContent = 'START';
+                    btnNext.textContent = 'NEXT ▶';
+                    break;
+                case 'menu':
+                    btnPrev.textContent = '◀ UP';
+                    btnSelect.textContent = 'ENTER';
+                    btnNext.textContent = 'DOWN ▶';
+                    break;
+                case 'browse':
+                    btnPrev.textContent = '◀ PREV';
+                    btnSelect.textContent = 'OPEN';
+                    btnNext.textContent = 'NEXT ▶';
+                    break;
+                case 'album':
+                    btnPrev.textContent = '◀ TRACK';
+                    btnSelect.textContent = 'BACK';
+                    btnNext.textContent = 'TRACK ▶';
+                    break;
+                case 'stats':
+                case 'favorites':
+                case 'info':
+                    btnPrev.textContent = '◀ PREV';
+                    btnSelect.textContent = 'MENU';
+                    btnNext.textContent = 'NEXT ▶';
+                    break;
+                case 'error':
+                    btnPrev.textContent = '◀ PREV';
+                    btnSelect.textContent = 'RETRY';
+                    btnNext.textContent = 'NEXT ▶';
+                    break;
+                default:
+                    btnPrev.textContent = '◀ PREV';
+                    btnSelect.textContent = 'SELECT';
+                    btnNext.textContent = 'NEXT ▶';
+            }
         }
 
-        function toggleAllAlbums() {
-            allExpanded = !allExpanded;
-            const headers = document.querySelectorAll('.album-header');
-            
-            headers.forEach(header => {
-                if (allExpanded) {
-                    header.classList.add('expanded');
-                } else {
-                    header.classList.remove('expanded');
-                }
-            });
-            
-            displayAlbums();
-            
-            const button = event.target;
-            button.textContent = allExpanded ? 'Alle zuklappen' : 'Alle aufklappen';
-        }
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    navigate('prev');
+                    break;
+                case 'ArrowRight':
+                    navigate('next');
+                    break;
+                case 'Enter':
+                case ' ':
+                    navigate('select');
+                    break;
+                case 'Escape':
+                    if (currentView !== 'startup' && currentView !== 'menu') {
+                        showMenu();
+                    }
+                    break;
+            }
+        });
 
-        function searchAlbums() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            currentAlbums = albums.filter(album => 
-                album.album.toLowerCase().includes(searchTerm) ||
-                album.artist.toLowerCase().includes(searchTerm) ||
-                album.songs.some(song => song.name.toLowerCase().includes(searchTerm))
-            );
-            displayAlbums();
-            updateStatus();
-        }
-
-        function sortAlbums() {
-            const sortValue = document.getElementById('sortSelect').value;
-            const [criteria, order] = sortValue.split('-');
-            
-            currentAlbums.sort((a, b) => {
-                let comparison = 0;
-                
-                switch(criteria) {
-                    case 'artist':
-                        comparison = a.artist.localeCompare(b.artist);
-                        break;
-                    case 'album':
-                        comparison = a.album.localeCompare(b.album);
-                        break;
-                    case 'year':
-                        comparison = a.year - b.year;
-                        break;
-                    case 'rating':
-                        const avgA = parseFloat(calculateAverageRating(a.songs));
-                        const avgB = parseFloat(calculateAverageRating(b.songs));
-                        comparison = avgA - avgB;
-                        break;
-                    default:
-                        return 0;
-                }
-                
-                return order === 'desc' ? -comparison : comparison;
-            });
-            
-            displayAlbums();
-        }
-
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('sortSelect').value = 'rating-desc';
-            currentAlbums = [...albums];
-            sortAlbums();
-            updateStatus();
-        }
-
-        function updateStatus() {
-            document.getElementById('albumCount').textContent = `${currentAlbums.length} Alben geladen`;
-            
-            // Update clock
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('de-DE', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-            document.getElementById('clock').textContent = timeString;
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        // Initialisierung
+        setTimeout(() => {
             loadAlbums();
-            setInterval(updateStatus, 1000); // Update clock every second
-        });
-
-        // Window controls
-        document.querySelectorAll('.window-btn').forEach((btn, index) => {
-            btn.addEventListener('click', () => {
-                if (index === 2) { // Close button
-                    if (confirm('Möchten Sie das Musikarchiv wirklich schließen?')) {
-                        document.querySelector('.window').style.display = 'none';
-                    }
-                } else if (index === 1) { // Maximize button
-                    const window = document.querySelector('.window');
-                    if (window.style.top === '0px') {
-                        window.style.top = '50px';
-                        window.style.left = '50px';
-                        window.style.right = '50px';
-                        window.style.bottom = '90px';
-                    } else {
-                        window.style.top = '0px';
-                        window.style.left = '0px';
-                        window.style.right = '0px';
-                        window.style.bottom = '30px';
-                    }
-                } else { // Minimize button
-                    document.querySelector('.window').style.display = 'none';
-                    setTimeout(() => {
-                        document.querySelector('.window').style.display = 'block';
-                    }, 2000);
-                }
-            });
-        });
+        }, 2000);
     </script>
 </body>
 </html>
