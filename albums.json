@@ -119,5 +119,26 @@
             {"name": "Sirens", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Do You Belong", "rating": 7, "favorite": false, "interlude": false}
         ]
+    },
+    {
+        "artist": "Queen",
+        "album": "Sheer Heart Attack",
+        "year": 1974,
+        "comment": "Also der Anfang schießt einen aus den Socken aber dann keine Ahnung. Queen halt, aber nicht in Topform. Trotzdem ist Brighton Rock der beste Queen Song.",
+        "songs": [
+            {"name": "Brighton Rock", "rating": 10, "favorite": true, "interlude": false},
+            {"name": "Killer Queen", "rating": 8.5, "favorite": false, "interlude": false},
+            {"name": "Tenement Funster", "rating": 6, "favorite": false, "interlude": false},
+            {"name": "Flick Of The Wrist", "rating": 7, "favorite": false, "interlude": false},
+            {"name": "Lily Of The Valley", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Now I'm Here", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "In The Lap Of the Gods", "rating": 5.5, "favorite": false, "interlude": false},
+            {"name": "Stone Cold Crazy", "rating": 8, "favorite": false, "interlude": false},
+            {"name": "Dear Friends", "rating": 4, "favorite": false, "interlude": true},
+            {"name": "Misfire", "rating": 6.5, "favorite": false, "interlude": false},
+            {"name": "Bring Back That Leroy Brown", "rating": 7.5, "favorite": false, "interlude": false},
+            {"name": "She Makes Me", "rating": 6, "favorite": false, "interlude": false}
+        
+        ]
     }
 ]
