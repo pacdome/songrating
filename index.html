@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musikarchiv.exe -- Notepad</title>
+    <title>Musikarchiv.exe - Notepad</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Perfect+DOS+VGA+437&display=swap');
         
@@ -454,8 +454,11 @@
 
         async function loadAlbums() {
             try {
-                const response = await window.fs.readFile('albums.json', { encoding: 'utf8' });
-                albums = JSON.parse(response);
+                const response = await fetch('albums.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                albums = await response.json();
                 
                 // Entferne Duplikate basierend auf Artist und Album
                 const uniqueAlbums = [];
