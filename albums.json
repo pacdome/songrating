@@ -3,6 +3,8 @@
         "artist": "Third Eye Blind",
         "album": "Third Eye Blind",
         "year": 1997,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Eines meiner liebsten selftilted Debut-Alben & vllt einer der besten A Seiten auf einem Album, leider aber auch eine bei der die B Seite nicht mithalten kann.",
         "songs": [
             {"name": "Losing a Whole Year", "rating": 6.5, "favorite": false, "interlude": false},
@@ -25,6 +27,8 @@
         "artist": "Blur",
         "album": "Parklife",
         "year": 1994,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk",
         "songs": [
             {"name": "Girls & Boys", "rating": 9, "favorite": false, "interlude": false},
@@ -49,7 +53,9 @@
         "artist": "The Stone Roses",
         "album": "The Stone Roses",
         "year": 1989,
-        "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses Album.",
+        "week": 1,
+        "date_added": "2024-01-01",
+        "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses album.",
         "songs": [
             {"name": "I Wanna Be Adored", "rating": 10, "favorite": false, "interlude": false},
             {"name": "She Bangs the Drums", "rating": 8.5, "favorite": false, "interlude": false},
@@ -69,6 +75,8 @@
         "artist": "Dire Straits",
         "album": "Communiqué",
         "year": 1979,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Das beste Dire Straits Album change my mind.",
         "songs": [
             {"name": "Once Upon A Time In The West", "rating": 8, "favorite": false, "interlude": false},
@@ -86,6 +94,8 @@
         "artist": "Faces",
         "album": "Ooh La La",
         "year": 1973,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Kann nicht viel dazu sagen, einfach ein gutes Album ohne viel schnick schnack.",
         "songs": [
             {"name": "Silicone Grown", "rating": 7.5, "favorite": false, "interlude": false},
@@ -104,6 +114,8 @@
         "artist": "Great Gable",
         "album": "On The Wall in The Morning Sun",
         "year": 2022,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Eines der seltenen Alben nach 2000 in meiner Bibliothek aber einfach ein gutes. Simpel aber Indie at its best.",
         "songs": [
             {"name": "Dancing Shoes", "rating": 8, "favorite": false, "interlude": false},
@@ -124,6 +136,8 @@
         "artist": "Queen",
         "album": "Sheer Heart Attack",
         "year": 1974,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "Also der Anfang schießt einen aus den Socken aber dann keine Ahnung. Queen halt, aber nicht in Topform. Trotzdem ist Brighton Rock der beste Queen Song.",
         "songs": [
             {"name": "Brighton Rock", "rating": 10, "favorite": true, "interlude": false},
@@ -138,13 +152,14 @@
             {"name": "Misfire", "rating": 6.5, "favorite": false, "interlude": false},
             {"name": "Bring Back That Leroy Brown", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "She Makes Me", "rating": 6, "favorite": false, "interlude": false}
-        
         ]
     },
     {
         "artist": "Led Zeppelin",
         "album": "Led Zeppelin II",
         "year": 1969,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "",
         "songs": [
             {"name": "Whole Lotta Love", "rating": 9.5, "favorite": true, "interlude": false},
@@ -156,15 +171,14 @@
             {"name": "Ramble On", "rating": 7.5, "favorite": false, "interlude": false},
             {"name": "Moby Dick", "rating": 6.5, "favorite": false, "interlude": false},
             {"name": "Bring It Home", "rating": 6, "favorite": false, "interlude": false}
-            
-            
-        
         ]
     },
     {
         "artist": "The Clash",
         "album": "The Clash",
         "year": 1977,
+        "week": 1,
+        "date_added": "2024-01-01",
         "comment": "",
         "songs": [
             {"name": "Janie Jones", "rating": 7.5, "favorite": false, "interlude": false},
@@ -181,7 +195,6 @@
             {"name": "Police & Thieves", "rating": 8, "favorite": false, "interlude": false},
             {"name": "48 Hours", "rating": 6.5, "favorite": false, "interlude": false},
             {"name": "Garageland", "rating": 5.5, "favorite": false, "interlude": false}
- 
         ]
     }
 ]
