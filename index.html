@@ -729,4 +729,625 @@
                     <div style="padding: 20px; text-align: center; color: #dc2626;">
                         <h3>❌ Fehler beim Laden der Daten</h3>
                         <p><strong>albums.json</strong> konnte nicht geladen werden.</p>
-                        <p>
+                        <p>Bitte stelle sicher, dass die Datei existiert und gültige JSON-Syntax enthält.</p>
+                        <p><small>Fehlerdetails: ${error.message}</small></p>
+                    </div>
+                `;
+                return [];
+            }
+        }
+
+        async function initializeData() {
+            // Show loading message
+            document.getElementById('albumsContainer').innerHTML = `
+                <div style="padding: 40px; text-align: center;">
+                    <h3>🎵 Lade Musikdaten...</h3>
+                    <p>albums.json wird gelesen...</p>
+                </div>
+            `;
+            
+            // Load albums from JSON file
+            const albumsData = await loadAlbumsFromFile();
+            
+            if (albumsData.length === 0) {
+                // Error message is already shown by loadAlbumsFromFile()
+                return;
+            }
+            
+            // Remove duplicates and clean data
+            const uniqueAlbums = [];
+            const seen = new Set();
+            
+            albumsData.forEach(album => {
+                const key = `${album.artist}-${album.album}`;
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    uniqueAlbums.push(album);
+                }
+            });
+            
+            albums = uniqueAlbums;
+            currentAlbums = [...albums];
+            
+            if (albums.length > 0) {
+                initializeWeekFilter();
+                sortAlbums();
+                updateStats();
+                renderCurrentView();
+            } else {
+                document.getElementById('albumsContainer').innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #ca8a04;">
+                        <h3>📂 Keine Alben gefunden</h3>
+                        <p>Die albums.json Datei ist leer oder enthält keine gültigen Album-Daten.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function initializeWeekFilter() {
+            const weeks = [...new Set(albums.map(album => album.week))].sort((a, b) => b - a);
+            const weekFilter = document.getElementById('weekFilter');
+            
+            // Clear existing options except "Alle Wochen"
+            weekFilter.innerHTML = '<option value="all">Alle Wochen</option>';
+            
+            weeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week;
+                option.textContent = `Woche ${week}`;
+                weekFilter.appendChild(option);
+            });
+            
+            // Update current week indicator
+            const currentWeek = Math.max(...weeks);
+            document.getElementById('currentWeek').textContent = currentWeek;
+        }
+
+        function calculateAverageRating(songs) {
+            const nonInterludeSongs = songs.filter(song => !song.interlude);
+            if (nonInterludeSongs.length === 0) return 0;
+            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
+            return (sum / nonInterludeSongs.length).toFixed(1);
+        }
+
+        function getRatingClass(rating) {
+            if (rating >= 10) return 'rating-10';
+            if (rating >= 9) return 'rating-9';
+            if (rating >= 8) return 'rating-8';
+            if (rating >= 7) return 'rating-7';
+            if (rating >= 6) return 'rating-6';
+            if (rating >= 5) return 'rating-5';
+            return 'rating-low';
+        }
+
+        function showView(viewName) {
+            // Hide all views
+            document.querySelectorAll('[id$="-view"]').forEach(view => {
+                view.style.display = 'none';
+            });
+            
+            // Remove active class from all nav buttons
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected view and mark button as active
+            document.getElementById(viewName + '-view').style.display = 'block';
+            event.target.classList.add('active');
+            
+            currentView = viewName;
+            renderCurrentView();
+        }
+
+        function renderCurrentView() {
+            switch(currentView) {
+                case 'albums':
+                    renderAlbums();
+                    break;
+                case 'weeks':
+                    renderWeeks();
+                    break;
+                case 'stats':
+                    renderStats();
+                    break;
+                case 'favorites':
+                    renderFavorites();
+                    break;
+                case 'top-rated':
+                    renderTopRated();
+                    break;
+            }
+        }
+
+        function renderAlbums() {
+            const container = document.getElementById('albumsContainer');
+            container.innerHTML = '';
+
+            const startIndex = (currentPage - 1) * albumsPerPage;
+            const endIndex = startIndex + albumsPerPage;
+            const pageAlbums = currentAlbums.slice(startIndex, endIndex);
+
+            pageAlbums.forEach((album, index) => {
+                const avgRating = calculateAverageRating(album.songs);
+                const albumDiv = document.createElement('div');
+                albumDiv.className = 'album-item';
+                albumDiv.innerHTML = `
+                    <div class="album-header" onclick="toggleAlbum(${startIndex + index})">
+                        <div class="album-icon">♫</div>
+                        <div class="week-badge">W${album.week}</div>
+                        <div class="album-info">
+                            <div class="album-title">${album.artist} - ${album.album}</div>
+                            <div class="album-meta">Jahr: ${album.year} | Woche: ${album.week} | Tracks: ${album.songs.length} | Ø ${avgRating}/10</div>
+                        </div>
+                        <div class="album-rating ${getRatingClass(avgRating)}">${avgRating}/10</div>
+                    </div>
+                    <div class="album-details" id="details-${startIndex + index}">
+                        ${renderSongsTable(album.songs)}
+                        ${album.comment ? `<div class="album-comment">${album.comment}</div>` : ''}
+                    </div>
+                `;
+                container.appendChild(albumDiv);
+            });
+
+            updatePagination();
+        }
+
+        function renderSongsTable(songs) {
+            let html = `
+                <table class="songs-table">
+                    <tr>
+                        <th>Nr.</th>
+                        <th>Song</th>
+                        <th>Bewertung</th>
+                        <th>Status</th>
+                    </tr>
+            `;
+            
+            songs.forEach((song, index) => {
+                html += `
+                    <tr ${song.interlude ? 'class="interlude-marker"' : ''}>
+                        <td>${index + 1}</td>
+                        <td>${song.name} ${song.interlude ? '(Interlude)' : ''}</td>
+                        <td class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</td>
+                        <td>
+                            ${song.favorite ? '<span class="favorite-icon">★ FAVORIT</span>' : ''}
+                            ${song.interlude ? '<span class="interlude-marker">Interlude</span>' : ''}
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            return html;
+        }
+
+        function renderWeeks() {
+            const weeksContainer = document.getElementById('weekOverview');
+            const weeks = {};
+            
+            // Group albums by week
+            albums.forEach(album => {
+                if (!weeks[album.week]) {
+                    weeks[album.week] = [];
+                }
+                weeks[album.week].push(album);
+            });
+            
+            const weekNumbers = Object.keys(weeks).sort((a, b) => b - a);
+            let html = '';
+            
+            weekNumbers.forEach(weekNum => {
+                const weekAlbums = weeks[weekNum];
+                const totalSongs = weekAlbums.reduce((sum, album) => sum + album.songs.length, 0);
+                const avgRating = calculateWeekAverageRating(weekAlbums);
+                const favorites = weekAlbums.reduce((sum, album) => 
+                    sum + album.songs.filter(song => song.favorite).length, 0);
+                
+                const isCurrentWeek = weekNum == Math.max(...weekNumbers);
+                
+                html += `
+                    <div class="week-card ${selectedWeek == weekNum ? 'active' : ''} ${isCurrentWeek ? 'current-week-indicator' : ''}" 
+                         onclick="selectWeek(${weekNum})">
+                        <div class="week-title">📅 Woche ${weekNum}</div>
+                        <div class="week-stats">
+                            ${weekAlbums.length} Alben<br>
+                            ${totalSongs} Songs<br>
+                            Ø ${avgRating}/10<br>
+                            ⭐ ${favorites} Favoriten
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${Math.min(weekAlbums.length / 7 * 100, 100)}%"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            weeksContainer.innerHTML = html;
+        }
+
+        function calculateWeekAverageRating(weekAlbums) {
+            const allSongs = weekAlbums.flatMap(album => 
+                album.songs.filter(song => !song.interlude));
+            if (allSongs.length === 0) return '0.0';
+            const sum = allSongs.reduce((acc, song) => acc + song.rating, 0);
+            return (sum / allSongs.length).toFixed(1);
+        }
+
+        function selectWeek(weekNum) {
+            selectedWeek = weekNum;
+            document.getElementById('weekFilter').value = weekNum;
+            filterByWeek();
+            showView('albums');
+        }
+
+        function renderStats() {
+            const statsContainer = document.getElementById('statsContent');
+            
+            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
+            const totalFavorites = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => song.favorite).length, 0);
+            const totalInterludes = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => song.interlude).length, 0);
+            
+            const allRatings = albums.flatMap(album => 
+                album.songs.filter(song => !song.interlude).map(song => song.rating));
+            const avgRating = allRatings.reduce((a, b) => a + b, 0) / allRatings.length;
+            
+            const weeks = [...new Set(albums.map(album => album.week))];
+            const weekCount = weeks.length;
+            const avgAlbumsPerWeek = (albums.length / weekCount).toFixed(1);
+            
+            // Week-by-week analysis
+            const weekAnalysis = {};
+            albums.forEach(album => {
+                if (!weekAnalysis[album.week]) {
+                    weekAnalysis[album.week] = {
+                        albums: 0,
+                        songs: 0,
+                        favorites: 0,
+                        totalRating: 0,
+                        ratedSongs: 0
+                    };
+                }
+                weekAnalysis[album.week].albums++;
+                weekAnalysis[album.week].songs += album.songs.length;
+                weekAnalysis[album.week].favorites += album.songs.filter(s => s.favorite).length;
+                album.songs.filter(s => !s.interlude).forEach(song => {
+                    weekAnalysis[album.week].totalRating += song.rating;
+                    weekAnalysis[album.week].ratedSongs++;
+                });
+            });
+            
+            const ratingDistribution = {};
+            for (let i = 1; i <= 10; i++) {
+                ratingDistribution[i] = allRatings.filter(rating => 
+                    Math.floor(rating) === i || (i === 10 && rating === 10)).length;
+            }
+            
+            let html = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h4>📊 Allgemeine Statistiken</h4>
+                        <table class="songs-table">
+                            <tr><th>Statistik</th><th>Wert</th></tr>
+                            <tr><td>Gesamt Alben</td><td>${albums.length}</td></tr>
+                            <tr><td>Gesamt Songs</td><td>${totalSongs}</td></tr>
+                            <tr><td>Favoriten</td><td>${totalFavorites}</td></tr>
+                            <tr><td>Interludes</td><td>${totalInterludes}</td></tr>
+                            <tr><td>Durchschnittsbewertung</td><td>${avgRating.toFixed(2)}/10</td></tr>
+                            <tr><td>Gesamt Wochen</td><td>${weekCount}</td></tr>
+                            <tr><td>Ø Alben pro Woche</td><td>${avgAlbumsPerWeek}</td></tr>
+                        </table>
+                        
+                        <h4>🎯 Bewertungsverteilung</h4>
+                        <table class="songs-table">
+                            <tr><th>Bewertung</th><th>Anzahl Songs</th><th>%</th></tr>
+            `;
+            
+            for (let i = 10; i >= 1; i--) {
+                const count = ratingDistribution[i] || 0;
+                const percentage = ((count / allRatings.length) * 100).toFixed(1);
+                html += `<tr><td>${i}/10</td><td>${count}</td><td>${percentage}%</td></tr>`;
+            }
+            
+            html += `
+                        </table>
+                    </div>
+                    
+                    <div>
+                        <h4>📅 Wochen-Analyse</h4>
+                        <table class="songs-table">
+                            <tr><th>Woche</th><th>Alben</th><th>Songs</th><th>Ø Rating</th><th>⭐</th></tr>
+            `;
+            
+            weeks.sort((a, b) => b - a).forEach(week => {
+                const analysis = weekAnalysis[week];
+                const avgWeekRating = analysis.ratedSongs > 0 ? 
+                    (analysis.totalRating / analysis.ratedSongs).toFixed(1) : '0.0';
+                html += `
+                    <tr>
+                        <td><strong>W${week}</strong></td>
+                        <td>${analysis.albums}</td>
+                        <td>${analysis.songs}</td>
+                        <td class="song-rating ${getRatingClass(avgWeekRating)}">${avgWeekRating}</td>
+                        <td>${analysis.favorites}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table></div></div>';
+            statsContainer.innerHTML = html;
+        }
+
+        function renderFavorites() {
+            const favoritesContainer = document.getElementById('favoritesContent');
+            const favorites = [];
+            
+            albums.forEach(album => {
+                album.songs.filter(song => song.favorite).forEach(song => {
+                    favorites.push({
+                        artist: album.artist,
+                        album: album.album,
+                        song: song.name,
+                        rating: song.rating,
+                        week: album.week
+                    });
+                });
+            });
+            
+            favorites.sort((a, b) => b.rating - a.rating);
+            
+            let html = `
+                <table class="songs-table">
+                    <tr><th>Rang</th><th>Künstler</th><th>Album</th><th>Song</th><th>Bewertung</th><th>Woche</th></tr>
+            `;
+            
+            favorites.forEach((fav, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${fav.artist}</td>
+                        <td>${fav.album}</td>
+                        <td>${fav.song}</td>
+                        <td class="song-rating ${getRatingClass(fav.rating)}">${fav.rating}/10</td>
+                        <td><span class="week-badge">W${fav.week}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            favoritesContainer.innerHTML = html;
+        }
+
+        function renderTopRated() {
+            const topRatedContainer = document.getElementById('topRatedContent');
+            const allSongs = [];
+            
+            albums.forEach(album => {
+                album.songs.filter(song => !song.interlude).forEach(song => {
+                    allSongs.push({
+                        artist: album.artist,
+                        album: album.album,
+                        song: song.name,
+                        rating: song.rating,
+                        favorite: song.favorite,
+                        week: album.week
+                    });
+                });
+            });
+            
+            allSongs.sort((a, b) => b.rating - a.rating);
+            const topSongs = allSongs.slice(0, 25);
+            
+            let html = `
+                <table class="songs-table">
+                    <tr><th>Rang</th><th>Künstler</th><th>Album</th><th>Song</th><th>Bewertung</th><th>Status</th><th>Woche</th></tr>
+            `;
+            
+            topSongs.forEach((song, index) => {
+                html += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${song.artist}</td>
+                        <td>${song.album}</td>
+                        <td>${song.song}</td>
+                        <td class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</td>
+                        <td>${song.favorite ? '<span class="favorite-icon">★</span>' : ''}</td>
+                        <td><span class="week-badge">W${song.week}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += '</table>';
+            topRatedContainer.innerHTML = html;
+        }
+
+        function toggleAlbum(index) {
+            const details = document.getElementById(`details-${index}`);
+            const albumItem = details.parentElement;
+            
+            if (details.classList.contains('show')) {
+                details.classList.remove('show');
+                albumItem.classList.remove('expanded');
+            } else {
+                details.classList.add('show');
+                albumItem.classList.add('expanded');
+            }
+        }
+
+        function toggleAllAlbums() {
+            allExpanded = !allExpanded;
+            const allDetails = document.querySelectorAll('.album-details');
+            const allItems = document.querySelectorAll('.album-item');
+            
+            allDetails.forEach(details => {
+                if (allExpanded) {
+                    details.classList.add('show');
+                } else {
+                    details.classList.remove('show');
+                }
+            });
+            
+            allItems.forEach(item => {
+                if (allExpanded) {
+                    item.classList.add('expanded');
+                } else {
+                    item.classList.remove('expanded');
+                }
+            });
+            
+            event.target.textContent = allExpanded ? 'Alle Schließen' : 'Alle Erweitern';
+        }
+
+        function filterAlbums() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            let filteredAlbums = albums.filter(album => 
+                album.album.toLowerCase().includes(searchTerm) ||
+                album.artist.toLowerCase().includes(searchTerm)
+            );
+            
+            // Apply week filter if active
+            if (selectedWeek !== 'all') {
+                filteredAlbums = filteredAlbums.filter(album => album.week == selectedWeek);
+            }
+            
+            currentAlbums = filteredAlbums;
+            currentPage = 1;
+            renderAlbums();
+        }
+
+        function filterByWeek() {
+            const weekFilter = document.getElementById('weekFilter');
+            selectedWeek = weekFilter.value;
+            
+            if (selectedWeek === 'all') {
+                currentAlbums = [...albums];
+            } else {
+                currentAlbums = albums.filter(album => album.week == selectedWeek);
+            }
+            
+            // Apply search filter if active
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            if (searchTerm) {
+                currentAlbums = currentAlbums.filter(album => 
+                    album.album.toLowerCase().includes(searchTerm) ||
+                    album.artist.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            currentPage = 1;
+            sortAlbums();
+        }
+
+        function showCurrentWeek() {
+            const weeks = [...new Set(albums.map(album => album.week))];
+            const currentWeek = Math.max(...weeks);
+            document.getElementById('weekFilter').value = currentWeek;
+            filterByWeek();
+        }
+
+        function sortAlbums() {
+            const sortValue = document.getElementById('sortSelect').value;
+            const [criteria, order] = sortValue.split('-');
+            
+            currentAlbums.sort((a, b) => {
+                let comparison = 0;
+                
+                switch(criteria) {
+                    case 'artist':
+                        comparison = a.artist.localeCompare(b.artist);
+                        break;
+                    case 'album':
+                        comparison = a.album.localeCompare(b.album);
+                        break;
+                    case 'year':
+                        comparison = a.year - b.year;
+                        break;
+                    case 'week':
+                        comparison = a.week - b.week;
+                        break;
+                    case 'rating':
+                        const avgA = parseFloat(calculateAverageRating(a.songs));
+                        const avgB = parseFloat(calculateAverageRating(b.songs));
+                        comparison = avgA - avgB;
+                        break;
+                }
+                
+                return order === 'desc' ? -comparison : comparison;
+            });
+            
+            currentPage = 1;
+            renderAlbums();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('sortSelect').value = 'week-desc';
+            document.getElementById('weekFilter').value = 'all';
+            selectedWeek = 'all';
+            currentAlbums = [...albums];
+            currentPage = 1;
+            sortAlbums();
+        }
+
+        function updatePagination() {
+            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
+            const pagination = document.getElementById('pagination');
+            
+            let html = '';
+            
+            if (totalPages > 1) {
+                html += `<span class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'style="opacity:0.5"' : ''}>« Zurück</span>`;
+                
+                for (let i = 1; i <= totalPages; i++) {
+                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                        html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</span>`;
+                    } else if (i === currentPage - 2 || i === currentPage + 2) {
+                        html += '<span>...</span>';
+                    }
+                }
+                
+                html += `<span class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'style="opacity:0.5"' : ''}>Weiter »</span>`;
+            }
+            
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            renderAlbums();
+        }
+
+        function updateStats() {
+            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
+            const totalFavorites = albums.reduce((sum, album) => 
+                sum + album.songs.filter(song => song.favorite).length, 0);
+            
+            const allRatings = albums.flatMap(album => 
+                album.songs.filter(song => !song.interlude).map(song => song.rating));
+            const avgRating = allRatings.length > 0 ? 
+                (allRatings.reduce((a, b) => a + b, 0) / allRatings.length).toFixed(2) : '0';
+            
+            const weeks = [...new Set(albums.map(album => album.week))];
+            const weekCount = weeks.length;
+            const avgPerWeek = weekCount > 0 ? (albums.length / weekCount).toFixed(1) : '0';
+            
+            document.getElementById('albumCount').textContent = albums.length;
+            document.getElementById('songCount').textContent = totalSongs;
+            document.getElementById('avgRating').textContent = avgRating + '/10';
+            document.getElementById('favoriteCount').textContent = totalFavorites;
+            document.getElementById('weekCount').textContent = weekCount;
+            document.getElementById('avgPerWeek').textContent = avgPerWeek;
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('de-DE');
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', async () => {
+            await initializeData();
+        });
+    </script>
+</body>
+</html>
