@@ -3,1894 +3,730 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YAMAHA DX-7000 MUSIC ARCHIVE</title>
+    <title>DOME'S WÖCHENTLICHES MUSIK ARCHIV</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-        
-        :root {
-            --device-width: min(1300px, 95vw);
-            --device-height: min(900px, 90vh);
-            --display-height: min(380px, 42vh);
-            --button-height: min(80px, 8vh);
-            --font-size: clamp(11px, 1.2vw, 14px);
-            --padding: clamp(20px, 3vw, 40px);
-            
-            /* E-Ink Color Palette */
-            --eink-black: #000000;
-            --eink-dark: #333333;
-            --eink-medium: #666666;
-            --eink-light: #999999;
-            --eink-white: #cccccc;
-            --eink-red: #cc4444;
-            --eink-yellow: #ccaa44;
-            --eink-blue: #4488cc;
-        }
-        
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-        }
-        
         body {
-            background: 
-                radial-gradient(ellipse at top, #1a1a1a 0%, #0a0a0a 100%),
-                linear-gradient(45deg, #111 25%, transparent 25%),
-                linear-gradient(-45deg, #111 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #111 75%),
-                linear-gradient(-45deg, transparent 75%, #111 75%);
-            background-size: 100% 100%, 25px 25px, 25px 25px, 25px 25px, 25px 25px;
-            font-family: 'JetBrains Mono', monospace;
-            min-height: 100vh;
+            background: linear-gradient(45deg, #c0c0c0 0%, #d0d0d0 50%, #c0c0c0 100%);
+            font-family: "MS Sans Serif", sans-serif;
+            font-size: 11px;
+            margin: 0;
+            padding: 0;
+            color: black;
+            background-attachment: fixed;
+        }
+        
+        .page-container {
+            max-width: 900px;
+            margin: 10px auto;
+            background: white;
+            border: 3px outset #c0c0c0;
+            box-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+            border-radius: 2px;
+        }
+        
+        .title-bar {
+            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 11px;
+            border-bottom: 2px solid #1e40af;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .title-bar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+        }
+        
+        .title-bar .controls {
+            display: flex;
+            gap: 3px;
+        }
+        
+        .title-btn {
+            width: 18px;
+            height: 16px;
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            border: 1px outset #c0c0c0;
+            font-size: 8px;
+            color: black;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: clamp(10px, 2vw, 20px);
+            font-weight: bold;
         }
         
-        .machine {
-            width: var(--device-width);
-            height: var(--device-height);
-            background: 
-                linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 25%, #2d2d2d 50%, #1a1a1a 75%, #2d2d2d 100%);
-            border-radius: clamp(15px, 2vw, 25px);
-            padding: var(--padding);
-            box-shadow: 
-                0 0 clamp(60px, 8vw, 120px) rgba(0, 0, 0, 0.9),
-                0 clamp(15px, 3vw, 30px) clamp(35px, 5vw, 70px) rgba(0, 0, 0, 0.8),
-                inset 0 2px 0 rgba(255, 255, 255, 0.12),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.8),
-                inset 4px 4px 20px rgba(255, 255, 255, 0.04),
-                inset -4px -4px 20px rgba(0, 0, 0, 0.5);
-            position: relative;
-            border: clamp(2px, 0.3vw, 4px) solid #444;
-            display: flex;
-            flex-direction: column;
+        .title-btn:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
         }
         
-        .machine::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: clamp(12px, 2vw, 21px);
-            background: 
-                repeating-linear-gradient(
-                    90deg,
-                    transparent 0px,
-                    transparent 3px,
-                    rgba(255, 255, 255, 0.02) 3px,
-                    rgba(255, 255, 255, 0.02) 6px
-                );
-            pointer-events: none;
+        .content-area {
+            padding: 10px;
+            background: white;
         }
         
-        .top-strip {
-            height: clamp(12px, 1.5vw, 18px);
-            background: linear-gradient(90deg, #333 0%, #555 50%, #333 100%);
-            border-radius: clamp(6px, 1vw, 10px);
-            margin-bottom: clamp(15px, 2vw, 25px);
-            box-shadow: 
-                inset 0 3px 6px rgba(0, 0, 0, 0.6),
-                0 1px 0 rgba(255, 255, 255, 0.1);
-            position: relative;
-            flex-shrink: 0;
-        }
-        
-        .top-strip::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: clamp(60px, 10vw, 120px);
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #777, transparent);
-        }
-        
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: clamp(15px, 2vw, 30px);
-            flex-shrink: 0;
-        }
-        
-        .brand-info {
-            color: #aaa;
-            font-size: clamp(16px, 2.5vw, 24px);
-            font-weight: 700;
-            letter-spacing: clamp(2px, 0.4vw, 4px);
-            text-shadow: 
-                2px 2px 0 rgba(0,0,0,1),
-                0 0 20px rgba(170, 170, 170, 0.5);
-            line-height: 1.2;
-        }
-        
-        .model-info {
-            color: #777;
-            font-size: clamp(9px, 1.2vw, 13px);
-            font-weight: 400;
-            letter-spacing: clamp(1px, 0.2vw, 2px);
-            margin-top: 4px;
-        }
-        
-        .status-lights {
-            display: flex;
-            flex-direction: column;
-            gap: clamp(8px, 1vw, 12px);
-            align-items: flex-end;
-        }
-        
-        .status-light {
-            display: flex;
-            align-items: center;
-            gap: clamp(6px, 1vw, 10px);
-            font-size: clamp(8px, 1vw, 11px);
-            color: #777;
-            letter-spacing: 1px;
-        }
-        
-        .led {
-            width: clamp(8px, 1vw, 10px);
-            height: clamp(8px, 1vw, 10px);
-            border-radius: 50%;
-            border: 1px solid rgba(0, 0, 0, 0.8);
-            flex-shrink: 0;
-        }
-        
-        .led.red {
-            background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
-            box-shadow: 
-                0 0 15px rgba(255, 0, 0, 0.8),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-            animation: pulse-red 2s infinite;
-        }
-        
-        .led.green {
-            background: radial-gradient(circle at 30% 30%, #66ff66, #00cc00);
-            box-shadow: 
-                0 0 15px rgba(0, 255, 0, 0.6),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-        }
-        
-        .led.blue {
-            background: radial-gradient(circle at 30% 30%, #4488cc, #2266aa);
-            box-shadow: 
-                0 0 15px rgba(68, 136, 204, 0.7),
-                inset 0 1px 2px rgba(255, 255, 255, 0.3);
-        }
-        
-        @keyframes pulse-red {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        
-        .display-unit {
-            background: 
-                linear-gradient(145deg, #0a0a0a, #1a1a1a);
-            border: clamp(3px, 0.5vw, 6px) solid #333;
-            border-radius: clamp(8px, 1.2vw, 15px);
-            padding: 0;
-            margin-bottom: clamp(20px, 3vw, 40px);
-            box-shadow: 
-                inset 0 6px 25px rgba(0, 0, 0, 0.9),
-                inset 0 0 0 3px rgba(100, 100, 100, 0.1),
-                0 4px 0 rgba(255, 255, 255, 0.05);
-            position: relative;
-            height: var(--display-height);
-            flex-grow: 1;
-            min-height: 280px;
-        }
-        
-        .display-unit::before {
-            content: '';
-            position: absolute;
-            top: 6px;
-            left: 6px;
-            right: 6px;
-            bottom: 6px;
-            border-radius: clamp(5px, 0.8vw, 9px);
-            background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent 0px,
-                    transparent 1px,
-                    rgba(150, 150, 150, 0.04) 1px,
-                    rgba(150, 150, 150, 0.04) 2px
-                );
-            pointer-events: none;
-        }
-        
-        .display-frame {
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border-radius: clamp(12px, 1.5vw, 19px);
-            background: linear-gradient(45deg, #222, #444, #222);
-            z-index: -1;
-        }
-        
-        .display-bezel {
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border-radius: clamp(5px, 0.8vw, 9px);
-            height: 100%;
-            padding: clamp(12px, 2vw, 20px);
-            box-shadow: 
-                inset 0 2px 8px rgba(0, 0, 0, 0.8);
-        }
-        
-        .screen {
-            background: 
-                radial-gradient(ellipse at center, #1a1a1a 0%, #0f0f0f 60%, #050505 100%);
-            border-radius: clamp(3px, 0.5vw, 6px);
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid #2a2a2a;
-        }
-        
-        /* Plexiglas-Effekt */
-        .screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.1) 0%,
-                    rgba(255, 255, 255, 0.05) 25%,
-                    transparent 30%,
-                    transparent 70%,
-                    rgba(255, 255, 255, 0.03) 75%,
-                    rgba(255, 255, 255, 0.08) 100%);
-            border-radius: clamp(3px, 0.5vw, 6px);
-            pointer-events: none;
-            z-index: 3;
-        }
-        
-        .screen::after {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            right: 8px;
-            height: 25%;
-            background: 
-                linear-gradient(
-                    to bottom,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    rgba(255, 255, 255, 0.02) 50%,
-                    transparent 100%
-                );
-            border-radius: 4px;
-            pointer-events: none;
-            z-index: 4;
-        }
-        
-        .display-viewport {
-            height: 100%;
-            position: relative;
-            padding: clamp(15px, 2.5vw, 25px);
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-        }
-        
-        .display-content {
-            color: var(--eink-white);
-            font-size: var(--font-size);
-            font-weight: 400;
-            letter-spacing: 0.5px;
-            text-shadow: 
-                0 0 4px rgba(204, 204, 204, 0.3),
-                0 0 8px rgba(204, 204, 204, 0.2);
-            font-family: 'JetBrains Mono', monospace;
-            white-space: pre-line;
-            line-height: 1.3;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* E-Ink Display Colors */
-        .eink-primary { color: var(--eink-white); }
-        .eink-secondary { color: var(--eink-light); }
-        .eink-muted { color: var(--eink-medium); }
-        .eink-dim { color: var(--eink-dark); }
-        .eink-accent { 
-            color: var(--eink-yellow); 
-            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
-        }
-        .eink-highlight { 
-            color: var(--eink-red); 
-            text-shadow: 0 0 4px rgba(204, 68, 68, 0.3);
-        }
-        .eink-info { 
-            color: var(--eink-blue); 
-            text-shadow: 0 0 4px rgba(68, 136, 204, 0.3);
-        }
-        
-        .breadcrumb {
-            color: var(--eink-medium);
-            font-size: clamp(9px, 1vw, 11px);
-            margin-bottom: 6px;
-            flex-shrink: 0;
-        }
-        
-        .section-header {
-            color: var(--eink-yellow);
-            font-weight: 700;
-            margin: 6px 0 3px 0;
-            text-shadow: 0 0 4px rgba(204, 170, 68, 0.3);
-            flex-shrink: 0;
-        }
-        
-        .highlight-item {
-            color: var(--eink-red);
-            text-shadow: 0 0 4px rgba(204, 68, 68, 0.3);
-        }
-        
-        .info-item {
-            color: var(--eink-blue);
-            text-shadow: 0 0 4px rgba(68, 136, 204, 0.3);
-        }
-        
-        .rating-excellent { color: var(--eink-red); }
-        .rating-good { color: var(--eink-yellow); }
-        .rating-average { color: var(--eink-white); }
-        .rating-poor { color: var(--eink-medium); }
-        
-        .filter-indicator {
-            color: var(--eink-blue);
-            background: rgba(68, 136, 204, 0.1);
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: clamp(8px, 0.9vw, 10px);
-            border: 1px solid var(--eink-blue);
-            display: inline-block;
-            margin: 2px;
-        }
-        
-        .navigation-tree {
-            color: var(--eink-medium);
-            font-size: clamp(10px, 1.1vw, 12px);
-        }
-        
-        .tree-selected {
-            color: var(--eink-yellow);
-            font-weight: 700;
-        }
-        
-        .content-grid {
-            display: grid;
-            gap: 8px;
-            flex-grow: 1;
-        }
-        
-        .content-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 2px 0;
-        }
-        
-        .cursor {
-            display: inline-block;
-            width: clamp(6px, 0.8vw, 8px);
-            height: var(--font-size);
-            background: var(--eink-white);
-            margin-left: 2px;
-            animation: blink 1s infinite;
-            box-shadow: 0 0 4px rgba(204, 204, 204, 0.3);
-        }
-        
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
-        }
-        
-        .button-panel {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: clamp(20px, 3vw, 35px);
-            margin-bottom: clamp(20px, 3vw, 35px);
-            flex-shrink: 0;
-        }
-        
-        .button {
-            background: 
-                linear-gradient(145deg, #3a3a3a 0%, #2a2a2a 30%, #1a1a1a 70%, #2a2a2a 100%);
-            border: none;
-            border-radius: clamp(8px, 1vw, 12px);
-            color: #ddd;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(10px, 1.3vw, 14px);
-            font-weight: 700;
-            letter-spacing: 1px;
-            padding: clamp(15px, 2vw, 22px) clamp(10px, 1.5vw, 15px);
-            cursor: pointer;
-            box-shadow: 
-                0 clamp(4px, 1vw, 8px) clamp(8px, 1.5vw, 16px) rgba(0, 0, 0, 0.5),
-                inset 0 2px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.6),
-                inset 2px 0 0 rgba(255, 255, 255, 0.05),
-                inset -2px 0 0 rgba(0, 0, 0, 0.4);
-            transition: all 0.12s ease;
-            text-transform: uppercase;
-            position: relative;
-            height: var(--button-height);
-            border: clamp(2px, 0.3vw, 3px) solid #555;
-            overflow: hidden;
-            min-height: 50px;
-        }
-        
-        .button::before {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            right: 2px;
-            height: 45%;
-            background: 
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.12), transparent);
-            border-radius: clamp(5px, 0.8vw, 8px) clamp(5px, 0.8vw, 8px) 0 0;
-            pointer-events: none;
-        }
-        
-        .button:hover {
-            background: 
-                linear-gradient(145deg, #4a4a4a 0%, #3a3a3a 30%, #2a2a2a 70%, #3a3a3a 100%);
-            transform: translateY(-1px);
-            box-shadow: 
-                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
-                inset 0 2px 0 rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-        
-        .button:active {
-            transform: translateY(2px);
-            box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.7),
-                inset 0 3px 8px rgba(0, 0, 0, 0.5);
-        }
-        
-        .button.primary {
-            background: 
-                linear-gradient(145deg, #4d4d00 0%, #333300 30%, #1a1a00 70%, #333300 100%);
-            color: var(--eink-yellow);
-            border-color: #666600;
-        }
-        
-        .button.primary::before {
-            background: 
-                linear-gradient(to bottom, rgba(204, 170, 68, 0.2), transparent);
-        }
-        
-        .button.primary:hover {
-            background: 
-                linear-gradient(145deg, #666600 0%, #4d4d00 30%, #333300 70%, #4d4d00 100%);
-            color: #ffcc44;
-            box-shadow: 
-                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(204, 170, 68, 0.4);
-        }
-        
-        .button.secondary {
-            background: 
-                linear-gradient(145deg, #003d4d 0%, #002633 30%, #00131a 70%, #002633 100%);
-            color: var(--eink-blue);
-            border-color: #004466;
-        }
-        
-        .button.secondary::before {
-            background: 
-                linear-gradient(to bottom, rgba(68, 136, 204, 0.2), transparent);
-        }
-        
-        .button.secondary:hover {
-            background: 
-                linear-gradient(145deg, #004466 0%, #003d4d 30%, #002633 70%, #003d4d 100%);
-            color: #44aacc;
-            box-shadow: 
-                0 clamp(6px, 1.5vw, 12px) clamp(10px, 2vw, 20px) rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(68, 136, 204, 0.4);
-        }
-        
-        .info-panel {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: clamp(15px, 2.5vw, 25px);
-            align-items: center;
-            padding: clamp(12px, 2vw, 18px) clamp(15px, 2.5vw, 25px);
-            background: 
-                linear-gradient(90deg, #0a0a0a, #1a1a1a, #0a0a0a);
-            border-radius: clamp(6px, 1vw, 10px);
-            border: clamp(2px, 0.3vw, 3px) solid #333;
-            box-shadow: 
-                inset 0 3px 8px rgba(0, 0, 0, 0.6);
-            flex-shrink: 0;
-        }
-        
-        .power-status {
-            display: flex;
-            align-items: center;
-            gap: clamp(6px, 1vw, 10px);
-        }
-        
-        .power-meter {
-            width: clamp(30px, 4vw, 40px);
-            height: clamp(14px, 2vw, 18px);
-            border: 2px solid #666;
-            border-radius: 3px;
-            position: relative;
-            background: #000;
-            flex-shrink: 0;
-        }
-        
-        .power-meter::after {
-            content: '';
-            position: absolute;
-            right: -4px;
-            top: 20%;
-            bottom: 20%;
-            width: 3px;
-            background: #666;
-            border-radius: 0 2px 2px 0;
-        }
-        
-        .power-fill {
-            height: 100%;
-            background: 
-                linear-gradient(90deg, var(--eink-yellow), #ffcc44);
-            border-radius: 1px;
-            width: 88%;
-            box-shadow: 
-                0 0 6px rgba(204, 170, 68, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        
-        .power-text {
-            color: #888;
-            font-size: clamp(9px, 1.2vw, 12px);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .main-counter {
+        .header-section {
             text-align: center;
+            margin-bottom: 20px;
+            border: 2px inset #c0c0c0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
+            border-radius: 2px;
         }
         
-        .counter-display {
-            color: var(--eink-white);
-            font-size: clamp(16px, 2.5vw, 24px);
-            font-weight: 700;
-            text-shadow: 0 0 8px rgba(204, 204, 204, 0.3);
-            margin-bottom: 3px;
+        .main-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
-        .counter-label {
+        .subtitle {
+            font-size: 11px;
             color: #666;
-            font-size: clamp(8px, 1vw, 10px);
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            margin-bottom: 12px;
         }
         
-        .sys-info {
-            text-align: right;
-            color: #666;
-            font-size: clamp(8px, 1vw, 10px);
-            letter-spacing: 1px;
-            line-height: 1.4;
+        .week-info {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #92400e;
+            padding: 8px 12px;
+            border: 1px solid #d97706;
+            margin: 10px auto;
+            max-width: 400px;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
         }
         
-        .loading {
-            animation: glow 2s ease-in-out infinite alternate;
+        .status-line {
+            font-family: "Courier New", monospace;
+            font-size: 10px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #00ff41;
+            padding: 4px 8px;
+            border: 2px inset #c0c0c0;
+            text-shadow: 0 0 2px #00ff41;
         }
         
-        @keyframes glow {
-            from { 
-                text-shadow: 
-                    0 0 4px rgba(204, 204, 204, 0.6),
-                    0 0 8px rgba(204, 204, 204, 0.4);
-            }
-            to { 
-                text-shadow: 
-                    0 0 8px rgba(204, 204, 204, 0.8),
-                    0 0 16px rgba(204, 204, 204, 0.6),
-                    0 0 24px rgba(204, 204, 204, 0.4);
-            }
+        .navigation-bar {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            border: 2px inset #c0c0c0;
+            padding: 6px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
         
-        .loading::after {
-            content: '';
-            animation: loading-dots 1.5s infinite;
+        .nav-button {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            border: 2px outset #c0c0c0;
+            padding: 4px 12px;
+            font-size: 10px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            transition: all 0.1s;
+            border-radius: 1px;
         }
         
-        @keyframes loading-dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60% { content: '...'; }
-            80%, 100% { content: ''; }
+        .nav-button:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+            transform: translateY(-1px);
         }
         
-        .error {
-            color: var(--eink-red);
-            text-shadow: 
-                0 0 4px rgba(204, 68, 68, 0.6),
-                0 0 8px rgba(204, 68, 68, 0.4);
+        .nav-button:active {
+            border: 2px inset #c0c0c0;
+            transform: translateY(0px);
         }
         
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            :root {
-                --device-width: 95vw;
-                --device-height: 95vh;
-                --display-height: 45vh;
-                --button-height: 12vw;
-                --font-size: 12px;
-                --padding: 15px;
+        .nav-button.active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: 2px inset #1d4ed8;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .control-panel {
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+            border: 2px inset #c0c0c0;
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 2px;
+        }
+        
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .control-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .control-label {
+            min-width: 80px;
+            font-weight: bold;
+            font-size: 10px;
+            color: #374151;
+        }
+        
+        input[type="text"], select {
+            border: 2px inset #c0c0c0;
+            padding: 3px 6px;
+            font-size: 11px;
+            font-family: inherit;
+            background: white;
+            border-radius: 1px;
+        }
+        
+        input[type="text"]:focus, select:focus {
+            background: #fffff0;
+            outline: 1px solid #fbbf24;
+        }
+        
+        .week-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fef3c7;
+            padding: 6px 10px;
+            border: 1px solid #f59e0b;
+            border-radius: 2px;
+            margin-top: 8px;
+        }
+        
+        .albums-container {
+            border: 2px inset #c0c0c0;
+            background: white;
+            max-height: 600px;
+            overflow-y: auto;
+            border-radius: 2px;
+        }
+        
+        .album-item {
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .album-item:hover {
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+        }
+        
+        .album-item.expanded {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e0f2fe 100%);
+        }
+        
+        .album-header {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .album-icon {
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border: 1px solid #d97706;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #92400e;
+            border-radius: 2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        
+        .week-badge {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: bold;
+            border-radius: 3px;
+            border: 1px solid #047857;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        
+        .album-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .album-title {
+            font-weight: bold;
+            font-size: 12px;
+            color: #1e3a8a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+        
+        .album-meta {
+            font-size: 10px;
+            color: #6b7280;
+        }
+        
+        .album-rating {
+            background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
+            border: 1px solid #ca8a04;
+            padding: 4px 8px;
+            font-weight: bold;
+            font-size: 11px;
+            min-width: 45px;
+            text-align: center;
+            color: #854d0e;
+            border-radius: 2px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+        }
+        
+        .album-details {
+            display: none;
+            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+            border-top: 1px solid #d0d0d0;
+            padding: 12px;
+        }
+        
+        .album-details.show {
+            display: block;
+        }
+        
+        .songs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 10px;
+            margin-bottom: 10px;
+            background: white;
+            border: 1px solid #d1d5db;
+        }
+        
+        .songs-table th {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            border: 1px solid #9ca3af;
+            padding: 4px 6px;
+            text-align: left;
+            font-weight: bold;
+            color: #374151;
+        }
+        
+        .songs-table td {
+            border: 1px solid #e5e7eb;
+            padding: 4px 6px;
+            background: white;
+        }
+        
+        .songs-table tr:nth-child(even) td {
+            background: #f9fafb;
+        }
+        
+        .songs-table tr:hover td {
+            background: #f0f9ff;
+        }
+        
+        .song-rating {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .rating-10 { color: #dc2626; text-shadow: 0 0 2px #dc2626; }
+        .rating-9 { color: #ea580c; }
+        .rating-8 { color: #d97706; }
+        .rating-7 { color: #ca8a04; }
+        .rating-6 { color: #65a30d; }
+        .rating-5 { color: #16a34a; }
+        .rating-low { color: #6b7280; }
+        
+        .favorite-icon {
+            color: #dc2626;
+            font-weight: bold;
+            text-shadow: 0 0 2px #dc2626;
+        }
+        
+        .interlude-marker {
+            color: #6b7280;
+            font-style: italic;
+        }
+        
+        .album-comment {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #f59e0b;
+            padding: 8px;
+            margin-top: 8px;
+            font-size: 10px;
+            font-style: italic;
+            color: #92400e;
+            border-radius: 2px;
+        }
+        
+        .album-comment::before {
+            content: "💭 KOMMENTAR: ";
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .week-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .week-card {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 2px outset #c0c0c0;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 2px;
+        }
+        
+        .week-card:hover {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .week-card.active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: 2px inset #1d4ed8;
+        }
+        
+        .week-title {
+            font-weight: bold;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .week-stats {
+            font-size: 9px;
+            color: #6b7280;
+        }
+        
+        .week-card.active .week-stats {
+            color: #e5e7eb;
+        }
+        
+        .stats-bar {
+            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+            border: 2px inset #c0c0c0;
+            padding: 6px 12px;
+            margin-top: 12px;
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-radius: 2px;
+        }
+        
+        .stat-item {
+            background: white;
+            padding: 2px 6px;
+            border: 1px solid #9ca3af;
+            border-radius: 2px;
+            font-weight: bold;
+        }
+        
+        .pagination {
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .page-btn {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            border: 2px outset #c0c0c0;
+            padding: 4px 8px;
+            margin: 0 2px;
+            font-size: 10px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            border-radius: 1px;
+        }
+        
+        .page-btn:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
+        }
+        
+        .page-btn.active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: 2px inset #1d4ed8;
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 9px;
+            color: #6b7280;
+            padding: 12px;
+            border-top: 2px solid #e5e7eb;
+            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+        }
+        
+        .link {
+            color: #2563eb;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .link:visited {
+            color: #7c3aed;
+        }
+        
+        .link:hover {
+            color: #1d4ed8;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border: 1px inset #c0c0c0;
+            margin: 6px 0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .current-week-indicator {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .current-week-indicator::after {
+            content: "AKTUELLE WOCHE";
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #dc2626;
+            color: white;
+            padding: 2px 6px;
+            font-size: 8px;
+            font-weight: bold;
+            border-radius: 2px;
+            white-space: nowrap;
+        }
+        
+        @media (max-width: 600px) {
+            .page-container {
+                margin: 5px;
             }
             
-            .header {
+            .control-row {
                 flex-direction: column;
-                align-items: center;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            
+            .control-label {
+                min-width: auto;
+            }
+            
+            .album-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            
+            .week-overview {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
                 text-align: center;
-                gap: 10px;
-            }
-            
-            .status-lights {
-                flex-direction: row;
-                justify-content: center;
-            }
-            
-            .info-panel {
-                grid-template-columns: 1fr;
-                gap: 15px;
-                text-align: center;
-            }
-            
-            .sys-info {
-                text-align: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            :root {
-                --button-height: 15vw;
-                --font-size: 11px;
-            }
-            
-            .button-panel {
-                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="machine">
-        <div class="top-strip"></div>
-        
-        <div class="header">
-            <div>
-                <div class="brand-info">YAMAHA</div>
-                <div class="model-info">DX-7000 MUSIC ARCHIVE</div>
-            </div>
-            <div class="status-lights">
-                <div class="status-light">
-                    <div class="led red"></div>
-                    <span>POWER</span>
-                </div>
-                <div class="status-light">
-                    <div class="led green" id="dataLed"></div>
-                    <span>DATA</span>
-                </div>
-                <div class="status-light">
-                    <div class="led blue" id="filterLed" style="display: none;"></div>
-                    <span id="filterLedLabel" style="display: none;">FILTER</span>
-                </div>
+    <div class="page-container">
+        <div class="title-bar">
+            <span>🎵 DOME'S WÖCHENTLICHES MUSIK ARCHIV - Microsoft Internet Explorer</span>
+            <div class="controls">
+                <div class="title-btn">_</div>
+                <div class="title-btn">□</div>
+                <div class="title-btn">×</div>
             </div>
         </div>
         
-        <div class="display-unit">
-            <div class="display-frame"></div>
-            <div class="display-bezel">
-                <div class="screen">
-                    <div class="display-viewport">
-                        <div class="display-content" id="display">
-                            <div class="loading">YAMAHA DX-7000 INIT</div>
-                        </div>
+        <div class="content-area">
+            <div class="header-section">
+                <div class="main-title">🎵 DOME'S WÖCHENTLICHES MUSIK ARCHIV 🎵</div>
+                <div class="subtitle">Systematische Album-Bewertungen - Woche für Woche</div>
+                <div class="week-info">
+                    📅 Aktuell in Woche <span id="currentWeek">1</span> | 🎯 Ziel: ~7 Alben pro Woche
+                </div>
+                <div class="status-line">Status: ONLINE | System: WÖCHENTLICH | Letzte Aktualisierung: <span id="currentDate"></span></div>
+            </div>
+            
+            <div class="navigation-bar">
+                <div class="nav-button active" onclick="showView('albums')">🏠 ALBUMS</div>
+                <div class="nav-button" onclick="showView('weeks')">📊 WOCHEN-ÜBERSICHT</div>
+                <div class="nav-button" onclick="showView('stats')">📈 STATISTIKEN</div>
+                <div class="nav-button" onclick="showView('favorites')">⭐ FAVORITEN</div>
+                <div class="nav-button" onclick="showView('top-rated')">🏆 TOP BEWERTET</div>
+                <div class="nav-button" onclick="showView('about')">ℹ️ ÜBER</div>
+            </div>
+            
+            <div id="albums-view">
+                <div class="control-panel">
+                    <div class="control-row">
+                        <div class="control-label">Suche:</div>
+                        <input type="text" id="searchInput" placeholder="Album oder Künstler suchen..." style="flex: 1;" onkeyup="filterAlbums()">
+                    </div>
+                    <div class="control-row">
+                        <div class="control-label">Sortierung:</div>
+                        <select id="sortSelect" onchange="sortAlbums()">
+                            <option value="week-desc">Woche (Neu → Alt)</option>
+                            <option value="week-asc">Woche (Alt → Neu)</option>
+                            <option value="rating-desc">Bewertung (Hoch → Niedrig)</option>
+                            <option value="rating-asc">Bewertung (Niedrig → Hoch)</option>
+                            <option value="artist-asc">Künstler (A → Z)</option>
+                            <option value="artist-desc">Künstler (Z → A)</option>
+                            <option value="album-asc">Album (A → Z)</option>
+                            <option value="album-desc">Album (Z → A)</option>
+                            <option value="year-asc">Jahr (Alt → Neu)</option>
+                            <option value="year-desc">Jahr (Neu → Alt)</option>
+                        </select>
+                        <div class="nav-button" onclick="toggleAllAlbums()">Alle Erweitern</div>
+                        <div class="nav-button" onclick="resetFilters()">Zurücksetzen</div>
+                    </div>
+                    <div class="week-filter">
+                        <div class="control-label">📅 Woche filtern:</div>
+                        <select id="weekFilter" onchange="filterByWeek()">
+                            <option value="all">Alle Wochen</option>
+                        </select>
+                        <div class="nav-button" onclick="showCurrentWeek()">Aktuelle Woche</div>
                     </div>
                 </div>
+                
+                <div class="albums-container" id="albumsContainer"></div>
+                
+                <div class="pagination" id="pagination"></div>
             </div>
-        </div>
-        
-        <div class="button-panel">
-            <button class="button" onclick="navigate('prev')" id="btnLeft">◀ PREV</button>
-            <button class="button primary" onclick="navigate('select')" id="btnCenter">SELECT</button>
-            <button class="button" onclick="navigate('next')" id="btnRight">NEXT ▶</button>
-        </div>
-        
-        <div class="info-panel">
-            <div class="power-status">
-                <div class="power-meter">
-                    <div class="power-fill"></div>
+            
+            <div id="weeks-view" style="display: none;">
+                <div class="control-panel">
+                    <h3>📊 WOCHEN-ÜBERSICHT</h3>
+                    <p>Klicke auf eine Woche, um die Alben dieser Woche anzuzeigen</p>
+                    <div class="week-overview" id="weekOverview"></div>
                 </div>
-                <div class="power-text">88%</div>
             </div>
-            <div class="main-counter">
-                <div class="counter-display" id="counter">--</div>
-                <div class="counter-label" id="counterLabel">LOADING</div>
+            
+            <div id="stats-view" style="display: none;">
+                <div class="control-panel">
+                    <h3>📈 DETAILLIERTE STATISTIKEN</h3>
+                    <div id="statsContent"></div>
+                </div>
             </div>
-            <div class="sys-info">
-                <div id="memInfo">MEM: 0.0MB</div>
-                <div id="statInfo">STATUS: INIT</div>
+            
+            <div id="favorites-view" style="display: none;">
+                <div class="control-panel">
+                    <h3>⭐ MEINE LIEBLINGSSONGS</h3>
+                    <div id="favoritesContent"></div>
+                </div>
             </div>
+            
+            <div id="top-rated-view" style="display: none;">
+                <div class="control-panel">
+                    <h3>🏆 BESTBEWERTETE SONGS</h3>
+                    <div id="topRatedContent"></div>
+                </div>
+            </div>
+            
+            <div id="about-view" style="display: none;">
+                <div class="control-panel">
+                    <h3>ℹ️ ÜBER DAS WÖCHENTLICHE SYSTEM</h3>
+                    <p><strong>DOME'S WÖCHENTLICHES MUSIK ARCHIV</strong></p>
+                    <p>Seit 2024 bewerte ich systematisch Alben in einem wöchentlichen Rhythmus. Das Ziel: etwa 7 Alben pro Woche, aber die Flexibilität bleibt erhalten.</p>
+                    <p><strong>Das System:</strong></p>
+                    <ul>
+                        <li>🗓️ <strong>Wöchentliche Struktur:</strong> Jedes Album wird einer Woche zugeordnet</li>
+                        <li>🎯 <strong>Zielgröße:</strong> ~7 Alben pro Woche (flexibel anpassbar)</li>
+                        <li>⭐ <strong>Bewertungssystem:</strong> 1-10 Punkte pro Song</li>
+                        <li>❤️ <strong>Favoriten-System:</strong> Besondere Songs werden markiert</li>
+                        <li>🎼 <strong>Interlude-Erkennung:</strong> Kurze Zwischenstücke werden separat behandelt</li>
+                    </ul>
+                    <p><strong>Technische Details:</strong></p>
+                    <ul>
+                        <li>HTML 5 + ES6 JavaScript</li>
+                        <li>CSS3 mit Gradients und Transitions</li>
+                        <li>Responsive Design</li>
+                        <li>JSON-basierte Datenspeicherung</li>
+                    </ul>
+                    <p><strong>Browser-Empfehlung:</strong> Optimiert für moderne Browser, aber im Internet Explorer 6 Stil gestaltet.</p>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">Alben: <span id="albumCount">0</span></div>
+                <div class="stat-item">Songs: <span id="songCount">0</span></div>
+                <div class="stat-item">Ø Bewertung: <span id="avgRating">0</span></div>
+                <div class="stat-item">Favoriten: <span id="favoriteCount">0</span></div>
+                <div class="stat-item">Wochen: <span id="weekCount">0</span></div>
+                <div class="stat-item">Ø pro Woche: <span id="avgPerWeek">0</span></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            © 2024 DOME'S MUSIK ARCHIV | <span class="link" onclick="showView('about')">Über das System</span> | 
+            Erstellt mit <span class="link">modernem Web-Tech</span> im <span class="link">Retro-Design</span>
         </div>
     </div>
 
     <script>
         let albums = [];
-        let filteredAlbums = [];
-        let currentIndex = 0;
-        let currentView = 'boot';
-        let currentAlbumIndex = 0;
-        let currentSongIndex = 0;
-        let currentMenuIndex = 0;
-        let currentCategoryIndex = 0;
-        let currentFilterIndex = 0;
-        let stats = {};
-        let navigationStack = [];
-        let activeFilters = {
-            category: 'all',
-            rating: 'all',
-            year: 'all',
-            artist: 'all'
-        };
-        
-        const menu = [
-            'BROWSE',
-            'CATEGORIES',
-            'SEARCH',
-            'FAVORITES',
-            'STATISTICS',
-            'RANDOM',
-            'SETTINGS'
-        ];
+        let currentAlbums = [];
+        let currentPage = 1;
+        const albumsPerPage = 10;
+        let allExpanded = false;
+        let currentView = 'albums';
+        let selectedWeek = 'all';
 
-        const categories = [
-            { id: 'all', name: 'All Albums', filter: () => true },
-            { id: 'top', name: 'Top Rated (9+)', filter: a => parseFloat(a.avg) >= 9.0 },
-            { id: 'excellent', name: 'Excellent (8+)', filter: a => parseFloat(a.avg) >= 8.0 },
-            { id: 'good', name: 'Good (7+)', filter: a => parseFloat(a.avg) >= 7.0 },
-            { id: 'recent', name: 'Recent (2020+)', filter: a => a.year >= 2020 },
-            { id: 'classic', name: 'Classic (< 2000)', filter: a => a.year < 2000 },
-            { id: 'favorites', name: 'Has Favorites', filter: a => a.songs.some(s => s.favorite) },
-            { id: 'long', name: 'Long Albums (15+ tracks)', filter: a => a.songs.length >= 15 }
-        ];
-
-        async function init() {
+        // Load albums from external JSON file
+        async function loadAlbumsFromFile() {
             try {
-                const response = await fetch('./albums.json');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                
+                const response = await fetch('albums.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const data = await response.json();
-                
-                // Clean duplicates and calculate averages
-                const unique = [];
-                const seen = new Set();
-                
-                data.forEach(album => {
-                    const key = `${album.artist}-${album.album}`;
-                    if (!seen.has(key)) {
-                        seen.add(key);
-                        
-                        const tracks = album.songs.filter(s => !s.interlude);
-                        if (tracks.length > 0) {
-                            const sum = tracks.reduce((a, s) => a + s.rating, 0);
-                            album.avg = (sum / tracks.length).toFixed(1);
-                        } else {
-                            album.avg = 0;
-                        }
-                        unique.push(album);
-                    }
-                });
-                
-                albums = unique.sort((a, b) => a.artist.localeCompare(b.artist));
-                filteredAlbums = [...albums];
-                calcStats();
-                showWelcome();
-                
+                return data;
             } catch (error) {
-                showError(`LOAD ERROR: ${error.message}\n\nCheck albums.json file\nin same directory`);
-            }
-        }
-
-        function calcStats() {
-            const totalTracks = albums.reduce((s, a) => s + a.songs.length, 0);
-            const totalReal = albums.reduce((s, a) => s + a.songs.filter(t => !t.interlude).length, 0);
-            const totalFavs = albums.reduce((s, a) => s + a.songs.filter(t => t.favorite).length, 0);
-            
-            const allRatings = [];
-            albums.forEach(a => {
-                a.songs.forEach(s => {
-                    if (!s.interlude) allRatings.push(s.rating);
-                });
-            });
-            
-            const avgAll = allRatings.length > 0 
-                ? (allRatings.reduce((s, r) => s + r, 0) / allRatings.length).toFixed(1) 
-                : 0;
-            
-            const topAlbum = albums.reduce((best, a) => 
-                parseFloat(a.avg) > parseFloat(best.avg) ? a : best, albums[0]);
-            
-            stats = {
-                albums: albums.length,
-                tracks: totalReal,
-                favs: totalFavs,
-                avg: avgAll,
-                top: topAlbum,
-                mem: ((JSON.stringify(albums).length / 1024) / 1024).toFixed(1)
-            };
-        }
-
-        function updateFilterUI() {
-            const filterLed = document.getElementById('filterLed');
-            const filterLedLabel = document.getElementById('filterLedLabel');
-            
-            const hasActiveFilters = activeFilters.category !== 'all' || 
-                                  activeFilters.rating !== 'all' ||
-                                  activeFilters.year !== 'all' ||
-                                  activeFilters.artist !== 'all';
-            
-            if (hasActiveFilters) {
-                filterLed.style.display = 'block';
-                filterLedLabel.style.display = 'block';
-            } else {
-                filterLed.style.display = 'none';
-                filterLedLabel.style.display = 'none';
-            }
-        }
-
-        function pushNavigation(view, data = {}) {
-            navigationStack.push({ 
-                view: currentView, 
-                data: { currentIndex, currentAlbumIndex, currentSongIndex, currentMenuIndex, currentCategoryIndex, currentFilterIndex } 
-            });
-            if (navigationStack.length > 10) navigationStack.shift();
-        }
-
-        function popNavigation() {
-            if (navigationStack.length > 0) {
-                const prev = navigationStack.pop();
-                const { view, data } = prev;
-                currentIndex = data.currentIndex;
-                currentAlbumIndex = data.currentAlbumIndex;
-                currentSongIndex = data.currentSongIndex;
-                currentMenuIndex = data.currentMenuIndex;
-                currentCategoryIndex = data.currentCategoryIndex;
-                currentFilterIndex = data.currentFilterIndex;
-                
-                switch(view) {
-                    case 'menu': showMenu(); break;
-                    case 'categories': showCategories(); break;
-                    case 'browse': showBrowse(); break;
-                    case 'album': showAlbum(); break;
-                    default: showMenu(); break;
-                }
-                return true;
-            }
-            return false;
-        }
-
-        function applyFilters() {
-            filteredAlbums = albums.filter(album => {
-                if (activeFilters.category !== 'all') {
-                    const category = categories.find(c => c.id === activeFilters.category);
-                    if (category && !category.filter(album)) return false;
-                }
-                
-                if (activeFilters.rating !== 'all') {
-                    const minRating = parseFloat(activeFilters.rating);
-                    if (parseFloat(album.avg) < minRating) return false;
-                }
-                
-                if (activeFilters.year !== 'all') {
-                    const yearFilter = activeFilters.year;
-                    if (yearFilter === 'recent' && album.year < 2020) return false;
-                    if (yearFilter === 'classic' && album.year >= 2000) return false;
-                }
-                
-                if (activeFilters.artist !== 'all') {
-                    if (album.artist.toLowerCase().indexOf(activeFilters.artist.toLowerCase()) === -1) return false;
-                }
-                
-                return true;
-            });
-            
-            currentIndex = 0;
-            updateFilterUI();
-        }
-
-        function getRatingColor(rating) {
-            const r = parseFloat(rating);
-            if (r >= 9.0) return 'rating-excellent';
-            if (r >= 7.5) return 'rating-good';
-            if (r >= 6.0) return 'rating-average';
-            return 'rating-poor';
-        }
-
-        function truncateText(text, maxLength) {
-            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-        }
-
-        function showWelcome() {
-            const content = `<span class="eink-accent">DOME'S MUSIC ARCHIVE</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">SYSTEM READY</span>
-
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Albums loaded:</span>
-<span class="eink-info">${albums.length}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Total tracks:</span>
-<span class="eink-info">${stats.tracks}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Favorites:</span>
-<span class="eink-highlight">${stats.favs}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Average rating:</span>
-<span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
-</div>
-</div>
-
-<span class="section-header">System Status</span>
-<div class="content-row">
-<span class="eink-secondary">Memory usage:</span>
-<span class="eink-info">${stats.mem}MB</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Data integrity:</span>
-<span class="eink-accent">OK</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Archive status:</span>
-<span class="eink-accent">ONLINE</span>
-</div>
-
-<span class="eink-muted">Press SELECT to continue</span>`;
-            
-            update(content, 'OK', 'READY');
-            currentView = 'welcome';
-        }
-
-        function showMenu() {
-            let content = `<span class="eink-accent">MAIN MENU</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Select Mode:</span>
-
-<div class="content-grid">`;
-
-            menu.forEach((menuItem, i) => {
-                const marker = i === currentMenuIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
-                const color = i === currentMenuIndex ? 'eink-accent' : 'eink-secondary';
-                content += `<div>${marker}<span class="${color}">${menuItem}</span></div>`;
-            });
-            
-            content += `</div>
-
-<span class="section-header">Available Modes:</span>
-<span class="eink-muted">BROWSE: Navigate collection</span>
-<span class="eink-muted">CATEGORIES: Filter by type</span>
-<span class="eink-muted">SEARCH: Quick filters</span>
-<span class="eink-muted">FAVORITES: Show loved tracks</span>
-<span class="eink-muted">STATISTICS: Collection data</span>
-<span class="eink-muted">RANDOM: Jump to random</span>
-<span class="eink-muted">SETTINGS: System config</span>
-
-<span class="eink-muted">◀/▶ Navigate | SELECT Enter</span>`;
-            
-            update(content, `${currentMenuIndex + 1}/${menu.length}`, 'MENU');
-            currentView = 'menu';
-        }
-
-        function showCategories() {
-            const category = categories[currentCategoryIndex];
-            const count = albums.filter(category.filter).length;
-            
-            let content = `<span class="breadcrumb">MAIN MENU > CATEGORIES</span>
-<span class="eink-accent">CATEGORY BROWSER</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Current: ${category.name}</span>
-<span class="eink-info">${count} albums match this category</span>
-
-<span class="section-header">All Categories:</span>
-<div class="content-grid">`;
-
-            categories.forEach((cat, i) => {
-                const catCount = albums.filter(cat.filter).length;
-                const marker = i === currentCategoryIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
-                const color = i === currentCategoryIndex ? 'eink-accent' : 'eink-secondary';
-                content += `<div class="content-row">${marker}<span class="${color}">${cat.name}</span><span class="eink-muted">(${catCount})</span></div>`;
-            });
-            
-            content += `</div>`;
-            
-            if (activeFilters.category !== 'all') {
-                const activeCategory = categories.find(c => c.id === activeFilters.category);
-                content += `
-
-<span class="filter-indicator">ACTIVE: ${activeCategory?.name}</span>`;
-            }
-            
-            content += `
-
-<span class="eink-muted">◀/▶ Navigate | SELECT Apply | ESC Back</span>`;
-            
-            update(content, `${currentCategoryIndex + 1}/${categories.length}`, 'CATEGORY');
-            currentView = 'categories';
-        }
-
-        function showBrowse() {
-            if (filteredAlbums.length === 0) {
-                let content = `<span class="breadcrumb">MAIN MENU > BROWSE</span>
-<span class="eink-accent">ALBUM BROWSER</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="error">No albums match current filters</span>
-
-<span class="eink-muted">Change filters or reset to view albums</span>
-<span class="eink-muted">Press ESC to clear filters</span>`;
-                
-                update(content, '0/0', 'BROWSE');
-                currentView = 'browse';
-                return;
-            }
-            
-            if (currentIndex >= filteredAlbums.length) currentIndex = 0;
-            const a = filteredAlbums[currentIndex];
-            
-            let content = `<span class="breadcrumb">MAIN MENU > BROWSE</span>
-<span class="eink-accent">ALBUM BROWSER</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Album ${currentIndex + 1}/${filteredAlbums.length}</span>
-<span class="info-item">${truncateText(a.artist, 35)}</span>
-<span class="eink-primary">${truncateText(a.album, 35)}</span> <span class="eink-muted">(${a.year})</span>
-
-<span class="section-header">Details:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">★ Rating:</span>
-<span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">♪ Tracks:</span>
-<span class="eink-info">${a.songs.length}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">♥ Favorites:</span>
-<span class="eink-highlight">${a.songs.filter(s => s.favorite).length}</span>
-</div>
-</div>`;
-
-            if (a.comment) {
-                content += `
-
-<span class="section-header">Comment:</span>
-<span class="eink-secondary">${truncateText(a.comment, 120)}</span>`;
-            }
-
-            // Navigation context
-            const prevAlbum = filteredAlbums[currentIndex - 1] || filteredAlbums[filteredAlbums.length - 1];
-            const nextAlbum = filteredAlbums[currentIndex + 1] || filteredAlbums[0];
-            
-            content += `
-
-<span class="eink-muted">───────────────────────────────────────</span>
-<span class="navigation-tree">◀ ${truncateText(prevAlbum.artist, 25)}</span>
-<span class="navigation-tree">▶ ${truncateText(nextAlbum.artist, 25)}</span>`;
-            
-            if (Object.values(activeFilters).some(f => f !== 'all')) {
-                content += `
-
-<span class="filter-indicator">FILTERS ACTIVE</span>`;
-            }
-            
-            content += `
-
-<span class="eink-muted">◀/▶ Browse | SELECT Open | ESC Back</span>`;
-            
-            update(content, `${currentIndex + 1}/${filteredAlbums.length}`, 'BROWSE');
-            currentView = 'browse';
-        }
-
-        function showAlbum() {
-            const a = filteredAlbums[currentAlbumIndex];
-            if (!a) return showBrowse();
-            
-            const s = a.songs[currentSongIndex];
-            
-            let content = `<span class="breadcrumb">BROWSE > ALBUM</span>
-<span class="eink-accent">ALBUM DETAILS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="info-item">${truncateText(a.artist, 35)}</span>
-<span class="eink-primary">${truncateText(a.album, 35)}</span> <span class="eink-muted">(${a.year})</span>
-Album rating: <span class="${getRatingColor(a.avg)}">${a.avg}/10</span>
-
-<span class="eink-muted">───────────────────────────────────────</span>
-<span class="section-header">TRACK ${currentSongIndex + 1}/${a.songs.length}</span>
-
-<span class="eink-primary">${truncateText(s.name, 40)}</span>
-Rating: <span class="${getRatingColor(s.rating)}">${s.rating}/10</span>`;
-
-            if (s.favorite) content += ' <span class="eink-highlight">♥ FAVORITE</span>';
-            if (s.interlude) content += ' <span class="eink-muted">[INTERLUDE]</span>';
-            
-            content += `
-
-<span class="section-header">Track List (${Math.min(a.songs.length, 8)} shown):</span>
-<div class="content-grid">`;
-
-            // Show max 8 tracks, centered around current
-            const maxTracks = 8;
-            let startIndex = Math.max(0, currentSongIndex - Math.floor(maxTracks / 2));
-            let endIndex = Math.min(a.songs.length, startIndex + maxTracks);
-            
-            if (endIndex - startIndex < maxTracks) {
-                startIndex = Math.max(0, endIndex - maxTracks);
-            }
-
-            for (let i = startIndex; i < endIndex; i++) {
-                const track = a.songs[i];
-                const marker = i === currentSongIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
-                const nameColor = i === currentSongIndex ? 'tree-selected' : 'eink-secondary';
-                const ratingColor = getRatingColor(track.rating);
-                const fav = track.favorite ? ' <span class="eink-highlight">♥</span>' : '';
-                const inter = track.interlude ? ' <span class="eink-muted">[i]</span>' : '';
-                const trackName = truncateText(track.name, 25);
-                content += `<div>${marker}<span class="${nameColor}">${i + 1}. ${trackName}</span> <span class="${ratingColor}">(${track.rating})</span>${fav}${inter}</div>`;
-            }
-            
-            content += `</div>`;
-            
-            if (a.songs.length > maxTracks) {
-                content += `
-<span class="eink-muted">... ${a.songs.length - maxTracks} more tracks</span>`;
-            }
-            
-            content += `
-
-<span class="eink-muted">◀/▶ Change tracks | SELECT Back | ESC Menu</span>`;
-            
-            update(content, `${currentSongIndex + 1}/${a.songs.length}`, 'ALBUM');
-            currentView = 'album';
-        }
-
-        function showFavorites() {
-            const favs = [];
-            albums.forEach(a => {
-                a.songs.forEach(s => {
-                    if (s.favorite) {
-                        favs.push({
-                            artist: a.artist,
-                            name: s.name,
-                            rating: s.rating,
-                            album: a.album
-                        });
-                    }
-                });
-            });
-            
-            favs.sort((a, b) => b.rating - a.rating);
-            
-            if (favs.length === 0) {
-                let content = `<span class="breadcrumb">MAIN MENU > FAVORITES</span>
-<span class="eink-accent">FAVORITE TRACKS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="eink-secondary">No favorites found</span>
-
-<span class="eink-muted">Mark songs as favorites to see them here</span>
-
-<span class="eink-muted">SELECT Back to menu</span>`;
-                
-                update(content, '0', 'FAVS');
-                currentView = 'favs';
-                return;
-            }
-            
-            if (currentIndex >= favs.length) currentIndex = 0;
-            const f = favs[currentIndex];
-            
-            let content = `<span class="breadcrumb">MAIN MENU > FAVORITES</span>
-<span class="eink-accent">FAVORITE TRACKS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Current Favorite:</span>
-<span class="eink-primary">${truncateText(f.name, 40)}</span>
-<span class="eink-secondary">by ${truncateText(f.artist, 35)}</span>
-
-Rating: <span class="${getRatingColor(f.rating)}">${f.rating}/10</span> <span class="eink-highlight">♥</span>
-From: <span class="eink-info">${truncateText(f.album, 35)}</span>
-
-<span class="section-header">Top Favorites (by rating):</span>
-<div class="content-grid">`;
-
-            const showCount = Math.min(favs.length, 10);
-            for (let i = 0; i < showCount; i++) {
-                const fav = favs[i];
-                const marker = i === currentIndex ? '<span class="tree-selected">► </span>' : '<span class="eink-dim">  </span>';
-                const nameColor = i === currentIndex ? 'tree-selected' : 'eink-secondary';
-                const ratingColor = getRatingColor(fav.rating);
-                const favName = truncateText(fav.name, 25);
-                const favArtist = truncateText(fav.artist, 20);
-                content += `<div>${marker}<span class="${ratingColor}">${fav.rating}</span> - <span class="${nameColor}">${favName}</span></div>`;
-                if (i === currentIndex) {
-                    content += `<div class="eink-dim">     by ${favArtist}</div>`;
-                }
-            }
-            
-            content += `</div>`;
-            
-            if (favs.length > showCount) {
-                content += `
-<span class="eink-muted">... and ${favs.length - showCount} more favorites</span>`;
-            }
-            
-            content += `
-
-<span class="eink-muted">◀/▶ Navigate | SELECT Back</span>`;
-            
-            update(content, `${currentIndex + 1}/${favs.length}`, 'FAVS');
-            currentView = 'favs';
-        }
-
-        function showStatistics() {
-            let content = `<span class="breadcrumb">MAIN MENU > STATISTICS</span>
-<span class="eink-accent">COLLECTION STATISTICS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Collection Overview:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Total albums:</span>
-<span class="eink-info">${stats.albums}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Total tracks:</span>
-<span class="eink-info">${stats.tracks}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Favorite tracks:</span>
-<span class="eink-highlight">${stats.favs}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Average rating:</span>
-<span class="${getRatingColor(stats.avg)}">${stats.avg}/10</span>
-</div>
-</div>
-
-<span class="section-header">Top Rated Album:</span>
-<span class="info-item">${truncateText(stats.top.artist, 35)}</span>
-<span class="eink-primary">${truncateText(stats.top.album, 35)}</span>
-Rating: <span class="rating-excellent">${stats.top.avg}/10</span>
-
-<span class="section-header">Rating Distribution:</span>`;
-
-            // Calculate rating distribution
-            const distribution = {};
-            for (let i = 1; i <= 10; i++) {
-                distribution[i] = 0;
-            }
-            
-            albums.forEach(a => {
-                a.songs.forEach(s => {
-                    if (!s.interlude) {
-                        const rating = Math.floor(s.rating);
-                        distribution[rating] = (distribution[rating] || 0) + 1;
-                    }
-                });
-            });
-            
-            content += `<div class="content-grid">`;
-            for (let i = 10; i >= 7; i--) {
-                if (distribution[i] > 0) {
-                    const color = getRatingColor(i);
-                    content += `<div class="content-row"><span class="eink-secondary">${i}/10:</span><span class="${color}">${distribution[i]} tracks</span></div>`;
-                }
-            }
-            content += `</div>`;
-            
-            content += `
-
-<span class="section-header">Top Artists:</span>`;
-
-            // Top artists by number of albums
-            const artistCounts = {};
-            albums.forEach(a => {
-                artistCounts[a.artist] = (artistCounts[a.artist] || 0) + 1;
-            });
-            
-            const topArtists = Object.entries(artistCounts)
-                .sort((a, b) => b[1] - a[1])
-                .slice(0, 6);
-                
-            content += `<div class="content-grid">`;
-            topArtists.forEach(([artist, count]) => {
-                content += `<div class="content-row"><span class="eink-info">${count}</span><span class="eink-secondary">${truncateText(artist, 30)}</span></div>`;
-            });
-            content += `</div>`;
-            
-            content += `
-
-<span class="eink-muted">SELECT Back to menu</span>`;
-            
-            update(content, stats.albums, 'STATS');
-            currentView = 'stats';
-        }
-
-        function showRandom() {
-            const rand = Math.floor(Math.random() * filteredAlbums.length);
-            currentIndex = rand;
-            currentAlbumIndex = rand;
-            currentSongIndex = 0;
-            pushNavigation('random');
-            showAlbum();
-        }
-
-        function showSearch() {
-            let content = `<span class="breadcrumb">MAIN MENU > SEARCH</span>
-<span class="eink-accent">SMART SEARCH & FILTERS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Quick Filters:</span>`;
-
-            const quickFilters = [
-                { name: 'Top Rated (9+)', id: 'top' },
-                { name: 'Recent (2020+)', id: 'recent' },
-                { name: 'Has Favorites', id: 'favorites' },
-                { name: 'Classic (< 2000)', id: 'classic' }
-            ];
-
-            content += `<div class="content-grid">`;
-            quickFilters.forEach((filter, i) => {
-                const marker = i === currentFilterIndex ? '<span class="highlight-item">► </span>' : '<span class="eink-dim">  </span>';
-                const color = i === currentFilterIndex ? 'eink-accent' : 'eink-secondary';
-                content += `<div>${marker}<span class="${color}">${filter.name}</span></div>`;
-            });
-            content += `</div>`;
-
-            content += `
-
-<span class="section-header">Current Filters:</span>`;
-            
-            if (Object.values(activeFilters).every(f => f === 'all')) {
-                content += `
-<span class="eink-muted">No filters active - showing all albums</span>`;
-            } else {
-                if (activeFilters.category !== 'all') {
-                    const cat = categories.find(c => c.id === activeFilters.category);
-                    content += `
-<span class="filter-indicator">Category: ${cat?.name}</span>`;
-                }
-                if (activeFilters.rating !== 'all') {
-                    content += `
-<span class="filter-indicator">Rating: ${activeFilters.rating}+</span>`;
-                }
-                if (activeFilters.year !== 'all') {
-                    content += `
-<span class="filter-indicator">Year: ${activeFilters.year}</span>`;
-                }
-            }
-
-            content += `
-
-<span class="section-header">Search Results:</span>
-<span class="eink-info">${filteredAlbums.length}</span> albums match current filters
-
-<span class="section-header">Top Matches:</span>`;
-
-            const topMatches = filteredAlbums.slice(0, 5);
-            content += `<div class="content-grid">`;
-            topMatches.forEach((album, i) => {
-                const artistName = truncateText(album.artist, 20);
-                const albumName = truncateText(album.album, 25);
-                content += `<div><span class="eink-secondary">${artistName}</span> - <span class="eink-primary">${albumName}</span></div>`;
-                content += `<div class="eink-muted">  Rating: <span class="${getRatingColor(album.avg)}">${album.avg}/10</span> | Year: ${album.year}</div>`;
-            });
-            content += `</div>`;
-
-            if (filteredAlbums.length > 5) {
-                content += `
-<span class="eink-muted">... and ${filteredAlbums.length - 5} more albums</span>`;
-            }
-
-            content += `
-
-<span class="eink-muted">◀/▶ Select filter | SELECT Apply
-ESC Clear filters | BACK Menu</span>`;
-            
-            update(content, filteredAlbums.length, 'SEARCH');
-            currentView = 'search';
-        }
-
-        function showSettings() {
-            let content = `<span class="breadcrumb">MAIN MENU > SETTINGS</span>
-<span class="eink-accent">SYSTEM SETTINGS</span>
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-<span class="section-header">Device Specifications:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Model:</span>
-<span class="eink-info">YAMAHA DX-7000 PRO</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Firmware:</span>
-<span class="eink-secondary">v2.1.0</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Display:</span>
-<span class="eink-secondary">4-Color E-Ink Matrix</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Memory:</span>
-<span class="eink-info">${stats.mem}MB</span>
-</div>
-</div>
-
-<span class="section-header">Archive Details:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Owner:</span>
-<span class="eink-accent">DOME</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Collection:</span>
-<span class="eink-secondary">Personal Archive</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Established:</span>
-<span class="eink-secondary">2024</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Total entries:</span>
-<span class="eink-info">${stats.albums} albums</span>
-</div>
-</div>
-
-<span class="section-header">System Status:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Power:</span>
-<span class="eink-accent">88% battery</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Temperature:</span>
-<span class="eink-accent">Normal</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Data integrity:</span>
-<span class="eink-accent">100%</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Status:</span>
-<span class="eink-accent">Operational</span>
-</div>
-</div>
-
-<span class="section-header">Active Filters:</span>
-<div class="content-grid">
-<div class="content-row">
-<span class="eink-secondary">Category:</span>
-<span class="eink-info">${activeFilters.category}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Rating:</span>
-<span class="eink-info">${activeFilters.rating}</span>
-</div>
-<div class="content-row">
-<span class="eink-secondary">Year:</span>
-<span class="eink-info">${activeFilters.year}</span>
-</div>
-</div>
-
-<span class="eink-muted">SELECT Back to menu</span>`;
-            
-            update(content, 'SYS', 'SETTINGS');
-            currentView = 'settings';
-        }
-
-        function showError(msg) {
-            update(`<div class="error">SYSTEM ERROR
-<span class="eink-muted">═══════════════════════════════════════</span>
-
-${msg}
-
-<span class="eink-muted">Press SELECT to retry loading</span></div>`, 'ERR', 'ERROR');
-            currentView = 'error';
-        }
-
-        function update(content, counter, label) {
-            const displayElement = document.getElementById('display');
-            displayElement.innerHTML = content + '<span class="cursor"></span>';
-            
-            document.getElementById('counter').textContent = counter;
-            document.getElementById('counterLabel').textContent = label;
-            document.getElementById('memInfo').textContent = `MEM: ${stats.mem || '0.0'}MB`;
-            document.getElementById('statInfo').textContent = `STATUS: ${label}`;
-            
-            updateButtons();
-            updateFilterUI();
-        }
-
-        function updateButtons() {
-            const left = document.getElementById('btnLeft');
-            const center = document.getElementById('btnCenter');
-            const right = document.getElementById('btnRight');
-            
-            // Reset classes
-            left.classList.remove('primary', 'secondary');
-            center.classList.remove('primary', 'secondary');
-            right.classList.remove('primary', 'secondary');
-            
-            switch(currentView) {
-                case 'welcome':
-                    left.textContent = '◀ --';
-                    center.textContent = 'START';
-                    center.classList.add('primary');
-                    right.textContent = '-- ▶';
-                    break;
-                case 'menu':
-                    left.textContent = '◀ PREV';
-                    center.textContent = 'ENTER';
-                    center.classList.add('primary');
-                    right.textContent = 'NEXT ▶';
-                    break;
-                case 'categories':
-                    left.textContent = '◀ PREV';
-                    center.textContent = 'APPLY';
-                    center.classList.add('primary');
-                    right.textContent = 'NEXT ▶';
-                    break;
-                case 'search':
-                    left.textContent = '◀ FILTER';
-                    center.textContent = 'APPLY';
-                    center.classList.add('primary');
-                    right.textContent = 'FILTER ▶';
-                    break;
-                case 'browse':
-                    left.textContent = '◀ ALBUM';
-                    center.textContent = 'OPEN';
-                    center.classList.add('primary');
-                    right.textContent = 'ALBUM ▶';
-                    break;
-                case 'album':
-                    left.textContent = '◀ TRACK';
-                    center.textContent = 'BACK';
-                    center.classList.add('primary');
-                    right.textContent = 'TRACK ▶';
-                    break;
-                case 'favs':
-                    left.textContent = '◀ FAV';
-                    center.textContent = 'MENU';
-                    center.classList.add('primary');
-                    right.textContent = 'FAV ▶';
-                    break;
-                case 'stats':
-                case 'settings':
-                    left.textContent = '◀ --';
-                    center.textContent = 'MENU';
-                    center.classList.add('primary');
-                    right.textContent = '-- ▶';
-                    break;
-                default:
-                    left.textContent = '◀ --';
-                    center.textContent = 'MENU';
-                    center.classList.add('primary');
-                    right.textContent = '-- ▶';
-            }
-        }
-
-        function navigate(dir) {
-            switch(dir) {
-                case 'prev':
-                    handlePrev();
-                    break;
-                case 'next':
-                    handleNext();
-                    break;
-                case 'select':
-                    handleSelect();
-                    break;
-            }
-        }
-
-        function handlePrev() {
-            switch(currentView) {
-                case 'menu':
-                    currentMenuIndex = (currentMenuIndex - 1 + menu.length) % menu.length;
-                    showMenu();
-                    break;
-                case 'categories':
-                    currentCategoryIndex = (currentCategoryIndex - 1 + categories.length) % categories.length;
-                    showCategories();
-                    break;
-                case 'search':
-                    currentFilterIndex = (currentFilterIndex - 1 + 4) % 4;
-                    showSearch();
-                    break;
-                case 'browse':
-                    currentIndex = (currentIndex - 1 + filteredAlbums.length) % filteredAlbums.length;
-                    showBrowse();
-                    break;
-                case 'album':
-                    const a = filteredAlbums[currentAlbumIndex];
-                    currentSongIndex = (currentSongIndex - 1 + a.songs.length) % a.songs.length;
-                    showAlbum();
-                    break;
-                case 'favs':
-                    const favs = getAllFavs();
-                    if (favs.length > 0) {
-                        currentIndex = (currentIndex - 1 + favs.length) % favs.length;
-                        showFavorites();
-                    }
-                    break;
-            }
-        }
-
-        function handleNext() {
-            switch(currentView) {
-                case 'menu':
-                    currentMenuIndex = (currentMenuIndex + 1) % menu.length;
-                    showMenu();
-                    break;
-                case 'categories':
-                    currentCategoryIndex = (currentCategoryIndex + 1) % categories.length;
-                    showCategories();
-                    break;
-                case 'search':
-                    currentFilterIndex = (currentFilterIndex + 1) % 4;
-                    showSearch();
-                    break;
-                case 'browse':
-                    currentIndex = (currentIndex + 1) % filteredAlbums.length;
-                    showBrowse();
-                    break;
-                case 'album':
-                    const a = filteredAlbums[currentAlbumIndex];
-                    currentSongIndex = (currentSongIndex + 1) % a.songs.length;
-                    showAlbum();
-                    break;
-                case 'favs':
-                    const favs = getAllFavs();
-                    if (favs.length > 0) {
-                        currentIndex = (currentIndex + 1) % favs.length;
-                        showFavorites();
-                    }
-                    break;
-            }
-        }
-
-        function handleSelect() {
-            switch(currentView) {
-                case 'welcome':
-                    currentMenuIndex = 0;
-                    showMenu();
-                    break;
-                case 'menu':
-                    const mode = menu[currentMenuIndex];
-                    pushNavigation('menu');
-                    switch(mode) {
-                        case 'BROWSE':
-                            currentIndex = 0;
-                            applyFilters();
-                            showBrowse();
-                            break;
-                        case 'CATEGORIES':
-                            currentCategoryIndex = 0;
-                            showCategories();
-                            break;
-                        case 'SEARCH':
-                            currentFilterIndex = 0;
-                            showSearch();
-                            break;
-                        case 'FAVORITES':
-                            currentIndex = 0;
-                            showFavorites();
-                            break;
-                        case 'STATISTICS':
-                            showStatistics();
-                            break;
-                        case 'RANDOM':
-                            showRandom();
-                            break;
-                        case 'SETTINGS':
-                            showSettings();
-                            break;
-                    }
-                    break;
-                case 'categories':
-                    const category = categories[currentCategoryIndex];
-                    activeFilters.category = category.id;
-                    applyFilters();
-                    pushNavigation('categories');
-                    showBrowse();
-                    break;
-                case 'search':
-                    const filterActions = [
-                        () => { activeFilters.category = 'top'; },
-                        () => { activeFilters.year = 'recent'; },
-                        () => { activeFilters.category = 'favorites'; },
-                        () => { activeFilters.year = 'classic'; }
-                    ];
-                    filterActions[currentFilterIndex]();
-                    applyFilters();
-                    pushNavigation('search');
-                    showBrowse();
-                    break;
-                case 'browse':
-                    if (filteredAlbums.length > 0) {
-                        currentAlbumIndex = currentIndex;
-                        currentSongIndex = 0;
-                        pushNavigation('browse');
-                        showAlbum();
-                    }
-                    break;
-                case 'album':
-                    if (!popNavigation()) {
-                        showBrowse();
-                    }
-                    break;
-                case 'error':
-                    init();
-                    break;
-                default:
-                    if (!popNavigation()) {
-                        showMenu();
-                    }
-                    break;
-            }
-        }
-
-        function getAllFavs() {
-            const favs = [];
-            albums.forEach(a => {
-                a.songs.forEach(s => {
-                    if (s.favorite) {
-                        favs.push({
-                            artist: a.artist,
-                            name: s.name,
-                            rating: s.rating,
-                            album: a.album
-                        });
-                    }
-                });
-            });
-            return favs.sort((a, b) => b.rating - a.rating);
-        }
-
-        // Keyboard controls
-        document.addEventListener('keydown', (e) => {
-            switch(e.key) {
-                case 'ArrowLeft':
-                    navigate('prev');
-                    break;
-                case 'ArrowRight':
-                    navigate('next');
-                    break;
-                case 'Enter':
-                case ' ':
-                    navigate('select');
-                    break;
-                case 'Escape':
-                    if (Object.values(activeFilters).some(f => f !== 'all')) {
-                        // Clear filters
-                        activeFilters = { category: 'all', rating: 'all', year: 'all', artist: 'all' };
-                        applyFilters();
-                        if (currentView === 'browse' || currentView === 'search') {
-                            currentView === 'browse' ? showBrowse() : showSearch();
-                        }
-                    } else if (!popNavigation()) {
-                        showMenu();
-                    }
-                    break;
-                case 'r':
-                case 'R':
-                    // Quick random
-                    showRandom();
-                    break;
-                case 'f':
-                case 'F':
-                    // Quick favorites
-                    pushNavigation(currentView);
-                    showFavorites();
-                    break;
-                case 'm':
-                case 'M':
-                    // Quick menu
-                    showMenu();
-                    break;
-            }
-        });
-
-        // Touch controls
-        let startX = 0;
-        const viewport = document.querySelector('.display-viewport');
-
-        viewport.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
-
-        viewport.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-        });
-
-        viewport.addEventListener('touchend', (e) => {
-            const endX = e.changedTouches[0].clientX;
-            const diff = startX - endX;
-            
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    navigate('next');
-                } else {
-                    navigate('prev');
-                }
-            }
-        });
-
-        // Double tap for select
-        let lastTap = 0;
-        viewport.addEventListener('touchend', (e) => {
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTap;
-            if (tapLength < 500 && tapLength > 0) {
-                navigate('select');
-                e.preventDefault();
-            }
-            lastTap = currentTime;
-        });
-
-        // Start the machine
-        setTimeout(() => {
-            init();
-        }, 1500);
-    </script>
-</body>
-</html>
+                console.error('Error loading albums.json:', error);
+                // Show user-friendly error message
+                document.getElementById('albumsContainer').innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: #dc2626;">
+                        <h3>❌ Fehler beim Laden der Daten</h3>
+                        <p><strong>albums.json</strong> konnte nicht geladen werden.</p>
+                        <p>
