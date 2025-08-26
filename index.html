@@ -3,1351 +3,394 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOME'S WÖCHENTLICHES MUSIK ARCHIV</title>
+    <title>dome's musik-blog</title>
     <style>
+        /* Basic reset and typography */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            background: linear-gradient(45deg, #c0c0c0 0%, #d0d0d0 50%, #c0c0c0 100%);
-            font-family: "MS Sans Serif", sans-serif;
-            font-size: 11px;
-            margin: 0;
-            padding: 0;
-            color: black;
-            background-attachment: fixed;
-        }
-        
-        .page-container {
-            max-width: 900px;
-            margin: 10px auto;
-            background: white;
-            border: 3px outset #c0c0c0;
-            box-shadow: 4px 4px 8px rgba(0,0,0,0.3);
-            border-radius: 2px;
-        }
-        
-        .title-bar {
-            background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 50%, #1d4ed8 100%);
-            color: white;
-            padding: 5px 10px;
-            font-weight: bold;
-            font-size: 11px;
-            border-bottom: 2px solid #1e40af;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-        
-        .title-bar::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
-        }
-        
-        .title-bar .controls {
-            display: flex;
-            gap: 3px;
-        }
-        
-        .title-btn {
-            width: 18px;
-            height: 16px;
-            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
-            border: 1px outset #c0c0c0;
-            font-size: 8px;
-            color: black;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-        
-        .title-btn:hover {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
-        }
-        
-        .content-area {
-            padding: 10px;
-            background: white;
-        }
-        
-        .header-section {
-            text-align: center;
-            margin-bottom: 20px;
-            border: 2px inset #c0c0c0;
-            padding: 15px;
-            background: linear-gradient(135deg, #f8f8f8 0%, #f0f0f0 100%);
-            border-radius: 2px;
-        }
-        
-        .main-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #1e3a8a;
-            margin-bottom: 8px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .subtitle {
-            font-size: 11px;
-            color: #666;
-            margin-bottom: 12px;
-        }
-        
-        .week-info {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            color: #92400e;
-            padding: 8px 12px;
-            border: 1px solid #d97706;
-            margin: 10px auto;
-            max-width: 400px;
-            font-weight: bold;
-            font-size: 12px;
-            border-radius: 2px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-        
-        .status-line {
             font-family: "Courier New", monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            background: #f5f5f5;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border: 2px solid #ccc;
+            box-shadow: 3px 3px 0px #999;
+        }
+        
+        /* Header */
+        .header {
+            background: #222;
+            color: #0f0;
+            padding: 15px 20px;
+            border-bottom: 2px solid #ccc;
+            font-family: "MS Sans Serif", sans-serif;
+        }
+        
+        .header h1 {
+            font-size: 16px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+        
+        .header .subtitle {
             font-size: 10px;
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            color: #00ff41;
-            padding: 4px 8px;
-            border: 2px inset #c0c0c0;
-            text-shadow: 0 0 2px #00ff41;
+            color: #ccc;
+            margin-top: 5px;
         }
         
-        .navigation-bar {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            border: 2px inset #c0c0c0;
-            padding: 6px;
-            margin-bottom: 12px;
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        /* Navigation */
+        .nav {
+            background: #e0e0e0;
+            padding: 8px 20px;
+            border-bottom: 1px solid #ccc;
         }
         
-        .nav-button {
-            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
-            border: 2px outset #c0c0c0;
-            padding: 4px 12px;
-            font-size: 10px;
-            cursor: pointer;
-            color: black;
-            font-weight: bold;
-            transition: all 0.1s;
-            border-radius: 1px;
-        }
-        
-        .nav-button:hover {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
-            transform: translateY(-1px);
-        }
-        
-        .nav-button:active {
-            border: 2px inset #c0c0c0;
-            transform: translateY(0px);
-        }
-        
-        .nav-button.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            border: 2px inset #1d4ed8;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        .control-panel {
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-            border: 2px inset #c0c0c0;
-            padding: 12px;
-            margin-bottom: 12px;
-            border-radius: 2px;
-        }
-        
-        .control-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-        
-        .control-row:last-child {
-            margin-bottom: 0;
-        }
-        
-        .control-label {
-            min-width: 80px;
-            font-weight: bold;
-            font-size: 10px;
-            color: #374151;
-        }
-        
-        input[type="text"], select {
-            border: 2px inset #c0c0c0;
-            padding: 3px 6px;
+        .nav a {
+            color: #333;
+            text-decoration: none;
+            margin-right: 15px;
             font-size: 11px;
-            font-family: inherit;
-            background: white;
-            border-radius: 1px;
-        }
-        
-        input[type="text"]:focus, select:focus {
-            background: #fffff0;
-            outline: 1px solid #fbbf24;
-        }
-        
-        .week-filter {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #fef3c7;
-            padding: 6px 10px;
-            border: 1px solid #f59e0b;
-            border-radius: 2px;
-            margin-top: 8px;
-        }
-        
-        .albums-container {
-            border: 2px inset #c0c0c0;
-            background: white;
-            max-height: 600px;
-            overflow-y: auto;
-            border-radius: 2px;
-        }
-        
-        .album-item {
-            border-bottom: 1px solid #e0e0e0;
-            background: white;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .album-item:hover {
-            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
-        }
-        
-        .album-item.expanded {
-            background: linear-gradient(135deg, #f0f8ff 0%, #e0f2fe 100%);
-        }
-        
-        .album-header {
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .album-icon {
-            width: 16px;
-            height: 16px;
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            border: 1px solid #d97706;
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-weight: bold;
-            color: #92400e;
-            border-radius: 2px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
         }
         
-        .week-badge {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .nav a:hover {
+            text-decoration: underline;
+        }
+        
+        .nav a.active {
+            background: #333;
             color: white;
             padding: 2px 6px;
-            font-size: 9px;
-            font-weight: bold;
-            border-radius: 3px;
-            border: 1px solid #047857;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
         }
         
-        .album-info {
-            flex: 1;
-            min-width: 0;
+        /* Main content */
+        .content {
+            padding: 20px;
         }
         
-        .album-title {
-            font-weight: bold;
-            font-size: 12px;
-            color: #1e3a8a;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 2px;
+        /* Blog entries */
+        .entry {
+            margin-bottom: 30px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 20px;
         }
         
-        .album-meta {
+        .entry:last-child {
+            border-bottom: none;
+        }
+        
+        .entry-header {
+            margin-bottom: 10px;
+        }
+        
+        .entry-date {
             font-size: 10px;
-            color: #6b7280;
+            color: #666;
+            background: #f0f0f0;
+            padding: 2px 6px;
+            display: inline-block;
+            border: 1px solid #ccc;
         }
         
-        .album-rating {
-            background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
-            border: 1px solid #ca8a04;
-            padding: 4px 8px;
+        .entry-type {
+            font-size: 10px;
+            color: white;
+            padding: 2px 6px;
+            display: inline-block;
+            margin-left: 5px;
+            border: 1px solid #666;
+        }
+        
+        .entry-type.song {
+            background: #666;
+        }
+        
+        .entry-type.album {
+            background: #333;
+        }
+        
+        .entry-title {
+            font-size: 14px;
             font-weight: bold;
+            margin: 8px 0 5px 0;
+        }
+        
+        .entry-meta {
+            font-size: 10px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .rating {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .rating-high { color: #006600; }
+        .rating-medium { color: #cc6600; }
+        .rating-low { color: #cc0000; }
+        
+        .entry-comment {
             font-size: 11px;
-            min-width: 45px;
-            text-align: center;
-            color: #854d0e;
-            border-radius: 2px;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+            line-height: 1.5;
+            margin-bottom: 10px;
         }
         
-        .album-details {
+        /* Album songs */
+        .album-songs {
+            background: #f8f8f8;
+            border: 1px solid #ddd;
+            margin-top: 10px;
             display: none;
-            background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-            border-top: 1px solid #d0d0d0;
-            padding: 12px;
         }
         
-        .album-details.show {
+        .album-songs.expanded {
             display: block;
         }
         
-        .songs-table {
-            width: 100%;
-            border-collapse: collapse;
+        .album-songs-header {
+            background: #e8e8e8;
+            padding: 8px 12px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
             font-size: 10px;
-            margin-bottom: 10px;
-            background: white;
-            border: 1px solid #d1d5db;
-        }
-        
-        .songs-table th {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            border: 1px solid #9ca3af;
-            padding: 4px 6px;
-            text-align: left;
             font-weight: bold;
-            color: #374151;
         }
         
-        .songs-table td {
-            border: 1px solid #e5e7eb;
-            padding: 4px 6px;
-            background: white;
+        .album-songs-header:hover {
+            background: #ddd;
         }
         
-        .songs-table tr:nth-child(even) td {
-            background: #f9fafb;
+        .songs-list {
+            padding: 10px;
         }
         
-        .songs-table tr:hover td {
-            background: #f0f9ff;
+        .song-item {
+            margin-bottom: 8px;
+            font-size: 10px;
+            padding-left: 15px;
+        }
+        
+        .song-item:last-child {
+            margin-bottom: 0;
         }
         
         .song-rating {
-            text-align: center;
             font-weight: bold;
-        }
-        
-        .rating-10 { color: #dc2626; text-shadow: 0 0 2px #dc2626; }
-        .rating-9 { color: #ea580c; }
-        .rating-8 { color: #d97706; }
-        .rating-7 { color: #ca8a04; }
-        .rating-6 { color: #65a30d; }
-        .rating-5 { color: #16a34a; }
-        .rating-low { color: #6b7280; }
-        
-        .favorite-icon {
-            color: #dc2626;
-            font-weight: bold;
-            text-shadow: 0 0 2px #dc2626;
-        }
-        
-        .interlude-marker {
-            color: #6b7280;
-            font-style: italic;
-        }
-        
-        .album-comment {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
-            border: 1px solid #f59e0b;
-            padding: 8px;
-            margin-top: 8px;
-            font-size: 10px;
-            font-style: italic;
-            color: #92400e;
-            border-radius: 2px;
-        }
-        
-        .album-comment::before {
-            content: "💭 KOMMENTAR: ";
-            font-weight: bold;
-            font-style: normal;
-        }
-        
-        .week-overview {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-        
-        .week-card {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px outset #c0c0c0;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 2px;
-        }
-        
-        .week-card:hover {
-            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        .week-card.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            border: 2px inset #1d4ed8;
-        }
-        
-        .week-title {
-            font-weight: bold;
-            font-size: 12px;
-            margin-bottom: 4px;
-        }
-        
-        .week-stats {
-            font-size: 9px;
-            color: #6b7280;
-        }
-        
-        .week-card.active .week-stats {
-            color: #e5e7eb;
-        }
-        
-        .stats-bar {
-            background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-            border: 2px inset #c0c0c0;
-            padding: 6px 12px;
-            margin-top: 12px;
-            font-size: 10px;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px;
-            border-radius: 2px;
-        }
-        
-        .stat-item {
-            background: white;
-            padding: 2px 6px;
-            border: 1px solid #9ca3af;
-            border-radius: 2px;
-            font-weight: bold;
-        }
-        
-        .pagination {
-            text-align: center;
-            margin: 10px 0;
-        }
-        
-        .page-btn {
-            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
-            border: 2px outset #c0c0c0;
-            padding: 4px 8px;
-            margin: 0 2px;
-            font-size: 10px;
-            cursor: pointer;
-            color: black;
-            font-weight: bold;
-            border-radius: 1px;
-        }
-        
-        .page-btn:hover {
-            background: linear-gradient(135deg, #f0f0f0 0%, #d0d0d0 100%);
-        }
-        
-        .page-btn.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: white;
-            border: 2px inset #1d4ed8;
-        }
-        
-        .footer {
-            text-align: center;
-            font-size: 9px;
-            color: #6b7280;
-            padding: 12px;
-            border-top: 2px solid #e5e7eb;
-            background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-        }
-        
-        .link {
-            color: #2563eb;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        
-        .link:visited {
-            color: #7c3aed;
-        }
-        
-        .link:hover {
-            color: #1d4ed8;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 12px;
-            background: #e5e7eb;
-            border: 1px inset #c0c0c0;
-            margin: 6px 0;
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
-            transition: width 0.3s ease;
-        }
-        
-        .current-week-indicator {
-            position: relative;
+            width: 35px;
             display: inline-block;
         }
         
-        .current-week-indicator::after {
-            content: "AKTUELLE WOCHE";
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #dc2626;
-            color: white;
-            padding: 2px 6px;
-            font-size: 8px;
-            font-weight: bold;
-            border-radius: 2px;
-            white-space: nowrap;
+        .song-name {
+            margin-left: 8px;
         }
         
-        @media (max-width: 600px) {
-            .page-container {
-                margin: 5px;
-            }
-            
-            .control-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-            
-            .control-label {
-                min-width: auto;
-            }
-            
-            .album-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 6px;
-            }
-            
-            .week-overview {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .stats-bar {
-                flex-direction: column;
-                text-align: center;
-            }
+        .song-comment {
+            margin-left: 23px;
+            color: #666;
+            font-style: italic;
+            margin-top: 2px;
+        }
+        
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        /* Footer */
+        .footer {
+            background: #e0e0e0;
+            padding: 10px 20px;
+            border-top: 1px solid #ccc;
+            font-size: 10px;
+            color: #666;
+            text-align: center;
+        }
+        
+        /* Error state */
+        .error {
+            background: #ffe0e0;
+            border: 1px solid #ff9999;
+            padding: 15px;
+            margin: 20px;
+            font-size: 11px;
+            color: #990000;
         }
     </style>
 </head>
 <body>
-    <div class="page-container">
-        <div class="title-bar">
-            <span>🎵 DOME'S WÖCHENTLICHES MUSIK ARCHIV - Microsoft Internet Explorer</span>
-            <div class="controls">
-                <div class="title-btn">_</div>
-                <div class="title-btn">□</div>
-                <div class="title-btn">×</div>
-            </div>
+    <div class="container">
+        <div class="header">
+            <h1>dome's musik-blog</h1>
+            <div class="subtitle">// Songs und Alben, subjektiv bewertet seit 2024</div>
         </div>
         
-        <div class="content-area">
-            <div class="header-section">
-                <div class="main-title">🎵 DOME'S WÖCHENTLICHES MUSIK ARCHIV 🎵</div>
-                <div class="subtitle">Systematische Album-Bewertungen - Woche für Woche</div>
-                <div class="week-info">
-                    📅 Aktuell in Woche <span id="currentWeek">1</span> | 🎯 Ziel: ~7 Alben pro Woche
-                </div>
-                <div class="status-line">Status: ONLINE | System: WÖCHENTLICH | Letzte Aktualisierung: <span id="currentDate"></span></div>
-            </div>
-            
-            <div class="navigation-bar">
-                <div class="nav-button active" onclick="showView('albums')">🏠 ALBUMS</div>
-                <div class="nav-button" onclick="showView('weeks')">📊 WOCHEN-ÜBERSICHT</div>
-                <div class="nav-button" onclick="showView('stats')">📈 STATISTIKEN</div>
-                <div class="nav-button" onclick="showView('favorites')">⭐ FAVORITEN</div>
-                <div class="nav-button" onclick="showView('top-rated')">🏆 TOP BEWERTET</div>
-                <div class="nav-button" onclick="showView('about')">ℹ️ ÜBER</div>
-            </div>
-            
-            <div id="albums-view">
-                <div class="control-panel">
-                    <div class="control-row">
-                        <div class="control-label">Suche:</div>
-                        <input type="text" id="searchInput" placeholder="Album oder Künstler suchen..." style="flex: 1;" onkeyup="filterAlbums()">
-                    </div>
-                    <div class="control-row">
-                        <div class="control-label">Sortierung:</div>
-                        <select id="sortSelect" onchange="sortAlbums()">
-                            <option value="week-desc">Woche (Neu → Alt)</option>
-                            <option value="week-asc">Woche (Alt → Neu)</option>
-                            <option value="rating-desc">Bewertung (Hoch → Niedrig)</option>
-                            <option value="rating-asc">Bewertung (Niedrig → Hoch)</option>
-                            <option value="artist-asc">Künstler (A → Z)</option>
-                            <option value="artist-desc">Künstler (Z → A)</option>
-                            <option value="album-asc">Album (A → Z)</option>
-                            <option value="album-desc">Album (Z → A)</option>
-                            <option value="year-asc">Jahr (Alt → Neu)</option>
-                            <option value="year-desc">Jahr (Neu → Alt)</option>
-                        </select>
-                        <div class="nav-button" onclick="toggleAllAlbums()">Alle Erweitern</div>
-                        <div class="nav-button" onclick="resetFilters()">Zurücksetzen</div>
-                    </div>
-                    <div class="week-filter">
-                        <div class="control-label">📅 Woche filtern:</div>
-                        <select id="weekFilter" onchange="filterByWeek()">
-                            <option value="all">Alle Wochen</option>
-                        </select>
-                        <div class="nav-button" onclick="showCurrentWeek()">Aktuelle Woche</div>
-                    </div>
-                </div>
-                
-                <div class="albums-container" id="albumsContainer"></div>
-                
-                <div class="pagination" id="pagination"></div>
-            </div>
-            
-            <div id="weeks-view" style="display: none;">
-                <div class="control-panel">
-                    <h3>📊 WOCHEN-ÜBERSICHT</h3>
-                    <p>Klicke auf eine Woche, um die Alben dieser Woche anzuzeigen</p>
-                    <div class="week-overview" id="weekOverview"></div>
-                </div>
-            </div>
-            
-            <div id="stats-view" style="display: none;">
-                <div class="control-panel">
-                    <h3>📈 DETAILLIERTE STATISTIKEN</h3>
-                    <div id="statsContent"></div>
-                </div>
-            </div>
-            
-            <div id="favorites-view" style="display: none;">
-                <div class="control-panel">
-                    <h3>⭐ MEINE LIEBLINGSSONGS</h3>
-                    <div id="favoritesContent"></div>
-                </div>
-            </div>
-            
-            <div id="top-rated-view" style="display: none;">
-                <div class="control-panel">
-                    <h3>🏆 BESTBEWERTETE SONGS</h3>
-                    <div id="topRatedContent"></div>
-                </div>
-            </div>
-            
-            <div id="about-view" style="display: none;">
-                <div class="control-panel">
-                    <h3>ℹ️ ÜBER DAS WÖCHENTLICHE SYSTEM</h3>
-                    <p><strong>DOME'S WÖCHENTLICHES MUSIK ARCHIV</strong></p>
-                    <p>Seit 2024 bewerte ich systematisch Alben in einem wöchentlichen Rhythmus. Das Ziel: etwa 7 Alben pro Woche, aber die Flexibilität bleibt erhalten.</p>
-                    <p><strong>Das System:</strong></p>
-                    <ul>
-                        <li>🗓️ <strong>Wöchentliche Struktur:</strong> Jedes Album wird einer Woche zugeordnet</li>
-                        <li>🎯 <strong>Zielgröße:</strong> ~7 Alben pro Woche (flexibel anpassbar)</li>
-                        <li>⭐ <strong>Bewertungssystem:</strong> 1-10 Punkte pro Song</li>
-                        <li>❤️ <strong>Favoriten-System:</strong> Besondere Songs werden markiert</li>
-                        <li>🎼 <strong>Interlude-Erkennung:</strong> Kurze Zwischenstücke werden separat behandelt</li>
-                    </ul>
-                    <p><strong>Technische Details:</strong></p>
-                    <ul>
-                        <li>HTML 5 + ES6 JavaScript</li>
-                        <li>CSS3 mit Gradients und Transitions</li>
-                        <li>Responsive Design</li>
-                        <li>JSON-basierte Datenspeicherung</li>
-                    </ul>
-                    <p><strong>Browser-Empfehlung:</strong> Optimiert für moderne Browser, aber im Internet Explorer 6 Stil gestaltet.</p>
-                </div>
-            </div>
-            
-            <div class="stats-bar">
-                <div class="stat-item">Alben: <span id="albumCount">0</span></div>
-                <div class="stat-item">Songs: <span id="songCount">0</span></div>
-                <div class="stat-item">Ø Bewertung: <span id="avgRating">0</span></div>
-                <div class="stat-item">Favoriten: <span id="favoriteCount">0</span></div>
-                <div class="stat-item">Wochen: <span id="weekCount">0</span></div>
-                <div class="stat-item">Ø pro Woche: <span id="avgPerWeek">0</span></div>
-            </div>
+        <div class="nav">
+            <a href="index.html" class="active">blog</a>
+            <a href="catalog.html">verzeichnis</a>
+            <a href="timeline.html">zeitstrahl</a>
+        </div>
+        
+        <div class="content" id="content">
+            <div class="loading">Lade Musik-Daten...</div>
         </div>
         
         <div class="footer">
-            © 2024 DOME'S MUSIK ARCHIV | <span class="link" onclick="showView('about')">Über das System</span> | 
-            Erstellt mit <span class="link">modernem Web-Tech</span> im <span class="link">Retro-Design</span>
+            © 2024 dome's musik-blog | erstellt mit einfachem HTML/CSS/JS
         </div>
     </div>
-
+    
     <script>
-        let albums = [];
-        let currentAlbums = [];
-        let currentPage = 1;
-        const albumsPerPage = 10;
-        let allExpanded = false;
-        let currentView = 'albums';
-        let selectedWeek = 'all';
-
-        // Load albums from external JSON file
-        async function loadAlbumsFromFile() {
+        let musicData = [];
+        
+        // Load music data from JSON file
+        async function loadMusicData() {
             try {
-                const response = await fetch('albums.json');
+                const response = await fetch('music.json');
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 const data = await response.json();
                 return data;
             } catch (error) {
-                console.error('Error loading albums.json:', error);
-                // Show user-friendly error message
-                document.getElementById('albumsContainer').innerHTML = `
-                    <div style="padding: 20px; text-align: center; color: #dc2626;">
-                        <h3>❌ Fehler beim Laden der Daten</h3>
-                        <p><strong>albums.json</strong> konnte nicht geladen werden.</p>
-                        <p>Bitte stelle sicher, dass die Datei existiert und gültige JSON-Syntax enthält.</p>
-                        <p><small>Fehlerdetails: ${error.message}</small></p>
+                console.error('Error loading music.json:', error);
+                document.getElementById('content').innerHTML = `
+                    <div class="error">
+                        <strong>Fehler beim Laden der Musik-Daten</strong><br>
+                        Datei 'music.json' konnte nicht geladen werden.<br>
+                        Details: ${error.message}
                     </div>
                 `;
                 return [];
             }
         }
-
-        async function initializeData() {
-            // Show loading message
-            document.getElementById('albumsContainer').innerHTML = `
-                <div style="padding: 40px; text-align: center;">
-                    <h3>🎵 Lade Musikdaten...</h3>
-                    <p>albums.json wird gelesen...</p>
+        
+        // Get rating CSS class based on score
+        function getRatingClass(rating) {
+            if (rating >= 8) return 'rating-high';
+            if (rating >= 5) return 'rating-medium';
+            return 'rating-low';
+        }
+        
+        // Format date for display
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE');
+        }
+        
+        // Toggle album songs visibility
+        function toggleAlbumSongs(entryId) {
+            const songsDiv = document.getElementById(`songs-${entryId}`);
+            songsDiv.classList.toggle('expanded');
+        }
+        
+        // Render individual song entry
+        function renderSongEntry(song, index) {
+            return `
+                <div class="entry">
+                    <div class="entry-header">
+                        <span class="entry-date">${formatDate(song.date_added)}</span>
+                        <span class="entry-type song">SONG</span>
+                    </div>
+                    <div class="entry-title">${song.title}</div>
+                    <div class="entry-meta">
+                        von <strong>${song.artist}</strong> • 
+                        Jahr: ${song.year} • 
+                        Bewertung: <span class="rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
+                    </div>
+                    <div class="entry-comment">${song.comment}</div>
                 </div>
             `;
+        }
+        
+        // Render individual album entry
+        function renderAlbumEntry(album, index) {
+            let songsHtml = '';
+            if (album.songs && album.songs.length > 0) {
+                album.songs.forEach(song => {
+                    songsHtml += `
+                        <div class="song-item">
+                            <span class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
+                            <span class="song-name">${song.title}</span>
+                            ${song.comment ? `<div class="song-comment">${song.comment}</div>` : ''}
+                        </div>
+                    `;
+                });
+            }
             
-            // Load albums from JSON file
-            const albumsData = await loadAlbumsFromFile();
+            return `
+                <div class="entry">
+                    <div class="entry-header">
+                        <span class="entry-date">${formatDate(album.date_added)}</span>
+                        <span class="entry-type album">ALBUM</span>
+                    </div>
+                    <div class="entry-title">${album.title}</div>
+                    <div class="entry-meta">
+                        von <strong>${album.artist}</strong> • 
+                        Jahr: ${album.year} • 
+                        Bewertung: <span class="rating ${getRatingClass(album.rating)}">${album.rating}/10</span>
+                        ${album.songs ? ` • ${album.songs.length} Songs` : ''}
+                    </div>
+                    <div class="entry-comment">${album.comment}</div>
+                    ${album.songs && album.songs.length > 0 ? `
+                        <div class="album-songs" id="songs-${index}">
+                            <div class="album-songs-header" onclick="toggleAlbumSongs(${index})">
+                                ▼ ${album.songs.length} Songs anzeigen/verstecken
+                            </div>
+                            <div class="songs-list">
+                                ${songsHtml}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        // Render all blog entries
+        function renderBlog() {
+            const contentDiv = document.getElementById('content');
             
-            if (albumsData.length === 0) {
-                // Error message is already shown by loadAlbumsFromFile()
+            if (musicData.length === 0) {
+                contentDiv.innerHTML = '<div class="loading">Keine Musik-Daten gefunden.</div>';
                 return;
             }
             
-            // Remove duplicates and clean data
-            const uniqueAlbums = [];
-            const seen = new Set();
-            
-            albumsData.forEach(album => {
-                const key = `${album.artist}-${album.album}`;
-                if (!seen.has(key)) {
-                    seen.add(key);
-                    uniqueAlbums.push(album);
-                }
-            });
-            
-            albums = uniqueAlbums;
-            currentAlbums = [...albums];
-            
-            if (albums.length > 0) {
-                initializeWeekFilter();
-                sortAlbums();
-                updateStats();
-                renderCurrentView();
-            } else {
-                document.getElementById('albumsContainer').innerHTML = `
-                    <div style="padding: 40px; text-align: center; color: #ca8a04;">
-                        <h3>📂 Keine Alben gefunden</h3>
-                        <p>Die albums.json Datei ist leer oder enthält keine gültigen Album-Daten.</p>
-                    </div>
-                `;
-            }
-        }
-
-        function initializeWeekFilter() {
-            const weeks = [...new Set(albums.map(album => album.week))].sort((a, b) => b - a);
-            const weekFilter = document.getElementById('weekFilter');
-            
-            // Clear existing options except "Alle Wochen"
-            weekFilter.innerHTML = '<option value="all">Alle Wochen</option>';
-            
-            weeks.forEach(week => {
-                const option = document.createElement('option');
-                option.value = week;
-                option.textContent = `Woche ${week}`;
-                weekFilter.appendChild(option);
-            });
-            
-            // Update current week indicator
-            const currentWeek = Math.max(...weeks);
-            document.getElementById('currentWeek').textContent = currentWeek;
-        }
-
-        function calculateAverageRating(songs) {
-            const nonInterludeSongs = songs.filter(song => !song.interlude);
-            if (nonInterludeSongs.length === 0) return 0;
-            const sum = nonInterludeSongs.reduce((acc, song) => acc + song.rating, 0);
-            return (sum / nonInterludeSongs.length).toFixed(1);
-        }
-
-        function getRatingClass(rating) {
-            if (rating >= 10) return 'rating-10';
-            if (rating >= 9) return 'rating-9';
-            if (rating >= 8) return 'rating-8';
-            if (rating >= 7) return 'rating-7';
-            if (rating >= 6) return 'rating-6';
-            if (rating >= 5) return 'rating-5';
-            return 'rating-low';
-        }
-
-        function showView(viewName) {
-            // Hide all views
-            document.querySelectorAll('[id$="-view"]').forEach(view => {
-                view.style.display = 'none';
-            });
-            
-            // Remove active class from all nav buttons
-            document.querySelectorAll('.nav-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Show selected view and mark button as active
-            document.getElementById(viewName + '-view').style.display = 'block';
-            event.target.classList.add('active');
-            
-            currentView = viewName;
-            renderCurrentView();
-        }
-
-        function renderCurrentView() {
-            switch(currentView) {
-                case 'albums':
-                    renderAlbums();
-                    break;
-                case 'weeks':
-                    renderWeeks();
-                    break;
-                case 'stats':
-                    renderStats();
-                    break;
-                case 'favorites':
-                    renderFavorites();
-                    break;
-                case 'top-rated':
-                    renderTopRated();
-                    break;
-            }
-        }
-
-        function renderAlbums() {
-            const container = document.getElementById('albumsContainer');
-            container.innerHTML = '';
-
-            const startIndex = (currentPage - 1) * albumsPerPage;
-            const endIndex = startIndex + albumsPerPage;
-            const pageAlbums = currentAlbums.slice(startIndex, endIndex);
-
-            pageAlbums.forEach((album, index) => {
-                const avgRating = calculateAverageRating(album.songs);
-                const albumDiv = document.createElement('div');
-                albumDiv.className = 'album-item';
-                albumDiv.innerHTML = `
-                    <div class="album-header" onclick="toggleAlbum(${startIndex + index})">
-                        <div class="album-icon">♫</div>
-                        <div class="week-badge">W${album.week}</div>
-                        <div class="album-info">
-                            <div class="album-title">${album.artist} - ${album.album}</div>
-                            <div class="album-meta">Jahr: ${album.year} | Woche: ${album.week} | Tracks: ${album.songs.length} | Ø ${avgRating}/10</div>
-                        </div>
-                        <div class="album-rating ${getRatingClass(avgRating)}">${avgRating}/10</div>
-                    </div>
-                    <div class="album-details" id="details-${startIndex + index}">
-                        ${renderSongsTable(album.songs)}
-                        ${album.comment ? `<div class="album-comment">${album.comment}</div>` : ''}
-                    </div>
-                `;
-                container.appendChild(albumDiv);
-            });
-
-            updatePagination();
-        }
-
-        function renderSongsTable(songs) {
-            let html = `
-                <table class="songs-table">
-                    <tr>
-                        <th>Nr.</th>
-                        <th>Song</th>
-                        <th>Bewertung</th>
-                        <th>Status</th>
-                    </tr>
-            `;
-            
-            songs.forEach((song, index) => {
-                html += `
-                    <tr ${song.interlude ? 'class="interlude-marker"' : ''}>
-                        <td>${index + 1}</td>
-                        <td>${song.name} ${song.interlude ? '(Interlude)' : ''}</td>
-                        <td class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</td>
-                        <td>
-                            ${song.favorite ? '<span class="favorite-icon">★ FAVORIT</span>' : ''}
-                            ${song.interlude ? '<span class="interlude-marker">Interlude</span>' : ''}
-                        </td>
-                    </tr>
-                `;
-            });
-            
-            html += '</table>';
-            return html;
-        }
-
-        function renderWeeks() {
-            const weeksContainer = document.getElementById('weekOverview');
-            const weeks = {};
-            
-            // Group albums by week
-            albums.forEach(album => {
-                if (!weeks[album.week]) {
-                    weeks[album.week] = [];
-                }
-                weeks[album.week].push(album);
-            });
-            
-            const weekNumbers = Object.keys(weeks).sort((a, b) => b - a);
             let html = '';
             
-            weekNumbers.forEach(weekNum => {
-                const weekAlbums = weeks[weekNum];
-                const totalSongs = weekAlbums.reduce((sum, album) => sum + album.songs.length, 0);
-                const avgRating = calculateWeekAverageRating(weekAlbums);
-                const favorites = weekAlbums.reduce((sum, album) => 
-                    sum + album.songs.filter(song => song.favorite).length, 0);
-                
-                const isCurrentWeek = weekNum == Math.max(...weekNumbers);
-                
-                html += `
-                    <div class="week-card ${selectedWeek == weekNum ? 'active' : ''} ${isCurrentWeek ? 'current-week-indicator' : ''}" 
-                         onclick="selectWeek(${weekNum})">
-                        <div class="week-title">📅 Woche ${weekNum}</div>
-                        <div class="week-stats">
-                            ${weekAlbums.length} Alben<br>
-                            ${totalSongs} Songs<br>
-                            Ø ${avgRating}/10<br>
-                            ⭐ ${favorites} Favoriten
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${Math.min(weekAlbums.length / 7 * 100, 100)}%"></div>
-                        </div>
-                    </div>
-                `;
+            // Sort by date_added (newest first)
+            const sortedData = [...musicData].sort((a, b) => {
+                return new Date(b.date_added) - new Date(a.date_added);
             });
             
-            weeksContainer.innerHTML = html;
-        }
-
-        function calculateWeekAverageRating(weekAlbums) {
-            const allSongs = weekAlbums.flatMap(album => 
-                album.songs.filter(song => !song.interlude));
-            if (allSongs.length === 0) return '0.0';
-            const sum = allSongs.reduce((acc, song) => acc + song.rating, 0);
-            return (sum / allSongs.length).toFixed(1);
-        }
-
-        function selectWeek(weekNum) {
-            selectedWeek = weekNum;
-            document.getElementById('weekFilter').value = weekNum;
-            filterByWeek();
-            showView('albums');
-        }
-
-        function renderStats() {
-            const statsContainer = document.getElementById('statsContent');
-            
-            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
-            const totalFavorites = albums.reduce((sum, album) => 
-                sum + album.songs.filter(song => song.favorite).length, 0);
-            const totalInterludes = albums.reduce((sum, album) => 
-                sum + album.songs.filter(song => song.interlude).length, 0);
-            
-            const allRatings = albums.flatMap(album => 
-                album.songs.filter(song => !song.interlude).map(song => song.rating));
-            const avgRating = allRatings.reduce((a, b) => a + b, 0) / allRatings.length;
-            
-            const weeks = [...new Set(albums.map(album => album.week))];
-            const weekCount = weeks.length;
-            const avgAlbumsPerWeek = (albums.length / weekCount).toFixed(1);
-            
-            // Week-by-week analysis
-            const weekAnalysis = {};
-            albums.forEach(album => {
-                if (!weekAnalysis[album.week]) {
-                    weekAnalysis[album.week] = {
-                        albums: 0,
-                        songs: 0,
-                        favorites: 0,
-                        totalRating: 0,
-                        ratedSongs: 0
-                    };
-                }
-                weekAnalysis[album.week].albums++;
-                weekAnalysis[album.week].songs += album.songs.length;
-                weekAnalysis[album.week].favorites += album.songs.filter(s => s.favorite).length;
-                album.songs.filter(s => !s.interlude).forEach(song => {
-                    weekAnalysis[album.week].totalRating += song.rating;
-                    weekAnalysis[album.week].ratedSongs++;
-                });
-            });
-            
-            const ratingDistribution = {};
-            for (let i = 1; i <= 10; i++) {
-                ratingDistribution[i] = allRatings.filter(rating => 
-                    Math.floor(rating) === i || (i === 10 && rating === 10)).length;
-            }
-            
-            let html = `
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <h4>📊 Allgemeine Statistiken</h4>
-                        <table class="songs-table">
-                            <tr><th>Statistik</th><th>Wert</th></tr>
-                            <tr><td>Gesamt Alben</td><td>${albums.length}</td></tr>
-                            <tr><td>Gesamt Songs</td><td>${totalSongs}</td></tr>
-                            <tr><td>Favoriten</td><td>${totalFavorites}</td></tr>
-                            <tr><td>Interludes</td><td>${totalInterludes}</td></tr>
-                            <tr><td>Durchschnittsbewertung</td><td>${avgRating.toFixed(2)}/10</td></tr>
-                            <tr><td>Gesamt Wochen</td><td>${weekCount}</td></tr>
-                            <tr><td>Ø Alben pro Woche</td><td>${avgAlbumsPerWeek}</td></tr>
-                        </table>
-                        
-                        <h4>🎯 Bewertungsverteilung</h4>
-                        <table class="songs-table">
-                            <tr><th>Bewertung</th><th>Anzahl Songs</th><th>%</th></tr>
-            `;
-            
-            for (let i = 10; i >= 1; i--) {
-                const count = ratingDistribution[i] || 0;
-                const percentage = ((count / allRatings.length) * 100).toFixed(1);
-                html += `<tr><td>${i}/10</td><td>${count}</td><td>${percentage}%</td></tr>`;
-            }
-            
-            html += `
-                        </table>
-                    </div>
-                    
-                    <div>
-                        <h4>📅 Wochen-Analyse</h4>
-                        <table class="songs-table">
-                            <tr><th>Woche</th><th>Alben</th><th>Songs</th><th>Ø Rating</th><th>⭐</th></tr>
-            `;
-            
-            weeks.sort((a, b) => b - a).forEach(week => {
-                const analysis = weekAnalysis[week];
-                const avgWeekRating = analysis.ratedSongs > 0 ? 
-                    (analysis.totalRating / analysis.ratedSongs).toFixed(1) : '0.0';
-                html += `
-                    <tr>
-                        <td><strong>W${week}</strong></td>
-                        <td>${analysis.albums}</td>
-                        <td>${analysis.songs}</td>
-                        <td class="song-rating ${getRatingClass(avgWeekRating)}">${avgWeekRating}</td>
-                        <td>${analysis.favorites}</td>
-                    </tr>
-                `;
-            });
-            
-            html += '</table></div></div>';
-            statsContainer.innerHTML = html;
-        }
-
-        function renderFavorites() {
-            const favoritesContainer = document.getElementById('favoritesContent');
-            const favorites = [];
-            
-            albums.forEach(album => {
-                album.songs.filter(song => song.favorite).forEach(song => {
-                    favorites.push({
-                        artist: album.artist,
-                        album: album.album,
-                        song: song.name,
-                        rating: song.rating,
-                        week: album.week
-                    });
-                });
-            });
-            
-            favorites.sort((a, b) => b.rating - a.rating);
-            
-            let html = `
-                <table class="songs-table">
-                    <tr><th>Rang</th><th>Künstler</th><th>Album</th><th>Song</th><th>Bewertung</th><th>Woche</th></tr>
-            `;
-            
-            favorites.forEach((fav, index) => {
-                html += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${fav.artist}</td>
-                        <td>${fav.album}</td>
-                        <td>${fav.song}</td>
-                        <td class="song-rating ${getRatingClass(fav.rating)}">${fav.rating}/10</td>
-                        <td><span class="week-badge">W${fav.week}</span></td>
-                    </tr>
-                `;
-            });
-            
-            html += '</table>';
-            favoritesContainer.innerHTML = html;
-        }
-
-        function renderTopRated() {
-            const topRatedContainer = document.getElementById('topRatedContent');
-            const allSongs = [];
-            
-            albums.forEach(album => {
-                album.songs.filter(song => !song.interlude).forEach(song => {
-                    allSongs.push({
-                        artist: album.artist,
-                        album: album.album,
-                        song: song.name,
-                        rating: song.rating,
-                        favorite: song.favorite,
-                        week: album.week
-                    });
-                });
-            });
-            
-            allSongs.sort((a, b) => b.rating - a.rating);
-            const topSongs = allSongs.slice(0, 25);
-            
-            let html = `
-                <table class="songs-table">
-                    <tr><th>Rang</th><th>Künstler</th><th>Album</th><th>Song</th><th>Bewertung</th><th>Status</th><th>Woche</th></tr>
-            `;
-            
-            topSongs.forEach((song, index) => {
-                html += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${song.artist}</td>
-                        <td>${song.album}</td>
-                        <td>${song.song}</td>
-                        <td class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</td>
-                        <td>${song.favorite ? '<span class="favorite-icon">★</span>' : ''}</td>
-                        <td><span class="week-badge">W${song.week}</span></td>
-                    </tr>
-                `;
-            });
-            
-            html += '</table>';
-            topRatedContainer.innerHTML = html;
-        }
-
-        function toggleAlbum(index) {
-            const details = document.getElementById(`details-${index}`);
-            const albumItem = details.parentElement;
-            
-            if (details.classList.contains('show')) {
-                details.classList.remove('show');
-                albumItem.classList.remove('expanded');
-            } else {
-                details.classList.add('show');
-                albumItem.classList.add('expanded');
-            }
-        }
-
-        function toggleAllAlbums() {
-            allExpanded = !allExpanded;
-            const allDetails = document.querySelectorAll('.album-details');
-            const allItems = document.querySelectorAll('.album-item');
-            
-            allDetails.forEach(details => {
-                if (allExpanded) {
-                    details.classList.add('show');
-                } else {
-                    details.classList.remove('show');
+            sortedData.forEach((entry, index) => {
+                if (entry.type === 'song') {
+                    html += renderSongEntry(entry, index);
+                } else if (entry.type === 'album') {
+                    html += renderAlbumEntry(entry, index);
                 }
             });
             
-            allItems.forEach(item => {
-                if (allExpanded) {
-                    item.classList.add('expanded');
-                } else {
-                    item.classList.remove('expanded');
-                }
-            });
-            
-            event.target.textContent = allExpanded ? 'Alle Schließen' : 'Alle Erweitern';
+            contentDiv.innerHTML = html;
         }
-
-        function filterAlbums() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            let filteredAlbums = albums.filter(album => 
-                album.album.toLowerCase().includes(searchTerm) ||
-                album.artist.toLowerCase().includes(searchTerm)
-            );
-            
-            // Apply week filter if active
-            if (selectedWeek !== 'all') {
-                filteredAlbums = filteredAlbums.filter(album => album.week == selectedWeek);
-            }
-            
-            currentAlbums = filteredAlbums;
-            currentPage = 1;
-            renderAlbums();
+        
+        // Initialize the blog
+        async function initBlog() {
+            musicData = await loadMusicData();
+            renderBlog();
         }
-
-        function filterByWeek() {
-            const weekFilter = document.getElementById('weekFilter');
-            selectedWeek = weekFilter.value;
-            
-            if (selectedWeek === 'all') {
-                currentAlbums = [...albums];
-            } else {
-                currentAlbums = albums.filter(album => album.week == selectedWeek);
-            }
-            
-            // Apply search filter if active
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            if (searchTerm) {
-                currentAlbums = currentAlbums.filter(album => 
-                    album.album.toLowerCase().includes(searchTerm) ||
-                    album.artist.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            currentPage = 1;
-            sortAlbums();
-        }
-
-        function showCurrentWeek() {
-            const weeks = [...new Set(albums.map(album => album.week))];
-            const currentWeek = Math.max(...weeks);
-            document.getElementById('weekFilter').value = currentWeek;
-            filterByWeek();
-        }
-
-        function sortAlbums() {
-            const sortValue = document.getElementById('sortSelect').value;
-            const [criteria, order] = sortValue.split('-');
-            
-            currentAlbums.sort((a, b) => {
-                let comparison = 0;
-                
-                switch(criteria) {
-                    case 'artist':
-                        comparison = a.artist.localeCompare(b.artist);
-                        break;
-                    case 'album':
-                        comparison = a.album.localeCompare(b.album);
-                        break;
-                    case 'year':
-                        comparison = a.year - b.year;
-                        break;
-                    case 'week':
-                        comparison = a.week - b.week;
-                        break;
-                    case 'rating':
-                        const avgA = parseFloat(calculateAverageRating(a.songs));
-                        const avgB = parseFloat(calculateAverageRating(b.songs));
-                        comparison = avgA - avgB;
-                        break;
-                }
-                
-                return order === 'desc' ? -comparison : comparison;
-            });
-            
-            currentPage = 1;
-            renderAlbums();
-        }
-
-        function resetFilters() {
-            document.getElementById('searchInput').value = '';
-            document.getElementById('sortSelect').value = 'week-desc';
-            document.getElementById('weekFilter').value = 'all';
-            selectedWeek = 'all';
-            currentAlbums = [...albums];
-            currentPage = 1;
-            sortAlbums();
-        }
-
-        function updatePagination() {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            const pagination = document.getElementById('pagination');
-            
-            let html = '';
-            
-            if (totalPages > 1) {
-                html += `<span class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage <= 1 ? 'style="opacity:0.5"' : ''}>« Zurück</span>`;
-                
-                for (let i = 1; i <= totalPages; i++) {
-                    if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                        html += `<span class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</span>`;
-                    } else if (i === currentPage - 2 || i === currentPage + 2) {
-                        html += '<span>...</span>';
-                    }
-                }
-                
-                html += `<span class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage >= totalPages ? 'style="opacity:0.5"' : ''}>Weiter »</span>`;
-            }
-            
-            pagination.innerHTML = html;
-        }
-
-        function changePage(page) {
-            const totalPages = Math.ceil(currentAlbums.length / albumsPerPage);
-            if (page < 1 || page > totalPages) return;
-            
-            currentPage = page;
-            renderAlbums();
-        }
-
-        function updateStats() {
-            const totalSongs = albums.reduce((sum, album) => sum + album.songs.length, 0);
-            const totalFavorites = albums.reduce((sum, album) => 
-                sum + album.songs.filter(song => song.favorite).length, 0);
-            
-            const allRatings = albums.flatMap(album => 
-                album.songs.filter(song => !song.interlude).map(song => song.rating));
-            const avgRating = allRatings.length > 0 ? 
-                (allRatings.reduce((a, b) => a + b, 0) / allRatings.length).toFixed(2) : '0';
-            
-            const weeks = [...new Set(albums.map(album => album.week))];
-            const weekCount = weeks.length;
-            const avgPerWeek = weekCount > 0 ? (albums.length / weekCount).toFixed(1) : '0';
-            
-            document.getElementById('albumCount').textContent = albums.length;
-            document.getElementById('songCount').textContent = totalSongs;
-            document.getElementById('avgRating').textContent = avgRating + '/10';
-            document.getElementById('favoriteCount').textContent = totalFavorites;
-            document.getElementById('weekCount').textContent = weekCount;
-            document.getElementById('avgPerWeek').textContent = avgPerWeek;
-            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('de-DE');
-        }
-
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', async () => {
-            await initializeData();
-        });
+        
+        // Start the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initBlog);
     </script>
 </body>
 </html>
