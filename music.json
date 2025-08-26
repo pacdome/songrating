@@ -1,0 +1,200 @@
+[
+  {
+    "type": "song",
+    "title": "Semi-Charmed Life",
+    "artist": "Third Eye Blind",
+    "year": 1997,
+    "rating": 10,
+    "comment": "Ein perfekter Pop-Song mit düsterem Text über Crystal Meth, verpackt in eine unwiderstehliche Melodie. Der Gegensatz zwischen dem fröhlichen Sound und den ernsten Lyrics macht diesen Song zu einem Meisterwerk.",
+    "date_added": "2024-01-15"
+  },
+  {
+    "type": "album",
+    "title": "The Stone Roses",
+    "artist": "The Stone Roses",
+    "year": 1989,
+    "rating": 9,
+    "comment": "Das beste Debut-Album jemals. Es gibt nichts wie die Stone Roses & erst recht nichts wie dieses album. Jeder Song ist ein Statement, die Gitarrenarbeit von John Squire ist legendär.",
+    "date_added": "2024-01-10",
+    "songs": [
+      {
+        "title": "I Wanna Be Adored",
+        "rating": 10,
+        "comment": "Perfekter Opener - hypnotisch und selbstbewusst"
+      },
+      {
+        "title": "She Bangs the Drums",
+        "rating": 8,
+        "comment": "Catchy und tanzbarer Brit-Pop at its best"
+      },
+      {
+        "title": "Waterfall",
+        "rating": 8,
+        "comment": "Psychedelisch und atmosphärisch, John Squires Gitarre glänzt"
+      },
+      {
+        "title": "Don't Stop",
+        "rating": 4,
+        "comment": "Schwächstes Stück auf dem Album, wirkt wie Füllmaterial"
+      },
+      {
+        "title": "Bye Bye Bad Man",
+        "rating": 8,
+        "comment": ""
+      },
+      {
+        "title": "Elizabeth My Dear",
+        "rating": 5,
+        "comment": "Nettes Interlude, aber nicht mehr"
+      },
+      {
+        "title": "(Song for My) Sugar Spun Sister",
+        "rating": 8,
+        "comment": ""
+      },
+      {
+        "title": "Made of Stone",
+        "rating": 8,
+        "comment": "Kraftvoller Bass und Ian Browns markanter Gesang"
+      },
+      {
+        "title": "Shoot You Down",
+        "rating": 8,
+        "comment": ""
+      },
+      {
+        "title": "This Is the One",
+        "rating": 8,
+        "comment": "Melancholisch und hoffnungsvoll zugleich"
+      },
+      {
+        "title": "I Am the Resurrection",
+        "rating": 9,
+        "comment": "Epischer Abschluss mit über 8 Minuten reiner Ekstase"
+      },
+      {
+        "title": "Fools Gold",
+        "rating": 9,
+        "comment": "Funkiger Groove trifft auf Madchester - absoluter Klassiker"
+      }
+    ]
+  },
+  {
+    "type": "song",
+    "title": "Lady Writer",
+    "artist": "Dire Straits",
+    "year": 1979,
+    "rating": 10,
+    "comment": "Mark Knopflers Gitarrenspiel in Perfektion. Der Song groovt unglaublich und hat diesen typischen Dire Straits Sound, der nie aus der Mode kommt. Vom Album Communiqué - meinem Lieblings-Dire-Straits-Album.",
+    "date_added": "2024-01-08"
+  },
+  {
+    "type": "album",
+    "title": "Parklife",
+    "artist": "Blur",
+    "year": 1994,
+    "rating": 8,
+    "comment": "Nach dem hören ist man ein Brite, nicht jeder Song kann so gut sein wie Parklife, aber sie schaffen zusammen ein Gesamtkunstwerk. Damons Beobachtungen des britischen Alltags sind scharf und witzig.",
+    "date_added": "2024-01-05",
+    "songs": [
+      {
+        "title": "Girls & Boys",
+        "rating": 9,
+        "comment": "Anthem über Clubkultur und oberflächliche Beziehungen"
+      },
+      {
+        "title": "Tracy Jacks",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "End of a Century",
+        "rating": 8,
+        "comment": "Melancholische Betrachtung über das Ende einer Ära"
+      },
+      {
+        "title": "Parklife",
+        "rating": 10,
+        "comment": "DER Blur-Song schlechthin. Phil Daniels' Cockney-Rap ist genial"
+      },
+      {
+        "title": "Bank Holiday",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "Badhead",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "The Debt Collector",
+        "rating": 6,
+        "comment": ""
+      },
+      {
+        "title": "Far Out",
+        "rating": 6,
+        "comment": ""
+      },
+      {
+        "title": "To the End",
+        "rating": 6,
+        "comment": ""
+      },
+      {
+        "title": "London Loves",
+        "rating": 8,
+        "comment": "Liebeslied an die Stadt London"
+      },
+      {
+        "title": "Trouble in the Message Center",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "Clover Over Dover",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "Magical America",
+        "rating": 6,
+        "comment": ""
+      },
+      {
+        "title": "Jubilee",
+        "rating": 7,
+        "comment": ""
+      },
+      {
+        "title": "This Is a Low",
+        "rating": 7,
+        "comment": "Atmosphärischer Abschluss mit Wetterbericht-Samples"
+      },
+      {
+        "title": "Lot 105",
+        "rating": 6,
+        "comment": ""
+      }
+    ]
+  },
+  {
+    "type": "song",
+    "title": "Brighton Rock",
+    "artist": "Queen",
+    "year": 1974,
+    "rating": 10,
+    "comment": "Der beste Queen Song ever. Brian Mays Gitarrenarbeit ist hier auf einem anderen Level - das Solo mit den Delays ist einfach magisch. Heavy Rock mit Prog-Elementen vom Album Sheer Heart Attack.",
+    "date_added": "2024-01-03"
+  },
+  {
+    "type": "song",
+    "title": "Hazy",
+    "artist": "Great Gable",
+    "year": 2022,
+    "rating": 9,
+    "comment": "Eines der seltenen neuen Songs, die mich wirklich packen. Indie at its best - eingängig aber nicht oberflächlich. Diese australische Band hat den perfekten Sound zwischen Melancholie und Hoffnung gefunden.",
+    "date_added": "2024-01-01"
+  }
+]
