@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mein Retro Reiseblog</title>
+    <title>🌍 Mein Retro-Reiseblog</title>
     <style>
-        /* Retro 2000er Style */
         * {
             margin: 0;
             padding: 0;
@@ -13,67 +12,72 @@
         }
 
         body {
-            font-family: Verdana, Geneva, sans-serif;
-            background: #e8f4f8;
+            font-family: 'Comic Sans MS', 'Trebuchet MS', Arial, sans-serif;
+            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 100%);
             color: #333;
-            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #FF6B6B 0%, #FFD93D 50%, #6BCF7F 100%);
+            padding: 30px;
+            border: 5px solid #FF1493;
+            margin-bottom: 30px;
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            color: #FFF;
+            text-shadow: 3px 3px 0px #000, 5px 5px 10px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+
+        .header p {
+            font-size: 18px;
+            color: #FFE;
+            margin-top: 10px;
+            font-style: italic;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        header {
-            background: linear-gradient(to bottom, #6699cc, #4477aa);
-            color: white;
+        /* KARTE */
+        .map-section {
+            background: #FFF;
+            border: 5px solid #FF8C00;
             padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #336699;
+            margin-bottom: 30px;
+            box-shadow: 5px 5px 0px #000;
         }
 
-        header h1 {
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 5px;
+        .map-section h2 {
+            color: #FF1493;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-decoration: underline;
         }
 
-        header p {
-            font-size: 1.1em;
-            font-style: italic;
-        }
-
-        /* Karten-Bereich */
-        #map-section {
-            padding: 20px;
-            background: #f0f8ff;
-            border-bottom: 2px solid #ccc;
-        }
-
-        #map-section h2 {
-            color: #336699;
-            margin-bottom: 15px;
-            font-size: 1.8em;
-        }
-
-        #map-container {
+        .map-container {
             position: relative;
             width: 100%;
-            height: 600px;
-            background: white;
-            border: 3px solid #336699;
-            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            background: #E8F4F8;
+            border: 3px solid #000;
         }
 
-        #europe-svg {
+        .map-container img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            height: auto;
+            display: block;
         }
 
-        #map-overlay {
+        .map-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -82,433 +86,531 @@
             pointer-events: none;
         }
 
-        /* Blog-Bereich */
-        #blog-section {
-            padding: 20px;
-        }
-
-        #filter-bar {
-            background: #ffffcc;
+        .map-legend {
+            margin-top: 15px;
             padding: 15px;
-            border: 2px solid #ffcc00;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-
-        #filter-bar label {
-            font-weight: bold;
-            margin-right: 10px;
-            color: #333;
-        }
-
-        #filter-bar select {
-            padding: 5px 10px;
-            border: 2px solid #999;
-            background: white;
+            background: #FFFACD;
+            border: 3px dashed #FF8C00;
             font-size: 14px;
-            margin-right: 20px;
+        }
+
+        /* BLOG */
+        .blog-section {
+            background: #FFF;
+            border: 5px solid #00CED1;
+            padding: 20px;
+            box-shadow: 5px 5px 0px #000;
+        }
+
+        .blog-section h2 {
+            color: #FF1493;
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: #FFE4B5;
+            border: 3px solid #FF8C00;
+        }
+
+        .filters label {
+            font-weight: bold;
+            color: #000;
+            margin-right: 5px;
+        }
+
+        .filters select {
+            padding: 8px 15px;
+            font-size: 16px;
+            border: 3px solid #000;
+            background: #FFF;
             cursor: pointer;
+            font-family: 'Comic Sans MS', Arial;
+        }
+
+        .filters select:hover {
+            background: #FFFF99;
+        }
+
+        .articles {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
         }
 
         .article {
-            background: #fff;
-            border: 2px solid #ccc;
+            background: linear-gradient(to right, #FFF8DC 0%, #FFF 100%);
+            border: 4px solid #FF6347;
             padding: 20px;
-            margin-bottom: 25px;
-            border-radius: 5px;
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+            box-shadow: 3px 3px 0px #000;
         }
 
-        .article h3 {
-            color: #336699;
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #6699cc;
-            padding-bottom: 5px;
+        .article-header {
+            border-bottom: 3px dotted #FF1493;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .article-title {
+            color: #0000CD;
+            font-size: 28px;
+            margin-bottom: 8px;
         }
 
         .article-meta {
             color: #666;
-            font-size: 0.9em;
-            margin-bottom: 15px;
-            font-style: italic;
+            font-size: 14px;
+        }
+
+        .article-meta span {
+            background: #FFD700;
+            padding: 3px 8px;
+            border: 2px solid #000;
+            margin-right: 8px;
+            display: inline-block;
         }
 
         .article-images {
+            display: flex;
+            gap: 10px;
             margin: 15px 0;
+            flex-wrap: wrap;
         }
 
         .article-images img {
-            max-width: 100%;
-            height: auto;
-            border: 3px solid #ccc;
-            margin: 5px;
-            box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border: 3px solid #000;
+            box-shadow: 3px 3px 0px #FF6347;
         }
 
-        .article-text {
-            text-align: justify;
-            font-size: 1em;
-            color: #444;
+        .article-content {
+            line-height: 1.8;
+            font-size: 16px;
+            color: #333;
         }
 
-        .article-text p {
-            margin-bottom: 10px;
-        }
-
-        footer {
-            background: #336699;
-            color: white;
-            text-align: center;
-            padding: 15px;
-            margin-top: 30px;
-        }
-
-        /* Retro Link-Style */
-        a {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-
-        a:visited {
-            color: #663399;
-        }
-
-        a:hover {
-            color: #ff6600;
-        }
-
-        .no-articles {
+        .no-results {
             text-align: center;
             padding: 40px;
-            color: #999;
-            font-size: 1.2em;
+            font-size: 24px;
+            color: #FF1493;
+            background: #FFE4E1;
+            border: 3px dashed #FF6347;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #000;
+            color: #0F0;
+            border: 5px solid #0F0;
+            font-family: 'Courier New', monospace;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .article-images img {
+                width: 100%;
+                height: auto;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>🌍 Mein Retro Reiseblog</h1>
-            <p>Entdecke Europa - Eine Stadt nach der anderen</p>
-        </header>
+        <div class="header">
+            <h1>🌍 MEIN RETRO-REISEBLOG 🌍</h1>
+            <p>✨ Reisen wie in den 2000ern ✨</p>
+        </div>
 
-        <!-- Europakarte -->
-        <section id="map-section">
-            <h2>Meine Reisen auf der Karte</h2>
-            <div id="map-container">
-                <!-- SVG-Karte wird hier eingebunden -->
-                <img id="europe-svg" src="europe-map.svg" alt="Europakarte">
-                <canvas id="map-overlay"></canvas>
+        <!-- KARTEN-SEKTION -->
+        <div class="map-section">
+            <h2>🗺️ Meine Reise-Karte</h2>
+            <div class="map-container" id="mapContainer">
+                <!-- Hier kommt die Europa-Karte als PNG -->
+            <img id="mapImage" src="europe-map.png" alt="Europa Karte">  
+           <canvas id="mapCanvas" class="map-canvas"></canvas>
             </div>
-        </section>
+            <div class="map-legend">
+                <strong>🎨 Legende:</strong> Je größer die farbige Fläche um eine Stadt, desto mehr habe ich darüber geschrieben!
+            </div>
+        </div>
 
-        <!-- Blog-Artikel -->
-        <section id="blog-section">
-            <div id="filter-bar">
-                <label for="country-filter">Land:</label>
-                <select id="country-filter">
-                    <option value="all">Alle Länder</option>
-                </select>
-
-                <label for="year-filter">Jahr:</label>
-                <select id="year-filter">
-                    <option value="all">Alle Jahre</option>
-                </select>
+        <!-- BLOG-SEKTION -->
+        <div class="blog-section">
+            <h2>📝 Meine Reiseberichte</h2>
+            
+            <div class="filters">
+                <div>
+                    <label for="countryFilter">🌍 Land:</label>
+                    <select id="countryFilter">
+                        <option value="">Alle Länder</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="yearFilter">📅 Jahr:</label>
+                    <select id="yearFilter">
+                        <option value="">Alle Jahre</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sortOrder">🔄 Sortierung:</label>
+                    <select id="sortOrder">
+                        <option value="newest">Neueste zuerst</option>
+                        <option value="oldest">Älteste zuerst</option>
+                    </select>
+                </div>
             </div>
 
-            <div id="articles-container">
+            <div class="articles" id="articlesContainer">
                 <!-- Artikel werden hier dynamisch eingefügt -->
             </div>
-        </section>
+        </div>
 
-        <footer>
-            <p>&copy; 2025 Mein Retro Reiseblog | Erstellt mit ❤️ und Nostalgie</p>
-        </footer>
+        <div class="footer">
+            &lt;blink&gt; Made with ❤️ in 2000s style &lt;/blink&gt;
+        </div>
     </div>
 
     <script>
-        // ===== KONFIGURATION =====
-        // Beispiel-Daten (später durch externe JSON-Datei ersetzen)
-        const blogData = {
+        // BEISPIEL-DATEN (Fallback, falls data.json nicht lädt)
+        const FALLBACK_DATA = {
             "articles": [
                 {
                     "id": 1,
-                    "title": "Ein Wochenende in Paris",
-                    "country": "Frankreich",
-                    "city": "Paris",
-                    "region": "Île-de-France_FR",
-                    "year": 2023,
-                    "coordinates": { "lat": 48.8566, "lon": 2.3522 },
+                    "title": "Mein Wochenende in Barcelona",
+                    "city": "Barcelona",
+                    "country": "Spanien",
+                    "coordinates": { "x": 420, "y": 420 },
+                    "date": "2024-05-15",
+                    "year": 2024,
                     "images": [
-                        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600",
-                        "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=600"
+                        "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400",
+                        "https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=400"
                     ],
-                    "text": "Paris, die Stadt der Liebe! Mein Wochenendtrip begann am Eiffelturm. Das Wahrzeichen ist noch beeindruckender als auf Fotos. Danach schlenderte ich durch Montmartre, wo Künstler ihre Werke verkauften. Der Sonnenuntergang vom Sacré-Cœur war atemberaubend. Am nächsten Tag besuchte ich den Louvre - drei Stunden, um die Mona Lisa zu sehen! Die Champs-Élysées lud zum Shopping ein. Abends genoss ich Crêpes in einem kleinen Café. Ein unvergessliches Erlebnis! Paris ist definitiv eine Reise wert. Die Metro macht es einfach, überall hinzukommen. Ich kann es kaum erwarten, wiederzukommen und noch mehr zu entdecken."
+                    "content": "Barcelona ist einfach magisch! Die Sagrada Familia hat mich total umgehauen. Danach sind wir zum Park Güell spaziert und haben den Sonnenuntergang genossen. Am Abend gab es leckere Tapas in einer kleinen Bar in El Raval. Die Atmosphäre war unglaublich! Am nächsten Tag haben wir am Strand gechillt und sind dann durch das Gotische Viertel geschlendert. Überall gab es kleine versteckte Plazas mit süßen Cafés. Das Essen war fantastisch, besonders die Paella! Ich kann Barcelona jedem empfehlen, der Kunst, Kultur und gutes Essen liebt.",
+                    "wordCount": 450
                 },
                 {
                     "id": 2,
-                    "title": "Berlin - Geschichte und Moderne",
-                    "country": "Deutschland",
-                    "city": "Berlin",
-                    "region": "Berlin_DE",
-                    "year": 2022,
-                    "coordinates": { "lat": 52.5200, "lon": 13.4050 },
-                    "images": [
-                        "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=600"
-                    ],
-                    "text": "Berlin hat mich total überrascht! Die Stadt verbindet Geschichte mit modernem Leben. Ich startete am Brandenburger Tor und ging entlang der ehemaligen Mauerlinie. Das DDR-Museum war super interessant. Im Mauerpark fand ein riesiger Flohmarkt statt. Die Street-Art in Kreuzberg ist weltklasse. Currywurst musste natürlich auch probiert werden! Der Fernsehturm bietet einen fantastischen Blick über die Stadt. Abends besuchte ich einen Club in Friedrichshain. Berlin schläft nie! Die öffentlichen Verkehrsmittel sind top organisiert. Eine Stadt voller Kontraste, die ich jedem empfehlen kann."
+                    "title": "48 Stunden in Paris",
+                    "city": "Paris",
+                    "country": "Frankreich",
+                    "coordinates": { "x": 430, "y": 280 },
+                    "date": "2023-09-20",
+                    "year": 2023,
+                    "images": ["https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400"],
+                    "content": "Paris im Herbst ist ein Traum! Wir haben den Eiffelturm bei Sonnenuntergang besucht - absolut atemberaubend. Die Croissants zum Frühstück waren himmlisch.",
+                    "wordCount": 120
                 },
                 {
                     "id": 3,
                     "title": "Rom - Die ewige Stadt",
-                    "country": "Italien",
                     "city": "Rom",
-                    "region": "Lazio_IT",
+                    "country": "Italien",
+                    "coordinates": { "x": 510, "y": 410 },
+                    "date": "2023-04-10",
                     "year": 2023,
-                    "coordinates": { "lat": 41.9028, "lon": 12.4964 },
                     "images": [
-                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600",
-                        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=600"
+                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400",
+                        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=400"
                     ],
-                    "text": "Rom ist einfach magisch! Das Kolosseum hat mich sprachlos gemacht. Man spürt die Geschichte förmlich. Der Petersdom im Vatikan ist unglaublich prunkvoll. Ich warf eine Münze in den Trevi-Brunnen - der Tradition nach komme ich zurück! Die italienische Küche ist ein Traum: Pasta, Pizza, Gelato. Ich könnte mich durchfuttern! Das Forum Romanum ließ mich in die Antike eintauchen. Die spanische Treppe war voller Menschen, aber der Ausblick lohnte sich. Abends spazierte ich durch Trastevere, ein charmantes Viertel mit engen Gassen. Rom bei Nacht hat einen besonderen Zauber. Ich habe so viel gesehen und doch nur einen Bruchteil der Stadt entdeckt. Definitiv eine Reise wert!"
+                    "content": "Rom ist Geschichte zum Anfassen! Das Kolosseum war noch beeindruckender als ich dachte. Wir haben stundenlang durch die antiken Ruinen gewandert. Der Trevi-Brunnen war völlig überfüllt, aber trotzdem wunderschön. Natürlich haben wir eine Münze reingeworfen - wir kommen bestimmt wieder! Die Pasta Carbonara in Trastevere war die beste, die ich je gegessen habe. Authentisch und cremig, ohne Sahne! Der Vatikan mit der Sixtinischen Kapelle war überwältigend. Die Kunstwerke sind einfach unbeschreiblich schön.",
+                    "wordCount": 320
                 },
                 {
                     "id": 4,
-                    "title": "Amsterdam - Grachten und Tulpen",
-                    "country": "Niederlande",
+                    "title": "Amsterdam mit dem Fahrrad",
                     "city": "Amsterdam",
-                    "region": "Noord-Holland_NL",
-                    "year": 2022,
-                    "coordinates": { "lat": 52.3676, "lon": 4.9041 },
-                    "images": [
-                        "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=600"
-                    ],
-                    "text": "Amsterdam ist perfekt für einen Städtetrip! Die Grachten sind wunderschön, besonders bei einer Bootstour. Ich mietete ein Fahrrad - wie die Einheimischen! Das Anne-Frank-Haus war sehr bewegend. Der Vondelpark lud zum Entspannen ein. Im Jordaan-Viertel entdeckte ich süße Cafés. Das Rijksmuseum beherbergt beeindruckende Kunstwerke. Natürlich besuchte ich auch einen Coffee-Shop, das gehört einfach dazu. Die Architektur der schmalen Häuser ist einzigartig. Am Abend bummelte ich über den Blumenmarkt. Amsterdam hat eine entspannte, weltoffene Atmosphäre."
+                    "country": "Niederlande",
+                    "coordinates": { "x": 440, "y": 220 },
+                    "date": "2024-08-03",
+                    "year": 2024,
+                    "images": ["https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=400"],
+                    "content": "Amsterdam ist perfekt zum Radfahren! Wir sind den ganzen Tag durch die Stadt geradelt, vorbei an Grachten und bunten Häusern. Das Anne-Frank-Haus war sehr bewegend. Abends haben wir in einem gemütlichen Café am Kanal gesessen und Stroopwafels gegessen.",
+                    "wordCount": 180
                 },
                 {
                     "id": 5,
-                    "title": "Prag - Die goldene Stadt",
-                    "country": "Tschechien",
-                    "city": "Prag",
-                    "region": "Prague_CZ",
-                    "year": 2021,
-                    "coordinates": { "lat": 50.0755, "lon": 14.4378 },
+                    "title": "Lissabon - Pastéis und Trams",
+                    "city": "Lissabon",
+                    "country": "Portugal",
+                    "coordinates": { "x": 320, "y": 450 },
+                    "date": "2024-03-12",
+                    "year": 2024,
                     "images": [
-                        "https://images.unsplash.com/photo-1541849546-216549ae216d?w=600"
+                        "https://images.unsplash.com/photo-1585208798174-6cedd86e019a?w=400",
+                        "https://images.unsplash.com/photo-1588640071200-275d6160dc65?w=400"
                     ],
-                    "text": "Prag ist märchenhaft! Die Karlsbrücke am frühen Morgen, fast menschenleer - ein magischer Moment. Die Prager Burg thront majestätisch über der Stadt. Die astronomische Uhr am Altstädter Ring ist ein Meisterwerk. Ich probierte Trdelník, ein süßes Gebäck, einfach lecker! Das jüdische Viertel erzählt bewegende Geschichten. Die Moldau glitzerte im Sonnenlicht. Das tschechische Bier ist weltklasse - und so günstig! Abends genoss ich den Blick vom Petřín-Turm. Prag vereint Geschichte und Moderne auf charmante Weise. Die Stadt hat mich verzaubert, ich komme bestimmt wieder! Das Nachtleben ist auch sehr lebendig. Ein absolutes Muss für jeden Europa-Reisenden."
+                    "content": "Lissabon hat mich sofort verzaubert! Die gelben Straßenbahnen, die steilen Hügel und die bunten Kacheln überall. Wir sind mit der Tram 28 durch die engen Gassen gefahren - ein Erlebnis! In Belém haben wir die berühmten Pastéis de Nata probiert, direkt aus der Manufaktur. Noch warm und mit Zimt bestreut - göttlich! Der Ausblick vom Castelo de São Jorge über die ganze Stadt war spektakulär. Abends haben wir in Alfama Fado-Musik gehört, so melancholisch und schön. Das Nachtleben im Bairro Alto war lebendig und bunt.",
+                    "wordCount": 380
                 }
-            ]
+            ],
+            "settings": {
+                "blogTitle": "Mein Retro-Reiseblog",
+                "minBlobSize": 20,
+                "maxBlobSize": 100,
+                "wordsPerPixel": 5
+            }
         };
 
-        // ===== DATEN LADEN (später von externer JSON-Datei) =====
+        // GLOBALE VARIABLEN
+        let articlesData = [];
+        let canvas, ctx;
+        let mapImage;
+
+        // INITIALISIERUNG
+        async function init() {
+            canvas = document.getElementById('mapCanvas');
+            ctx = canvas.getContext('2d');
+            mapImage = document.getElementById('mapImage');
+
+            // Warte bis Bild geladen ist
+            mapImage.onload = () => {
+                setupCanvas();
+                loadData();
+            };
+
+            // Falls Bild schon gecacht ist
+            if (mapImage.complete) {
+                setupCanvas();
+                loadData();
+            }
+        }
+
+        // CANVAS SETUP
+        function setupCanvas() {
+            const rect = mapImage.getBoundingClientRect();
+            canvas.width = mapImage.width;
+            canvas.height = mapImage.height;
+        }
+
+        // DATEN LADEN
         async function loadData() {
-            // In der finalen Version würde hier fetch() verwendet:
-            // const response = await fetch('blog-data.json');
-            // return await response.json();
-            
-            // Für Demo verwenden wir die eingebetteten Daten
-            return blogData;
-        }
-
-        // ===== KARTEN-FUNKTIONEN =====
-        function initMap() {
-            const canvas = document.getElementById('map-overlay');
-            const container = document.getElementById('map-container');
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
-            
-            return canvas.getContext('2d');
-        }
-
-        function drawArticleMarkers(articles, ctx) {
-            // Europa-Koordinaten für die Projektion (vereinfachte Mercator-ähnliche Projektion)
-            const minLat = 35, maxLat = 71;
-            const minLon = -10, maxLon = 40;
-            
-            const canvas = ctx.canvas;
-            const width = canvas.width;
-            const height = canvas.height;
-
-            // Koordinaten in Pixel umrechnen
-            function projectToCanvas(lat, lon) {
-                const x = ((lon - minLon) / (maxLon - minLon)) * width;
-                const y = height - ((lat - minLat) / (maxLat - minLat)) * height;
-                return { x, y };
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                articlesData = data.articles;
+                console.log('✅ Daten von data.json geladen');
+            } catch (error) {
+                console.warn('⚠️ data.json nicht gefunden, nutze Beispiel-Daten');
+                articlesData = FALLBACK_DATA.articles;
             }
 
-            // Farben für verschiedene Länder
-            const colors = [
-                'rgba(255, 100, 100, 0.4)',
-                'rgba(100, 150, 255, 0.4)',
-                'rgba(100, 255, 150, 0.4)',
-                'rgba(255, 200, 100, 0.4)',
-                'rgba(200, 100, 255, 0.4)',
-                'rgba(255, 150, 200, 0.4)'
-            ];
+            renderMap();
+            renderBlog();
+            setupFilters();
+        }
 
-            articles.forEach((article, index) => {
-                if (!article.coordinates) return;
-
-                const pos = projectToCanvas(article.coordinates.lat, article.coordinates.lon);
+        // ORGANISCHE BLOB ZEICHNEN
+        function drawBlob(x, y, size, color) {
+            const points = 8;
+            const angleStep = (Math.PI * 2) / points;
+            
+            ctx.beginPath();
+            
+            for (let i = 0; i <= points; i++) {
+                const angle = i * angleStep;
+                // Zufällige Variation für organisches Aussehen
+                const randomFactor = 0.7 + Math.random() * 0.6;
+                const radius = size * randomFactor;
                 
-                // Radius basierend auf Textlänge (ca. 50km pro 500 Wörter)
-                const wordCount = article.text.split(' ').length;
-                const baseRadius = Math.sqrt(wordCount) * 2; // Skalierung für Canvas
+                const px = x + Math.cos(angle) * radius;
+                const py = y + Math.sin(angle) * radius;
                 
-                // Organische Form durch zufällige Polygone
-                ctx.fillStyle = colors[index % colors.length];
-                ctx.strokeStyle = colors[index % colors.length].replace('0.4', '0.8');
-                ctx.lineWidth = 2;
-
-                ctx.beginPath();
-                const points = 8; // Anzahl der Punkte für organische Form
-                for (let i = 0; i < points; i++) {
-                    const angle = (i / points) * Math.PI * 2;
-                    // Zufällige Variation für organische Form
-                    const radiusVariation = baseRadius * (0.7 + Math.random() * 0.6);
-                    const x = pos.x + Math.cos(angle) * radiusVariation;
-                    const y = pos.y + Math.sin(angle) * radiusVariation;
+                if (i === 0) {
+                    ctx.moveTo(px, py);
+                } else {
+                    // Bézier-Kurven für weiche Übergänge
+                    const prevAngle = (i - 1) * angleStep;
+                    const cpDist = radius * 0.5;
+                    const cp1x = x + Math.cos(prevAngle + angleStep * 0.3) * cpDist;
+                    const cp1y = y + Math.sin(prevAngle + angleStep * 0.3) * cpDist;
+                    const cp2x = x + Math.cos(angle - angleStep * 0.3) * cpDist;
+                    const cp2y = y + Math.sin(angle - angleStep * 0.3) * cpDist;
                     
-                    if (i === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
-                    }
+                    ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, px, py);
                 }
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
+            }
+            
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+            
+            // Weicher Rand
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            ctx.globalAlpha = 0.5;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
 
-                // Punkt in der Mitte
-                ctx.fillStyle = colors[index % colors.length].replace('0.4', '1');
-                ctx.beginPath();
-                ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2);
-                ctx.fill();
+        // KARTE RENDERN
+        function renderMap() {
+            // Canvas leeren
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Farben für verschiedene Größen
+            const colors = ['#FFB6C1', '#FF69B4', '#FF1493', '#C71585', '#8B008B'];
+            
+            articlesData.forEach(article => {
+                // Größe basierend auf Wortanzahl
+                const size = Math.min(
+                    Math.max(20, article.wordCount / 5),
+                    80
+                );
+                
+                // Farbe basierend auf Größe
+                const colorIndex = Math.min(
+                    Math.floor(size / 20),
+                    colors.length - 1
+                );
+                
+                // Skaliere Koordinaten auf Canvas-Größe
+                const scaleX = canvas.width / 800;
+                const scaleY = canvas.height / 600;
+                const x = article.coordinates.x * scaleX;
+                const y = article.coordinates.y * scaleY;
+                
+                // Zeichne Blob
+                drawBlob(x, y, size, colors[colorIndex]);
+                
+                // Stadtname
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(article.city, x, y + size + 15);
             });
         }
 
-        // ===== BLOG-FUNKTIONEN =====
-        function populateFilters(articles) {
-            const countryFilter = document.getElementById('country-filter');
-            const yearFilter = document.getElementById('year-filter');
+        // BLOG RENDERN
+        function renderBlog(filteredArticles = null) {
+            const container = document.getElementById('articlesContainer');
+            const articles = filteredArticles || articlesData;
+            
+            if (articles.length === 0) {
+                container.innerHTML = '<div class="no-results">😢 Keine Artikel gefunden!</div>';
+                return;
+            }
+            
+            container.innerHTML = articles.map(article => `
+                <div class="article">
+                    <div class="article-header">
+                        <h3 class="article-title">${article.title}</h3>
+                        <div class="article-meta">
+                            <span>📍 ${article.city}, ${article.country}</span>
+                            <span>📅 ${formatDate(article.date)}</span>
+                            <span>📝 ${article.wordCount} Wörter</span>
+                        </div>
+                    </div>
+                    ${article.images && article.images.length > 0 ? `
+                        <div class="article-images">
+                            ${article.images.map(img => `
+                                <img src="${img}" alt="${article.city}" loading="lazy">
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    <div class="article-content">
+                        ${article.content}
+                    </div>
+                </div>
+            `).join('');
+        }
 
-            // Länder extrahieren
-            const countries = [...new Set(articles.map(a => a.country))].sort();
+        // FILTER SETUP
+        function setupFilters() {
+            const countryFilter = document.getElementById('countryFilter');
+            const yearFilter = document.getElementById('yearFilter');
+            const sortOrder = document.getElementById('sortOrder');
+            
+            // Eindeutige Länder
+            const countries = [...new Set(articlesData.map(a => a.country))].sort();
             countries.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country;
                 option.textContent = country;
                 countryFilter.appendChild(option);
             });
-
-            // Jahre extrahieren
-            const years = [...new Set(articles.map(a => a.year))].sort((a, b) => b - a);
+            
+            // Eindeutige Jahre
+            const years = [...new Set(articlesData.map(a => a.year))].sort((a, b) => b - a);
             years.forEach(year => {
                 const option = document.createElement('option');
                 option.value = year;
                 option.textContent = year;
                 yearFilter.appendChild(option);
             });
+            
+            // Event Listener
+            countryFilter.addEventListener('change', applyFilters);
+            yearFilter.addEventListener('change', applyFilters);
+            sortOrder.addEventListener('change', applyFilters);
         }
 
-        function renderArticles(articles) {
-            const container = document.getElementById('articles-container');
-            container.innerHTML = '';
-
-            if (articles.length === 0) {
-                container.innerHTML = '<div class="no-articles">Keine Artikel gefunden. 😕</div>';
-                return;
+        // FILTER ANWENDEN
+        function applyFilters() {
+            const countryFilter = document.getElementById('countryFilter').value;
+            const yearFilter = document.getElementById('yearFilter').value;
+            const sortOrder = document.getElementById('sortOrder').value;
+            
+            let filtered = [...articlesData];
+            
+            // Nach Land filtern
+            if (countryFilter) {
+                filtered = filtered.filter(a => a.country === countryFilter);
             }
+            
+            // Nach Jahr filtern
+            if (yearFilter) {
+                filtered = filtered.filter(a => a.year == yearFilter);
+            }
+            
+            // Sortieren
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+            });
+            
+            renderBlog(filtered);
+        }
 
-            articles.forEach(article => {
-                const articleEl = document.createElement('div');
-                articleEl.className = 'article';
-
-                let imagesHtml = '';
-                if (article.images && article.images.length > 0) {
-                    imagesHtml = '<div class="article-images">';
-                    article.images.forEach(img => {
-                        imagesHtml += `<img src="${img}" alt="${article.title}">`;
-                    });
-                    imagesHtml += '</div>';
-                }
-
-                articleEl.innerHTML = `
-                    <h3>${article.title}</h3>
-                    <div class="article-meta">
-                        📍 ${article.city}, ${article.country} | 📅 ${article.year}
-                    </div>
-                    ${imagesHtml}
-                    <div class="article-text">
-                        <p>${article.text}</p>
-                    </div>
-                `;
-
-                container.appendChild(articleEl);
+        // DATUM FORMATIEREN
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
             });
         }
 
-        function filterArticles(articles) {
-            const countryFilter = document.getElementById('country-filter').value;
-            const yearFilter = document.getElementById('year-filter').value;
+        // RESPONSIVE CANVAS
+        window.addEventListener('resize', () => {
+            if (mapImage.complete) {
+                setupCanvas();
+                renderMap();
+            }
+        });
 
-            return articles.filter(article => {
-                const matchCountry = countryFilter === 'all' || article.country === countryFilter;
-                const matchYear = yearFilter === 'all' || article.year.toString() === yearFilter;
-                return matchCountry && matchYear;
-            });
-        }
-
-        // ===== INITIALISIERUNG =====
-        async function init() {
-            const data = await loadData();
-            const articles = data.articles;
-
-            // Karte initialisieren
-            const ctx = initMap();
-            drawArticleMarkers(articles, ctx);
-
-            // Filter befüllen
-            populateFilters(articles);
-
-            // Artikel rendern
-            renderArticles(articles);
-
-            // Event Listener für Filter
-            document.getElementById('country-filter').addEventListener('change', () => {
-                const filtered = filterArticles(articles);
-                renderArticles(filtered);
-                
-                // Karte neu zeichnen
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                drawArticleMarkers(filtered, ctx);
-            });
-
-            document.getElementById('year-filter').addEventListener('change', () => {
-                const filtered = filterArticles(articles);
-                renderArticles(filtered);
-                
-                // Karte neu zeichnen
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-                drawArticleMarkers(filtered, ctx);
-            });
-
-            // Responsive Karten-Größe
-            window.addEventListener('resize', () => {
-                const canvas = ctx.canvas;
-                const container = document.getElementById('map-container');
-                canvas.width = container.offsetWidth;
-                canvas.height = container.offsetHeight;
-                
-                const filtered = filterArticles(articles);
-                drawArticleMarkers(filtered, ctx);
-            });
-        }
-
-        // Seite laden
-        document.addEventListener('DOMContentLoaded', init);
+        // START
+        init();
     </script>
 </body>
 </html>
