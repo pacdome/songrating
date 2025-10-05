@@ -104,6 +104,48 @@
             font-family: 'Courier New', monospace;
         }
 
+        .debug-toggle {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .debug-toggle button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-family: 'Comic Sans MS', Arial;
+            background: #FF69B4;
+            color: white;
+            border: 3px solid #000;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        .debug-toggle button:hover {
+            background: #FF1493;
+        }
+
+        .coordinates-display {
+            margin-top: 10px;
+            padding: 15px;
+            background: #FFF;
+            border: 3px solid #FF1493;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .coord-item {
+            margin: 5px 0;
+            padding: 5px;
+            background: #FFE4E1;
+            cursor: pointer;
+        }
+
+        .coord-item:hover {
+            background: #FFB6C1;
+        }
+
         /* BLOG */
         .blog-section {
             background: #FFF;
@@ -260,7 +302,14 @@
                 <strong>🎨 Legende:</strong> Je größer die farbige Fläche um eine Stadt, desto mehr habe ich darüber geschrieben!
             </div>
             <div class="map-helper">
-                <strong>💡 Tipp:</strong> Klicke auf die Karte, um Koordinaten für neue Städte zu ermitteln! Die Koordinaten erscheinen in der Browser-Console (F12).
+                <strong>💡 Tipp:</strong> Klicke auf die Karte, um Koordinaten für neue Städte zu ermitteln!
+            </div>
+            <div class="debug-toggle">
+                <button id="debugBtn" onclick="toggleDebugMode()">🔧 DEBUG-MODUS (Blobs ausblenden)</button>
+            </div>
+            <div id="coordinatesDisplay" class="coordinates-display" style="display: none;">
+                <strong>📋 Geklickte Koordinaten (klicke zum Kopieren):</strong>
+                <div id="coordList"></div>
             </div>
         </div>
 
@@ -345,6 +394,8 @@
         let canvas, ctx;
         let mapImage;
         let imageWidth, imageHeight; // Tatsächliche Bildgröße
+        let debugMode = false; // Debug-Modus für Koordinaten-Ermittlung
+        let clickedCoordinates = []; // Gespeicherte Koordinaten
 
         // INITIALISIERUNG
         async function init() {
@@ -393,12 +444,62 @@
                 const x = Math.round((e.clientX - rect.left) * (imageWidth / rect.width));
                 const y = Math.round((e.clientY - rect.top) * (imageHeight / rect.height));
                 
+                // Speichere Koordinaten
+                const coordString = `"coordinates": { "x": ${x}, "y": ${y} }`;
+                clickedCoordinates.push(coordString);
+                
+                // Zeige in Console
                 console.log(`%c📍 Koordinaten für diese Position:`, 'color: #FF1493; font-weight: bold; font-size: 14px;');
-                console.log(`"coordinates": { "x": ${x}, "y": ${y} }`);
+                console.log(coordString);
+                
+                // Zeige in UI
+                updateCoordinatesDisplay();
                 
                 // Visuelles Feedback
                 drawTemporaryMarker(x, y);
             });
+        }
+
+        // DEBUG-MODUS TOGGLE
+        function toggleDebugMode() {
+            debugMode = !debugMode;
+            const btn = document.getElementById('debugBtn');
+            const display = document.getElementById('coordinatesDisplay');
+            
+            if (debugMode) {
+                btn.textContent = '✅ DEBUG aktiv - Blobs ausgeblendet';
+                btn.style.background = '#00AA00';
+                display.style.display = 'block';
+                // Karte ohne Blobs rendern
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            } else {
+                btn.textContent = '🔧 DEBUG-MODUS (Blobs ausblenden)';
+                btn.style.background = '#FF69B4';
+                // Normale Ansicht wiederherstellen
+                renderMap();
+            }
+        }
+
+        // KOORDINATEN-ANZEIGE AKTUALISIEREN
+        function updateCoordinatesDisplay() {
+            const list = document.getElementById('coordList');
+            const latest = clickedCoordinates[clickedCoordinates.length - 1];
+            
+            const item = document.createElement('div');
+            item.className = 'coord-item';
+            item.textContent = `${clickedCoordinates.length}. ${latest}`;
+            item.onclick = () => {
+                navigator.clipboard.writeText(latest);
+                item.style.background = '#90EE90';
+                item.textContent = `✓ Kopiert! ${latest}`;
+                setTimeout(() => {
+                    item.style.background = '#FFE4E1';
+                    item.textContent = `${clickedCoordinates.length}. ${latest}`;
+                }, 1500);
+            };
+            
+            list.appendChild(item);
+            list.scrollTop = list.scrollHeight;
         }
 
         // TEMPORÄRER MARKER (visuelles Feedback beim Klick)
@@ -484,6 +585,11 @@
         function renderMap() {
             // Canvas leeren
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Im Debug-Modus keine Blobs zeichnen
+            if (debugMode) {
+                return;
+            }
             
             // Farben für verschiedene Größen
             const colors = ['#FFB6C1', '#FF69B4', '#FF1493', '#C71585', '#8B008B'];
