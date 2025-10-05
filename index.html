@@ -65,10 +65,11 @@
         .map-container {
             position: relative;
             width: 100%;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: #E8F4F8;
             border: 3px solid #000;
+            cursor: crosshair;
         }
 
         .map-container img {
@@ -92,6 +93,15 @@
             background: #FFFACD;
             border: 3px dashed #FF8C00;
             font-size: 14px;
+        }
+
+        .map-helper {
+            margin-top: 10px;
+            padding: 10px;
+            background: #E0FFE0;
+            border: 2px solid #00AA00;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
         }
 
         /* BLOG */
@@ -243,12 +253,14 @@
         <div class="map-section">
             <h2>🗺️ Meine Reise-Karte</h2>
             <div class="map-container" id="mapContainer">
-                <!-- Hier kommt die Europa-Karte als PNG -->
-            <img id="mapImage" src="europe-map.png" alt="Europa Karte">  
-           <canvas id="mapCanvas" class="map-canvas"></canvas>
+                <img id="mapImage" src="europe-map.png" alt="Europa Karte" crossorigin="anonymous">
+                <canvas id="mapCanvas" class="map-canvas"></canvas>
             </div>
             <div class="map-legend">
                 <strong>🎨 Legende:</strong> Je größer die farbige Fläche um eine Stadt, desto mehr habe ich darüber geschrieben!
+            </div>
+            <div class="map-helper">
+                <strong>💡 Tipp:</strong> Klicke auf die Karte, um Koordinaten für neue Städte zu ermitteln! Die Koordinaten erscheinen in der Browser-Console (F12).
             </div>
         </div>
 
@@ -297,7 +309,7 @@
                     "title": "Mein Wochenende in Barcelona",
                     "city": "Barcelona",
                     "country": "Spanien",
-                    "coordinates": { "x": 420, "y": 420 },
+                    "coordinates": { "x": 350, "y": 620 },
                     "date": "2024-05-15",
                     "year": 2024,
                     "images": [
@@ -312,54 +324,12 @@
                     "title": "48 Stunden in Paris",
                     "city": "Paris",
                     "country": "Frankreich",
-                    "coordinates": { "x": 430, "y": 280 },
+                    "coordinates": { "x": 350, "y": 450 },
                     "date": "2023-09-20",
                     "year": 2023,
                     "images": ["https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400"],
                     "content": "Paris im Herbst ist ein Traum! Wir haben den Eiffelturm bei Sonnenuntergang besucht - absolut atemberaubend. Die Croissants zum Frühstück waren himmlisch.",
                     "wordCount": 120
-                },
-                {
-                    "id": 3,
-                    "title": "Rom - Die ewige Stadt",
-                    "city": "Rom",
-                    "country": "Italien",
-                    "coordinates": { "x": 510, "y": 410 },
-                    "date": "2023-04-10",
-                    "year": 2023,
-                    "images": [
-                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400",
-                        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=400"
-                    ],
-                    "content": "Rom ist Geschichte zum Anfassen! Das Kolosseum war noch beeindruckender als ich dachte. Wir haben stundenlang durch die antiken Ruinen gewandert. Der Trevi-Brunnen war völlig überfüllt, aber trotzdem wunderschön. Natürlich haben wir eine Münze reingeworfen - wir kommen bestimmt wieder! Die Pasta Carbonara in Trastevere war die beste, die ich je gegessen habe. Authentisch und cremig, ohne Sahne! Der Vatikan mit der Sixtinischen Kapelle war überwältigend. Die Kunstwerke sind einfach unbeschreiblich schön.",
-                    "wordCount": 320
-                },
-                {
-                    "id": 4,
-                    "title": "Amsterdam mit dem Fahrrad",
-                    "city": "Amsterdam",
-                    "country": "Niederlande",
-                    "coordinates": { "x": 440, "y": 220 },
-                    "date": "2024-08-03",
-                    "year": 2024,
-                    "images": ["https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=400"],
-                    "content": "Amsterdam ist perfekt zum Radfahren! Wir sind den ganzen Tag durch die Stadt geradelt, vorbei an Grachten und bunten Häusern. Das Anne-Frank-Haus war sehr bewegend. Abends haben wir in einem gemütlichen Café am Kanal gesessen und Stroopwafels gegessen.",
-                    "wordCount": 180
-                },
-                {
-                    "id": 5,
-                    "title": "Lissabon - Pastéis und Trams",
-                    "city": "Lissabon",
-                    "country": "Portugal",
-                    "coordinates": { "x": 320, "y": 450 },
-                    "date": "2024-03-12",
-                    "year": 2024,
-                    "images": [
-                        "https://images.unsplash.com/photo-1585208798174-6cedd86e019a?w=400",
-                        "https://images.unsplash.com/photo-1588640071200-275d6160dc65?w=400"
-                    ],
-                    "content": "Lissabon hat mich sofort verzaubert! Die gelben Straßenbahnen, die steilen Hügel und die bunten Kacheln überall. Wir sind mit der Tram 28 durch die engen Gassen gefahren - ein Erlebnis! In Belém haben wir die berühmten Pastéis de Nata probiert, direkt aus der Manufaktur. Noch warm und mit Zimt bestreut - göttlich! Der Ausblick vom Castelo de São Jorge über die ganze Stadt war spektakulär. Abends haben wir in Alfama Fado-Musik gehört, so melancholisch und schön. Das Nachtleben im Bairro Alto war lebendig und bunt.",
-                    "wordCount": 380
                 }
             ],
             "settings": {
@@ -374,6 +344,7 @@
         let articlesData = [];
         let canvas, ctx;
         let mapImage;
+        let imageWidth, imageHeight; // Tatsächliche Bildgröße
 
         // INITIALISIERUNG
         async function init() {
@@ -383,22 +354,70 @@
 
             // Warte bis Bild geladen ist
             mapImage.onload = () => {
+                // Speichere die natürliche Bildgröße
+                imageWidth = mapImage.naturalWidth;
+                imageHeight = mapImage.naturalHeight;
+                console.log(`📐 Kartengröße: ${imageWidth}x${imageHeight} Pixel`);
+                
                 setupCanvas();
                 loadData();
+                setupCoordinateHelper();
             };
 
             // Falls Bild schon gecacht ist
             if (mapImage.complete) {
+                imageWidth = mapImage.naturalWidth;
+                imageHeight = mapImage.naturalHeight;
+                console.log(`📐 Kartengröße: ${imageWidth}x${imageHeight} Pixel`);
+                
                 setupCanvas();
                 loadData();
+                setupCoordinateHelper();
             }
         }
 
         // CANVAS SETUP
         function setupCanvas() {
-            const rect = mapImage.getBoundingClientRect();
             canvas.width = mapImage.width;
             canvas.height = mapImage.height;
+        }
+
+        // KOORDINATEN-HELPER (zum Finden von Städte-Koordinaten)
+        function setupCoordinateHelper() {
+            const container = document.getElementById('mapContainer');
+            
+            container.addEventListener('click', (e) => {
+                const rect = mapImage.getBoundingClientRect();
+                
+                // Berechne Koordinaten relativ zur natürlichen Bildgröße
+                const x = Math.round((e.clientX - rect.left) * (imageWidth / rect.width));
+                const y = Math.round((e.clientY - rect.top) * (imageHeight / rect.height));
+                
+                console.log(`%c📍 Koordinaten für diese Position:`, 'color: #FF1493; font-weight: bold; font-size: 14px;');
+                console.log(`"coordinates": { "x": ${x}, "y": ${y} }`);
+                
+                // Visuelles Feedback
+                drawTemporaryMarker(x, y);
+            });
+        }
+
+        // TEMPORÄRER MARKER (visuelles Feedback beim Klick)
+        function drawTemporaryMarker(x, y) {
+            const scaleX = canvas.width / imageWidth;
+            const scaleY = canvas.height / imageHeight;
+            const scaledX = x * scaleX;
+            const scaledY = y * scaleY;
+            
+            // Zeichne kurz einen roten Punkt
+            ctx.fillStyle = '#FF0000';
+            ctx.beginPath();
+            ctx.arc(scaledX, scaledY, 5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Entferne nach 1 Sekunde
+            setTimeout(() => {
+                renderMap();
+            }, 1000);
         }
 
         // DATEN LADEN
@@ -483,8 +502,8 @@
                 );
                 
                 // Skaliere Koordinaten auf Canvas-Größe
-                const scaleX = canvas.width / 800;
-                const scaleY = canvas.height / 600;
+                const scaleX = canvas.width / imageWidth;
+                const scaleY = canvas.height / imageHeight;
                 const x = article.coordinates.x * scaleX;
                 const y = article.coordinates.y * scaleY;
                 
