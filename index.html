@@ -350,45 +350,6 @@
     </div>
 
     <script>
-        // BEISPIEL-DATEN (Fallback, falls data.json nicht lädt)
-        const FALLBACK_DATA = {
-            "articles": [
-                {
-                    "id": 1,
-                    "title": "Mein Wochenende in Barcelona",
-                    "city": "Barcelona",
-                    "country": "Spanien",
-                    "coordinates": { "x": 350, "y": 620 },
-                    "date": "2024-05-15",
-                    "year": 2024,
-                    "images": [
-                        "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400",
-                        "https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=400"
-                    ],
-                    "content": "Barcelona ist einfach magisch! Die Sagrada Familia hat mich total umgehauen. Danach sind wir zum Park Güell spaziert und haben den Sonnenuntergang genossen. Am Abend gab es leckere Tapas in einer kleinen Bar in El Raval. Die Atmosphäre war unglaublich! Am nächsten Tag haben wir am Strand gechillt und sind dann durch das Gotische Viertel geschlendert. Überall gab es kleine versteckte Plazas mit süßen Cafés. Das Essen war fantastisch, besonders die Paella! Ich kann Barcelona jedem empfehlen, der Kunst, Kultur und gutes Essen liebt.",
-                    "wordCount": 450
-                },
-                {
-                    "id": 2,
-                    "title": "48 Stunden in Paris",
-                    "city": "Paris",
-                    "country": "Frankreich",
-                    "coordinates": { "x": 350, "y": 450 },
-                    "date": "2023-09-20",
-                    "year": 2023,
-                    "images": ["https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400"],
-                    "content": "Paris im Herbst ist ein Traum! Wir haben den Eiffelturm bei Sonnenuntergang besucht - absolut atemberaubend. Die Croissants zum Frühstück waren himmlisch.",
-                    "wordCount": 120
-                }
-            ],
-            "settings": {
-                "blogTitle": "Mein Retro-Reiseblog",
-                "minBlobSize": 20,
-                "maxBlobSize": 100,
-                "wordsPerPixel": 5
-            }
-        };
-
         // GLOBALE VARIABLEN
         let articlesData = [];
         let canvas, ctx;
@@ -525,17 +486,39 @@
         async function loadData() {
             try {
                 const response = await fetch('data.json');
+                if (!response.ok) {
+                    throw new Error('data.json konnte nicht geladen werden');
+                }
                 const data = await response.json();
                 articlesData = data.articles;
-                console.log('✅ Daten von data.json geladen');
+                console.log('✅ Daten von data.json geladen:', articlesData.length, 'Artikel');
+                
+                renderMap();
+                renderBlog();
+                setupFilters();
             } catch (error) {
-                console.warn('⚠️ data.json nicht gefunden, nutze Beispiel-Daten');
-                articlesData = FALLBACK_DATA.articles;
+                console.error('❌ FEHLER beim Laden von data.json:', error);
+                
+                // Zeige Fehlermeldung auf der Seite
+                const articlesContainer = document.getElementById('articlesContainer');
+                articlesContainer.innerHTML = `
+                    <div style="padding: 40px; text-align: center; background: #FFE4E1; border: 3px solid #FF0000;">
+                        <h2 style="color: #FF0000; margin-bottom: 20px;">⚠️ Fehler beim Laden!</h2>
+                        <p style="font-size: 18px; margin-bottom: 15px;">
+                            Die <strong>data.json</strong> Datei konnte nicht gefunden werden.
+                        </p>
+                        <p style="font-size: 16px; color: #666;">
+                            Stelle sicher, dass die data.json im gleichen Ordner wie die index.html liegt!
+                        </p>
+                        <pre style="background: #FFF; padding: 15px; margin-top: 20px; text-align: left; border: 2px solid #000;">
+Repository-Struktur:
+├── index.html
+├── data.json      ← Diese Datei fehlt!
+└── europe-map.png
+                        </pre>
+                    </div>
+                `;
             }
-
-            renderMap();
-            renderBlog();
-            setupFilters();
         }
 
         // ORGANISCHE BLOB ZEICHNEN
