@@ -3,394 +3,512 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dome's musik-blog</title>
+    <title>Mein Retro Reiseblog</title>
     <style>
-        /* Basic reset and typography */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: "Courier New", monospace;
-            font-size: 12px;
-            line-height: 1.6;
-            background: #f5f5f5;
-            color: #333;
-            padding: 20px;
+        /* Retro 2000er Style */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
+
+        body {
+            font-family: Verdana, Geneva, sans-serif;
+            background: #e8f4f8;
+            color: #333;
+            line-height: 1.6;
+        }
+
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border: 2px solid #ccc;
-            box-shadow: 3px 3px 0px #999;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        
-        /* Header */
-        .header {
-            background: #222;
-            color: #0f0;
-            padding: 15px 20px;
-            border-bottom: 2px solid #ccc;
-            font-family: "MS Sans Serif", sans-serif;
-        }
-        
-        .header h1 {
-            font-size: 16px;
-            font-weight: normal;
-            letter-spacing: 1px;
-        }
-        
-        .header .subtitle {
-            font-size: 10px;
-            color: #ccc;
-            margin-top: 5px;
-        }
-        
-        /* Navigation */
-        .nav {
-            background: #e0e0e0;
-            padding: 8px 20px;
-            border-bottom: 1px solid #ccc;
-        }
-        
-        .nav a {
-            color: #333;
-            text-decoration: none;
-            margin-right: 15px;
-            font-size: 11px;
-            font-weight: bold;
-        }
-        
-        .nav a:hover {
-            text-decoration: underline;
-        }
-        
-        .nav a.active {
-            background: #333;
+
+        header {
+            background: linear-gradient(to bottom, #6699cc, #4477aa);
             color: white;
-            padding: 2px 6px;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #336699;
         }
-        
-        /* Main content */
-        .content {
+
+        header h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
+        /* Karten-Bereich */
+        #map-section {
+            padding: 20px;
+            background: #f0f8ff;
+            border-bottom: 2px solid #ccc;
+        }
+
+        #map-section h2 {
+            color: #336699;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        #map-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background: white;
+            border: 3px solid #336699;
+            overflow: hidden;
+        }
+
+        #europe-svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        #map-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Blog-Bereich */
+        #blog-section {
             padding: 20px;
         }
-        
-        /* Blog entries */
-        .entry {
-            margin-bottom: 30px;
-            border-bottom: 1px dotted #ccc;
-            padding-bottom: 20px;
+
+        #filter-bar {
+            background: #ffffcc;
+            padding: 15px;
+            border: 2px solid #ffcc00;
+            margin-bottom: 20px;
+            border-radius: 5px;
         }
-        
-        .entry:last-child {
-            border-bottom: none;
-        }
-        
-        .entry-header {
-            margin-bottom: 10px;
-        }
-        
-        .entry-date {
-            font-size: 10px;
-            color: #666;
-            background: #f0f0f0;
-            padding: 2px 6px;
-            display: inline-block;
-            border: 1px solid #ccc;
-        }
-        
-        .entry-type {
-            font-size: 10px;
-            color: white;
-            padding: 2px 6px;
-            display: inline-block;
-            margin-left: 5px;
-            border: 1px solid #666;
-        }
-        
-        .entry-type.song {
-            background: #666;
-        }
-        
-        .entry-type.album {
-            background: #333;
-        }
-        
-        .entry-title {
-            font-size: 14px;
+
+        #filter-bar label {
             font-weight: bold;
-            margin: 8px 0 5px 0;
-        }
-        
-        .entry-meta {
-            font-size: 10px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        .rating {
-            font-weight: bold;
+            margin-right: 10px;
             color: #333;
         }
-        
-        .rating-high { color: #006600; }
-        .rating-medium { color: #cc6600; }
-        .rating-low { color: #cc0000; }
-        
-        .entry-comment {
-            font-size: 11px;
-            line-height: 1.5;
+
+        #filter-bar select {
+            padding: 5px 10px;
+            border: 2px solid #999;
+            background: white;
+            font-size: 14px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .article {
+            background: #fff;
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+        }
+
+        .article h3 {
+            color: #336699;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #6699cc;
+            padding-bottom: 5px;
+        }
+
+        .article-meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .article-images {
+            margin: 15px 0;
+        }
+
+        .article-images img {
+            max-width: 100%;
+            height: auto;
+            border: 3px solid #ccc;
+            margin: 5px;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .article-text {
+            text-align: justify;
+            font-size: 1em;
+            color: #444;
+        }
+
+        .article-text p {
             margin-bottom: 10px;
         }
-        
-        /* Album songs */
-        .album-songs {
-            background: #f8f8f8;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-            display: none;
+
+        footer {
+            background: #336699;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 30px;
         }
-        
-        .album-songs.expanded {
-            display: block;
+
+        /* Retro Link-Style */
+        a {
+            color: #0066cc;
+            text-decoration: underline;
         }
-        
-        .album-songs-header {
-            background: #e8e8e8;
-            padding: 8px 12px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-            font-size: 10px;
-            font-weight: bold;
+
+        a:visited {
+            color: #663399;
         }
-        
-        .album-songs-header:hover {
-            background: #ddd;
+
+        a:hover {
+            color: #ff6600;
         }
-        
-        .songs-list {
-            padding: 10px;
-        }
-        
-        .song-item {
-            margin-bottom: 8px;
-            font-size: 10px;
-            padding-left: 15px;
-        }
-        
-        .song-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .song-rating {
-            font-weight: bold;
-            width: 35px;
-            display: inline-block;
-        }
-        
-        .song-name {
-            margin-left: 8px;
-        }
-        
-        .song-comment {
-            margin-left: 23px;
-            color: #666;
-            font-style: italic;
-            margin-top: 2px;
-        }
-        
-        /* Loading state */
-        .loading {
+
+        .no-articles {
             text-align: center;
             padding: 40px;
-            color: #666;
-        }
-        
-        /* Footer */
-        .footer {
-            background: #e0e0e0;
-            padding: 10px 20px;
-            border-top: 1px solid #ccc;
-            font-size: 10px;
-            color: #666;
-            text-align: center;
-        }
-        
-        /* Error state */
-        .error {
-            background: #ffe0e0;
-            border: 1px solid #ff9999;
-            padding: 15px;
-            margin: 20px;
-            font-size: 11px;
-            color: #990000;
+            color: #999;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>dome's musik-blog</h1>
-            <div class="subtitle">// Songs und Alben, subjektiv bewertet seit 2024</div>
-        </div>
-        
-        <div class="nav">
-            <a href="index.html" class="active">blog</a>
-            <a href="catalog.html">verzeichnis</a>
-            <a href="timeline.html">zeitstrahl</a>
-        </div>
-        
-        <div class="content" id="content">
-            <div class="loading">Lade Musik-Daten...</div>
-        </div>
-        
-        <div class="footer">
-            © 2024 dome's musik-blog | erstellt mit einfachem HTML/CSS/JS
-        </div>
+        <header>
+            <h1>🌍 Mein Retro Reiseblog</h1>
+            <p>Entdecke Europa - Eine Stadt nach der anderen</p>
+        </header>
+
+        <!-- Europakarte -->
+        <section id="map-section">
+            <h2>Meine Reisen auf der Karte</h2>
+            <div id="map-container">
+                <!-- SVG-Karte wird hier eingebunden -->
+                <img id="europe-svg" src="europe-map.svg" alt="Europakarte">
+                <canvas id="map-overlay"></canvas>
+            </div>
+        </section>
+
+        <!-- Blog-Artikel -->
+        <section id="blog-section">
+            <div id="filter-bar">
+                <label for="country-filter">Land:</label>
+                <select id="country-filter">
+                    <option value="all">Alle Länder</option>
+                </select>
+
+                <label for="year-filter">Jahr:</label>
+                <select id="year-filter">
+                    <option value="all">Alle Jahre</option>
+                </select>
+            </div>
+
+            <div id="articles-container">
+                <!-- Artikel werden hier dynamisch eingefügt -->
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 Mein Retro Reiseblog | Erstellt mit ❤️ und Nostalgie</p>
+        </footer>
     </div>
-    
+
     <script>
-        let musicData = [];
-        
-        // Load music data from JSON file
-        async function loadMusicData() {
-            try {
-                const response = await fetch('music.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        // ===== KONFIGURATION =====
+        // Beispiel-Daten (später durch externe JSON-Datei ersetzen)
+        const blogData = {
+            "articles": [
+                {
+                    "id": 1,
+                    "title": "Ein Wochenende in Paris",
+                    "country": "Frankreich",
+                    "city": "Paris",
+                    "region": "Île-de-France_FR",
+                    "year": 2023,
+                    "coordinates": { "lat": 48.8566, "lon": 2.3522 },
+                    "images": [
+                        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600",
+                        "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=600"
+                    ],
+                    "text": "Paris, die Stadt der Liebe! Mein Wochenendtrip begann am Eiffelturm. Das Wahrzeichen ist noch beeindruckender als auf Fotos. Danach schlenderte ich durch Montmartre, wo Künstler ihre Werke verkauften. Der Sonnenuntergang vom Sacré-Cœur war atemberaubend. Am nächsten Tag besuchte ich den Louvre - drei Stunden, um die Mona Lisa zu sehen! Die Champs-Élysées lud zum Shopping ein. Abends genoss ich Crêpes in einem kleinen Café. Ein unvergessliches Erlebnis! Paris ist definitiv eine Reise wert. Die Metro macht es einfach, überall hinzukommen. Ich kann es kaum erwarten, wiederzukommen und noch mehr zu entdecken."
+                },
+                {
+                    "id": 2,
+                    "title": "Berlin - Geschichte und Moderne",
+                    "country": "Deutschland",
+                    "city": "Berlin",
+                    "region": "Berlin_DE",
+                    "year": 2022,
+                    "coordinates": { "lat": 52.5200, "lon": 13.4050 },
+                    "images": [
+                        "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=600"
+                    ],
+                    "text": "Berlin hat mich total überrascht! Die Stadt verbindet Geschichte mit modernem Leben. Ich startete am Brandenburger Tor und ging entlang der ehemaligen Mauerlinie. Das DDR-Museum war super interessant. Im Mauerpark fand ein riesiger Flohmarkt statt. Die Street-Art in Kreuzberg ist weltklasse. Currywurst musste natürlich auch probiert werden! Der Fernsehturm bietet einen fantastischen Blick über die Stadt. Abends besuchte ich einen Club in Friedrichshain. Berlin schläft nie! Die öffentlichen Verkehrsmittel sind top organisiert. Eine Stadt voller Kontraste, die ich jedem empfehlen kann."
+                },
+                {
+                    "id": 3,
+                    "title": "Rom - Die ewige Stadt",
+                    "country": "Italien",
+                    "city": "Rom",
+                    "region": "Lazio_IT",
+                    "year": 2023,
+                    "coordinates": { "lat": 41.9028, "lon": 12.4964 },
+                    "images": [
+                        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=600",
+                        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=600"
+                    ],
+                    "text": "Rom ist einfach magisch! Das Kolosseum hat mich sprachlos gemacht. Man spürt die Geschichte förmlich. Der Petersdom im Vatikan ist unglaublich prunkvoll. Ich warf eine Münze in den Trevi-Brunnen - der Tradition nach komme ich zurück! Die italienische Küche ist ein Traum: Pasta, Pizza, Gelato. Ich könnte mich durchfuttern! Das Forum Romanum ließ mich in die Antike eintauchen. Die spanische Treppe war voller Menschen, aber der Ausblick lohnte sich. Abends spazierte ich durch Trastevere, ein charmantes Viertel mit engen Gassen. Rom bei Nacht hat einen besonderen Zauber. Ich habe so viel gesehen und doch nur einen Bruchteil der Stadt entdeckt. Definitiv eine Reise wert!"
+                },
+                {
+                    "id": 4,
+                    "title": "Amsterdam - Grachten und Tulpen",
+                    "country": "Niederlande",
+                    "city": "Amsterdam",
+                    "region": "Noord-Holland_NL",
+                    "year": 2022,
+                    "coordinates": { "lat": 52.3676, "lon": 4.9041 },
+                    "images": [
+                        "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=600"
+                    ],
+                    "text": "Amsterdam ist perfekt für einen Städtetrip! Die Grachten sind wunderschön, besonders bei einer Bootstour. Ich mietete ein Fahrrad - wie die Einheimischen! Das Anne-Frank-Haus war sehr bewegend. Der Vondelpark lud zum Entspannen ein. Im Jordaan-Viertel entdeckte ich süße Cafés. Das Rijksmuseum beherbergt beeindruckende Kunstwerke. Natürlich besuchte ich auch einen Coffee-Shop, das gehört einfach dazu. Die Architektur der schmalen Häuser ist einzigartig. Am Abend bummelte ich über den Blumenmarkt. Amsterdam hat eine entspannte, weltoffene Atmosphäre."
+                },
+                {
+                    "id": 5,
+                    "title": "Prag - Die goldene Stadt",
+                    "country": "Tschechien",
+                    "city": "Prag",
+                    "region": "Prague_CZ",
+                    "year": 2021,
+                    "coordinates": { "lat": 50.0755, "lon": 14.4378 },
+                    "images": [
+                        "https://images.unsplash.com/photo-1541849546-216549ae216d?w=600"
+                    ],
+                    "text": "Prag ist märchenhaft! Die Karlsbrücke am frühen Morgen, fast menschenleer - ein magischer Moment. Die Prager Burg thront majestätisch über der Stadt. Die astronomische Uhr am Altstädter Ring ist ein Meisterwerk. Ich probierte Trdelník, ein süßes Gebäck, einfach lecker! Das jüdische Viertel erzählt bewegende Geschichten. Die Moldau glitzerte im Sonnenlicht. Das tschechische Bier ist weltklasse - und so günstig! Abends genoss ich den Blick vom Petřín-Turm. Prag vereint Geschichte und Moderne auf charmante Weise. Die Stadt hat mich verzaubert, ich komme bestimmt wieder! Das Nachtleben ist auch sehr lebendig. Ein absolutes Muss für jeden Europa-Reisenden."
                 }
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error loading music.json:', error);
-                document.getElementById('content').innerHTML = `
-                    <div class="error">
-                        <strong>Fehler beim Laden der Musik-Daten</strong><br>
-                        Datei 'music.json' konnte nicht geladen werden.<br>
-                        Details: ${error.message}
-                    </div>
-                `;
-                return [];
-            }
-        }
-        
-        // Get rating CSS class based on score
-        function getRatingClass(rating) {
-            if (rating >= 8) return 'rating-high';
-            if (rating >= 5) return 'rating-medium';
-            return 'rating-low';
-        }
-        
-        // Format date for display
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('de-DE');
-        }
-        
-        // Toggle album songs visibility
-        function toggleAlbumSongs(entryId) {
-            const songsDiv = document.getElementById(`songs-${entryId}`);
-            songsDiv.classList.toggle('expanded');
-        }
-        
-        // Render individual song entry
-        function renderSongEntry(song, index) {
-            return `
-                <div class="entry">
-                    <div class="entry-header">
-                        <span class="entry-date">${formatDate(song.date_added)}</span>
-                        <span class="entry-type song">SONG</span>
-                    </div>
-                    <div class="entry-title">${song.title}</div>
-                    <div class="entry-meta">
-                        von <strong>${song.artist}</strong> • 
-                        Jahr: ${song.year} • 
-                        Bewertung: <span class="rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
-                    </div>
-                    <div class="entry-comment">${song.comment}</div>
-                </div>
-            `;
-        }
-        
-        // Render individual album entry
-        function renderAlbumEntry(album, index) {
-            let songsHtml = '';
-            if (album.songs && album.songs.length > 0) {
-                album.songs.forEach(song => {
-                    songsHtml += `
-                        <div class="song-item">
-                            <span class="song-rating ${getRatingClass(song.rating)}">${song.rating}/10</span>
-                            <span class="song-name">${song.title}</span>
-                            ${song.comment ? `<div class="song-comment">${song.comment}</div>` : ''}
-                        </div>
-                    `;
-                });
-            }
+            ]
+        };
+
+        // ===== DATEN LADEN (später von externer JSON-Datei) =====
+        async function loadData() {
+            // In der finalen Version würde hier fetch() verwendet:
+            // const response = await fetch('blog-data.json');
+            // return await response.json();
             
-            return `
-                <div class="entry">
-                    <div class="entry-header">
-                        <span class="entry-date">${formatDate(album.date_added)}</span>
-                        <span class="entry-type album">ALBUM</span>
-                    </div>
-                    <div class="entry-title">${album.title}</div>
-                    <div class="entry-meta">
-                        von <strong>${album.artist}</strong> • 
-                        Jahr: ${album.year} • 
-                        Bewertung: <span class="rating ${getRatingClass(album.rating)}">${album.rating}/10</span>
-                        ${album.songs ? ` • ${album.songs.length} Songs` : ''}
-                    </div>
-                    <div class="entry-comment">${album.comment}</div>
-                    ${album.songs && album.songs.length > 0 ? `
-                        <div class="album-songs" id="songs-${index}">
-                            <div class="album-songs-header" onclick="toggleAlbumSongs(${index})">
-                                ▼ ${album.songs.length} Songs anzeigen/verstecken
-                            </div>
-                            <div class="songs-list">
-                                ${songsHtml}
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
+            // Für Demo verwenden wir die eingebetteten Daten
+            return blogData;
         }
-        
-        // Render all blog entries
-        function renderBlog() {
-            const contentDiv = document.getElementById('content');
+
+        // ===== KARTEN-FUNKTIONEN =====
+        function initMap() {
+            const canvas = document.getElementById('map-overlay');
+            const container = document.getElementById('map-container');
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
             
-            if (musicData.length === 0) {
-                contentDiv.innerHTML = '<div class="loading">Keine Musik-Daten gefunden.</div>';
+            return canvas.getContext('2d');
+        }
+
+        function drawArticleMarkers(articles, ctx) {
+            // Europa-Koordinaten für die Projektion (vereinfachte Mercator-ähnliche Projektion)
+            const minLat = 35, maxLat = 71;
+            const minLon = -10, maxLon = 40;
+            
+            const canvas = ctx.canvas;
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Koordinaten in Pixel umrechnen
+            function projectToCanvas(lat, lon) {
+                const x = ((lon - minLon) / (maxLon - minLon)) * width;
+                const y = height - ((lat - minLat) / (maxLat - minLat)) * height;
+                return { x, y };
+            }
+
+            // Farben für verschiedene Länder
+            const colors = [
+                'rgba(255, 100, 100, 0.4)',
+                'rgba(100, 150, 255, 0.4)',
+                'rgba(100, 255, 150, 0.4)',
+                'rgba(255, 200, 100, 0.4)',
+                'rgba(200, 100, 255, 0.4)',
+                'rgba(255, 150, 200, 0.4)'
+            ];
+
+            articles.forEach((article, index) => {
+                if (!article.coordinates) return;
+
+                const pos = projectToCanvas(article.coordinates.lat, article.coordinates.lon);
+                
+                // Radius basierend auf Textlänge (ca. 50km pro 500 Wörter)
+                const wordCount = article.text.split(' ').length;
+                const baseRadius = Math.sqrt(wordCount) * 2; // Skalierung für Canvas
+                
+                // Organische Form durch zufällige Polygone
+                ctx.fillStyle = colors[index % colors.length];
+                ctx.strokeStyle = colors[index % colors.length].replace('0.4', '0.8');
+                ctx.lineWidth = 2;
+
+                ctx.beginPath();
+                const points = 8; // Anzahl der Punkte für organische Form
+                for (let i = 0; i < points; i++) {
+                    const angle = (i / points) * Math.PI * 2;
+                    // Zufällige Variation für organische Form
+                    const radiusVariation = baseRadius * (0.7 + Math.random() * 0.6);
+                    const x = pos.x + Math.cos(angle) * radiusVariation;
+                    const y = pos.y + Math.sin(angle) * radiusVariation;
+                    
+                    if (i === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Punkt in der Mitte
+                ctx.fillStyle = colors[index % colors.length].replace('0.4', '1');
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        // ===== BLOG-FUNKTIONEN =====
+        function populateFilters(articles) {
+            const countryFilter = document.getElementById('country-filter');
+            const yearFilter = document.getElementById('year-filter');
+
+            // Länder extrahieren
+            const countries = [...new Set(articles.map(a => a.country))].sort();
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+
+            // Jahre extrahieren
+            const years = [...new Set(articles.map(a => a.year))].sort((a, b) => b - a);
+            years.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearFilter.appendChild(option);
+            });
+        }
+
+        function renderArticles(articles) {
+            const container = document.getElementById('articles-container');
+            container.innerHTML = '';
+
+            if (articles.length === 0) {
+                container.innerHTML = '<div class="no-articles">Keine Artikel gefunden. 😕</div>';
                 return;
             }
-            
-            let html = '';
-            
-            // Sort by date_added (newest first)
-            const sortedData = [...musicData].sort((a, b) => {
-                return new Date(b.date_added) - new Date(a.date_added);
-            });
-            
-            sortedData.forEach((entry, index) => {
-                if (entry.type === 'song') {
-                    html += renderSongEntry(entry, index);
-                } else if (entry.type === 'album') {
-                    html += renderAlbumEntry(entry, index);
+
+            articles.forEach(article => {
+                const articleEl = document.createElement('div');
+                articleEl.className = 'article';
+
+                let imagesHtml = '';
+                if (article.images && article.images.length > 0) {
+                    imagesHtml = '<div class="article-images">';
+                    article.images.forEach(img => {
+                        imagesHtml += `<img src="${img}" alt="${article.title}">`;
+                    });
+                    imagesHtml += '</div>';
                 }
+
+                articleEl.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <div class="article-meta">
+                        📍 ${article.city}, ${article.country} | 📅 ${article.year}
+                    </div>
+                    ${imagesHtml}
+                    <div class="article-text">
+                        <p>${article.text}</p>
+                    </div>
+                `;
+
+                container.appendChild(articleEl);
             });
-            
-            contentDiv.innerHTML = html;
         }
-        
-        // Initialize the blog
-        async function initBlog() {
-            musicData = await loadMusicData();
-            renderBlog();
+
+        function filterArticles(articles) {
+            const countryFilter = document.getElementById('country-filter').value;
+            const yearFilter = document.getElementById('year-filter').value;
+
+            return articles.filter(article => {
+                const matchCountry = countryFilter === 'all' || article.country === countryFilter;
+                const matchYear = yearFilter === 'all' || article.year.toString() === yearFilter;
+                return matchCountry && matchYear;
+            });
         }
-        
-        // Start the application when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initBlog);
+
+        // ===== INITIALISIERUNG =====
+        async function init() {
+            const data = await loadData();
+            const articles = data.articles;
+
+            // Karte initialisieren
+            const ctx = initMap();
+            drawArticleMarkers(articles, ctx);
+
+            // Filter befüllen
+            populateFilters(articles);
+
+            // Artikel rendern
+            renderArticles(articles);
+
+            // Event Listener für Filter
+            document.getElementById('country-filter').addEventListener('change', () => {
+                const filtered = filterArticles(articles);
+                renderArticles(filtered);
+                
+                // Karte neu zeichnen
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                drawArticleMarkers(filtered, ctx);
+            });
+
+            document.getElementById('year-filter').addEventListener('change', () => {
+                const filtered = filterArticles(articles);
+                renderArticles(filtered);
+                
+                // Karte neu zeichnen
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                drawArticleMarkers(filtered, ctx);
+            });
+
+            // Responsive Karten-Größe
+            window.addEventListener('resize', () => {
+                const canvas = ctx.canvas;
+                const container = document.getElementById('map-container');
+                canvas.width = container.offsetWidth;
+                canvas.height = container.offsetHeight;
+                
+                const filtered = filterArticles(articles);
+                drawArticleMarkers(filtered, ctx);
+            });
+        }
+
+        // Seite laden
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
