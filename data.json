@@ -1,0 +1,151 @@
+{
+  "articles": [
+    {
+      "id": 1,
+      "title": "Barcelona - Gaudí und Tapas",
+      "city": "Barcelona",
+      "country": "Spanien",
+      "coordinates": {
+        "x": 350,
+        "y": 620
+      },
+      "date": "2024-05-15",
+      "year": 2024,
+      "images": [
+        "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400",
+        "https://images.unsplash.com/photo-1562883676-8c7feb83f09b?w=400"
+      ],
+      "content": "Barcelona ist einfach magisch! Die Sagrada Familia hat mich total umgehauen - diese organischen Formen und das Lichtspiel durch die bunten Fenster. Danach sind wir zum Park Güell spaziert und haben den Sonnenuntergang über der Stadt genossen. Die bunten Mosaike von Gaudí sind noch beeindruckender in echt! Am Abend gab es leckere Tapas in einer kleinen Bar in El Raval. Patatas Bravas, Gambas al Ajillo und natürlich Pan con Tomate. Die Atmosphäre war unglaublich - überall Musik und lachende Menschen! Am nächsten Tag haben wir am Strand von Barceloneta gechillt und sind dann durch das Gotische Viertel geschlendert. Überall gab es kleine versteckte Plazas mit süßen Cafés. Das Essen war fantastisch, besonders die Paella am Strand! Die Ramblas waren zwar sehr touristisch, aber trotzdem sehenswert. Abends haben wir den Magic Fountain gesehen - eine kostenlose Wasser- und Lichtshow, die wirklich spektakulär war. Ich kann Barcelona jedem empfehlen, der Kunst, Kultur, gutes Essen und Strand kombinieren möchte!",
+      "wordCount": 165
+    },
+    {
+      "id": 2,
+      "title": "48 Stunden in Paris",
+      "city": "Paris",
+      "country": "Frankreich",
+      "coordinates": {
+        "x": 350,
+        "y": 450
+      },
+      "date": "2023-09-20",
+      "year": 2023,
+      "images": [
+        "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400"
+      ],
+      "content": "Paris im Herbst ist ein Traum! Wir haben den Eiffelturm bei Sonnenuntergang besucht - absolut atemberaubend. Die goldene Stunde über der Seine war perfekt für Fotos. Die Croissants zum Frühstück waren himmlisch, so buttrig und fluffig. Am zweiten Tag: Louvre, Notre-Dame und ein Spaziergang durch Montmartre. Die Künstler am Place du Tertre haben tolle Porträts gemacht.",
+      "wordCount": 70
+    },
+    {
+      "id": 3,
+      "title": "Rom - Die ewige Stadt",
+      "city": "Rom",
+      "country": "Italien",
+      "coordinates": {
+        "x": 520,
+        "y": 620
+      },
+      "date": "2023-04-10",
+      "year": 2023,
+      "images": [
+        "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400",
+        "https://images.unsplash.com/photo-1531572753322-ad063cecc140?w=400"
+      ],
+      "content": "Rom ist Geschichte zum Anfassen! Das Kolosseum war noch beeindruckender als ich dachte - man kann sich richtig vorstellen, wie hier vor 2000 Jahren Gladiatoren gekämpft haben. Wir haben stundenlang durch die antiken Ruinen des Forum Romanum gewandert. Der Trevi-Brunnen war völlig überfüllt, aber trotzdem wunderschön. Die barocke Architektur ist einfach atemberaubend! Natürlich haben wir eine Münze reingeworfen - wir kommen bestimmt wieder! Die Pasta Carbonara in Trastevere war die beste, die ich je gegessen habe. Authentisch und cremig, ohne Sahne - nur Ei, Pecorino und Guanciale! Der Vatikan mit der Sixtinischen Kapelle war überwältigend. Die Kunstwerke sind einfach unbeschreiblich schön, besonders Michelangelos Deckenfresko. Tipp: Tickets online kaufen, sonst steht man ewig an!",
+      "wordCount": 145
+    },
+    {
+      "id": 4,
+      "title": "Amsterdam mit dem Fahrrad",
+      "city": "Amsterdam",
+      "country": "Niederlande",
+      "coordinates": {
+        "x": 380,
+        "y": 340
+      },
+      "date": "2024-08-03",
+      "year": 2024,
+      "images": [
+        "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=400"
+      ],
+      "content": "Amsterdam ist perfekt zum Radfahren! Wir sind den ganzen Tag durch die Stadt geradelt, vorbei an malerischen Grachten und bunten Häusern mit den typischen schmalen Fassaden. Das Anne-Frank-Haus war sehr bewegend und hat einen tiefen Eindruck hinterlassen. Man sollte unbedingt vorher online buchen! Abends haben wir in einem gemütlichen Café am Kanal gesessen und frische Stroopwafels gegessen. Die niederländische Gemütlichkeit ist wirklich einzigartig. Das Van Gogh Museum war auch fantastisch - so viele Originale auf einem Fleck!",
+      "wordCount": 95
+    },
+    {
+      "id": 5,
+      "title": "Lissabon - Pastéis und Trams",
+      "city": "Lissabon",
+      "country": "Portugal",
+      "coordinates": {
+        "x": 200,
+        "y": 630
+      },
+      "date": "2024-03-12",
+      "year": 2024,
+      "images": [
+        "https://images.unsplash.com/photo-1585208798174-6cedd86e019a?w=400",
+        "https://images.unsplash.com/photo-1588640071200-275d6160dc65?w=400"
+      ],
+      "content": "Lissabon hat mich sofort verzaubert! Die gelben Straßenbahnen, die steilen Hügel und die bunten Azulejo-Kacheln überall. Wir sind mit der historischen Tram 28 durch die engen Gassen der Alfama gefahren - ein echtes Erlebnis, auch wenn es ziemlich voll war! In Belém haben wir die berühmten Pastéis de Nata probiert, direkt aus der Manufactura de Belém. Noch warm und mit Zimt bestreut - göttlich! Das Rezept ist dort seit 1837 geheim. Der Ausblick vom Castelo de São Jorge über die ganze Stadt und den Tejo war spektakulär, besonders bei Sonnenuntergang. Abends haben wir in der Alfama Fado-Musik gehört, so melancholisch und schön. Die Saudade, die portugiesische Sehnsucht, kann man richtig spüren. Das Nachtleben im Bairro Alto war lebendig und bunt - viele kleine Bars in alten Häusern.",
+      "wordCount": 150
+    },
+    {
+      "id": 6,
+      "title": "Prag - Die goldene Stadt",
+      "city": "Prag",
+      "country": "Tschechien",
+      "coordinates": {
+        "x": 540,
+        "y": 410
+      },
+      "date": "2023-11-05",
+      "year": 2023,
+      "images": [
+        "https://images.unsplash.com/photo-1541849546-216549ae216d?w=400"
+      ],
+      "content": "Prag im Herbst ist märchenhaft! Die Karlsbrücke bei Nebel hatte etwas Mystisches. Wir haben die Prager Burg besichtigt - die größte geschlossene Burganlage der Welt! Der Veitsdom ist von innen noch beeindruckender. Die astronomische Uhr am Altstädter Ring ist ein Meisterwerk. Jeden Tag um 9 Uhr morgens ist am wenigsten los! Das tschechische Bier ist legendär - wir haben verschiedene kleine Brauereien ausprobiert. Und das Essen: Svíčková, Gulasch, Trdelník... alles super lecker und günstig!",
+      "wordCount": 95
+    },
+    {
+      "id": 7,
+      "title": "London calling!",
+      "city": "London",
+      "country": "Vereinigtes Königreich",
+      "coordinates": {
+        "x": 280,
+        "y": 380
+      },
+      "date": "2024-06-20",
+      "year": 2024,
+      "images": [
+        "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400",
+        "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=400"
+      ],
+      "content": "London ist einfach gigantisch! Wir haben beim Big Ben gestartet und sind dann zur Westminster Abbey spaziert. Die Krönungskirche ist absolut beeindruckend - so viel Geschichte! Mit der Underground kommt man überall super hin, auch wenn es in der Rush Hour richtig voll wird. Die Tower Bridge bei Sonnenuntergang war ein Traum. Im Tower of London haben wir die Kronjuwelen gesehen - so viel Bling! Camden Market war perfekt zum Stöbern und Streetfood essen. Fish and Chips mussten natürlich auch sein - am besten direkt am Ufer der Themse! Die kostenlosen Museen (British Museum, National Gallery) sind weltklasse. Ich könnte dort Tage verbringen! Afternoon Tea im Covent Garden war zwar touristisch, aber charmant.",
+      "wordCount": 130
+    },
+    {
+      "id": 8,
+      "title": "Berlin - Hauptstadt mit Geschichte",
+      "city": "Berlin",
+      "country": "Deutschland",
+      "coordinates": {
+        "x": 520,
+        "y": 350
+      },
+      "date": "2023-07-15",
+      "year": 2023,
+      "images": [
+        "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=400"
+      ],
+      "content": "Berlin ist riesig und unfassbar vielfältig! Das Brandenburger Tor, der Reichstag mit der Glaskuppel (Anmeldung nicht vergessen!), die East Side Gallery mit den bunten Mauerreststücken. Die Geschichte ist überall spürbar. Wir haben eine Fahrradtour gemacht - beste Art, die Stadt zu erkunden! Das Currywurst-Museum war lustig, und natürlich haben wir auch echte Currywurst probiert. Die Clubszene ist legendär, aber wir waren zu müde. Kreuzberg und Friedrichshain sind super zum Ausgehen und Essen. So international!",
+      "wordCount": 90
+    }
+  ],
+  "settings": {
+    "blogTitle": "Mein Retro-Reiseblog",
+    "tagline": "Reisen wie in den 2000ern",
+    "minBlobSize": 20,
+    "maxBlobSize": 100,
+    "wordsPerPixel": 5
+  }
+}
