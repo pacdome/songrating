@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Meine Retro-Reiseblog über Europa - Backpacking seit 2020">
+    <meta name="author" content="MaxMustermann">
+    <title>🌍 Retro Europa Adventures</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin=""/>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌍</text></svg>">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <h1 id="blog-title">🌍 Retro Europa Adventures</h1>
+        <p id="blog-tagline">Backpacking durch Europa seit 2020 ✈️</p>
+    </header>
+    
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Statistics Box -->
+        <div class="stats-box">
+            <h2 style="margin: 0 0 15px 0; color: #333;">📊 Meine Reise-Stats</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="total-articles">0</div>
+                    <div class="stat-label">Artikel</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-cities">0</div>
+                    <div class="stat-label">Städte</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-countries">0</div>
+                    <div class="stat-label">Länder</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-words">0</div>
+                    <div class="stat-label">Wörter</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Map Section -->
+        <section class="map-section">
+            <h2>🗺️ Meine Reise-Karte</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 15px;">
+                Je größer die Fläche, desto mehr habe ich geschrieben!
+            </p>
+            <div id="map" class="map-container"></div>
+            <div id="map-legend" class="map-legend"></div>
+        </section>
+        
+        <!-- Blog Section -->
+        <section class="blog-section">
+            <h2>✍️ Meine Reisegeschichten</h2>
+            
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="country-filter">🌍 Land</label>
+                    <select id="country-filter">
+                        <option value="">Alle Länder</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="year-filter">📅 Jahr</label>
+                    <select id="year-filter">
+                        <option value="">Alle Jahre</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="search-input">🔍 Suche</label>
+                    <input type="text" id="search-input" placeholder="Stadt, Land, Text...">
+                </div>
+                
+                <button id="reset-btn" class="reset-btn">↻ Reset</button>
+            </div>
+            
+            <!-- Article Count -->
+            <div id="article-count" class="article-count">
+                Lade Artikel...
+            </div>
+            
+            <!-- Articles Container -->
+            <div id="articles" class="articles-container">
+                <!-- Articles will be loaded here by JavaScript -->
+            </div>
+        </section>
+        
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <p>
+            <strong>🌍 Retro Europa Adventures</strong>
+        </p>
+        <p>
+            Made with ❤️ and lots of ☕
+        </p>
+        <div class="visitor-counter">
+            👁️ Besucher: <span id="visitor-counter">0</span>
+        </div>
+        <p style="font-size: 0.9em; margin-top: 20px; color: #999;">
+            Best viewed in Internet Explorer 6.0 📟<br>
+            <span style="font-size: 0.8em;">(Just kidding... oder doch nicht? 😄)</span>
+        </p>
+    </footer>
+    
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+        <img id="lightbox-img" src="" alt="Lightbox">
+    </div>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="js/map.js"></script>
+    <script src="js/blog.js"></script>
+    
+</body>
+</html>
