@@ -24,7 +24,7 @@ async function loadBlogData() {
   } catch (error) {
     console.error('Error loading blog data:', error);
     document.getElementById('articles').innerHTML = 
-      '<div class="no-results">Fehler beim Laden der Daten 😢</div>';
+      '<div class="no-results">Fehler beim Laden der Daten </div>';
   }
 }
 
