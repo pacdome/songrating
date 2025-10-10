@@ -1,10 +1,22 @@
 // ====================================
-// 🗺️ MAP.JS - Leaflet Map with Organic Blobs
+// 🗺️ MAP.JS - Leaflet Map with Organic Blobs (Country-Clipped!)
 // ====================================
 
 let map;
 let cityMarkers = {};
 let articlesData = [];
+let europeBoundaries = null; // GeoJSON mit Ländergrenzen
+
+// Load Europe GeoJSON boundaries
+async function loadEuropeBoundaries() {
+  try {
+    const response = await fetch('data/europe.geojson');
+    europeBoundaries = await response.json();
+    console.log('✅ Europe boundaries loaded:', europeBoundaries.features.length, 'countries');
+  } catch (error) {
+    console.warn('⚠️ Could not load europe.geojson, blobs will not be clipped');
+  }
+}
 
 // Initialize the map
 function initMap() {
@@ -26,6 +38,18 @@ function initMap() {
 
   // Style map controls
   map.zoomControl.setPosition('topright');
+}
+
+// Find country polygon for a given country name
+function getCountryPolygon(countryName) {
+  if (!europeBoundaries) return null;
+  
+  const feature = europeBoundaries.features.find(f => 
+    f.properties.name === countryName || 
+    f.properties.name_en === countryName
+  );
+  
+  return feature ? feature.geometry : null;
 }
 
 // Generate organic blob coordinates around a center point
@@ -62,6 +86,59 @@ function generateBlobCoordinates(center, wordCount, colorScheme) {
   return coordinates;
 }
 
+// Clip blob to country boundaries using Turf.js
+function clipBlobToCountry(blobCoords, countryName) {
+  // Wenn Turf.js nicht verfügbar ist, gib Original-Blob zurück
+  if (typeof turf === 'undefined') {
+    console.warn('⚠️ Turf.js not loaded, blobs will not be clipped');
+    return blobCoords;
+  }
+  
+  const countryPolygon = getCountryPolygon(countryName);
+  if (!countryPolygon) {
+    console.warn(`⚠️ Country polygon not found for: ${countryName}`);
+    return blobCoords;
+  }
+  
+  try {
+    // Konvertiere Leaflet-Koordinaten zu GeoJSON-Format
+    // Leaflet: [lat, lon] → GeoJSON: [lon, lat]
+    const blobGeoJSON = {
+      type: 'Polygon',
+      coordinates: [blobCoords.map(coord => [coord[1], coord[0]])]
+    };
+    
+    // Erstelle Land-Polygon für Turf
+    const countryGeoJSON = {
+      type: 'Feature',
+      geometry: countryPolygon
+    };
+    
+    const blobFeature = {
+      type: 'Feature',
+      geometry: blobGeoJSON
+    };
+    
+    // Berechne Intersection (Überschneidung)
+    const intersection = turf.intersect(
+      turf.featureCollection([blobFeature, countryGeoJSON])
+    );
+    
+    if (intersection && intersection.geometry) {
+      // Konvertiere zurück zu Leaflet-Format [lat, lon]
+      const clippedCoords = intersection.geometry.coordinates[0].map(
+        coord => [coord[1], coord[0]]
+      );
+      return clippedCoords;
+    }
+  } catch (error) {
+    console.warn('⚠️ Error clipping blob:', error);
+  }
+  
+  // Fallback: Original-Blob
+  return blobCoords;
+}
+
 // Add city markers to the map
 function addCityMarkers(articles, colorScheme) {
   // Clear existing markers
@@ -90,11 +167,14 @@ function addCityMarkers(articles, colorScheme) {
     const color = colorScheme[cityData.country] || '#95e1d3';
     
     // Generate organic blob
-    const blobCoords = generateBlobCoordinates(
+    let blobCoords = generateBlobCoordinates(
       cityData.coordinates,
       cityData.totalWords,
       colorScheme
     );
+    
+    // Clip blob to country boundaries
+    blobCoords = clipBlobToCountry(blobCoords, cityData.country);
     
     // Create blob polygon
     const blob = L.polygon(blobCoords, {
@@ -183,8 +263,13 @@ function createLegend(colorScheme) {
 }
 
 // Initialize map when data is loaded
-function initializeMap(articles, colorScheme) {
+async function initializeMap(articles, colorScheme) {
   articlesData = articles;
+  
+  // Lade zuerst die Ländergrenzen
+  await loadEuropeBoundaries();
+  
+  // Dann initialisiere die Karte
   initMap();
   addCityMarkers(articles, colorScheme);
   createLegend(colorScheme);
