@@ -56,7 +56,8 @@
         <section class="map-section">
             <h2>🗺️ Meine Reise-Karte</h2>
             <p style="text-align: center; color: #666; margin-bottom: 15px;">
-                Je größer die Fläche, desto mehr habe ich geschrieben!
+                Je größer die Fläche, desto mehr habe ich geschrieben!<br>
+                <small style="font-size: 0.9em;">Die Flächen passen sich automatisch an die Ländergrenzen an 🎨</small>
             </p>
             <div id="map" class="map-container"></div>
             <div id="map-legend" class="map-legend"></div>
@@ -124,6 +125,9 @@
     <div id="lightbox" class="lightbox">
         <img id="lightbox-img" src="" alt="Lightbox">
     </div>
+    
+    <!-- Turf.js for geographic calculations -->
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
     
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
