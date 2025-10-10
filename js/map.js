@@ -12,7 +12,7 @@ async function loadEuropeBoundaries() {
   try {
     const response = await fetch('data/europe.geojson');
     europeBoundaries = await response.json();
-    console.log('✅ Europe boundaries loaded:', europeBoundaries.features.length, 'countries');
+    console.log('✅ Europee boundaries loaded:', europeBoundaries.features.length, 'countries');
   } catch (error) {
     console.warn('⚠️ Could not load europe.geojson, blobs will not be clipped');
   }
