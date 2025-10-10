@@ -32,20 +32,21 @@ function initMap() {
 function generateBlobCoordinates(center, wordCount, colorScheme) {
   const [lat, lon] = center;
   
-  // Calculate radius based on word count (scaled appropriately for map)
-  const baseRadius = Math.sqrt(wordCount) * 0.008;
-  const radius = Math.max(baseRadius, 0.15); // Minimum size
+  // Calculate radius based on word count (VIEL GRÖSSER für bessere Sichtbarkeit!)
+  // Formel: Je mehr Wörter, desto größer die Fläche
+  const baseRadius = Math.sqrt(wordCount) * 0.03; // 4x größer als vorher!
+  const radius = Math.max(baseRadius, 0.5); // Minimum size auch größer (0.5 statt 0.15)
   
-  // Number of points for the blob
-  const numPoints = 8;
+  // Number of points for the blob (mehr Punkte = organischer)
+  const numPoints = 10; // von 8 auf 10 erhöht
   const coordinates = [];
   
   // Generate organic blob shape with random variation
   for (let i = 0; i < numPoints; i++) {
     const angle = (Math.PI * 2 / numPoints) * i;
     
-    // Add randomness for organic look (between 0.6 and 1.4 of base radius)
-    const randomFactor = 0.6 + Math.random() * 0.8;
+    // Add randomness for organic look (zwischen 0.5 und 1.5 für mehr Variation)
+    const randomFactor = 0.5 + Math.random() * 1.0;
     const distance = radius * randomFactor;
     
     // Calculate point coordinates
@@ -99,9 +100,9 @@ function addCityMarkers(articles, colorScheme) {
     const blob = L.polygon(blobCoords, {
       color: color,
       fillColor: color,
-      fillOpacity: 0.6,
-      weight: 2,
-      opacity: 0.8
+      fillOpacity: 0.7,  // Erhöht von 0.6 auf 0.7 für bessere Sichtbarkeit
+      weight: 3,         // Erhöht von 2 auf 3 für sichtbarere Ränder
+      opacity: 1.0       // Erhöht von 0.8 auf 1.0
     }).addTo(map);
     
     // Create popup content
@@ -119,15 +120,15 @@ function addCityMarkers(articles, colorScheme) {
     // Add hover effect
     blob.on('mouseover', function(e) {
       this.setStyle({
-        fillOpacity: 0.8,
-        weight: 3
+        fillOpacity: 0.9,  // Noch intensiver beim Hover
+        weight: 4
       });
     });
     
     blob.on('mouseout', function(e) {
       this.setStyle({
-        fillOpacity: 0.6,
-        weight: 2
+        fillOpacity: 0.7,
+        weight: 3
       });
     });
     
@@ -144,12 +145,12 @@ function addCityMarkers(articles, colorScheme) {
       }
     });
     
-    // Add city marker (small circle in center)
+    // Add city marker (größerer Kreis in der Mitte der Stadt)
     const marker = L.circleMarker(cityData.coordinates, {
-      radius: 4,
-      fillColor: '#333',
-      color: '#fff',
-      weight: 2,
+      radius: 6,          // Größer (war 4)
+      fillColor: '#fff',  // Weiß statt schwarz für besseren Kontrast
+      color: '#333',
+      weight: 3,          // Dickerer Rand
       opacity: 1,
       fillOpacity: 1
     }).addTo(map);
