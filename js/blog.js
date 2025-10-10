@@ -1,12 +1,11 @@
-// ====================================
-// 📝 BLOG.JS - Article Rendering & Filtering
-// ====================================
+// ==========================================
+// BLOG.JS - Retro Style Article Rendering
+// ==========================================
 
 let allArticles = [];
 let filteredArticles = [];
 let blogData = null;
 
-// Load blog data from JSON
 async function loadBlogData() {
   try {
     const response = await fetch('data/articles.json');
@@ -15,44 +14,30 @@ async function loadBlogData() {
     allArticles = blogData.articles;
     filteredArticles = [...allArticles];
     
-    // Initialize the page
     initializeBlog();
-    
-    // Initialize map (async with boundaries loading)
     await initializeMap(allArticles, blogData.mapSettings.colorScheme);
     
   } catch (error) {
     console.error('Error loading blog data:', error);
     document.getElementById('articles').innerHTML = 
-      '<div class="no-results">Fehler beim Laden der Daten 😢</div>';
+      '<div class="no-results">FEHLER BEIM LADEN DER DATEN</div>';
   }
 }
 
-// Initialize blog elements
 function initializeBlog() {
-  // Set header info
-  document.getElementById('blog-title').textContent = blogData.metadata.blogTitle;
-  document.getElementById('blog-tagline').textContent = blogData.metadata.tagline;
+  document.getElementById('blog-title').textContent = blogData.metadata.blogTitle || 'EUROPA.EXE';
+  document.getElementById('blog-tagline').textContent = '> ' + (blogData.metadata.tagline || 'Reiseblog_v1.0');
   
-  // Populate filter dropdowns
   populateFilters();
-  
-  // Render articles
   renderArticles(filteredArticles);
-  
-  // Update stats
   updateStats();
-  
-  // Setup event listeners
   setupEventListeners();
 }
 
-// Populate filter dropdowns
 function populateFilters() {
   const countryFilter = document.getElementById('country-filter');
   const yearFilter = document.getElementById('year-filter');
   
-  // Get unique countries
   const countries = [...new Set(allArticles.map(a => a.country))].sort();
   countries.forEach(country => {
     const option = document.createElement('option');
@@ -61,7 +46,6 @@ function populateFilters() {
     countryFilter.appendChild(option);
   });
   
-  // Get unique years
   const years = [...new Set(allArticles.map(a => a.year))].sort((a, b) => b - a);
   years.forEach(year => {
     const option = document.createElement('option');
@@ -71,15 +55,14 @@ function populateFilters() {
   });
 }
 
-// Render articles
 function renderArticles(articles) {
   const container = document.getElementById('articles');
   
   if (articles.length === 0) {
     container.innerHTML = `
       <div class="no-results">
-        Keine Artikel gefunden!<br>
-        <small>Versuche andere Filter-Einstellungen</small>
+        KEINE ARTIKEL GEFUNDEN!<br>
+        <small style="font-size: 14px;">Andere Filter probieren...</small>
       </div>
     `;
     return;
@@ -92,18 +75,15 @@ function renderArticles(articles) {
     container.appendChild(articleCard);
   });
   
-  // Update article count
   document.getElementById('article-count').textContent = 
-    `${articles.length} ${articles.length === 1 ? 'Artikel' : 'Artikel'} gefunden`;
+    `[ ${articles.length} Artikel gefunden ]`;
 }
 
-// Create article card element
 function createArticleCard(article) {
   const card = document.createElement('div');
   card.className = 'article-card';
   card.id = `article-${article.id}`;
   
-  // Format date
   const date = new Date(article.date);
   const formattedDate = date.toLocaleDateString('de-DE', {
     day: '2-digit',
@@ -111,19 +91,17 @@ function createArticleCard(article) {
     year: 'numeric'
   });
   
-  // Create images HTML
   let imagesHTML = '';
   if (article.images && article.images.length > 0) {
     imagesHTML = `
       <div class="article-images">
         ${article.images.map(img => `
-          <img src="${img}" alt="${article.title}" onclick="openLightbox('${img}')">
+          <img src="${img}" alt="${article.title}" onclick="openLightbox('${img}')" loading="lazy">
         `).join('')}
       </div>
     `;
   }
   
-  // Create tags HTML
   let tagsHTML = '';
   if (article.tags && article.tags.length > 0) {
     tagsHTML = `
@@ -141,24 +119,19 @@ function createArticleCard(article) {
     
     <div class="article-meta">
       <div class="meta-item">
-        <span>📍</span>
-        <span><strong>${article.city}</strong>, ${article.country}</span>
+        <strong>${article.city}</strong>, ${article.country}
       </div>
       <div class="meta-item">
-        <span>📅</span>
-        <span>${formattedDate}</span>
+        ${formattedDate}
       </div>
       <div class="meta-item">
-        <span>⏱️</span>
-        <span>${article.readingTime} Min. Lesezeit</span>
+        ${article.readingTime} Min. Lesezeit
       </div>
     </div>
     
     ${imagesHTML}
     
-    <div class="article-content">
-${article.content}
-    </div>
+    <div class="article-content">${article.content}</div>
     
     ${tagsHTML}
   `;
@@ -166,20 +139,15 @@ ${article.content}
   return card;
 }
 
-// Filter articles
 function filterArticles() {
   const country = document.getElementById('country-filter').value;
   const year = document.getElementById('year-filter').value;
   const searchTerm = document.getElementById('search-input').value.toLowerCase();
   
   filteredArticles = allArticles.filter(article => {
-    // Country filter
     if (country && article.country !== country) return false;
-    
-    // Year filter
     if (year && article.year.toString() !== year) return false;
     
-    // Search filter
     if (searchTerm) {
       const searchableText = `
         ${article.title} 
@@ -200,7 +168,6 @@ function filterArticles() {
   updateStats();
 }
 
-// Reset filters
 function resetFilters() {
   document.getElementById('country-filter').value = '';
   document.getElementById('year-filter').value = '';
@@ -212,12 +179,10 @@ function resetFilters() {
   updateStats();
 }
 
-// Update statistics (removed - no stats box anymore)
 function updateStats() {
-  // Stats box removed
+  // Stats removed but function kept for compatibility
 }
 
-// Setup event listeners
 function setupEventListeners() {
   document.getElementById('country-filter').addEventListener('change', filterArticles);
   document.getElementById('year-filter').addEventListener('change', filterArticles);
@@ -225,7 +190,6 @@ function setupEventListeners() {
   document.getElementById('reset-btn').addEventListener('click', resetFilters);
 }
 
-// Lightbox functionality
 function openLightbox(imageSrc) {
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
@@ -239,10 +203,7 @@ function closeLightbox() {
   lightbox.classList.remove('active');
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   loadBlogData();
-  
-  // Close lightbox on click
   document.getElementById('lightbox').addEventListener('click', closeLightbox);
 });
