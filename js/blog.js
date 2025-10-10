@@ -17,7 +17,9 @@ async function loadBlogData() {
     
     // Initialize the page
     initializeBlog();
-    initializeMap(allArticles, blogData.mapSettings.colorScheme);
+    
+    // Initialize map (async with boundaries loading)
+    await initializeMap(allArticles, blogData.mapSettings.colorScheme);
     
   } catch (error) {
     console.error('Error loading blog data:', error);
