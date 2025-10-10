@@ -2,70 +2,78 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Europa Reiseblog">
-    <title>Europa Reiseblog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Europa Reiseblog im Retro 90s Style">
+    <title>[ EUROPA REISEBLOG ]</title>
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
-    
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     
-    <!-- Header -->
-    <header class="header">
-        <h1 id="blog-title">Europa Reiseblog</h1>
-        <p id="blog-tagline">Meine Reisen durch Europa</p>
-    </header>
-    
-    <!-- Main Container -->
-    <div class="container">
+    <div class="crt-wrapper">
         
-        <!-- Map Section -->
-        <section class="map-section">
-            <h2>Reise-Karte</h2>
-            <p>Je größer die Fläche, desto mehr habe ich geschrieben!</p>
-            <div id="map" class="map-container"></div>
-        </section>
+        <!-- Header -->
+        <header class="header">
+            <h1 id="blog-title">EUROPA.EXE</h1>
+            <p id="blog-tagline">> Reiseblog_v1.0</p>
+        </header>
         
-        <!-- Blog Section -->
-        <section class="blog-section">
-            <h2>Reiseberichte</h2>
+        <!-- Main Container -->
+        <div class="container">
             
-            <!-- Filter Controls -->
-            <div class="filter-controls">
-                <div class="filter-group">
-                    <label for="country-filter">Land</label>
-                    <select id="country-filter">
-                        <option value="">Alle Länder</option>
-                    </select>
+            <!-- Map Section -->
+            <div class="section-box">
+                <div class="section-title">REISE-KARTE.MAP</div>
+                <div class="section-content">
+                    <div class="map-info">
+                        ═══ Je größer die Fläche, desto mehr Text! ═══
+                    </div>
+                    <div id="map" class="map-container"></div>
                 </div>
-                
-                <div class="filter-group">
-                    <label for="year-filter">Jahr</label>
-                    <select id="year-filter">
-                        <option value="">Alle Jahre</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label for="search-input">Suche</label>
-                    <input type="text" id="search-input" placeholder="Text suchen...">
-                </div>
-                
-                <button id="reset-btn" class="reset-btn">Reset</button>
             </div>
             
-            <!-- Article Count -->
-            <div id="article-count" class="article-count">
-                Lade Artikel...
+            <!-- Blog Section -->
+            <div class="section-box">
+                <div class="section-title">REISEBERICHTE.TXT</div>
+                <div class="section-content">
+                    
+                    <!-- Filter Controls -->
+                    <div class="filter-controls">
+                        <div class="filter-group">
+                            <label for="country-filter">LAND:</label>
+                            <select id="country-filter">
+                                <option value="">Alle Länder</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="year-filter">JAHR:</label>
+                            <select id="year-filter">
+                                <option value="">Alle Jahre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="filter-group">
+                            <label for="search-input">SUCHE:</label>
+                            <input type="text" id="search-input" placeholder="Text suchen...">
+                        </div>
+                        
+                        <button id="reset-btn" class="reset-btn">RESET</button>
+                    </div>
+                    
+                    <!-- Article Count -->
+                    <div id="article-count" class="article-count">
+                        [ Lade Artikel... ]
+                    </div>
+                    
+                    <!-- Articles Container -->
+                    <div id="articles" class="articles-container"></div>
+                    
+                </div>
             </div>
             
-            <!-- Articles Container -->
-            <div id="articles" class="articles-container"></div>
-        </section>
+        </div>
         
     </div>
     
@@ -74,13 +82,8 @@
         <img id="lightbox-img" src="" alt="Lightbox">
     </div>
     
-    <!-- Turf.js -->
     <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
-    
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-    
-    <!-- Custom JavaScript -->
     <script src="js/map.js"></script>
     <script src="js/blog.js"></script>
     
