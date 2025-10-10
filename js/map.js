@@ -1,13 +1,12 @@
-// ====================================
-// MAP.JS - Simple & Functional Blobs
-// ====================================
+// ==========================================
+// MAP.JS - Retro Style (NO CENTER MARKERS!)
+// ==========================================
 
 let map;
 let cityMarkers = {};
 let articlesData = [];
 let europeBoundaries = null;
 
-// Load Europe GeoJSON boundaries
 async function loadEuropeBoundaries() {
   try {
     const response = await fetch('data/europe.geojson');
@@ -18,17 +17,18 @@ async function loadEuropeBoundaries() {
   }
 }
 
-// Initialize the map
 function initMap() {
   map = L.map('map', {
     zoomControl: true,
     scrollWheelZoom: true,
     dragging: true,
+    doubleClickZoom: true,
+    touchZoom: true,
     minZoom: 3,
     maxZoom: 7
   }).setView([50.0, 10.0], 4);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OpenStreetMap',
     subdomains: 'abcd',
     maxZoom: 20
@@ -37,7 +37,6 @@ function initMap() {
   map.zoomControl.setPosition('topright');
 }
 
-// Get country polygon
 function getCountryPolygon(countryName) {
   if (!europeBoundaries) return null;
   
@@ -49,12 +48,10 @@ function getCountryPolygon(countryName) {
   return feature ? feature.geometry : null;
 }
 
-// Generate blob coordinates
 function generateBlob(center, wordCount, countryName) {
   const [lat, lon] = center;
   const countryPolygon = getCountryPolygon(countryName);
   
-  // Berechne Radius basierend auf wordCount
   const baseRadius = Math.sqrt(wordCount) * 0.020;
   const maxRadius = Math.max(baseRadius, 0.35);
   
@@ -63,10 +60,8 @@ function generateBlob(center, wordCount, countryName) {
   }
   
   try {
-    // Generiere initial Blob
     const initialBlob = generateSimpleBlob([lat, lon], maxRadius);
     
-    // Konvertiere zu GeoJSON [lon, lat]
     const blobGeoJSON = {
       type: 'Polygon',
       coordinates: [initialBlob.map(c => [c[1], c[0]])]
@@ -75,11 +70,9 @@ function generateBlob(center, wordCount, countryName) {
     const blobFeature = turf.polygon(blobGeoJSON.coordinates);
     const countryFeature = turf.polygon(countryPolygon.coordinates);
     
-    // Clip blob to country
     const clipped = turf.intersect(blobFeature, countryFeature);
     
     if (clipped && clipped.geometry && clipped.geometry.coordinates[0]) {
-      // Zurück zu Leaflet [lat, lon]
       return clipped.geometry.coordinates[0].map(c => [c[1], c[0]]);
     }
   } catch (error) {
@@ -89,7 +82,6 @@ function generateBlob(center, wordCount, countryName) {
   return generateSimpleBlob([lat, lon], maxRadius);
 }
 
-// Simple blob generation
 function generateSimpleBlob(center, radius) {
   const [lat, lon] = center;
   const points = 14;
@@ -108,11 +100,9 @@ function generateSimpleBlob(center, radius) {
   return coords;
 }
 
-// Add city markers
 function addCityMarkers(articles, colorScheme) {
   Object.values(cityMarkers).forEach(m => {
     if (m.blob) map.removeLayer(m.blob);
-    if (m.marker) map.removeLayer(m.marker);
   });
   cityMarkers = {};
   
@@ -133,7 +123,7 @@ function addCityMarkers(articles, colorScheme) {
   });
   
   Object.entries(citiesMap).forEach(([key, cityData]) => {
-    const color = colorScheme[cityData.country] || '#999';
+    const color = colorScheme[cityData.country] || '#00ff00';
     
     const blobCoords = generateBlob(
       cityData.coordinates,
@@ -146,14 +136,15 @@ function addCityMarkers(articles, colorScheme) {
       fillColor: color,
       fillOpacity: 0.5,
       weight: 2,
-      opacity: 0.8
+      opacity: 0.9
     }).addTo(map);
     
     const popupContent = `
-      <div style="text-align: center; min-width: 120px;">
-        <strong style="font-size: 14px;">${cityData.city}</strong><br>
-        <span style="font-size: 11px; color: #666;">${cityData.country}</span><br>
-        <span style="font-size: 11px;">${cityData.totalWords} Wörter</span>
+      <div style="text-align: center; min-width: 140px;">
+        <strong style="font-size: 18px; color: #00ff00;">${cityData.city}</strong><br>
+        <span style="font-size: 14px; color: #0f0;">${cityData.country}</span><br>
+        <span style="font-size: 13px; color: #0a0;">─────────</span><br>
+        <span style="font-size: 14px;">${cityData.totalWords} Wörter</span>
       </div>
     `;
     
@@ -172,33 +163,22 @@ function addCityMarkers(articles, colorScheme) {
       const el = document.getElementById(`article-${firstArticle.id}`);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        el.style.border = '3px solid #336699';
-        setTimeout(() => { el.style.border = '1px solid #999'; }, 2000);
+        el.style.boxShadow = '0 0 30px rgba(0, 255, 0, 0.8)';
+        setTimeout(() => { 
+          el.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.3)'; 
+        }, 2000);
       }
     });
     
-    // VIEL KLEINERER Stadt-Marker
-    const marker = L.circleMarker(cityData.coordinates, {
-      radius: 3,
-      fillColor: '#fff',
-      color: '#000',
-      weight: 1,
-      opacity: 1,
-      fillOpacity: 1
-    }).addTo(map);
-    
-    marker.bindPopup(popupContent);
-    
-    cityMarkers[key] = { blob, marker };
+    // NO CENTER MARKER! Just the blob!
+    cityMarkers[key] = { blob };
   });
 }
 
-// Update map
 function updateMap(filteredArticles, colorScheme) {
   addCityMarkers(filteredArticles, colorScheme);
 }
 
-// Initialize
 async function initializeMap(articles, colorScheme) {
   articlesData = articles;
   await loadEuropeBoundaries();
