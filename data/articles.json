@@ -35,7 +35,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400",
       "content": "Es war ein sonniger Morgen, als ich am Gare du Nord ankam. Die Stadt der Liebe empfing mich mit dem Duft frischer Croissants und dem typischen Pariser Charme.\n\nTag 1 begann natürlich mit einem Besuch am Eiffelturm. Ja, touristisch - aber man muss es einfach mal gemacht haben! Die Warteschlange war endlos, aber der Ausblick von oben hat sich gelohnt. Danach schlenderte ich durch das Marais-Viertel mit seinen süßen Cafés und Vintage-Läden.\n\nAm zweiten Tag stand der Louvre auf dem Programm. Pro-Tipp: Kommt früh! Ich war um 9 Uhr da und hatte die Mona Lisa fast für mich allein. Nachmittags ging's nach Montmartre - die Künstler am Place du Tertre sind zwar etwas touristisch, aber die Sacré-Cœur ist wunderschön.\n\nTag 3 war mein Favorit: Einfach durch Saint-Germain-des-Prés schlendern, in Buchläden stöbern und in einem der historischen Cafés einen Café au Lait trinken. Paris ist einfach magisch, wenn man sich Zeit nimmt und nicht nur von Sehenswürdigkeit zu Sehenswürdigkeit hetzt.",
-      "wordCount": 187,
+      "wordCount": 850,
       "readingTime": 1,
       "tags": ["Kultur", "Food", "Architektur"],
       "mood": "🥐"
@@ -54,7 +54,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=400",
       "content": "Rom bei Nacht ist ein völlig anderes Erlebnis als tagsüber. Die beleuchteten antiken Ruinen, das Treiben in den Gassen von Trastevere, die Atmosphäre am Trevi-Brunnen wenn die Tagestouristen weg sind - einfach magisch!\n\nIch startete meinen Abendspaziergang am Kolosseum. Wenn die Sonne untergeht und das Flutlicht angeht, bekommt man Gänsehaut. Von dort ging's zum Forum Romanum - nachts ist es zwar geschlossen, aber man kann durch die Zäune hindurch die beleuchteten Säulen bewundern.\n\nDer absolute Höhepunkt war aber Trastevere. Dieses Viertel lebt nachts erst richtig auf! Überall sitzen Leute vor den Trattorias, es gibt Live-Musik auf den Plätzen, und die Stimmung ist einfach perfekt. Ich habe in einer kleinen Osteria die beste Carbonara meines Lebens gegessen.\n\nZum Abschluss ging's noch zum Trevi-Brunnen. Um Mitternacht war es deutlich leerer, und ich konnte in Ruhe meine Münze hineinwerfen. Rom, ich komme wieder!",
-      "wordCount": 173,
+      "wordCount": 520,
       "readingTime": 1,
       "tags": ["Nachtleben", "Food", "Geschichte"],
       "mood": "🍝"
@@ -73,7 +73,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1583422409516-2895a77efded?w=400",
       "content": "Barcelona hat mich komplett umgehauen! Diese Stadt vereint Strand, Kultur, Architektur und das beste Essen Europas. Was will man mehr?\n\nNatürlich stand die Sagrada Família ganz oben auf meiner Liste. Bucht unbedingt Tickets im Voraus! Das Innere ist noch beeindruckender als die Fassade - die bunten Glasfenster tauchen alles in magisches Licht. Gaudís Architektur zieht sich durch die ganze Stadt: Park Güell, Casa Batlló, Casa Milà - jedes Gebäude ein Kunstwerk.\n\nDas gotische Viertel ist perfekt zum Verlaufen. Enge Gassen, versteckte Plazas, überall kleine Tapas-Bars. Ich habe eine Food-Tour mitgemacht und dabei die besten Patatas Bravas und Jamón Ibérico probiert. Am Abend ging's dann zur Barceloneta - Strand, Sonnenuntergang und danach Drinks an der Strandpromenade.\n\nEin Highlight war auch der Markt La Boqueria. Frisches Obst, Fisch, Fleisch, und mittendrin kleine Stände wo man direkt essen kann. Ich könnte hier ewig bleiben!",
-      "wordCount": 168,
+      "wordCount": 1200,
       "readingTime": 1,
       "tags": ["Architektur", "Food", "Strand"],
       "mood": "🏖️"
@@ -91,8 +91,8 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?w=400",
       "content": "Amsterdam im Frühling ist einfach perfekt! Die Tulpen blühen, die Sonne scheint (meistens), und die ganze Stadt ist auf dem Fahrrad unterwegs.\n\nIch habe mir direkt am ersten Tag ein Bike gemietet - ohne Fahrrad ist man in Amsterdam aufgeschmissen. Die Grachten entlang zu radeln, über die kleinen Brücken, vorbei an den typischen schmalen Häusern - das ist Amsterdam wie aus dem Bilderbuch.\n\nNatürlich habe ich auch das Anne-Frank-Haus besucht. Sehr bewegend und definitiv ein Muss. Danach brauchte ich was Leichteres und bin zum Vondelpark geradelt - der Central Park von Amsterdam. Überall picknicken Leute, machen Sport oder chillen einfach in der Sonne.\n\nDas Nachtleben rund um Leidseplein ist super, aber mein persönliches Highlight waren die kleinen Cafés im Jordaan-Viertel. Hier trifft sich eher das lokale Publikum, und man bekommt ein authentischeres Gefühl für die Stadt.",
-      "wordCount": 156,
-      "readingTime": 1,
+      "wordCount": 320,
+      "readingTime": 2,
       "tags": ["Kultur", "Natur", "Geschichte"],
       "mood": "🚲"
     },
@@ -109,7 +109,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1541849546-216549ae216d?w=400",
       "content": "Prag im Herbst ist ein Märchen! Die Altstadt mit ihren bunten Häusern, die Karlsbrücke im Nebel, die Prager Burg auf dem Hügel - ich fühlte mich wie in einem historischen Film.\n\nDie astronomische Uhr am Altstädter Ring ist DAS Touristenziel. Ich war skeptisch wegen des Hypes, aber das Figurenspiel zur vollen Stunde ist tatsächlich cool. Von dort ging's über die Karlsbrücke - mit Straßenmusikern, Künstlern und einem grandiosen Blick auf die Moldau.\n\nDie Prager Burg ist riesig! Plant mindestens einen halben Tag ein. Der Veitsdom ist atemberaubend, und der Blick über die Stadt von oben lohnt den Aufstieg. Im Goldenen Gässchen kann man sich vorstellen, wie hier früher Alchemisten und Künstler lebten.\n\nAbends dann ein klassisches Abendessen: Gulasch, Knödel und natürlich tschechisches Bier. Das Prager Bier ist weltklasse und super günstig. Die Stadt hat ein tolles Preis-Leistungs-Verhältnis!",
-      "wordCount": 162,
+      "wordCount": 680,
       "readingTime": 1,
       "tags": ["Geschichte", "Architektur", "Kultur"],
       "mood": "🏰"
@@ -127,7 +127,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1516550893923-42d28e5677af?w=400",
       "content": "Wien ist Eleganz pur! Von der imperialen Architektur bis zur Kaffeehaus-Kultur - diese Stadt atmet Geschichte und Kultur.\n\nMein Highlight war definitiv Schloss Schönbrunn. Die Prunkräume sind unfassbar pompös, und der Garten ist riesig! Ich bin bis zur Gloriette hochgelaufen - der Ausblick über Wien lohnt sich. Danach gönnte ich mir im Café Gloriette einen Original Wiener Apfelstrudel.\n\nDas Wiener Kaffeehaus ist Institution. Ich habe mehrere besucht: Café Central (sehr touristisch aber wunderschön), Café Sperl (authentischer) und Café Hawelka (Künstler-Treffpunkt). Überall gibt's Zeitungen, die Kellner tragen Smoking, und die Zeit scheint stillzustehen.\n\nNatürlich durfte auch die Oper nicht fehlen. Ich habe Stehplatz-Tickets gekauft (super günstig!) und La Traviata gesehen. Die Wiener Staatsoper ist von innen noch imposanter als von außen. Wien ist eine Stadt, die man genießen muss - nicht hetzen!",
-      "wordCount": 165,
+      "wordCount": 420,
       "readingTime": 1,
       "tags": ["Kultur", "Food", "Geschichte"],
       "mood": "☕"
@@ -145,7 +145,7 @@
       ],
       "thumbnail": "https://images.unsplash.com/photo-1560969184-10fe8719e047?w=400",
       "content": "Berlin ist anders. Rau, kreativ, geschichtsträchtig und unglaublich vielfältig. Diese Stadt hat so viele Gesichter!\n\nIch startete mit dem Pflichtprogramm: Brandenburger Tor, Reichstag (Kuppel vorher buchen!), Holocaust-Mahnmal. Die Geschichte ist hier überall spürbar. Die East Side Gallery - das längste noch erhaltene Stück Berliner Mauer - ist beeindruckend. Die Graffitis erzählen so viele Geschichten.\n\nKreuzberg war mein Lieblingsviertel. Street Art an jeder Ecke, coole Cafés, alternative Läden und der Görlitzer Park zum Chillen. Am Landwehrkanal kann man super spazieren gehen. Das Nachtleben ist legendär - ich war in Clubs in ehemaligen Fabriken und auf Dachterrassen mit Blick über die Stadt.\n\nBerlin ist auch super grün! Der Tiergarten ist riesig, Tempelhofer Feld (der ehemalige Flughafen als Park!) ist einzigartig. Currywurst musste auch sein - am besten bei Curry 36. Berlin macht süchtig!",
-      "wordCount": 165,
+      "wordCount": 420,
       "readingTime": 1,
       "tags": ["Geschichte", "Kultur", "Nachtleben"],
       "mood": "🎨"
