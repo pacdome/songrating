@@ -24,7 +24,7 @@ async function loadBlogData() {
   } catch (error) {
     console.error('Error loading blog data:', error);
     document.getElementById('articles').innerHTML = 
-      '<div class="no-results">Fehler beim Laden der Daten </div>';
+      '<div class="no-results">Fehler beim Laden der Daten 😢</div>';
   }
 }
 
@@ -212,16 +212,9 @@ function resetFilters() {
   updateStats();
 }
 
-// Update statistics
+// Update statistics (removed - no stats box anymore)
 function updateStats() {
-  const totalCities = new Set(filteredArticles.map(a => a.city)).size;
-  const totalCountries = new Set(filteredArticles.map(a => a.country)).size;
-  const totalWords = filteredArticles.reduce((sum, a) => sum + a.wordCount, 0);
-  
-  document.getElementById('total-articles').textContent = filteredArticles.length;
-  document.getElementById('total-cities').textContent = totalCities;
-  document.getElementById('total-countries').textContent = totalCountries;
-  document.getElementById('total-words').textContent = totalWords.toLocaleString('de-DE');
+  // Stats box removed
 }
 
 // Setup event listeners
@@ -246,28 +239,9 @@ function closeLightbox() {
   lightbox.classList.remove('active');
 }
 
-// Initialize visitor counter animation
-function initVisitorCounter() {
-  const counter = document.getElementById('visitor-counter');
-  let count = 0;
-  const target = 42069; // Nice retro number
-  const duration = 2000;
-  const increment = target / (duration / 50);
-  
-  const timer = setInterval(() => {
-    count += increment;
-    if (count >= target) {
-      count = target;
-      clearInterval(timer);
-    }
-    counter.textContent = Math.floor(count).toLocaleString('de-DE');
-  }, 50);
-}
-
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   loadBlogData();
-  initVisitorCounter();
   
   // Close lightbox on click
   document.getElementById('lightbox').addEventListener('click', closeLightbox);
